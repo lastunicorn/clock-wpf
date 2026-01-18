@@ -1,0 +1,196 @@
+﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Windows;
+using System.Windows.Controls;
+using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates;
+using DustInTheWind.ClockWpf.TimeProviders;
+
+namespace DustInTheWind.ClockWpf;
+
+public class AnalogClock : Control
+{
+    private ShapeCanvas shapeCanvas;
+
+    #region PerformanceInfo DependencyProperty
+
+#if PERFORMANCE_INFO
+
+    public static readonly DependencyProperty PerformanceInfoProperty = DependencyProperty.Register(
+        nameof(PerformanceInfo),
+        typeof(PerformanceInfo),
+        typeof(AnalogClock),
+        new PropertyMetadata(null));
+
+    public PerformanceInfo PerformanceInfo
+    {
+        get => (PerformanceInfo)GetValue(PerformanceInfoProperty);
+        private set => SetValue(PerformanceInfoProperty, value);
+    }
+
+#endif
+
+    #endregion
+
+    #region Shapes DependencyProperty
+
+    public static readonly DependencyProperty ShapesProperty = DependencyProperty.Register(
+        nameof(Shapes),
+        typeof(ObservableCollection<Shape>),
+        typeof(AnalogClock),
+        new PropertyMetadata(null, OnShapesChanged));
+
+    private static void OnShapesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not AnalogClock analogClock)
+            return;
+
+        if (e.OldValue is ObservableCollection<Shape> oldShapes)
+            oldShapes.CollectionChanged -= analogClock.HandleShapesCollectionChanged;
+
+        if (e.NewValue is ObservableCollection<Shape> newShapes)
+        {
+            newShapes.CollectionChanged += analogClock.HandleShapesCollectionChanged;
+            analogClock.UpdateIsEmpty();
+        }
+    }
+
+    private void HandleShapesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        UpdateIsEmpty();
+    }
+
+    public ObservableCollection<Shape> Shapes
+    {
+        get => (ObservableCollection<Shape>)GetValue(ShapesProperty);
+        set => SetValue(ShapesProperty, value);
+    }
+
+    #endregion
+
+    #region IsEmpty DependencyProperty
+
+    public static readonly DependencyProperty IsEmptyProperty = DependencyProperty.Register(
+        nameof(IsEmpty),
+        typeof(bool),
+        typeof(AnalogClock),
+        new PropertyMetadata(true));
+
+    public bool IsEmpty
+    {
+        get => (bool)GetValue(IsEmptyProperty);
+        private set => SetValue(IsEmptyProperty, value);
+    }
+
+    #endregion
+
+    #region KeepProportions DependencyProperty
+
+    public static readonly DependencyProperty KeepProportionsProperty = DependencyProperty.Register(
+        nameof(KeepProportions),
+        typeof(bool),
+        typeof(AnalogClock),
+        new PropertyMetadata(true, OnKeepProportionsChanged));
+
+    private static void OnKeepProportionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not AnalogClock analogClock)
+            return;
+
+        analogClock.shapeCanvas?.InvalidateVisual();
+    }
+
+    public bool KeepProportions
+    {
+        get => (bool)GetValue(KeepProportionsProperty);
+        set => SetValue(KeepProportionsProperty, value);
+    }
+
+    #endregion
+
+    #region TimeProvider DependencyProperty
+
+    public static readonly DependencyProperty TimeProviderProperty = DependencyProperty.Register(
+        nameof(TimeProvider),
+        typeof(ITimeProvider),
+        typeof(AnalogClock),
+        new PropertyMetadata(null, OnTimeProviderChanged));
+
+    private static void OnTimeProviderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not AnalogClock analogClock)
+            return;
+
+        if (e.OldValue is ITimeProvider oldTimeProvider)
+            oldTimeProvider.TimeChanged -= analogClock.HandleTimeChanged;
+
+        if (e.NewValue is ITimeProvider newTimeProvider)
+            newTimeProvider.TimeChanged += analogClock.HandleTimeChanged;
+    }
+
+    private void HandleTimeChanged(object sender, TimeChangedEventArgs e)
+    {
+        if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
+            return;
+
+        try
+        {
+            if (shapeCanvas != null)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    shapeCanvas.Time = e.Time;
+                });
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            // Ignore
+        }
+    }
+
+    public ITimeProvider TimeProvider
+    {
+        get => (ITimeProvider)GetValue(TimeProviderProperty);
+        set => SetValue(TimeProviderProperty, value);
+    }
+
+    #endregion
+
+    static AnalogClock()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(AnalogClock), new FrameworkPropertyMetadata(typeof(AnalogClock)));
+    }
+
+    public AnalogClock()
+    {
+        Shapes = [];
+    }
+
+    private void UpdateIsEmpty()
+    {
+        IsEmpty = Shapes == null || Shapes.Count == 0;
+    }
+
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        shapeCanvas = GetTemplateChild("PART_ShapeCanvas") as ShapeCanvas;
+
+#if PERFORMANCE_INFO
+        if (shapeCanvas != null)
+            PerformanceInfo = shapeCanvas.PerformanceInfo;
+#endif
+    }
+
+    public void ApplyClockTemplate(ClockTemplate clockTemplate)
+    {
+        ArgumentNullException.ThrowIfNull(clockTemplate);
+
+        Shapes.Clear();
+
+        foreach (Shape shape in clockTemplate)
+            Shapes.Add(shape);
+    }
+}
