@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace DustInTheWind.ClockWpf.ClearClock.Controls
+namespace DustInTheWind.ClockWpf.ClearClock.Controls;
+
+/// <summary>
+/// Interaction logic for ClockPage.xaml
+/// </summary>
+public partial class ClockPage : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ClockPage.xaml
-    /// </summary>
-    public partial class ClockPage : UserControl
+    public ClockPage()
     {
-        public ClockPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    private void UserControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if(DataContext is ClockPageModel viewModel)
+            viewModel.ToggleNavigationCommand.Execute(null);
     }
 }

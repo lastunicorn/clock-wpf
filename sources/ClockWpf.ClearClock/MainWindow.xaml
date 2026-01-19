@@ -32,8 +32,8 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Cursor="Hand"
-            Visibility="Collapsed"
-            Click="SettingsButton_Click"
+            Visibility="{Binding IsNavigationVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Command="{Binding SettingsCommand}"
             Corner="TopLeft">
 
             <!-- Settings Icon -->
@@ -52,7 +52,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Cursor="Hand"
-            Visibility="Collapsed"
+            Visibility="{Binding IsNavigationVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
             Click="CloseButton_Click"
             Corner="TopRight"
             HoverBackground="Red">
@@ -74,21 +74,22 @@
             Width="{Binding ActualWidth, ElementName=MainContainer, Converter={StaticResource QuarterSizeConverter}}"
             Height="{Binding ActualHeight, ElementName=MainContainer, Converter={StaticResource QuarterSizeConverter}}"
             Style="{StaticResource ThumbStyle}"
-            Visibility="Collapsed"
+            Visibility="{Binding IsNavigationVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
             DragDelta="ResizeGrip_DragDelta" />
 
-        <controls:ClockPage
-            DataContext="{Binding ClockPageModel}"
+        <ContentControl
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            MouseRightButtonDown="AnalogClock_MouseRightButtonDown"/>
+            Content="{Binding CurrentPage}">
 
-        <controls:SettingsPage
-            x:Name="SettingsPage"
-            DataContext="{Binding SettingsPageModel}"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Visibility="Collapsed"/>
+            <ContentControl.Clip>
+                <EllipseGeometry 
+                    Center="{Binding ActualWidth, ElementName=MainContainer, Converter={StaticResource HalfSizeToPointConverter}}"
+                    RadiusX="{Binding ActualWidth, ElementName=MainContainer, Converter={StaticResource HalfSizeConverter}}"
+                    RadiusY="{Binding ActualHeight, ElementName=MainContainer, Converter={StaticResource HalfSizeConverter}}"/>
+            </ContentControl.Clip>
+
+        </ContentControl>
 
         <!--<customControls:RoundPage
             x:Name="SettingsPage">

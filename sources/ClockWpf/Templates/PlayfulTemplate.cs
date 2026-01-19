@@ -24,7 +24,8 @@ public class PlayfulTemplate : ClockTemplate
             Angle = 30,
             OffsetAngle = 30,
             StrokeThickness = 2,
-            Length = 8
+            Length = 8,
+            DistanceFromEdge = 7.5
         };
 
         yield return new Hours

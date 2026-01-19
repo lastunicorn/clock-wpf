@@ -42,43 +42,30 @@ public class SettingsViewModel : ViewModelBase
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
 
-        PopulateTemplateCollection();
-    }
-
-    private void PopulateTemplateCollection()
-    {
-        IEnumerable<TemplateItemModel> clockTemplates = EnumerateClockTemplates()
-            .OrderBy(x => x.Name)
-            .ToList();
-
-        foreach (TemplateItemModel template in clockTemplates)
-            TemplateTypes.Add(template);
-
-        if (TemplateTypes.Count > 0)
+        if (applicationState.AvailableTemplateTypes?.Count > 0)
         {
-            SelectedTemplateType = TemplateTypes
-                .FirstOrDefault(x => x.Type == typeof(PlayfulTemplate));
-        }
-    }
-
-    private static IEnumerable<TemplateItemModel> EnumerateClockTemplates()
-    {
-        Assembly clockWpfAssembly = typeof(ClockTemplate).Assembly;
-
-        Type[] types = clockWpfAssembly.GetTypes();
-
-        foreach (Type type in types)
-        {
-            if (type.IsClass && !type.IsAbstract && type.IsSubclassOf(typeof(ClockTemplate)))
-            {
-                yield return new TemplateItemModel
+            IEnumerable<TemplateItemModel> clockTemplates = applicationState.AvailableTemplateTypes
+                .Select(x => new TemplateItemModel
                 {
-                    Name = type.Name
+                    Name = x.Name
                         .Replace("ClockTemplate", "")
                         .Replace("Template", ""),
-                    Type = type
-                };
-            }
+                    Type = x
+                })
+                .OrderBy(x => x.Name)
+                .ToList();
+
+            foreach (TemplateItemModel templateItemModel in clockTemplates)
+                TemplateTypes.Add(templateItemModel);
+        }
+
+        SelectedTemplate = applicationState.ClockTemplate;
+
+        if (applicationState.ClockTemplate != null)
+        {
+            Type selectedClockTemplateType = applicationState.ClockTemplate.GetType();
+            SelectedTemplateType = TemplateTypes
+                .FirstOrDefault(x => x.Type == selectedClockTemplateType);
         }
     }
 

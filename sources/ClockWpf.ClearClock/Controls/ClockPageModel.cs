@@ -3,7 +3,14 @@ using DustInTheWind.ClockWpf.TimeProviders;
 
 namespace DustInTheWind.ClockWpf.ClearClock.Controls;
 
-public class ClockPageModel : ViewModelBase
+public class PageViewModel : ViewModelBase
+{
+    public virtual void PrepareForClose()
+    {
+    }
+}
+
+public class ClockPageModel : PageViewModel
 {
     private readonly ApplicationState applicationState;
 
@@ -34,9 +41,14 @@ public class ClockPageModel : ViewModelBase
         }
     }
 
-    public ClockPageModel(ApplicationState applicationState)
+    public ToggleNavigationCommand ToggleNavigationCommand { get; }
+
+    public ClockPageModel(ApplicationState applicationState, PageEngine pageEngine)
     {
+        ArgumentNullException.ThrowIfNull(pageEngine);
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+
+        ToggleNavigationCommand = new ToggleNavigationCommand(pageEngine);
 
         applicationState.ClockTemplateChanged += HandleClockTemplateChanged;
         ClockTemplate = applicationState.ClockTemplate;

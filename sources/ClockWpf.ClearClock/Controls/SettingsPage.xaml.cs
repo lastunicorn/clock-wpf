@@ -12,9 +12,4 @@ public partial class SettingsPage : UserControl
     {
         InitializeComponent();
     }
-
-    private void CloseSettingsButton_Click(object sender, RoutedEventArgs e)
-    {
-        Visibility = Visibility.Collapsed;
-    }
 }

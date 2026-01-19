@@ -13,68 +13,82 @@
     d:DataContext="{d:DesignInstance controls:AboutViewModel}">
 
     <Border Padding="20">
-        <StackPanel>
+        <DockPanel>
 
-            <TextBlock
-                Text="Clear Clock"
-                FontSize="24"
-                FontWeight="Bold"
-                HorizontalAlignment="Center"
-                Margin="0 0 0 10"/>
+            <StackPanel
+                DockPanel.Dock="Top">
 
-            <TextBlock
-                x:Name="VersionTextBlock"
-                FontSize="14"
-                HorizontalAlignment="Center"
-                Margin="0 0 0 20">
+                <TextBlock
+                    Text="Clear Clock"
+                    FontSize="24"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"
+                    Margin="0 0 0 10"/>
+
+                <TextBlock
+                    x:Name="VersionTextBlock"
+                    FontSize="14"
+                    HorizontalAlignment="Center"
+                    Margin="0 0 0 20">
                 
-                <Run Text="Version " />
-                <Run Text="{Binding Version}" />
-            </TextBlock>
+                    <Run Text="Version " />
+                    <Run Text="{Binding Version}" />
+                </TextBlock>
 
-            <TextBlock
-                Text="An elegant analog clock application built with WPF"
-                FontSize="12"
-                TextWrapping="Wrap"
-                HorizontalAlignment="Center"
-                Margin="0 0 0 20"/>
+                <TextBlock
+                    Text="An elegant analog clock application built with WPF"
+                    FontSize="12"
+                    TextWrapping="Wrap"
+                    HorizontalAlignment="Center"
+                    Margin="0 0 0 20"/>
 
-            <Separator Margin="0 10"/>
+                <Separator Margin="0 10"/>
 
-            <TextBlock
-                Text="Author"
-                FontSize="12"
-                FontWeight="Bold"
-                Margin="0 10 0 5"/>
+            </StackPanel>
 
-            <TextBlock
-                Text="Dust in the Wind"
-                FontSize="12"
-                Margin="0 0 0 10"/>
 
-            <TextBlock
-                Text="Copyright"
-                FontSize="12"
-                FontWeight="Bold"
-                Margin="0 10 0 5"/>
 
-            <TextBlock
-                Text="Copyright © Dust in the Wind 2010-2025"
-                FontSize="12"
-                Margin="0 0 0 10"/>
+            <ScrollViewer>
 
-            <TextBlock
-                Text="License"
-                FontSize="12"
-                FontWeight="Bold"
-                Margin="0 10 0 5"/>
+                <StackPanel>
 
-            <TextBlock
-                Text="GNU General Public License v3.0"
-                FontSize="12"
-                Margin="0 0 0 10"/>
+                    <TextBlock
+                            Text="Author"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Margin="0 10 0 5"/>
 
-        </StackPanel>
+                    <TextBlock
+                            Text="Dust in the Wind"
+                            FontSize="12"
+                            Margin="0 0 0 10"/>
+
+                    <TextBlock
+                            Text="Copyright"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Margin="0 10 0 5"/>
+
+                    <TextBlock
+                            Text="Copyright © Dust in the Wind 2010-2025"
+                            FontSize="12"
+                            Margin="0 0 0 10"/>
+
+                    <TextBlock
+                            Text="License"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Margin="0 10 0 5"/>
+
+                    <TextBlock
+                            Text="GNU General Public License v3.0"
+                            FontSize="12"
+                            Margin="0 0 0 10"/>
+
+                </StackPanel>
+            </ScrollViewer>
+
+        </DockPanel>
     </Border>
 
 </UserControl>

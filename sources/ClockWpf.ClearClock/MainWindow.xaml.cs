@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using DustInTheWind.ClockWpf.Templates;
-using DustInTheWind.ClockWpf.TimeProviders;
+using DustInTheWind.ClockWpf.ClearClock.Controls;
 
 namespace DustInTheWind.ClockWpf.ClearClock;
 
@@ -11,41 +10,15 @@ namespace DustInTheWind.ClockWpf.ClearClock;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private bool areControlsVisible = false;
-
-    public MainWindow(ApplicationState applicationState)
+    public MainWindow()
     {
-        ArgumentNullException.ThrowIfNull(applicationState);
-
         InitializeComponent();
-
-        DataContext = new MainViewModel(applicationState);
     }
 
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         base.OnMouseLeftButtonDown(e);
         DragMove();
-    }
-
-    private void AnalogClock_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        areControlsVisible = !areControlsVisible;
-
-        Visibility newVisibility = areControlsVisible
-            ? Visibility.Visible
-            : Visibility.Collapsed;
-
-        CloseButton.Visibility = newVisibility;
-        ResizeGrip.Visibility = newVisibility;
-        SettingsButton.Visibility = newVisibility;
-
-        e.Handled = true;
-    }
-
-    private void SettingsButton_Click(object sender, RoutedEventArgs e)
-    {
-        SettingsPage.Visibility = Visibility.Visible;
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
