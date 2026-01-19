@@ -8,9 +8,9 @@ public class SettingsViewModel : ViewModelBase
 {
     private readonly ApplicationState applicationState;
 
-    public ObservableCollection<TemplateItemModel> Templates { get; } = [];
+    public ObservableCollection<TemplateItemModel> TemplateTypes { get; } = [];
 
-    public TemplateItemModel SelectedTemplate
+    public TemplateItemModel SelectedTemplateType
     {
         get => field;
         set
@@ -22,6 +22,19 @@ public class SettingsViewModel : ViewModelBase
             OnPropertyChanged();
 
             PublishTemplate(field);
+        }
+    }
+
+    public ClockTemplate SelectedTemplate
+    {
+        get => field;
+        set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnPropertyChanged();
         }
     }
 
@@ -39,11 +52,11 @@ public class SettingsViewModel : ViewModelBase
             .ToList();
 
         foreach (TemplateItemModel template in clockTemplates)
-            Templates.Add(template);
+            TemplateTypes.Add(template);
 
-        if (Templates.Count > 0)
+        if (TemplateTypes.Count > 0)
         {
-            SelectedTemplate = Templates
+            SelectedTemplateType = TemplateTypes
                 .FirstOrDefault(x => x.Type == typeof(PlayfulTemplate));
         }
     }
@@ -73,5 +86,6 @@ public class SettingsViewModel : ViewModelBase
     {
         ClockTemplate template = (ClockTemplate)Activator.CreateInstance(templateInfo.Type);
         applicationState.ClockTemplate = template;
+        SelectedTemplate = template;
     }
 }

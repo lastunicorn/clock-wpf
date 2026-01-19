@@ -157,6 +157,39 @@ public class AnalogClock : Control
 
     #endregion
 
+    #region ClockTemplate DependencyProperty
+
+    public static readonly DependencyProperty ClockTemplateProperty = DependencyProperty.Register(
+        nameof(ClockTemplate),
+        typeof(ClockTemplate),
+        typeof(AnalogClock),
+        new PropertyMetadata(null, OnClockTemplateChanged));
+
+    private static void OnClockTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is AnalogClock analogClock)
+        {
+            analogClock.Shapes.Clear();
+
+            if (e.NewValue is ClockTemplate clockTemplate)
+            {
+                if (clockTemplate == null)
+                    return;
+
+                foreach (Shape shape in clockTemplate)
+                    analogClock.Shapes.Add(shape);
+            }
+        }
+    }
+
+    public ClockTemplate ClockTemplate
+    {
+        get => (ClockTemplate)GetValue(ClockTemplateProperty);
+        set => SetValue(ClockTemplateProperty, value);
+    }
+
+    #endregion
+
     static AnalogClock()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(AnalogClock), new FrameworkPropertyMetadata(typeof(AnalogClock)));

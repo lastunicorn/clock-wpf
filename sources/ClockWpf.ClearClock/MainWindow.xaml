@@ -25,12 +25,6 @@
         Width="400"
         Height="400">
 
-        <clockWpf:AnalogClock
-            x:Name="AnalogClock1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            MouseRightButtonDown="AnalogClock_MouseRightButtonDown"/>
-
         <customControls:CornerButton
             x:Name="SettingsButton"
             Width="{Binding ActualWidth, ElementName=MainContainer, Converter={StaticResource QuarterSizeConverter}}"
@@ -82,6 +76,12 @@
             Style="{StaticResource ThumbStyle}"
             Visibility="Collapsed"
             DragDelta="ResizeGrip_DragDelta" />
+
+        <controls:ClockPage
+            DataContext="{Binding ClockPageModel}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            MouseRightButtonDown="AnalogClock_MouseRightButtonDown"/>
 
         <controls:SettingsPage
             x:Name="SettingsPage"

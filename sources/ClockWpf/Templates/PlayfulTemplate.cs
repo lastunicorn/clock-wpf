@@ -23,12 +23,14 @@ public class PlayfulTemplate : ClockTemplate
             Name = "Hour Ticks",
             Angle = 30,
             OffsetAngle = 30,
-            StrokeThickness = 2
+            StrokeThickness = 2,
+            Length = 8
         };
 
         yield return new Hours
         {
-            Name = "Hours"
+            Name = "Hours",
+            DistanceFromEdge = 27
         };
 
         yield return new CapsuleHand

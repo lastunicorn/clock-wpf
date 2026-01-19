@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.TimeProviders;
 
 namespace DustInTheWind.ClockWpf.ClearClock;
@@ -11,7 +12,6 @@ namespace DustInTheWind.ClockWpf.ClearClock;
 public partial class MainWindow : Window
 {
     private bool areControlsVisible = false;
-    private readonly ApplicationState applicationState;
 
     public MainWindow(ApplicationState applicationState)
     {
@@ -20,22 +20,6 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         DataContext = new MainViewModel(applicationState);
-
-        this.applicationState = applicationState;
-        applicationState.ClockTemplateChanged += HandleClockTemplateChanged;
-
-        if (applicationState.ClockTemplate != null)
-            AnalogClock1.ApplyClockTemplate(applicationState.ClockTemplate);
-
-        LocalTimeProvider timeProvider = new();
-        timeProvider.Start();
-
-        AnalogClock1.TimeProvider = timeProvider;
-    }
-
-    private void HandleClockTemplateChanged(object sender, EventArgs e)
-    {
-        AnalogClock1.ApplyClockTemplate(applicationState.ClockTemplate);
     }
 
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

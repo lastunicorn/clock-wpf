@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
 
@@ -10,10 +11,22 @@ public class FancyTemplate : ClockTemplate
 {
     protected override IEnumerable<Shape> CreateShapes()
     {
+        //LinearGradientBrush linearGradientBrush = new(Colors.WhiteSmoke, Colors.LightGray, 45);
+        //linearGradientBrush.GradientStops.Add(new GradientStop(Colors.WhiteSmoke, 0.5));
+
+        GradientStopCollection gradientStops =
+        [
+            new GradientStop(Colors.WhiteSmoke, 0),
+            new GradientStop(Colors.WhiteSmoke, 0.5),
+            new GradientStop(Colors.LightGray, 1)
+        ];
+
+        LinearGradientBrush linearGradientBrush = new(gradientStops, new Point(0.25, 0), new Point(0.75, 1));
+
         yield return new FlatBackground
         {
             Name = "Background",
-            FillBrush = Brushes.White
+            FillBrush = linearGradientBrush
         };
 
         yield return new Ticks
@@ -84,5 +97,7 @@ public class FancyTemplate : ClockTemplate
             StrokeThickness = 0,
             Diameter = 3
         };
+
+        yield return new SpecularReflection();
     }
 }
