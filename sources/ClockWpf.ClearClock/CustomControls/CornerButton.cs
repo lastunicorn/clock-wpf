@@ -1,9 +1,8 @@
-﻿using System.Diagnostics.PerformanceData;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace DustInTheWind.ClockWpf.ClearClock.Controls;
+namespace DustInTheWind.ClockWpf.ClearClock.CustomControls;
 
 public class CornerButton : Button
 {

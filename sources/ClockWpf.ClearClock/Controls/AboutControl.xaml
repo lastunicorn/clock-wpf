@@ -1,0 +1,80 @@
+﻿<UserControl
+    x:Class="DustInTheWind.ClockWpf.ClearClock.Controls.AboutControl"
+    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:DustInTheWind.ClockWpf.ClearClock.Controls"
+    
+    mc:Ignorable="d"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance controls:AboutViewModel}">
+
+    <Border Padding="20">
+        <StackPanel>
+
+            <TextBlock
+                Text="Clear Clock"
+                FontSize="24"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 10"/>
+
+            <TextBlock
+                x:Name="VersionTextBlock"
+                FontSize="14"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 20">
+                
+                <Run Text="Version " />
+                <Run Text="{Binding Version}" />
+            </TextBlock>
+
+            <TextBlock
+                Text="An elegant analog clock application built with WPF"
+                FontSize="12"
+                TextWrapping="Wrap"
+                HorizontalAlignment="Center"
+                Margin="0 0 0 20"/>
+
+            <Separator Margin="0 10"/>
+
+            <TextBlock
+                Text="Author"
+                FontSize="12"
+                FontWeight="Bold"
+                Margin="0 10 0 5"/>
+
+            <TextBlock
+                Text="Dust in the Wind"
+                FontSize="12"
+                Margin="0 0 0 10"/>
+
+            <TextBlock
+                Text="Copyright"
+                FontSize="12"
+                FontWeight="Bold"
+                Margin="0 10 0 5"/>
+
+            <TextBlock
+                Text="Copyright © Dust in the Wind 2010-2025"
+                FontSize="12"
+                Margin="0 0 0 10"/>
+
+            <TextBlock
+                Text="License"
+                FontSize="12"
+                FontWeight="Bold"
+                Margin="0 10 0 5"/>
+
+            <TextBlock
+                Text="GNU General Public License v3.0"
+                FontSize="12"
+                Margin="0 0 0 10"/>
+
+        </StackPanel>
+    </Border>
+
+</UserControl>

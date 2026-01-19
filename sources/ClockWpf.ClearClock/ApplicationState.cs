@@ -1,0 +1,26 @@
+﻿using DustInTheWind.ClockWpf.Templates;
+
+namespace DustInTheWind.ClockWpf.ClearClock;
+
+public class ApplicationState
+{
+    public ClockTemplate ClockTemplate
+    {
+        get => field;
+        set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnClockTemplateChanged();
+        }
+    }
+
+    public event EventHandler ClockTemplateChanged;
+
+    public void OnClockTemplateChanged()
+    {
+        ClockTemplateChanged?.Invoke(this, EventArgs.Empty);
+    }
+}
