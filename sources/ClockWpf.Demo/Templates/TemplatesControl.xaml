@@ -56,11 +56,42 @@
 
         <GridSplitter
             Grid.Row="1"
-            Height="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Background="#f0f0f0"
-            ShowsPreview="True"/>
+            Height="10">
+
+            <GridSplitter.Template>
+                <ControlTemplate TargetType="{x:Type GridSplitter}">
+                    <Grid Background="Transparent">
+                        <!--<TextBlock
+                            Text="···"
+                            Foreground="Gray"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />-->
+
+                        <!--<Path
+                            Data="M 0 0 1 0 Z"
+                            Stroke="Black"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />-->
+
+                        <Ellipse
+                            Width="55"
+                            Height="2"
+                            Fill="Gray"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+                        
+                        <!--<Path
+                            Data="M 0,0 A 180,180 180 1 1 1,1 Z"
+                            Fill="Black"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />-->
+                    </Grid>
+                </ControlTemplate>
+            </GridSplitter.Template>
+
+        </GridSplitter>
 
         <xctk:PropertyGrid
             Grid.Row="2"

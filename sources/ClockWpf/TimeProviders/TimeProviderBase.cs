@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace DustInTheWind.ClockWpf.TimeProviders;
 
 /// <summary>
@@ -11,6 +13,15 @@ public abstract class TimeProviderBase : ITimeProvider
     /// <summary>
     /// Gets or sets the interval in milliseconds at which the time provider generates time values.
     /// </summary>
+    /// <remarks>
+    /// Smaller numbers will generate more values per second, making the second hand move more
+    /// smoothly, but will consume more processor time.
+    /// An interval of 10 ms will make the clock move smooth, but check also the performance on
+    /// your computer.
+    /// </remarks>
+    [Category("Behavior")]
+    [DefaultValue(100)]
+    [Description("The interval in milliseconds at which the time provider generates time values.")]
     public int Interval
     {
         get => interval;
@@ -26,8 +37,13 @@ public abstract class TimeProviderBase : ITimeProvider
     /// <summary>
     /// Gets a value indicating whether the time provider is currently running.
     /// </summary>
+    [Browsable(false)]
     public bool IsRunning { get; private set; }
 
+    /// <summary>
+    /// Gets the most recent value recorded by the measurement, represented as a time interval.
+    /// </summary>
+    [Browsable(false)]
     public TimeSpan LastValue { get; private set; }
 
     /// <summary>

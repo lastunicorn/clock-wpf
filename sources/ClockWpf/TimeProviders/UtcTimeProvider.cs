@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace DustInTheWind.ClockWpf.TimeProviders;
 
 /// <summary>
@@ -8,6 +10,9 @@ public class UtcTimeProvider : TimeProviderBase
     /// <summary>
     /// Gets or sets the offset time used to adjust the system's UTC time value.
     /// </summary>
+    [Category("Behavior")]
+    [DefaultValue(typeof(TimeSpan), "00:00:00")]
+    [Description("The offset time used to adjust the system's UTC time value.")]
     public TimeSpan UtcOffset { get; set; }
 
     /// <summary>

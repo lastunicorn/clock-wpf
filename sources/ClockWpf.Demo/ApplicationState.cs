@@ -21,18 +21,7 @@ public class ApplicationState
         }
     }
 
-    public Shape CurrentShape
-    {
-        get => field;
-        set
-        {
-            if (field == value)
-                return;
-
-            field = value;
-            OnCurrentShapeChanged();
-        }
-    }
+    public List<Type> AvailableTimeProviderTypes { get; set; }
 
     public ITimeProvider CurrentTimeProvider
     {
@@ -48,17 +37,11 @@ public class ApplicationState
     }
 
     public event EventHandler CurrentTemplateChanged;
-    public event EventHandler CurrentShapeChanged;
     public event EventHandler CurrentTimeProviderChanged;
 
     public void OnCurrentTemplateChanged()
     {
         CurrentTemplateChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    public void OnCurrentShapeChanged()
-    {
-        CurrentShapeChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void OnCurrentTimeProviderChanged()

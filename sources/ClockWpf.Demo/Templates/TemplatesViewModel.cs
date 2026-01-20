@@ -54,9 +54,6 @@ public class TemplatesViewModel : ViewModelBase
 
             field = value;
             OnPropertyChanged();
-
-            if (!IsInitializing)
-                applicationState.CurrentShape = value;
         }
     }
 
@@ -77,10 +74,10 @@ public class TemplatesViewModel : ViewModelBase
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
 
+        Initialize();
+
         applicationState.CurrentTemplateChanged += HandleCurrentTemplateChanged;
         applicationState.CurrentTimeProviderChanged += HandleCurrentTimeProviderChanged;
-
-        Initialize();
     }
 
     private void Initialize()

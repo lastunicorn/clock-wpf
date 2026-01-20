@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace DustInTheWind.ClockWpf.TimeProviders;
 
 /// <summary>
@@ -18,6 +20,8 @@ public class BrokenTimeProvider : TimeProviderBase
     /// Gets or sets the initial time value used as a reference for calculating subsequent time values.
     /// When this value is set, it resets the time calculation and restarts the provider.
     /// </summary>
+    [Category("Behavior")]
+    [Description("The initial time value used as a reference for calculating subsequent time values. When this value is set, it resets the time calculation and restarts the provider.")]
     public TimeSpan InitialTime
     {
         get => initialTime;
@@ -34,6 +38,9 @@ public class BrokenTimeProvider : TimeProviderBase
     /// Gets or sets the time multiplier that specifies how much faster the provided time
     /// is compared to the real one.
     /// </summary>
+    [Category("Behavior")]
+    [DefaultValue(DefaultTimeMultiplier)]
+    [Description("The time multiplier that specifies how much faster the provided time is compared to the real one.")]
     public float TimeMultiplier
     {
         get => timeMultiplier;
