@@ -16,7 +16,10 @@ public class PlayfulTemplate : ClockTemplate
         {
             Name = "Minute Ticks",
             SkipIndex = 5,
-            RoundEnds = true
+            Length = 3,
+            DistanceFromEdge = 6,
+            RoundEnds = true,
+            StrokeBrush = new SolidColorBrush(Color.FromRgb(0x60, 0x60, 0x60))
         };
 
         yield return new Ticks
@@ -24,9 +27,9 @@ public class PlayfulTemplate : ClockTemplate
             Name = "Hour Ticks",
             Angle = 30,
             OffsetAngle = 30,
-            StrokeThickness = 2.5,
-            Length = 7,
-            DistanceFromEdge = 7,
+            StrokeThickness = 2,
+            Length = 6,
+            DistanceFromEdge = 7.5,
             RoundEnds = true
         };
 

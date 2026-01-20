@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Shapes.Serialization;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -216,5 +217,25 @@ public abstract class Shape : DependencyObject
     protected void InvalidateLayout()
     {
         isLayoutValid = false;
+    }
+
+    /// <summary>
+    /// Serializes the properties of the shape into a dictionary of string key-value pairs.
+    /// </summary>
+    /// <returns>A dictionary containing the serialized property names and their values.</returns>
+    public virtual Dictionary<string, string> Export()
+    {
+        return ShapeSerializer.Default.SerializeProperties(this);
+    }
+
+    /// <summary>
+    /// Deserializes the shape properties from a dictionary of string key-value pairs.
+    /// </summary>
+    /// <param name="properties">A dictionary containing the property names and their serialized values.</param>
+    public virtual void Import(Dictionary<string, string> properties)
+    {
+        ArgumentNullException.ThrowIfNull(properties);
+
+        ShapeSerializer.Default.DeserializeProperties(this, properties);
     }
 }

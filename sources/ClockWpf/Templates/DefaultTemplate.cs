@@ -16,6 +16,7 @@ public class DefaultTemplate : ClockTemplate
         {
             Name = "Minute Ticks",
             SkipIndex = 5,
+            StrokeBrush = new SolidColorBrush(Color.FromRgb(0xa0, 0xa0, 0xa0))
         };
 
         yield return new Ticks
@@ -23,7 +24,7 @@ public class DefaultTemplate : ClockTemplate
             Name = "Hour Ticks",
             Angle = 30,
             OffsetAngle = 30,
-            StrokeThickness = 2
+            StrokeThickness = 1.5
         };
 
         yield return new Hours

@@ -13,6 +13,59 @@ public class PerformaceView : Control
     private PerformanceInfo currentPerformanceInfo;
     private PropertyInfo performanceInfoProperty;
 
+    static PerformaceView()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(PerformaceView), new FrameworkPropertyMetadata(typeof(PerformaceView)));
+    }
+
+    #region AverageTime DependencyProperty
+
+    public static readonly DependencyPropertyKey AverageTimePropertyKey = DependencyProperty.RegisterReadOnly(
+        nameof(AverageTime),
+        typeof(TimeSpan),
+        typeof(PerformaceView),
+        new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public TimeSpan AverageTime
+    {
+        get => (TimeSpan)GetValue(AverageTimePropertyKey.DependencyProperty);
+        private set => SetValue(AverageTimePropertyKey, value);
+    }
+
+    #endregion
+
+    #region LastTime DependencyProperty
+
+    public static readonly DependencyPropertyKey LastTimePropertyKey = DependencyProperty.RegisterReadOnly(
+        nameof(LastTime),
+        typeof(TimeSpan),
+        typeof(PerformaceView),
+        new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public TimeSpan LastTime
+    {
+        get => (TimeSpan)GetValue(LastTimePropertyKey.DependencyProperty);
+        private set => SetValue(LastTimePropertyKey, value);
+    }
+
+    #endregion
+
+    #region MeasurementCount DependencyProperty
+
+    public static readonly DependencyPropertyKey MeasurementCountPropertyKey = DependencyProperty.RegisterReadOnly(
+        nameof(MeasurementCount),
+        typeof(long),
+        typeof(PerformaceView),
+        new FrameworkPropertyMetadata((long)0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+    public long MeasurementCount
+    {
+        get => (long)GetValue(MeasurementCountPropertyKey.DependencyProperty);
+        private set => SetValue(MeasurementCountPropertyKey, value);
+    }
+
+    #endregion
+
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
@@ -85,7 +138,7 @@ public class PerformaceView : Control
                 currentPerformanceInfo.Changed += OnPerformanceInfoChanged;
         }
 
-        InvalidateVisual();
+        //InvalidateVisual();
     }
 
     private void UnsubscribeFromCurrentPerformanceInfo()
@@ -96,26 +149,30 @@ public class PerformaceView : Control
 
     private void OnPerformanceInfoChanged(object sender, EventArgs e)
     {
-        InvalidateVisual();
+        //InvalidateVisual();
+
+        AverageTime = currentPerformanceInfo.AverageTime;
+        LastTime = currentPerformanceInfo.LastTime;
+        MeasurementCount = currentPerformanceInfo.MeasurementCount;
     }
 
-    protected override void OnRender(DrawingContext drawingContext)
-    {
-        base.OnRender(drawingContext);
+    //protected override void OnRender(DrawingContext drawingContext)
+    //{
+    //    base.OnRender(drawingContext);
 
-        if (currentPerformanceInfo != null)
-        {
-            string performanceText = currentPerformanceInfo.ToString();
-            FormattedText formattedText = new(
-                performanceText,
-                CultureInfo.CurrentCulture,
-                FlowDirection.LeftToRight,
-                new Typeface("Arial"),
-                12,
-                Brushes.Black,
-                1.0);
+    //    if (currentPerformanceInfo != null)
+    //    {
+    //        string performanceText = currentPerformanceInfo.ToString();
+    //        FormattedText formattedText = new(
+    //            performanceText,
+    //            CultureInfo.CurrentCulture,
+    //            FlowDirection.LeftToRight,
+    //            new Typeface("Arial"),
+    //            12,
+    //            Brushes.Black,
+    //            1.0);
 
-            drawingContext.DrawText(formattedText, new Point(5, 5));
-        }
-    }
+    //        drawingContext.DrawText(formattedText, new Point(5, 5));
+    //    }
+    //}
 }

@@ -23,9 +23,13 @@ public class PerformanceInfo
 {
     private readonly Stopwatch stopwatch = new();
 
-    private long sessionCount;
-    private long totalTicks;
-    private long lastSessionTicks;
+    public long MeasurementCount { get; private set; }
+
+    public TimeSpan TotalTime { get; private set; }
+
+    public TimeSpan LastTime { get; set; }
+
+    public TimeSpan AverageTime => TotalTime / MeasurementCount;
 
     public event EventHandler Changed;
 
@@ -38,9 +42,9 @@ public class PerformanceInfo
     {
         stopwatch.Stop();
 
-        sessionCount++;
-        lastSessionTicks = stopwatch.ElapsedTicks;
-        totalTicks += lastSessionTicks;
+        MeasurementCount++;
+        LastTime = stopwatch.Elapsed;
+        TotalTime += LastTime;
 
         OnChanged();
     }
@@ -52,13 +56,11 @@ public class PerformanceInfo
 
     public override string ToString()
     {
-        long averageTicks = totalTicks / sessionCount;
-
         StringBuilder sb = new();
 
-        sb.AppendLine("average: " + TimeSpan.FromTicks(averageTicks).TotalMilliseconds + " ms");
-        sb.AppendLine("instant: " + TimeSpan.FromTicks(lastSessionTicks).TotalMilliseconds + " ms");
-        sb.AppendLine("count: " + sessionCount);
+        sb.AppendLine("average: " + TimeSpan.FromTicks(AverageTime.Ticks).TotalMilliseconds + " ms");
+        sb.AppendLine("instant: " + TimeSpan.FromTicks(LastTime.Ticks).TotalMilliseconds + " ms");
+        sb.AppendLine("count: " + MeasurementCount);
 
         return sb.ToString();
     }

@@ -12,9 +12,11 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     
     mc:Ignorable="d"
-    Title="Analog Clock Demo"
+    Title="Template Editor"
     Height="600"
-    Width="1000">
+    Width="1000"
+    ResizeMode="CanResizeWithGrip"
+    d:DataContext="{d:DesignInstance local:MainViewModel}">
 
     <Grid>
 
@@ -26,7 +28,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
 
         <Grid

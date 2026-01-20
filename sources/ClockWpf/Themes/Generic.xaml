@@ -4,7 +4,8 @@
     xmlns:local="clr-namespace:DustInTheWind.ClockWpf"
     xmlns:shapes="clr-namespace:DustInTheWind.ClockWpf.Shapes">
 
-    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <local:TimeSpanToMillisecondsConverter x:Key="TimeSpanToMillisecondsConverter" />
 
     <Style TargetType="{x:Type local:AnalogClock}">
         <Setter Property="Template">
@@ -51,6 +52,63 @@
 
                         </Border>
                     </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:PerformaceView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:PerformaceView}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Average:"
+                            FontWeight="Bold"
+                            Margin="0 0 8 0"/>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{Binding AverageTime, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TimeSpanToMillisecondsConverter}, StringFormat={}{0} ms}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Current:"
+                            FontWeight="Bold"
+                            Margin="0 0 8 0"/>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding LastTime, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TimeSpanToMillisecondsConverter}, StringFormat={}{0} ms}" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="Count:"
+                            FontWeight="Bold"
+                            Margin="0 0 8 0"/>
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding MeasurementCount, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, StringFormat=n0}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
