@@ -33,19 +33,48 @@ public class Ticks : RimBase
 
     #endregion
 
+    #region RoundEnds DependencyProperty
+
+    public static readonly DependencyProperty RoundEndsProperty = DependencyProperty.Register(
+        nameof(RoundEnds),
+        typeof(bool),
+        typeof(Ticks),
+        new FrameworkPropertyMetadata(false));
+
+    public bool RoundEnds
+    {
+        get => (bool)GetValue(RoundEndsProperty);
+        set => SetValue(RoundEndsProperty, value);
+    }
+
+    #endregion
+
     private double radius;
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
+        if (StrokePen == null)
+            return false;
+
         radius = context.ClockRadius;
         return base.OnRendering(context);
     }
 
+    protected override Pen CreateStrokePen()
+    {
+        Pen pen = base.CreateStrokePen();
+
+        if (RoundEnds)
+        {
+            pen.StartLineCap = PenLineCap.Round;
+            pen.EndLineCap = PenLineCap.Round;
+        }
+
+        return pen;
+    }
+
     protected override void RenderItem(DrawingContext drawingContext, int index)
     {
-        if (StrokePen == null)
-            return;
-
         double actualLength = radius * Length / 100.0;
 
         Point startPoint = new(0, -actualLength / 2);

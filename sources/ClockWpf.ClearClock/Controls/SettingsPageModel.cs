@@ -1,8 +1,11 @@
-﻿namespace DustInTheWind.ClockWpf.ClearClock.Controls;
+﻿using DustInTheWind.ClockWpf.ClearClock.Controls.About;
+using DustInTheWind.ClockWpf.ClearClock.Controls.Templates;
+
+namespace DustInTheWind.ClockWpf.ClearClock.Controls;
 
 public class SettingsPageModel : PageViewModel
 {
-    public SettingsViewModel SettingsViewModel { get; }
+    public TemplatesViewModel TemplatesViewModel { get; }
 
     public AboutViewModel AboutViewModel { get; }
 
@@ -12,7 +15,7 @@ public class SettingsPageModel : PageViewModel
     {
         ArgumentNullException.ThrowIfNull(applicationState);
 
-        SettingsViewModel = new SettingsViewModel(applicationState);
+        TemplatesViewModel = new TemplatesViewModel(applicationState);
         AboutViewModel = new AboutViewModel();
         SettingsCloseCommand = new SettingsCloseCommand(pageEngine);
     }

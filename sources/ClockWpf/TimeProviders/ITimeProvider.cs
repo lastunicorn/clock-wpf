@@ -21,6 +21,11 @@ public interface ITimeProvider : IDisposable
     bool IsRunning { get; }
 
     /// <summary>
+    /// Gets the most recently recorded value.
+    /// </summary>
+    TimeSpan LastValue { get; }
+
+    /// <summary>
     /// Starts the time provider. The time provider will begin generating time values.
     /// </summary>
     void Start();

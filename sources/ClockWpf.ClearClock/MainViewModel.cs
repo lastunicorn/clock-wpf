@@ -109,9 +109,4 @@ public class MainViewModel : ViewModelBase
     {
         IsNavigationVisible = pageEngine.IsNavigationVisible;
     }
-
-    //private void ClockPage_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    //{
-    //    pageEngine.ToggleNavigation();
-    //}
 }

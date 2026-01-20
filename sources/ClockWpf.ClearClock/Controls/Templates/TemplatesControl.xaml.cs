@@ -1,14 +1,14 @@
 ﻿using System.Windows.Controls;
 using DustInTheWind.ClockWpf.TimeProviders;
 
-namespace DustInTheWind.ClockWpf.ClearClock.Controls;
+namespace DustInTheWind.ClockWpf.ClearClock.Controls.Templates;
 
 /// <summary>
 /// Interaction logic for SettingsControl.xaml
 /// </summary>
-public partial class SettingsControl : UserControl
+public partial class TemplatesControl : UserControl
 {
-    public SettingsControl()
+    public TemplatesControl()
     {
         InitializeComponent();
 

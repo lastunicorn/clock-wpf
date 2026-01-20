@@ -125,10 +125,18 @@ public class AnalogClock : Control
             oldTimeProvider.TimeChanged -= analogClock.HandleTimeChanged;
 
         if (e.NewValue is ITimeProvider newTimeProvider)
+        {
             newTimeProvider.TimeChanged += analogClock.HandleTimeChanged;
+            analogClock.UpdateDisplayedTime(newTimeProvider.LastValue);
+        }
     }
 
     private void HandleTimeChanged(object sender, TimeChangedEventArgs e)
+    {
+        UpdateDisplayedTime(e.Time);
+    }
+
+    private void UpdateDisplayedTime(TimeSpan time)
     {
         if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
             return;
@@ -139,7 +147,7 @@ public class AnalogClock : Control
             {
                 Dispatcher.Invoke(() =>
                 {
-                    shapeCanvas.Time = e.Time;
+                    shapeCanvas.Time = time;
                 });
             }
         }
@@ -210,6 +218,10 @@ public class AnalogClock : Control
         base.OnApplyTemplate();
 
         shapeCanvas = GetTemplateChild("PART_ShapeCanvas") as ShapeCanvas;
+
+        ITimeProvider currentTimeProvider = TimeProvider;
+        if (currentTimeProvider != null)
+            UpdateDisplayedTime(currentTimeProvider.LastValue);
 
 #if PERFORMANCE_INFO
         if (shapeCanvas != null)

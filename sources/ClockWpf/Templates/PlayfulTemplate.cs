@@ -16,6 +16,7 @@ public class PlayfulTemplate : ClockTemplate
         {
             Name = "Minute Ticks",
             SkipIndex = 5,
+            RoundEnds = true
         };
 
         yield return new Ticks
@@ -23,15 +24,17 @@ public class PlayfulTemplate : ClockTemplate
             Name = "Hour Ticks",
             Angle = 30,
             OffsetAngle = 30,
-            StrokeThickness = 2,
-            Length = 8,
-            DistanceFromEdge = 7.5
+            StrokeThickness = 2.5,
+            Length = 7,
+            DistanceFromEdge = 7,
+            RoundEnds = true
         };
 
         yield return new Hours
         {
             Name = "Hours",
-            DistanceFromEdge = 27
+            FontFamily = new FontFamily("Arial Rounded MT"),
+            DistanceFromEdge = 28
         };
 
         yield return new CapsuleHand

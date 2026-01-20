@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using DustInTheWind.ClockWpf.ClearClock.Controls;
 using DustInTheWind.ClockWpf.Templates;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DustInTheWind.ClockWpf.ClearClock;
 
@@ -13,13 +14,21 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        ApplicationState applicationState = CreateApplicationState();
-        PageEngine pageEngine = CreatePageEngine();
+        ServiceCollection serviceCollection = new();
 
-        MainWindow mainWindow = new()
-        {
-            DataContext = new MainViewModel(applicationState, pageEngine)
-        };
+        ApplicationState applicationState = CreateApplicationState();
+        serviceCollection.AddSingleton(applicationState);
+
+        PageEngine pageEngine = CreatePageEngine();
+        serviceCollection.AddSingleton(pageEngine);
+
+        serviceCollection.AddTransient<MainWindow>();
+        serviceCollection.AddTransient<MainViewModel>();
+
+        IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+
+        MainWindow mainWindow = serviceProvider.GetService<MainWindow>();
+        mainWindow.DataContext = serviceProvider.GetService<MainViewModel>();
         mainWindow.Show();
 
         MainWindow = mainWindow;

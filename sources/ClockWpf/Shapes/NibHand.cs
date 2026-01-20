@@ -49,32 +49,35 @@ public class NibHand : HandBase
 
     public override void DoRender(ClockDrawingContext context)
     {
+        if (FillBrush == null && StrokePen == null)
+            return;
+
         context.DrawingContext.CreateDrawingPlan()
             .WithTransform(() =>
             {
                 double angleDegrees = CalculateHandAngle(context.Time);
                 return new RotateTransform(angleDegrees, 0, 0);
             })
+            .WithTransform(() =>
+            {
+                double scaleFactorY = Length > 0
+                    ? Length / 280.0
+                    : 1.0;
+
+                double scaleFactorX = KeepProportions
+                    ? scaleFactorY
+                    : (Width > 0 ? Width / 30.0 : 1.0);
+
+                return new ScaleTransform(scaleFactorX, scaleFactorY);
+            })
             .Draw(dc =>
             {
-                if (FillBrush == null && StrokePen == null)
-                    return;
-
-                double radius = context.ClockDiameter / 2;
-                double scaleFactorY = Length > 0 ? Length / 280.0 : 1.0;
-                double scaleFactorX = KeepProportions ? scaleFactorY : (Width > 0 ? Width / 30.0 : 1.0);
-
-                dc.PushTransform(new ScaleTransform(scaleFactorX, scaleFactorY));
-
                 PathGeometry nibGeometry = CreateNibGeometry();
-
                 dc.DrawGeometry(FillBrush, StrokePen, nibGeometry);
-
-                dc.Pop();
             });
     }
 
-    private PathGeometry CreateNibGeometry()
+    private static PathGeometry CreateNibGeometry()
     {
         PathFigure figure = new()
         {
@@ -89,7 +92,7 @@ public class NibHand : HandBase
         double centerY = 43 + 12; // 55
         double startX = 12 * Math.Cos(startAngle * Math.PI / 180);
         double startY = centerY + 12 * Math.Sin(startAngle * Math.PI / 180);
-        
+
         figure.StartPoint = new Point(startX, startY);
 
         double endAngle = startAngle + 300; // 240°

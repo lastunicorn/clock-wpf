@@ -1,5 +1,4 @@
-﻿using DustInTheWind.ClockWpf.ClearClock.Controls;
-using DustInTheWind.ClockWpf.Templates;
+﻿using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.ClearClock;
 
@@ -26,11 +25,4 @@ public class ApplicationState
     {
         ClockTemplateChanged?.Invoke(this, EventArgs.Empty);
     }
-}
-
-public class TemplateDescriptor
-{
-    public string Name { get; set; }
-
-    public Type Type { get; set; }
 }

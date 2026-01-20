@@ -7,7 +7,6 @@ public abstract class TimeProviderBase : ITimeProvider
 {
     private readonly Timer timer;
     private int interval = 100;
-    private bool isRunning;
 
     /// <summary>
     /// Gets or sets the interval in milliseconds at which the time provider generates time values.
@@ -19,7 +18,7 @@ public abstract class TimeProviderBase : ITimeProvider
         {
             interval = value;
 
-            if (isRunning)
+            if (IsRunning)
                 timer.Change(interval, interval);
         }
     }
@@ -27,12 +26,14 @@ public abstract class TimeProviderBase : ITimeProvider
     /// <summary>
     /// Gets a value indicating whether the time provider is currently running.
     /// </summary>
-    public bool IsRunning => isRunning;
+    public bool IsRunning { get; private set; }
+
+    public TimeSpan LastValue { get; private set; }
 
     /// <summary>
     /// Event raised when the time provider produces a new time value.
     /// </summary>
-    public event EventHandler<TimeChangedEventArgs>? TimeChanged;
+    public event EventHandler<TimeChangedEventArgs> TimeChanged;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TimeProviderBase"/> class.
@@ -42,10 +43,10 @@ public abstract class TimeProviderBase : ITimeProvider
         timer = new Timer(HandleTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
     }
 
-    private void HandleTimerCallback(object? state)
+    private void HandleTimerCallback(object state)
     {
-        TimeSpan time = GetTime();
-        OnTimeChanged(new TimeChangedEventArgs(time));
+        LastValue = GetTime();
+        OnTimeChanged(new TimeChangedEventArgs(LastValue));
     }
 
     /// <summary>
@@ -59,11 +60,11 @@ public abstract class TimeProviderBase : ITimeProvider
     /// </summary>
     public void Start()
     {
-        TimeSpan time = GetTime();
-        OnTimeChanged(new TimeChangedEventArgs(time));
+        LastValue = GetTime();
+        OnTimeChanged(new TimeChangedEventArgs(LastValue));
 
         timer.Change(interval, interval);
-        isRunning = true;
+        IsRunning = true;
     }
 
     /// <summary>
@@ -72,7 +73,7 @@ public abstract class TimeProviderBase : ITimeProvider
     public void Stop()
     {
         timer.Change(Timeout.Infinite, Timeout.Infinite);
-        isRunning = false;
+        IsRunning = false;
     }
 
     /// <summary>
@@ -114,7 +115,7 @@ public abstract class TimeProviderBase : ITimeProvider
             {
                 timer.Change(Timeout.Infinite, Timeout.Infinite);
                 timer.Dispose();
-                isRunning = false;
+                IsRunning = false;
             }
 
             disposed = true;

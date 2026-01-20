@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace DustInTheWind.ClockWpf.ClearClock.Controls;
+namespace DustInTheWind.ClockWpf.ClearClock.Controls.About;
 
 public class AboutViewModel : ViewModelBase
 {

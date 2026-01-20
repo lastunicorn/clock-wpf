@@ -1,10 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using System.Reflection;
 using DustInTheWind.ClockWpf.Templates;
 
-namespace DustInTheWind.ClockWpf.ClearClock.Controls;
+namespace DustInTheWind.ClockWpf.ClearClock.Controls.Templates;
 
-public class SettingsViewModel : ViewModelBase
+public class TemplatesViewModel : ViewModelBase
 {
     private readonly ApplicationState applicationState;
 
@@ -38,7 +37,7 @@ public class SettingsViewModel : ViewModelBase
         }
     }
 
-    public SettingsViewModel(ApplicationState applicationState)
+    public TemplatesViewModel(ApplicationState applicationState)
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
 
