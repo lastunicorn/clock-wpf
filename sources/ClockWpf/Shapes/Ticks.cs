@@ -39,8 +39,20 @@ public class Ticks : RimBase
         nameof(RoundEnds),
         typeof(bool),
         typeof(Ticks),
-        new FrameworkPropertyMetadata(false));
+        new FrameworkPropertyMetadata(false, HandleRoundEndsChanged));
 
+    private static void HandleRoundEndsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Ticks ticks)
+            ticks.InvalidateDrawingTools();
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the ends of the clock ticks are rendered with rounded caps.
+    /// </summary>
+    [Category("Appearance")]
+    [DefaultValue(false)]
+    [Description("Indicates whether the ends of the clock ticks are rendered with rounded caps.")]
     public bool RoundEnds
     {
         get => (bool)GetValue(RoundEndsProperty);

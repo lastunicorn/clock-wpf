@@ -219,6 +219,15 @@ public abstract class Shape : DependencyObject
         isLayoutValid = false;
     }
 
+    protected virtual void InvalidateDrawingTools()
+    {
+        if (isStrokePenCreated)
+        {
+            strokePen = null;
+            isStrokePenCreated = false;
+        }
+    }
+
     /// <summary>
     /// Serializes the properties of the shape into a dictionary of string key-value pairs.
     /// </summary>
