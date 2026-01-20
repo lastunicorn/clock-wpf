@@ -12,8 +12,6 @@ public partial class App : Application
 {
     protected override void OnStartup(StartupEventArgs e)
     {
-        base.OnStartup(e);
-
         ServiceCollection serviceCollection = new();
 
         ApplicationState applicationState = CreateApplicationState();
@@ -32,6 +30,8 @@ public partial class App : Application
         mainWindow.Show();
 
         MainWindow = mainWindow;
+
+        base.OnStartup(e);
     }
 
     private static ApplicationState CreateApplicationState()
@@ -44,7 +44,7 @@ public partial class App : Application
         if (templateTypes?.Count > 0)
         {
             Type selectedTemplateType = templateTypes
-             .FirstOrDefault(x => x == typeof(PlayfulTemplate));
+             .FirstOrDefault(x => x == typeof(DefaultTemplate));
 
             applicationState.ClockTemplate = (ClockTemplate)Activator.CreateInstance(selectedTemplateType);
         }

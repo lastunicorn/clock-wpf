@@ -1,11 +1,8 @@
 ﻿namespace DustInTheWind.ClockWpf.Demo;
 
-public partial class MainWindow
+public class TemplateInfo
 {
-    private class TemplateInfo
-    {
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public Type Type { get; set; }
-    }
+    public Type Type { get; set; }
 }

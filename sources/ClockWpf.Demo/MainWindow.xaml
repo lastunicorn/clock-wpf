@@ -7,14 +7,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:clockWpf="clr-namespace:DustInTheWind.ClockWpf;assembly=DustInTheWind.ClockWpf"
     xmlns:shapes="clr-namespace:DustInTheWind.ClockWpf.Shapes;assembly=DustInTheWind.ClockWpf"
-    xmlns:timeProviders="clr-namespace:DustInTheWind.ClockWpf.TimeProviders;assembly=DustInTheWind.ClockWpf"
     xmlns:local="clr-namespace:DustInTheWind.ClockWpf.Demo"
+    xmlns:templates="clr-namespace:DustInTheWind.ClockWpf.Demo.Templates"
+    xmlns:timeProviders="clr-namespace:DustInTheWind.ClockWpf.Demo.TimeProviders"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     
     mc:Ignorable="d"
     Title="Template Editor"
-    Height="600"
-    Width="1000"
+    Height="768"
+    Width="1280"
     ResizeMode="CanResizeWithGrip"
     d:DataContext="{d:DesignInstance local:MainViewModel}">
 
@@ -36,7 +37,9 @@
             Margin="20">
 
             <clockWpf:AnalogClock
-                x:Name="analogClock1"/>
+                x:Name="analogClock1"
+                ClockTemplate="{Binding ClockTemplate}"
+                TimeProvider="{Binding TimeProvider}"/>
 
             <clockWpf:PerformaceView
                 DataContext="{Binding ElementName=analogClock1}"/>
@@ -51,85 +54,47 @@
             Background="#f0f0f0"
             ShowsPreview="True"/>
 
-        <Grid
-            Grid.Column="2">
+        <TabControl
+            Grid.Column="2"
+            BorderThickness="0"
+            Margin="10">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                
+                                <Grid Name="Panel">
+                                    <ContentPresenter
+                                        x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="12 4"/>
+                                </Grid>
+                                
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Panel" Property="Background" Value="LightGray" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                                
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
 
-            <DockPanel
-                Grid.Row="0"
-                Margin="10">
+            <TabItem Header="Templates">
+                <templates:TemplatesControl DataContext="{Binding TemplatesViewModel}"/>
+            </TabItem>
 
-                <ComboBox
-                    DockPanel.Dock="Top"
-                    x:Name="templateComboBox"
-                    SelectionChanged="TemplateComboBox_SelectionChanged"
-                    DisplayMemberPath="Name"/>
+            <TabItem Header="Time Providers">
+                <timeProviders:TimeProvidersControl DataContext="{Binding TimeProvidersViewModel}"/>
+            </TabItem>
 
-                <DockPanel
-                    Grid.Row="0"
-                    Margin="0 10 0 0">
-
-                    <TextBlock
-                        DockPanel.Dock="Top"
-                        Text="Shapes:"
-                        FontWeight="Bold"
-                        Margin="0 0 0 5"/>
-
-                    <ListBox
-                        ItemsSource="{Binding ElementName=analogClock1, Path=Shapes}"
-                        SelectedItem="{Binding SelectedShape}"
-                        DisplayMemberPath="">
-
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <Run Text="{Binding Name, Mode=OneWay}" />
-                                    <Run Text=" (" Foreground="Gray" />
-                                    <Run Text="{Binding Mode=OneWay}" Foreground="Gray" />
-                                    <Run Text=")" Foreground="Gray" />
-                                </TextBlock>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-
-                    </ListBox>
-
-                </DockPanel>
-
-            </DockPanel>
-
-            <GridSplitter
-                Grid.Row="1"
-                Height="10"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="#f0f0f0"
-                ShowsPreview="True"/>
-
-            <DockPanel
-                Grid.Row="2"
-                Margin="10">
-
-                <TextBlock
-                    DockPanel.Dock="Top"
-                    Text="Properties:"
-                    FontWeight="Bold"
-                    Margin="0 0 0 5"/>
-
-                <xctk:PropertyGrid
-                    SelectedObject="{Binding SelectedShape}"
-                    ShowSortOptions="True"
-                    ShowSearchBox="True"
-                    ShowSummary="True"
-                    ShowAdvancedOptions="True"/>
-
-            </DockPanel>
-
-        </Grid>
+        </TabControl>
 
     </Grid>
 

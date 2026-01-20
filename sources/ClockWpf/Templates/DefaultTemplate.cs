@@ -29,39 +29,43 @@ public class DefaultTemplate : ClockTemplate
 
         yield return new Hours
         {
-            Name = "Hours"
+            Name = "Hours",
+            FillBrush = Brushes.Black,
+            DistanceFromEdge = 26
         };
 
-        yield return new DiamondHand
+        yield return new CapsuleHand
         {
             Name = "Hour Hand",
             ComponentToDisplay = TimeComponent.Hour,
             Length = 48,
-            Width = 10,
-            TailLength = 12,
+            Width = 8,
+            TailLength = 4,
             StrokeThickness = 0,
-            FillBrush = Brushes.RoyalBlue
+            FillBrush = Brushes.Black
         };
 
-        yield return new DiamondHand
+        yield return new CapsuleHand
         {
             Name = "Minute Hand",
             ComponentToDisplay = TimeComponent.Minute,
-            Length = 74,
+            Length = 85,
             Width = 8,
-            TailLength = 8,
+            TailLength = 4,
             StrokeThickness = 0,
-            FillBrush = Brushes.LimeGreen
+            FillBrush = Brushes.Black
         };
 
         yield return new SimpleHand
         {
             Name = "Second Hand",
             ComponentToDisplay = TimeComponent.Second,
-            Length = 85,
+            Length = 96,
             TailLength = 14,
             StrokeBrush = Brushes.Red,
-            StrokeThickness = 1
+            StrokeThickness = 1,
+            IntegralValue = true,
+            PinDiameter = 8
         };
     }
 }

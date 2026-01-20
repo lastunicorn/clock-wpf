@@ -30,7 +30,8 @@ public class PlayfulTemplate : ClockTemplate
             StrokeThickness = 2,
             Length = 6,
             DistanceFromEdge = 7.5,
-            RoundEnds = true
+            RoundEnds = true,
+            StrokeBrush = new SolidColorBrush(Color.FromRgb(0x40, 0x40, 0x40))
         };
 
         yield return new Hours
@@ -55,7 +56,7 @@ public class PlayfulTemplate : ClockTemplate
         {
             Name = "Minute Hand",
             ComponentToDisplay = TimeComponent.Minute,
-            Length = 74,
+            Length = 80,
             Width = 8,
             TailLength = 8,
             StrokeThickness = 0,

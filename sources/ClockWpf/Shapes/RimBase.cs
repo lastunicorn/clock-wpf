@@ -23,7 +23,7 @@ public abstract class RimBase : Shape
         typeof(RimBase),
         new FrameworkPropertyMetadata(0.0));
 
-    [Category("Appearance")]
+    [Category("Layout")]
     [DefaultValue(6.0)]
     [Description("The hand's length of the tail as percentage from the clock's radius.")]
     public double DistanceFromEdge
@@ -80,7 +80,7 @@ public abstract class RimBase : Shape
         typeof(RimBase),
         new FrameworkPropertyMetadata((uint)0));
 
-    [Category("Behavior")]
+    [Category("Layout")]
     [DefaultValue((uint)0)]
     [Description("The maximum number of items to be drawn around the dial.")]
     public uint MaxCoverageCount
