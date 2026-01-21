@@ -9,29 +9,35 @@ public abstract class Shape : DependencyObject
 {
     private bool isLayoutValid;
 
-    #region Name Property
+    #region Name DependencyProperty
 
-    private string name = "Shape";
+    public static readonly DependencyProperty NameProperty = DependencyProperty.Register(
+        nameof(Name),
+        typeof(string),
+        typeof(Shape),
+        new PropertyMetadata("Shape", OnNameChanged));
+
+    private static void OnNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Shape shape)
+            shape.OnNameChanged(EventArgs.Empty);
+    }
 
     /// <summary>
-    /// An user friendly name. Used only to be displayed to the user. Does not influence the
+    /// A user friendly name. Used only to be displayed to the user. Does not influence the
     /// way the shape is rendered.
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
-    [Description("An user friendly name. Used only to be displayed to the user. Does not influence the way the shape is rendered.")]
+    [Description("A user friendly name. Used only to be displayed to the user. Does not influence the way the shape is rendered.")]
     public string Name
     {
-        get => name;
+        get => (string)GetValue(NameProperty);
         set
         {
             if (value == null)
                 throw new ArgumentNullException("value");
 
-            if (name == value)
-                return;
-
-            name = value;
-            OnNameChanged(EventArgs.Empty);
+            SetValue(NameProperty, value);
         }
     }
 
