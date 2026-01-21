@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DustInTheWind.ClockWpf.Demo;
+namespace DustInTheWind.ClockWpf.TemplateEditor;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

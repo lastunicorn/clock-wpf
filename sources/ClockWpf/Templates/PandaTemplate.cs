@@ -20,7 +20,7 @@ public class PandaTemplate : ClockTemplate
             Name = "Hour Hand",
             ComponentToDisplay = TimeComponent.Hour,
             Length = 50,
-            Radius = 18,
+            Radius = 20,
             FillBrush = Brushes.Black,
             StrokeBrush = new SolidColorBrush(Color.FromRgb(0x64, 0x64, 0x64)),
             StrokeThickness = 1

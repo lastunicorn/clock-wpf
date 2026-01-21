@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DustInTheWind.ClockWpf.Demo;
+namespace DustInTheWind.ClockWpf.TemplateEditor;
 
 public class InverseBooleanToVisibilityConverter : IValueConverter
 {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DustInTheWind.ClockWpf.Demo.TimeProviders;
+namespace DustInTheWind.ClockWpf.TemplateEditor.TimeProviders;
 
 /// <summary>
 /// Interaction logic for TimeProvidersControl.xaml

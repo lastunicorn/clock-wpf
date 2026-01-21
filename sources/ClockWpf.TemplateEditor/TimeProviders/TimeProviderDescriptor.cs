@@ -1,4 +1,4 @@
-﻿namespace DustInTheWind.ClockWpf.Demo.TimeProviders;
+﻿namespace DustInTheWind.ClockWpf.TemplateEditor.TimeProviders;
 
 public class TimeProviderDescriptor
 {

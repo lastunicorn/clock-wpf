@@ -16,7 +16,7 @@ public class SunTemplate : ClockTemplate
 
         yield return new TextRim
         {
-            Name = "Minutes",
+            Name = "Minute Numerals",
             Texts = Enumerable.Range(1, 60)
                 .Select(x => x.ToString())
                 .ToArray(),
@@ -30,7 +30,7 @@ public class SunTemplate : ClockTemplate
 
         yield return new TextRim
         {
-            Name = "Hours",
+            Name = "Hour Numerals",
             Texts = Enumerable.Range(1, 12)
                 .Select(x => x.ToString())
                 .ToArray(),

@@ -54,7 +54,7 @@ public class FancyTemplate : ClockTemplate
 
         yield return new Hours
         {
-            Name = "Hours",
+            Name = "Hour Numerals",
             DistanceFromEdge = 28,
             FillBrush = Brushes.Black,
             FontSize = 20
@@ -98,6 +98,9 @@ public class FancyTemplate : ClockTemplate
             Diameter = 3
         };
 
-        yield return new SpecularReflection();
+        yield return new SpecularReflection
+        {
+            Name = "Specular Reflection"
+        };
     }
 }

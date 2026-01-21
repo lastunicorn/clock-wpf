@@ -3,7 +3,7 @@ using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.TimeProviders;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DustInTheWind.ClockWpf.Demo;
+namespace DustInTheWind.ClockWpf.TemplateEditor;
 
 /// <summary>
 /// Interaction logic for App.xaml

@@ -2,7 +2,7 @@
 using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.TimeProviders;
 
-namespace DustInTheWind.ClockWpf.Demo;
+namespace DustInTheWind.ClockWpf.TemplateEditor;
 
 public class ApplicationState
 {

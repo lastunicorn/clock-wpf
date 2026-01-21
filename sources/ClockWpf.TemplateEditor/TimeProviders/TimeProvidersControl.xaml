@@ -1,12 +1,12 @@
 ﻿<UserControl
-    x:Class="DustInTheWind.ClockWpf.Demo.TimeProviders.TimeProvidersControl"
+    x:Class="DustInTheWind.ClockWpf.TemplateEditor.TimeProviders.TimeProvidersControl"
     
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-    xmlns:timeProviders="clr-namespace:DustInTheWind.ClockWpf.Demo.TimeProviders"
+    xmlns:timeProviders="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.TimeProviders"
     
     mc:Ignorable="d"
     d:DesignHeight="450"

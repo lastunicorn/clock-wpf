@@ -3,7 +3,7 @@ using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.TimeProviders;
 
-namespace DustInTheWind.ClockWpf.Demo.Templates;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Templates;
 
 public class TemplatesViewModel : ViewModelBase
 {

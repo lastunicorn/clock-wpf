@@ -8,6 +8,9 @@ namespace DustInTheWind.ClockWpf.TimeProviders;
 public abstract class TimeProviderBase : ITimeProvider
 {
     private readonly Timer timer;
+
+    #region Interval Property
+
     private int interval = 100;
 
     /// <summary>
@@ -33,6 +36,8 @@ public abstract class TimeProviderBase : ITimeProvider
                 timer.Change(interval, interval);
         }
     }
+
+    #endregion
 
     /// <summary>
     /// Gets a value indicating whether the time provider is currently running.

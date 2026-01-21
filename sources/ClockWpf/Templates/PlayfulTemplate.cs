@@ -36,7 +36,7 @@ public class PlayfulTemplate : ClockTemplate
 
         yield return new Hours
         {
-            Name = "Hours",
+            Name = "Hour Numerals",
             FontFamily = new FontFamily("Arial Rounded MT"),
             DistanceFromEdge = 28
         };

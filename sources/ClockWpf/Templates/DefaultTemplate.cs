@@ -29,7 +29,7 @@ public class DefaultTemplate : ClockTemplate
 
         yield return new Hours
         {
-            Name = "Hours",
+            Name = "Hour Numerals",
             FillBrush = Brushes.Black,
             DistanceFromEdge = 26
         };

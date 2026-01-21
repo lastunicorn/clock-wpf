@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.TimeProviders;
 
-namespace DustInTheWind.ClockWpf.Demo.TimeProviders;
+namespace DustInTheWind.ClockWpf.TemplateEditor.TimeProviders;
 
 public class TimeProvidersViewModel : ViewModelBase
 {

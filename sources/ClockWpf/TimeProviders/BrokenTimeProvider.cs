@@ -7,14 +7,11 @@ namespace DustInTheWind.ClockWpf.TimeProviders;
 /// </summary>
 public class BrokenTimeProvider : TimeProviderBase
 {
-    /// <summary>
-    /// The default value of the time multiplier.
-    /// </summary>
-    public const float DefaultTimeMultiplier = 10;
+    private DateTime initialRealTime = DateTime.UtcNow;
+
+    #region InitialTime Property
 
     private TimeSpan initialTime = DateTime.Now.TimeOfDay;
-    private DateTime initialRealTime = DateTime.UtcNow;
-    private float timeMultiplier = DefaultTimeMultiplier;
 
     /// <summary>
     /// Gets or sets the initial time value used as a reference for calculating subsequent time values.
@@ -34,13 +31,24 @@ public class BrokenTimeProvider : TimeProviderBase
         }
     }
 
+    #endregion
+
+    #region TimeMultiplier Property
+
     /// <summary>
-    /// Gets or sets the time multiplier that specifies how much faster the provided time
-    /// is compared to the real one.
+    /// The default value of the time multiplier.
+    /// </summary>
+    public const float DefaultTimeMultiplier = 10;
+
+    private float timeMultiplier = DefaultTimeMultiplier;
+
+    /// <summary>
+    /// Gets or sets the time multiplier that specifies how much faster the is the time compared
+    /// to the real one.
     /// </summary>
     [Category("Behavior")]
     [DefaultValue(DefaultTimeMultiplier)]
-    [Description("The time multiplier that specifies how much faster the provided time is compared to the real one.")]
+    [Description("The time multiplier that specifies how much faster the is the time compared to the real one.")]
     public float TimeMultiplier
     {
         get => timeMultiplier;
@@ -53,6 +61,8 @@ public class BrokenTimeProvider : TimeProviderBase
             Start();
         }
     }
+
+    #endregion
 
     /// <summary>
     /// Returns a new time value calculated based on the time multiplier.
