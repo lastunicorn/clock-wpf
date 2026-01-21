@@ -47,7 +47,7 @@ public class PlayfulTemplate : ClockTemplate
             ComponentToDisplay = TimeComponent.Hour,
             Length = 48,
             Width = 10,
-            TailLength = 12,
+            TailLength = -18,
             StrokeThickness = 0,
             FillBrush = Brushes.RoyalBlue
         };
@@ -58,7 +58,7 @@ public class PlayfulTemplate : ClockTemplate
             ComponentToDisplay = TimeComponent.Minute,
             Length = 80,
             Width = 8,
-            TailLength = 8,
+            TailLength = -18,
             StrokeThickness = 0,
             FillBrush = Brushes.LimeGreen
         };
@@ -68,9 +68,10 @@ public class PlayfulTemplate : ClockTemplate
             Name = "Second Hand",
             ComponentToDisplay = TimeComponent.Second,
             Length = 85,
-            TailLength = 14,
+            TailLength = -19,
             StrokeBrush = Brushes.Red,
-            StrokeThickness = 1
+            StrokeThickness = 1,
+            PinDiameter = 24
         };
     }
 }
