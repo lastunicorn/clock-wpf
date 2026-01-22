@@ -97,10 +97,5 @@ public class FancyTemplate : ClockTemplate
             StrokeThickness = 0,
             Diameter = 3
         };
-
-        yield return new SpecularReflection
-        {
-            Name = "Specular Reflection"
-        };
     }
 }
