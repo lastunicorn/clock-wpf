@@ -51,8 +51,7 @@
             Width="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Background="#f0f0f0"
-            ShowsPreview="True"/>
+            Background="#f0f0f0" />
 
         <TabControl
             Grid.Column="2"

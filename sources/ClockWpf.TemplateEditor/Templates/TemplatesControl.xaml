@@ -26,12 +26,42 @@
             Grid.Row="0"
             Margin="0 10 0 0">
 
-            <ComboBox
-                DockPanel.Dock="Top"
-                ItemsSource="{Binding TemplateTypes}"
-                SelectedItem="{Binding SelectedTemplateType}"
-                DisplayMemberPath="Name"/>
+            <DockPanel
+                DockPanel.Dock="Top">
 
+                <Button
+                    DockPanel.Dock="Right"
+                    Content="Load"
+                    Padding="10 0"
+                    Margin="5 0 0 0"
+                    IsEnabled="False" />
+
+                <Button
+                    DockPanel.Dock="Right"
+                    Content="Save"
+                    Padding="10 0"
+                    Margin="5 0 0 0"
+                    Command="{Binding SaveTemplateCommand}" />
+
+                <ComboBox
+                    ItemsSource="{Binding TemplateTypes}"
+                    SelectedItem="{Binding SelectedTemplateType}"
+                    DisplayMemberPath="Name"/>    
+            </DockPanel>
+
+            <StackPanel
+                DockPanel.Dock="Top"
+                Margin="0 10 0 0"
+                Orientation="Horizontal">
+
+                <Button
+                    DockPanel.Dock="Right"
+                    Content="Add Shape"
+                    Padding="10 0"
+                    IsEnabled="False" />
+
+            </StackPanel>
+            
             <ListBox
                 Grid.Row="0"
                 Margin="0 10 0 0"

@@ -70,9 +70,13 @@ public class TemplatesViewModel : ViewModelBase
         }
     }
 
+    public SaveTemplateCommand SaveTemplateCommand { get; }
+
     public TemplatesViewModel(ApplicationState applicationState)
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+
+        SaveTemplateCommand = new SaveTemplateCommand(applicationState);
 
         Initialize();
 
@@ -120,5 +124,6 @@ public class TemplatesViewModel : ViewModelBase
     private void HandleCurrentTemplateChanged(object sender, EventArgs e)
     {
         Shapes = new ObservableCollection<Shape>(applicationState.CurrentTemplate);
+        SaveTemplateCommand.RaiseCanExecuteChanged();
     }
 }

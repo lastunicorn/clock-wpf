@@ -36,7 +36,7 @@ public class ShapeSerializer
         if (shape == null)
             throw new ArgumentNullException(nameof(shape));
 
-        Dictionary<string, string> properties = new Dictionary<string, string>();
+        Dictionary<string, string> properties = [];
         Type shapeType = shape.GetType();
         PropertyInfo[] propertyInfos = shapeType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
