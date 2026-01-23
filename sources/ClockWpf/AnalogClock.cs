@@ -228,24 +228,4 @@ public class AnalogClock : Control
             PerformanceInfo = shapeCanvas.PerformanceInfo;
 #endif
     }
-
-    /// <summary>
-    /// Replaces the current set of shapes with those defined in the specified clock template.
-    /// </summary>
-    /// <remarks>
-    /// When a clock template is applyed, all previously existing shapes are remove.
-    /// After the clock template was applyed, additional shapes can be added to the clock,
-    /// but they will not be automatically added to the template.
-    /// </remarks>
-    /// <param name="clockTemplate">The clock template containing the shapes to be applied.</param>
-    public void ApplyClockTemplate(ClockTemplate clockTemplate)
-    {
-        Shapes.Clear();
-
-        if (clockTemplate == null)
-            return;
-
-        foreach (Shape shape in clockTemplate)
-            Shapes.Add(shape);
-    }
 }
