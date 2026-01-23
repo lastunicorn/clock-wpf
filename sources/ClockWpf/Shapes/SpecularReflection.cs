@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
-public class SpecularReflection : BackgroundBase
+public class SpecularReflection : Shape
 {
     static SpecularReflection()
     {

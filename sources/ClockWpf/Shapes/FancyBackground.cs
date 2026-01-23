@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
-public class FancyBackground : BackgroundBase
+public class FancyBackground : Shape
 {
     #region OuterRimWidth DependencyProperty
 

@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
-public class FlatBackground : BackgroundBase
+public class FlatBackground : Shape
 {
     static FlatBackground()
     {
