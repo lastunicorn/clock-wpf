@@ -50,9 +50,7 @@ public class Pin : Shape
     {
         base.CalculateLayout(context);
 
-        double radius = context.ClockDiameter / 2;
-        pinRadius = radius * (Diameter / 100.0) / 2;
-
+        pinRadius = context.ClockRadius * (Diameter / 100.0) / 2;
         pinCenter = new Point(0, 0);
     }
 
