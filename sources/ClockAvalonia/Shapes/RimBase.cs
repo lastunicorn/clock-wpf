@@ -136,7 +136,7 @@ public abstract class RimBase : Shape
         }
     }
 
-    private RotateTransform? CreateOrientationTransform(int index)
+    private RotateTransform CreateOrientationTransform(int index)
     {
         switch (Orientation)
         {

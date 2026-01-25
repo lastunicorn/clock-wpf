@@ -37,11 +37,11 @@ public abstract class Shape : AvaloniaObject
 
     #region FillBrush StyledProperty
 
-    public static readonly StyledProperty<IBrush?> FillBrushProperty = AvaloniaProperty.Register<Shape, IBrush?>(
+    public static readonly StyledProperty<IBrush> FillBrushProperty = AvaloniaProperty.Register<Shape, IBrush>(
         nameof(FillBrush),
         defaultValue: Brushes.CornflowerBlue);
 
-    public IBrush? FillBrush
+    public IBrush FillBrush
     {
         get => GetValue(FillBrushProperty);
         set => SetValue(FillBrushProperty, value);
@@ -51,11 +51,11 @@ public abstract class Shape : AvaloniaObject
 
     #region StrokeBrush StyledProperty
 
-    public static readonly StyledProperty<IBrush?> StrokeBrushProperty = AvaloniaProperty.Register<Shape, IBrush?>(
+    public static readonly StyledProperty<IBrush> StrokeBrushProperty = AvaloniaProperty.Register<Shape, IBrush>(
         nameof(StrokeBrush),
         defaultValue: Brushes.Black);
 
-    public IBrush? StrokeBrush
+    public IBrush StrokeBrush
     {
         get => GetValue(StrokeBrushProperty);
         set => SetValue(StrokeBrushProperty, value);
@@ -83,10 +83,10 @@ public abstract class Shape : AvaloniaObject
         StrokeThicknessProperty.Changed.AddClassHandler<Shape>((shape, e) => shape.HandleStrokeThicknessChanged(e));
     }
 
-    private IPen? strokePen;
+    private IPen strokePen;
     private bool isStrokePenCreated;
 
-    protected IPen? StrokePen
+    protected IPen StrokePen
     {
         get
         {
@@ -100,7 +100,7 @@ public abstract class Shape : AvaloniaObject
         }
     }
 
-    protected virtual IPen? CreateStrokePen()
+    protected virtual IPen CreateStrokePen()
     {
         if (StrokeThickness <= 0 || StrokeBrush == null)
             return null;
@@ -108,20 +108,20 @@ public abstract class Shape : AvaloniaObject
         return new Pen(StrokeBrush, StrokeThickness);
     }
 
-    private void HandleStrokeChanged(AvaloniaPropertyChangedEventArgs e)
+    private void HandleStrokeChanged(AvaloniaPropertyChangedEventArgs _)
     {
         strokePen = null;
         isStrokePenCreated = false;
     }
 
-    private void HandleStrokeThicknessChanged(AvaloniaPropertyChangedEventArgs e)
+    private void HandleStrokeThicknessChanged(AvaloniaPropertyChangedEventArgs _)
     {
         strokePen = null;
         isStrokePenCreated = false;
         InvalidateLayout();
     }
 
-    public event EventHandler? NameChanged;
+    public event EventHandler NameChanged;
 
     protected virtual void OnNameChanged(EventArgs e)
     {

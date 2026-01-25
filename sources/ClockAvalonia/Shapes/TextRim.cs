@@ -8,11 +8,11 @@ public class TextRim : RimBase
 {
     #region Texts StyledProperty
 
-    public static readonly StyledProperty<string[]?> TextsProperty = AvaloniaProperty.Register<TextRim, string[]?>(
+    public static readonly StyledProperty<string[]> TextsProperty = AvaloniaProperty.Register<TextRim, string[]>(
         nameof(Texts),
         defaultValue: null);
 
-    public string[]? Texts
+    public string[] Texts
     {
         get => GetValue(TextsProperty);
         set => SetValue(TextsProperty, value);
@@ -66,7 +66,7 @@ public class TextRim : RimBase
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
-        string[]? texts = Texts;
+        string[] texts = Texts;
 
         if (texts == null || texts.Length == 0)
             return false;
@@ -78,7 +78,7 @@ public class TextRim : RimBase
 
     protected override void RenderItem(DrawingContext drawingContext, int index)
     {
-        string[]? texts = Texts;
+        string[] texts = Texts;
 
         if (texts == null)
             return;

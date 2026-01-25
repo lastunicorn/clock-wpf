@@ -33,7 +33,7 @@ public class SimpleHand : HandBase
 
     #endregion
 
-    protected override IPen? CreateStrokePen()
+    protected override IPen CreateStrokePen()
     {
         if (StrokeThickness <= 0 || StrokeBrush == null)
             return null;

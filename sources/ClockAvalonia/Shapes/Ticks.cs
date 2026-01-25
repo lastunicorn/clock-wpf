@@ -53,12 +53,15 @@ public class Ticks : RimBase
         return base.OnRendering(context);
     }
 
-    protected override IPen? CreateStrokePen()
+    protected override IPen CreateStrokePen()
     {
         if (StrokeThickness <= 0 || StrokeBrush == null)
             return null;
 
-        PenLineCap lineCap = RoundEnds ? PenLineCap.Round : PenLineCap.Flat;
+        PenLineCap lineCap = RoundEnds
+            ? PenLineCap.Round
+            : PenLineCap.Flat;
+
         return new Pen(StrokeBrush, StrokeThickness, lineCap: lineCap);
     }
 

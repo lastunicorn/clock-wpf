@@ -17,12 +17,12 @@ internal class DrawingPlan
         return new DrawingPlan(drawingContext);
     }
 
-    public DrawingPlan WithTransform<T>(Func<T?> createTransform)
+    public DrawingPlan WithTransform<T>(Func<T> createTransform)
         where T : ITransform
     {
         ArgumentNullException.ThrowIfNull(createTransform);
 
-        T? transform = createTransform.Invoke();
+        T transform = createTransform.Invoke();
 
         if (transform != null)
             transforms.Add(transform);

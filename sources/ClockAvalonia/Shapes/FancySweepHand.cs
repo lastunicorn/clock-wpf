@@ -101,16 +101,9 @@ public class FancySweepHand : HandBase
             })
             .Draw(dc =>
             {
-                DrawHandParts(dc, context.ClockRadius);
+                dc.DrawLine(StrokePen, mainLineStartPoint, mainLineEndPoint);
+                dc.DrawEllipse(null, StrokePen, circleCenter, circleRadius, circleRadius);
+                dc.DrawLine(StrokePen, tipLineStartPoint, tipLineEndPoint);
             });
-    }
-
-    private void DrawHandParts(DrawingContext drawingContext, double radius)
-    {
-        drawingContext.DrawLine(StrokePen, mainLineStartPoint, mainLineEndPoint);
-
-        drawingContext.DrawEllipse(null, StrokePen, circleCenter, circleRadius, circleRadius);
-
-        drawingContext.DrawLine(StrokePen, tipLineStartPoint, tipLineEndPoint);
     }
 }

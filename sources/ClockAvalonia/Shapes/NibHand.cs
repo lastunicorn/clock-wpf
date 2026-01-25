@@ -33,7 +33,7 @@ public class NibHand : HandBase
 
     #endregion
 
-    private PathGeometry? nibGeometry;
+    private PathGeometry nibGeometry;
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
