@@ -1,87 +1,78 @@
-using System.Windows;
-using System.Windows.Media;
+using Avalonia;
+using Avalonia.Media;
 
-namespace DustInTheWind.ClockWpf.Shapes;
+namespace DustInTheWind.ClockAvalonia.Shapes;
 
 public class FancyBackground : Shape
 {
-    #region OuterRimWidth DependencyProperty
+    #region OuterRimWidth StyledProperty
 
-    public static readonly DependencyProperty OuterRimWidthProperty = DependencyProperty.Register(
+    public static readonly StyledProperty<double> OuterRimWidthProperty = AvaloniaProperty.Register<FancyBackground, double>(
         nameof(OuterRimWidth),
-        typeof(double),
-        typeof(FancyBackground),
-        new FrameworkPropertyMetadata(10.0));
+        defaultValue: 10.0);
 
     public double OuterRimWidth
     {
-        get => (double)GetValue(OuterRimWidthProperty);
+        get => GetValue(OuterRimWidthProperty);
         set => SetValue(OuterRimWidthProperty, value);
     }
 
     #endregion
 
-    #region InnerRimWidth DependencyProperty
+    #region InnerRimWidth StyledProperty
 
-    public static readonly DependencyProperty InnerRimWidthProperty = DependencyProperty.Register(
+    public static readonly StyledProperty<double> InnerRimWidthProperty = AvaloniaProperty.Register<FancyBackground, double>(
         nameof(InnerRimWidth),
-        typeof(double),
-        typeof(FancyBackground),
-        new FrameworkPropertyMetadata(2.0));
+        defaultValue: 2.0);
 
     public double InnerRimWidth
     {
-        get => (double)GetValue(InnerRimWidthProperty);
+        get => GetValue(InnerRimWidthProperty);
         set => SetValue(InnerRimWidthProperty, value);
     }
 
     #endregion
 
-    #region OuterRimBrush DependencyProperty
+    #region OuterRimBrush StyledProperty
 
-    public static readonly DependencyProperty OuterRimBrushProperty = DependencyProperty.Register(
+    public static readonly StyledProperty<IBrush> OuterRimBrushProperty = AvaloniaProperty.Register<FancyBackground, IBrush>(
         nameof(OuterRimBrush),
-        typeof(Brush),
-        typeof(FancyBackground),
-        new FrameworkPropertyMetadata(CreateDefaultOuterRimBrush()));
+        defaultValue: CreateDefaultOuterRimBrush());
 
-    private static Brush CreateDefaultOuterRimBrush()
+    private static IBrush CreateDefaultOuterRimBrush()
     {
         LinearGradientBrush brush = new()
         {
-            StartPoint = new Point(0, 0),
-            EndPoint = new Point(1, 1)
+            StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
+            EndPoint = new RelativePoint(1, 1, RelativeUnit.Relative)
         };
 
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(155, 219, 255), 0));
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(0, 64, 128), 1));
 
-        brush.Freeze();
         return brush;
     }
 
-    public Brush OuterRimBrush
+    public IBrush OuterRimBrush
     {
-        get => (Brush)GetValue(OuterRimBrushProperty);
+        get => GetValue(OuterRimBrushProperty);
         set => SetValue(OuterRimBrushProperty, value);
     }
 
     #endregion
 
-    #region InnerRimBrush DependencyProperty
+    #region InnerRimBrush StyledProperty
 
-    public static readonly DependencyProperty InnerRimBrushProperty = DependencyProperty.Register(
+    public static readonly StyledProperty<IBrush?> InnerRimBrushProperty = AvaloniaProperty.Register<FancyBackground, IBrush>(
         nameof(InnerRimBrush),
-        typeof(Brush),
-        typeof(FancyBackground),
-        new FrameworkPropertyMetadata(CreateDefaultInnerRimBrush()));
+        defaultValue: CreateDefaultInnerRimBrush());
 
-    private static Brush CreateDefaultInnerRimBrush()
+    private static IBrush CreateDefaultInnerRimBrush()
     {
         LinearGradientBrush brush = new()
         {
-            StartPoint = new Point(0, 0),
-            EndPoint = new Point(1, 1)
+            StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
+            EndPoint = new RelativePoint(1, 1, RelativeUnit.Relative)
         };
 
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(0, 64, 128), 0));
@@ -90,9 +81,9 @@ public class FancyBackground : Shape
         return brush;
     }
 
-    public Brush InnerRimBrush
+    public IBrush InnerRimBrush
     {
-        get => (Brush)GetValue(InnerRimBrushProperty);
+        get => GetValue(InnerRimBrushProperty);
         set => SetValue(InnerRimBrushProperty, value);
     }
 
@@ -100,16 +91,16 @@ public class FancyBackground : Shape
 
     static FancyBackground()
     {
-        FillBrushProperty.OverrideMetadata(typeof(FancyBackground), new FrameworkPropertyMetadata(CreateDefaultFaceBrush()));
-        StrokeThicknessProperty.OverrideMetadata(typeof(FancyBackground), new FrameworkPropertyMetadata(0.0));
+        FillBrushProperty.OverrideDefaultValue<FancyBackground>(CreateDefaultFaceBrush());
+        StrokeThicknessProperty.OverrideDefaultValue<FancyBackground>(0.0);
     }
 
-    private static Brush CreateDefaultFaceBrush()
+    private static IBrush CreateDefaultFaceBrush()
     {
         LinearGradientBrush brush = new()
         {
-            StartPoint = new Point(0, 0),
-            EndPoint = new Point(1, 1)
+            StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
+            EndPoint = new RelativePoint(1, 1, RelativeUnit.Relative)
         };
 
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(200, 230, 255), 0));

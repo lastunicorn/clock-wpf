@@ -5,19 +5,20 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
 using DustInTheWind.ClockAvalonia.Shapes;
+using DustInTheWind.ClockAvalonia.Templates;
 using DustInTheWind.ClockAvalonia.TimeProviders;
 
 namespace DustInTheWind.ClockAvalonia;
 
 public class AnalogClock : TemplatedControl
 {
-    private ShapeCanvas? shapeCanvas;
+    private ShapeCanvas shapeCanvas;
 
     #region Shapes StyledProperty
 
     public static readonly StyledProperty<ObservableCollection<Shape>> ShapesProperty = AvaloniaProperty.Register<AnalogClock, ObservableCollection<Shape>>(
         nameof(Shapes),
-        defaultValue: new ObservableCollection<Shape>());
+        defaultValue: null);
 
     public ObservableCollection<Shape> Shapes
     {
@@ -57,13 +58,26 @@ public class AnalogClock : TemplatedControl
 
     #region TimeProvider StyledProperty
 
-    public static readonly StyledProperty<ITimeProvider?> TimeProviderProperty = AvaloniaProperty.Register<AnalogClock, ITimeProvider?>(
+    public static readonly StyledProperty<ITimeProvider?> TimeProviderProperty = AvaloniaProperty.Register<AnalogClock, ITimeProvider>(
         nameof(TimeProvider));
 
-    public ITimeProvider? TimeProvider
+    public ITimeProvider TimeProvider
     {
         get => GetValue(TimeProviderProperty);
         set => SetValue(TimeProviderProperty, value);
+    }
+
+    #endregion
+
+    #region ClockTemplate StyledProperty
+
+    public static readonly StyledProperty<ClockTemplate?> ClockTemplateProperty = AvaloniaProperty.Register<AnalogClock, ClockTemplate>(
+        nameof(ClockTemplate));
+
+    public ClockTemplate ClockTemplate
+    {
+        get => GetValue(ClockTemplateProperty);
+        set => SetValue(ClockTemplateProperty, value);
     }
 
     #endregion
@@ -73,11 +87,12 @@ public class AnalogClock : TemplatedControl
         ShapesProperty.Changed.AddClassHandler<AnalogClock>((clock, e) => clock.OnShapesChanged(e));
         KeepProportionsProperty.Changed.AddClassHandler<AnalogClock>((clock, e) => clock.OnKeepProportionsChanged(e));
         TimeProviderProperty.Changed.AddClassHandler<AnalogClock>((clock, e) => clock.OnTimeProviderChanged(e));
+        ClockTemplateProperty.Changed.AddClassHandler<AnalogClock>((clock, e) => clock.OnClockTemplateChanged(e));
     }
 
     public AnalogClock()
     {
-        Shapes = new ObservableCollection<Shape>();
+        Shapes = [];
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -86,7 +101,7 @@ public class AnalogClock : TemplatedControl
 
         shapeCanvas = e.NameScope.Find<ShapeCanvas>("PART_ShapeCanvas");
 
-        ITimeProvider? currentTimeProvider = TimeProvider;
+        ITimeProvider currentTimeProvider = TimeProvider;
         if (currentTimeProvider != null)
             UpdateDisplayedTime(currentTimeProvider.LastValue);
     }
@@ -103,7 +118,7 @@ public class AnalogClock : TemplatedControl
         }
     }
 
-    private void HandleShapesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void HandleShapesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         UpdateIsEmpty();
     }
@@ -113,7 +128,7 @@ public class AnalogClock : TemplatedControl
         IsEmpty = Shapes == null || Shapes.Count == 0;
     }
 
-    private void OnKeepProportionsChanged(AvaloniaPropertyChangedEventArgs e)
+    private void OnKeepProportionsChanged(AvaloniaPropertyChangedEventArgs _)
     {
         shapeCanvas?.InvalidateVisual();
     }
@@ -130,7 +145,18 @@ public class AnalogClock : TemplatedControl
         }
     }
 
-    private void HandleTimeChanged(object? sender, TimeChangedEventArgs e)
+    private void OnClockTemplateChanged(AvaloniaPropertyChangedEventArgs e)
+    {
+        Shapes.Clear();
+
+        if (e.NewValue is ClockTemplate clockTemplate)
+        {
+            foreach (Shape shape in clockTemplate)
+                Shapes.Add(shape);
+        }
+    }
+
+    private void HandleTimeChanged(object sender, TimeChangedEventArgs e)
     {
         UpdateDisplayedTime(e.Time);
     }

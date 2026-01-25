@@ -1,7 +1,7 @@
-﻿using System.Windows.Media;
-using DustInTheWind.ClockWpf.Shapes;
+﻿using Avalonia.Media;
+using DustInTheWind.ClockAvalonia.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockAvalonia.Templates;
 
 public class DefaultTemplate : ClockTemplate
 {

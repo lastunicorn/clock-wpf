@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using DustInTheWind.ClockAvalonia.Shapes;
+using DustInTheWind.ClockAvalonia.Templates;
 using DustInTheWind.ClockAvalonia.TimeProviders;
 
 namespace DustInTheWind.ClockAvalonia.ClearClock.Views;
@@ -20,10 +21,11 @@ public partial class MainWindow : Window
 
         if (clock != null)
         {
-            clock.Shapes.Add(new FlatBackground
-            {
-                FillBrush = Brushes.CornflowerBlue,
-            });
+            clock.ClockTemplate = new DefaultTemplate();
+            //clock.ClockTemplate = new FancyTemplate();
+            //clock.ClockTemplate = new PandaTemplate();
+            //clock.ClockTemplate = new PlayfulTemplate();
+            //clock.ClockTemplate = new SunTemplate();
 
             LocalTimeProvider timeProvider = new();
             timeProvider.Start();
@@ -34,13 +36,11 @@ public partial class MainWindow : Window
         }
     }
 
-    private void HandleClockPointerPressed(object? sender, PointerPressedEventArgs e)
+    private void HandleClockPointerPressed(object sender, PointerPressedEventArgs e)
     {
         PointerPointProperties properties = e.GetCurrentPoint(this).Properties;
 
         if (properties.IsLeftButtonPressed)
-        {
             BeginMoveDrag(e);
-        }
     }
 }

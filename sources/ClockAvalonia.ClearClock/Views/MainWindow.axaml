@@ -26,11 +26,19 @@
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
 
-	<controls:AnalogClock
-		x:Name="AnalogClock"
-		Width="400"
-		Height="400"
-		HorizontalAlignment="Center"
-		VerticalAlignment="Center"/>
+	<Grid
+        x:Name="MainContainer"
+        Width="400"
+        Height="400">
+
+		<Viewbox
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch">
+
+			<controls:AnalogClock
+				x:Name="AnalogClock"/>
+
+			</Viewbox>
+		</Grid>
 
 </Window>

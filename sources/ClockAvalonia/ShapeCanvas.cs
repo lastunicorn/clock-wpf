@@ -15,7 +15,7 @@ public class ShapeCanvas : Control
 
     public static readonly StyledProperty<ObservableCollection<Shape>> ShapesProperty = AvaloniaProperty.Register<ShapeCanvas, ObservableCollection<Shape>>(
         nameof(Shapes),
-        defaultValue: new ObservableCollection<Shape>());
+        defaultValue: null);
 
     public ObservableCollection<Shape> Shapes
     {
@@ -58,7 +58,17 @@ public class ShapeCanvas : Control
         ShapesProperty.Changed.AddClassHandler<ShapeCanvas>((canvas, e) => canvas.OnShapesChanged(e));
         KeepProportionsProperty.Changed.AddClassHandler<ShapeCanvas>((canvas, e) => canvas.InvalidateVisual());
         TimeProperty.Changed.AddClassHandler<ShapeCanvas>((canvas, e) => canvas.InvalidateVisual());
+        
         AffectsRender<ShapeCanvas>(ShapesProperty, KeepProportionsProperty, TimeProperty);
+    }
+
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        double width = double.IsInfinity(availableSize.Width) ? 200 : availableSize.Width;
+        double height = double.IsInfinity(availableSize.Height) ? 200 : availableSize.Height;
+        double size = Math.Min(width, height);
+        
+        return new Size(size, size);
     }
 
     private void OnShapesChanged(AvaloniaPropertyChangedEventArgs e)
