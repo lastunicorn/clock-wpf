@@ -149,9 +149,6 @@ public class ShapeCanvas : Canvas
 
     private void RenderShapes(DrawingContext drawingContext, double diameter)
     {
-        IEnumerable<Shape> visibleShapes = Shapes
-            .Where(x => x != null && x.IsVisible);
-
         ClockDrawingContext clockDrawingContext = new()
         {
             DrawingContext = drawingContext,
@@ -159,7 +156,10 @@ public class ShapeCanvas : Canvas
             Time = Time
         };
 
-        foreach (Shape shape in visibleShapes)
-            shape.Render(clockDrawingContext);
+        foreach (Shape shape in Shapes)
+        {
+            if (shape != null && shape.IsVisible)
+                shape.Render(clockDrawingContext);
+        }
     }
 }

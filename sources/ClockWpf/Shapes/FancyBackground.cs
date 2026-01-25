@@ -52,10 +52,11 @@ public class FancyBackground : Shape
             StartPoint = new Point(0, 0),
             EndPoint = new Point(1, 1)
         };
-        
+
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(155, 219, 255), 0));
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(0, 64, 128), 1));
-        
+
+        brush.Freeze();
         return brush;
     }
 
@@ -85,7 +86,7 @@ public class FancyBackground : Shape
 
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(0, 64, 128), 0));
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(155, 219, 255), 1));
-        
+
         return brush;
     }
 

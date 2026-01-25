@@ -159,11 +159,18 @@ public abstract class Shape : DependencyObject
         }
     }
 
-    protected virtual Pen CreateStrokePen()
+    protected virtual Pen CreateStrokePen(bool freeze = true)
     {
-        return StrokeThickness > 0 && StrokeBrush != null
-            ? new(StrokeBrush, StrokeThickness)
-            : null;
+        if (StrokeThickness <= 0 || StrokeBrush == null)
+            return null;
+
+        Brush brush = StrokeBrush.Clone();
+        Pen pen = new(brush, StrokeThickness);
+
+        if (freeze && pen.CanFreeze)
+            pen.Freeze();
+
+        return pen;
     }
 
     #endregion

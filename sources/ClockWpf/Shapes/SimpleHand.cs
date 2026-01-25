@@ -48,15 +48,17 @@ public class SimpleHand : HandBase
 
     #endregion
 
-    protected override Pen CreateStrokePen()
+    protected override Pen CreateStrokePen(bool freeze = true)
     {
-        Pen pen = base.CreateStrokePen();
+        Pen pen = base.CreateStrokePen(false);
 
         if (pen != null)
         {
-
             pen.StartLineCap = PenLineCap.Round;
             pen.EndLineCap = PenLineCap.Round;
+
+            if (freeze && pen.CanFreeze)
+                pen.Freeze();
         }
 
         return pen;

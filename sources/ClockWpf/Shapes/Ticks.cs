@@ -72,15 +72,18 @@ public class Ticks : RimBase
         return base.OnRendering(context);
     }
 
-    protected override Pen CreateStrokePen()
+    protected override Pen CreateStrokePen(bool freeze = true)
     {
-        Pen pen = base.CreateStrokePen();
+        Pen pen = base.CreateStrokePen(false);
 
         if (RoundEnds)
         {
             pen.StartLineCap = PenLineCap.Round;
             pen.EndLineCap = PenLineCap.Round;
         }
+
+        if (freeze && pen.CanFreeze)
+            pen.Freeze();
 
         return pen;
     }
