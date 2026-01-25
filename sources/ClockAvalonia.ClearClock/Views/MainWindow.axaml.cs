@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using DustInTheWind.ClockAvalonia.Shapes;
 using DustInTheWind.ClockAvalonia.Templates;
@@ -42,5 +43,10 @@ public partial class MainWindow : Window
 
         if (properties.IsLeftButtonPressed)
             BeginMoveDrag(e);
+    }
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
     }
 }

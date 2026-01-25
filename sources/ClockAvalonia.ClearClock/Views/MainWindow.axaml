@@ -7,6 +7,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:controls="using:DustInTheWind.ClockAvalonia"
+	xmlns:customControls="using:DustInTheWind.ClockAvalonia.ClearClock.CustomControls"
+	xmlns:converters="using:DustInTheWind.ClockAvalonia.ClearClock"
 
 	mc:Ignorable="d"
 	d:DesignWidth="800"
@@ -31,6 +33,28 @@
         Width="400"
         Height="400">
 
+		<customControls:CornerButton
+			x:Name="CloseButton"
+			Width="{Binding #MainContainer.Bounds.Width, Converter={x:Static converters:QuarterSizeConverter.Instance}}"
+			Height="{Binding #MainContainer.Bounds.Height, Converter={x:Static converters:QuarterSizeConverter.Instance}}"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Top"
+			Cursor="Hand"
+			Click="CloseButton_Click"
+			Corner="TopRight"
+			HoverBackground="Red">
+
+			<!-- X Icon -->
+			<Path
+				Data="M 0,0 L 1,1 M 1,0 L 0,1"
+				Stroke="White"
+				StrokeThickness="3"
+				StrokeLineCap="Round"
+				Stretch="Uniform"
+				Width="18"/>
+
+		</customControls:CornerButton>
+
 		<Viewbox
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch">
@@ -38,7 +62,7 @@
 			<controls:AnalogClock
 				x:Name="AnalogClock"/>
 
-			</Viewbox>
-		</Grid>
+		</Viewbox>
+	</Grid>
 
 </Window>
