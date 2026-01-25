@@ -96,6 +96,9 @@ public class DiamondHand : HandBase
         PathGeometry diamondGeometry = new();
         diamondGeometry.Figures.Add(diamondFigure);
 
+        if (diamondGeometry.CanFreeze)
+            diamondGeometry.Freeze();
+
         return diamondGeometry;
     }
 

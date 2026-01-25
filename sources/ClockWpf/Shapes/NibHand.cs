@@ -242,6 +242,10 @@ public class NibHand : HandBase
 
         PathGeometry geometry = new();
         geometry.Figures.Add(figure);
+
+        if (geometry.CanFreeze)
+            geometry.Freeze();
+
         return geometry;
     }
 }

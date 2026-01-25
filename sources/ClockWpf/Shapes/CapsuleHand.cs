@@ -59,7 +59,7 @@ public class CapsuleHand : HandBase
 
     #endregion
 
-    private PathGeometry capsuleGeometry;
+    private PathGeometry handGeometry;
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
@@ -73,10 +73,10 @@ public class CapsuleHand : HandBase
     {
         base.CalculateLayout(context);
 
-        capsuleGeometry = CreateCapsuleGeometry(context);
+        handGeometry = CreateHandGeometry(context);
     }
 
-    private PathGeometry CreateCapsuleGeometry(ClockDrawingContext context)
+    private PathGeometry CreateHandGeometry(ClockDrawingContext context)
     {
         double radius = context.ClockRadius;
         double handLength = radius * (Length / 100.0);
@@ -116,10 +116,13 @@ public class CapsuleHand : HandBase
         // Left side of the rectangle (closes back to start point)
         capsuleFigure.Segments.Add(new LineSegment(new Point(-halfWidth, topY), true));
 
-        PathGeometry capsuleGeometry = new();
-        capsuleGeometry.Figures.Add(capsuleFigure);
+        PathGeometry handGeometry = new();
+        handGeometry.Figures.Add(capsuleFigure);
 
-        return capsuleGeometry;
+        if (handGeometry.CanFreeze)
+            handGeometry.Freeze();
+
+        return handGeometry;
     }
 
     public override void DoRender(ClockDrawingContext context)
@@ -132,7 +135,7 @@ public class CapsuleHand : HandBase
             })
             .Draw(dc =>
             {
-                context.DrawingContext.DrawGeometry(FillBrush, StrokePen, capsuleGeometry);
+                context.DrawingContext.DrawGeometry(FillBrush, StrokePen, handGeometry);
             });
     }
 }
