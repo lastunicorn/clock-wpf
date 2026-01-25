@@ -34,7 +34,8 @@
             Cursor="Hand"
             Visibility="{Binding IsNavigationVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
             Command="{Binding SettingsCommand}"
-            Corner="TopLeft">
+            Corner="TopLeft"
+            CornerRadius="0.05">
 
             <!-- Settings Icon -->
             <Path
@@ -55,6 +56,7 @@
             Visibility="{Binding IsNavigationVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
             Click="CloseButton_Click"
             Corner="TopRight"
+            CornerRadius="0.05"
             HoverBackground="Red">
 
             <!-- X Icon -->
@@ -81,13 +83,6 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Content="{Binding CurrentPage}">
-
-            <!--<ContentControl.Clip>
-                <EllipseGeometry 
-                    Center="{Binding ActualWidth, ElementName=MainContainer, Converter={StaticResource HalfSizeToPointConverter}}"
-                    RadiusX="{Binding ActualWidth, ElementName=MainContainer, Converter={StaticResource HalfSizeConverter}}"
-                    RadiusY="{Binding ActualHeight, ElementName=MainContainer, Converter={StaticResource HalfSizeConverter}}"/>
-            </ContentControl.Clip>-->
 
         </ContentControl>
 

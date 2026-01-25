@@ -20,43 +20,32 @@ public class CornerButton : Button
             cornerButton.UpdateVisualElements();
     }
 
-    private void UpdateVisualElements()
-    {
-        switch (Corner)
-        {
-            case CornerType.TopLeft:
-                Data = Geometry.Parse("M 0,1 A 2,2 0 0 1 1,0 L 0,0 Z");
-                ContentHorizontalAlignment = HorizontalAlignment.Left;
-                ContentVerticalAlignment = VerticalAlignment.Top;
-                break;
-
-            case CornerType.TopRight:
-                Data = Geometry.Parse("M 0,0 A 2,2 0 0 1 1,1 L 1,0 Z");
-                ContentHorizontalAlignment = HorizontalAlignment.Right;
-                ContentVerticalAlignment = VerticalAlignment.Top;
-                break;
-
-            case CornerType.BottomLeft:
-                Data = Geometry.Parse("M 0,0 A 2,2 0 0 0 1,1 L 0,1 Z");
-                ContentHorizontalAlignment = HorizontalAlignment.Left;
-                ContentVerticalAlignment = VerticalAlignment.Bottom;
-                break;
-
-            case CornerType.BottomRight:
-                Data = Geometry.Parse("M 0,1 A 2,2 0 0 0 1,0 L 1,1 Z");
-                ContentHorizontalAlignment = HorizontalAlignment.Right;
-                ContentVerticalAlignment = VerticalAlignment.Bottom;
-                break;
-
-            default:
-                return;
-        }
-    }
-
     public CornerType Corner
     {
         get => (CornerType)GetValue(CornerTypeProperty);
         set => SetValue(CornerTypeProperty, value);
+    }
+
+    #endregion
+
+    #region CornerRadius Dependency Property
+
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
+        nameof(CornerRadius),
+        typeof(double),
+        typeof(CornerButton),
+        new PropertyMetadata(0.1, HandleCornerRadiusPropertyChanged));
+
+    private static void HandleCornerRadiusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is CornerButton cornerButton)
+            cornerButton.UpdateVisualElements();
+    }
+
+    public double CornerRadius
+    {
+        get => (double)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
     }
 
     #endregion
@@ -133,5 +122,189 @@ public class CornerButton : Button
     public CornerButton()
     {
         UpdateVisualElements();
+    }
+
+    private void UpdateVisualElements()
+    {
+        switch (Corner)
+        {
+            case CornerType.TopLeft:
+                Data = GenerateTopLeftGeometry();
+                ContentHorizontalAlignment = HorizontalAlignment.Left;
+                ContentVerticalAlignment = VerticalAlignment.Top;
+
+                break;
+
+            case CornerType.TopRight:
+                Data = GenerateTopRightGeometry();
+                ContentHorizontalAlignment = HorizontalAlignment.Right;
+                ContentVerticalAlignment = VerticalAlignment.Top;
+                break;
+
+            case CornerType.BottomLeft:
+                Data = GenerateBottomLeftGeometry();
+                ContentHorizontalAlignment = HorizontalAlignment.Left;
+                ContentVerticalAlignment = VerticalAlignment.Bottom;
+                break;
+
+            case CornerType.BottomRight:
+                Data = GenerateBottomRightGeometry();
+                ContentHorizontalAlignment = HorizontalAlignment.Right;
+                ContentVerticalAlignment = VerticalAlignment.Bottom;
+                break;
+
+            default:
+                return;
+        }
+    }
+
+    private Geometry GenerateTopLeftGeometry()
+    {
+        PathFigure pathFigure = GenerateTopLeftPathFigure(CornerRadius);
+
+        PathGeometry geometry = new()
+        {
+            Figures =
+            {
+                pathFigure
+            }
+        };
+
+        geometry.Freeze();
+
+        return geometry;
+    }
+
+    private Geometry GenerateTopRightGeometry()
+    {
+        PathFigure pathFigure = GenerateTopLeftPathFigure(CornerRadius);
+
+        PathGeometry geometry = new()
+        {
+            Figures =
+            {
+                pathFigure
+            },
+            Transform = new RotateTransform(90, 0.5, 0.5)
+        };
+
+        geometry.Freeze();
+
+        return geometry;
+    }
+
+    private Geometry GenerateBottomRightGeometry()
+    {
+        PathFigure pathFigure = GenerateTopLeftPathFigure(CornerRadius);
+
+        PathGeometry geometry = new()
+        {
+            Figures =
+            {
+                pathFigure
+            },
+            Transform = new RotateTransform(180, 0.5, 0.5)
+        };
+
+        geometry.Freeze();
+
+        return geometry;
+    }
+
+    private Geometry GenerateBottomLeftGeometry()
+    {
+        PathFigure pathFigure = GenerateTopLeftPathFigure(CornerRadius);
+
+        PathGeometry geometry = new()
+        {
+            Figures =
+            {
+                pathFigure
+            },
+            Transform = new RotateTransform(270, 0.5, 0.5)
+        };
+
+        geometry.Freeze();
+
+        return geometry;
+    }
+
+    private static PathFigure GenerateTopLeftPathFigure(double cornerRadius = 0.1)
+    {
+        // size = 1 x 1
+        // corner radius = 0.1
+        //
+        // M 0.1865,0.9501 - Starts from bottom-left corner
+        // A 0.1,0.1 0 0 1 0,0.9 - Draw the arc of the bottom-left corner
+        // L 0,0.1 - Draw line to top-left corner
+        // A 0.1,0.1 0 0 1 0.1,0 - Draw the arc of the top-left corner
+        // L 0.9,0 - Draw line to top-right corner
+        // A 0.1,0.1 0 0 1 0.9501,0.1865 - Draw arc of the top-right corner
+        // A 2,2 0 0 1 0.1,1 - Draw big arc from top-right corner to bottom-left corner
+        // Z - Close the path
+
+        CircleTouch touchPointTopRight = new(1 - cornerRadius, cornerRadius, cornerRadius, 2, 2);
+        CircleTouch touchPointBottomLeft = new(cornerRadius, 1 - cornerRadius, cornerRadius, 2, 2);
+
+        return new PathFigure()
+        {
+            // Starts from bottom-left corner
+            StartPoint = touchPointBottomLeft,
+            IsClosed = true,
+            Segments =
+            {
+                // Draw the arc of the bottom-left corner
+                new ArcSegment
+                {
+                    Point = new Point(0, 1 - cornerRadius),
+                    Size = new Size(cornerRadius, cornerRadius),
+                    RotationAngle = 0,
+                    IsLargeArc = false,
+                    SweepDirection = SweepDirection.Clockwise
+                },
+
+                // Draw line to top-left corner
+                new LineSegment
+                {
+                    Point = new Point(0, cornerRadius)
+                },
+
+                // Draw the arc of the top-left corner
+                new ArcSegment
+                {
+                    Point = new Point(cornerRadius, 0),
+                    Size = new Size(cornerRadius, cornerRadius),
+                    RotationAngle = 0,
+                    IsLargeArc = false,
+                    SweepDirection = SweepDirection.Clockwise
+                },
+
+                // Draw line to top-right corner
+                new LineSegment
+                {
+                    Point = new Point(1 - cornerRadius, 0)
+                },
+
+                // Draw arc of the top-right corner
+                new ArcSegment
+                {
+                    Point = touchPointTopRight,
+                    Size = new Size(cornerRadius, cornerRadius),
+                    RotationAngle = 0,
+                    IsLargeArc = false,
+                    SweepDirection = SweepDirection.Clockwise
+                },
+
+                // Draw big arc from top-right corner to bottom-left corner
+                new ArcSegment
+                {
+                    Point = touchPointBottomLeft,
+                    Size = new Size(2, 2),
+                    RotationAngle = 0,
+                    IsLargeArc = false,
+                    SweepDirection = SweepDirection.Counterclockwise
+                }
+            }
+        };
     }
 }

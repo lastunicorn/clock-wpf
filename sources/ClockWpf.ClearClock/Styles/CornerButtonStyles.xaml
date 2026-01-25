@@ -23,9 +23,6 @@
                                 x:Name="PART_BackgroundPath"
 							    Data="{TemplateBinding Data}"
                                 Fill="{TemplateBinding Background}"
-                                Stroke="{TemplateBinding Background}"
-                                StrokeThickness="10"
-                                StrokeLineJoin="Round"
                                 Stretch="Fill"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"/>
@@ -42,7 +39,6 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_Container" Property="Opacity" Value="1"/>
                             <Setter TargetName="PART_BackgroundPath" Property="Fill" Value="{Binding HoverBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
-                            <Setter TargetName="PART_BackgroundPath" Property="Stroke" Value="{Binding HoverBackground, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
 
