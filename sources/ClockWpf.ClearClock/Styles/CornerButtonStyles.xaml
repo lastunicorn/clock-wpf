@@ -21,7 +21,7 @@
 
                             <Path
                                 x:Name="PART_BackgroundPath"
-							    Data="{TemplateBinding Data}"
+							    Data="{TemplateBinding Geometry}"
                                 Fill="{TemplateBinding Background}"
                                 Stretch="Fill"
                                 HorizontalAlignment="Stretch"

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Net.Http.Headers;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -50,18 +51,18 @@ public class CornerButton : Button
 
     #endregion
 
-    #region Data Dependency Property
+    #region Geometry Dependency Property
 
-    public static readonly DependencyProperty DataProperty = DependencyProperty.Register(
-        nameof(Data),
+    public static readonly DependencyProperty GeometryProperty = DependencyProperty.Register(
+        nameof(Geometry),
         typeof(Geometry),
         typeof(CornerButton),
         new PropertyMetadata(null));
 
-    public Geometry Data
+    public Geometry Geometry
     {
-        get => (Geometry)GetValue(DataProperty);
-        set => SetValue(DataProperty, value);
+        get => (Geometry)GetValue(GeometryProperty);
+        set => SetValue(GeometryProperty, value);
     }
 
     #endregion
@@ -126,29 +127,33 @@ public class CornerButton : Button
 
     private void UpdateVisualElements()
     {
+        CornerShape cornerShape = new()
+        {
+            CornerType = Corner,
+            CornerRadius = CornerRadius
+        };
+
+        Geometry = cornerShape.ToGeometry();
+
         switch (Corner)
         {
             case CornerType.TopLeft:
-                Data = GenerateTopLeftGeometry();
                 ContentHorizontalAlignment = HorizontalAlignment.Left;
                 ContentVerticalAlignment = VerticalAlignment.Top;
 
                 break;
 
             case CornerType.TopRight:
-                Data = GenerateTopRightGeometry();
                 ContentHorizontalAlignment = HorizontalAlignment.Right;
                 ContentVerticalAlignment = VerticalAlignment.Top;
                 break;
 
             case CornerType.BottomLeft:
-                Data = GenerateBottomLeftGeometry();
                 ContentHorizontalAlignment = HorizontalAlignment.Left;
                 ContentVerticalAlignment = VerticalAlignment.Bottom;
                 break;
 
             case CornerType.BottomRight:
-                Data = GenerateBottomRightGeometry();
                 ContentHorizontalAlignment = HorizontalAlignment.Right;
                 ContentVerticalAlignment = VerticalAlignment.Bottom;
                 break;
@@ -156,155 +161,5 @@ public class CornerButton : Button
             default:
                 return;
         }
-    }
-
-    private Geometry GenerateTopLeftGeometry()
-    {
-        PathFigure pathFigure = GenerateTopLeftPathFigure(CornerRadius);
-
-        PathGeometry geometry = new()
-        {
-            Figures =
-            {
-                pathFigure
-            }
-        };
-
-        geometry.Freeze();
-
-        return geometry;
-    }
-
-    private Geometry GenerateTopRightGeometry()
-    {
-        PathFigure pathFigure = GenerateTopLeftPathFigure(CornerRadius);
-
-        PathGeometry geometry = new()
-        {
-            Figures =
-            {
-                pathFigure
-            },
-            Transform = new RotateTransform(90, 0.5, 0.5)
-        };
-
-        geometry.Freeze();
-
-        return geometry;
-    }
-
-    private Geometry GenerateBottomRightGeometry()
-    {
-        PathFigure pathFigure = GenerateTopLeftPathFigure(CornerRadius);
-
-        PathGeometry geometry = new()
-        {
-            Figures =
-            {
-                pathFigure
-            },
-            Transform = new RotateTransform(180, 0.5, 0.5)
-        };
-
-        geometry.Freeze();
-
-        return geometry;
-    }
-
-    private Geometry GenerateBottomLeftGeometry()
-    {
-        PathFigure pathFigure = GenerateTopLeftPathFigure(CornerRadius);
-
-        PathGeometry geometry = new()
-        {
-            Figures =
-            {
-                pathFigure
-            },
-            Transform = new RotateTransform(270, 0.5, 0.5)
-        };
-
-        geometry.Freeze();
-
-        return geometry;
-    }
-
-    private static PathFigure GenerateTopLeftPathFigure(double cornerRadius = 0.1)
-    {
-        // size = 1 x 1
-        // corner radius = 0.1
-        //
-        // M 0.1865,0.9501 - Starts from bottom-left corner
-        // A 0.1,0.1 0 0 1 0,0.9 - Draw the arc of the bottom-left corner
-        // L 0,0.1 - Draw line to top-left corner
-        // A 0.1,0.1 0 0 1 0.1,0 - Draw the arc of the top-left corner
-        // L 0.9,0 - Draw line to top-right corner
-        // A 0.1,0.1 0 0 1 0.9501,0.1865 - Draw arc of the top-right corner
-        // A 2,2 0 0 1 0.1,1 - Draw big arc from top-right corner to bottom-left corner
-        // Z - Close the path
-
-        CircleTouch touchPointTopRight = new(1 - cornerRadius, cornerRadius, cornerRadius, 2, 2);
-        CircleTouch touchPointBottomLeft = new(cornerRadius, 1 - cornerRadius, cornerRadius, 2, 2);
-
-        return new PathFigure()
-        {
-            // Starts from bottom-left corner
-            StartPoint = touchPointBottomLeft,
-            IsClosed = true,
-            Segments =
-            {
-                // Draw the arc of the bottom-left corner
-                new ArcSegment
-                {
-                    Point = new Point(0, 1 - cornerRadius),
-                    Size = new Size(cornerRadius, cornerRadius),
-                    RotationAngle = 0,
-                    IsLargeArc = false,
-                    SweepDirection = SweepDirection.Clockwise
-                },
-
-                // Draw line to top-left corner
-                new LineSegment
-                {
-                    Point = new Point(0, cornerRadius)
-                },
-
-                // Draw the arc of the top-left corner
-                new ArcSegment
-                {
-                    Point = new Point(cornerRadius, 0),
-                    Size = new Size(cornerRadius, cornerRadius),
-                    RotationAngle = 0,
-                    IsLargeArc = false,
-                    SweepDirection = SweepDirection.Clockwise
-                },
-
-                // Draw line to top-right corner
-                new LineSegment
-                {
-                    Point = new Point(1 - cornerRadius, 0)
-                },
-
-                // Draw arc of the top-right corner
-                new ArcSegment
-                {
-                    Point = touchPointTopRight,
-                    Size = new Size(cornerRadius, cornerRadius),
-                    RotationAngle = 0,
-                    IsLargeArc = false,
-                    SweepDirection = SweepDirection.Clockwise
-                },
-
-                // Draw big arc from top-right corner to bottom-left corner
-                new ArcSegment
-                {
-                    Point = touchPointBottomLeft,
-                    Size = new Size(2, 2),
-                    RotationAngle = 0,
-                    IsLargeArc = false,
-                    SweepDirection = SweepDirection.Counterclockwise
-                }
-            }
-        };
     }
 }

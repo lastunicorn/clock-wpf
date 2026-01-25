@@ -11,7 +11,6 @@ internal record struct CircleTouch
     public CircleTouch(double x1, double y1, double r1, double x2, double y2)
     {
         double D = Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
-        double r2 = D - r1;
 
         X = (r1 * (x2 - x1)) / D + x1;
         Y = (r1 * (y2 - y1)) / D + y1;
