@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -62,7 +61,7 @@ public class CornerButton : Button
     public Geometry Geometry
     {
         get => (Geometry)GetValue(GeometryProperty);
-        set => SetValue(GeometryProperty, value);
+        private set => SetValue(GeometryProperty, value);
     }
 
     #endregion
@@ -127,13 +126,11 @@ public class CornerButton : Button
 
     private void UpdateVisualElements()
     {
-        CornerShape cornerShape = new()
+        Geometry = new CornerShape()
         {
             CornerType = Corner,
             CornerRadius = CornerRadius
         };
-
-        Geometry = cornerShape.ToGeometry();
 
         switch (Corner)
         {
