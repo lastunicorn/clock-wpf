@@ -8,9 +8,7 @@ namespace DustInTheWind.ClockWpf;
 
 public class PerformaceView : Control
 {
-    private AnalogClock currentAnalogClock;
     private PerformanceInfo currentPerformanceInfo;
-    private PropertyInfo performanceInfoProperty;
 
     static PerformaceView()
     {
@@ -92,77 +90,20 @@ public class PerformaceView : Control
 
         if (e.Property == DataContextProperty)
         {
-            UnsubscribeFromCurrentPerformanceInfo();
-            UnsubscribeFromCurrentAnalogClock();
-
-            currentAnalogClock = null;
-            currentPerformanceInfo = null;
-            performanceInfoProperty = null;
-
-            if (DataContext is AnalogClock analogClock)
+            if (currentPerformanceInfo != null)
             {
-                currentAnalogClock = analogClock;
-                performanceInfoProperty = analogClock.GetType().GetProperty("PerformanceInfo");
+                currentPerformanceInfo.Changed -= OnPerformanceInfoChanged;
+                currentPerformanceInfo = null;
+            }
 
-                if (performanceInfoProperty != null)
-                {
-                    SubscribeToAnalogClockPropertyChanges();
-                    UpdatePerformanceInfo();
-                }
+            if (DataContext is PerformanceInfo performanceInfo)
+            {
+                currentPerformanceInfo = performanceInfo;
+
+                if (currentPerformanceInfo != null)
+                    currentPerformanceInfo.Changed += OnPerformanceInfoChanged;
             }
         }
-    }
-
-    private void SubscribeToAnalogClockPropertyChanges()
-    {
-        if (currentAnalogClock != null)
-        {
-            DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromName(
-                "PerformanceInfo",
-                typeof(AnalogClock),
-                typeof(AnalogClock));
-
-            if (descriptor != null)
-                descriptor.AddValueChanged(currentAnalogClock, OnAnalogClockPerformanceInfoChanged);
-        }
-    }
-
-    private void UnsubscribeFromCurrentAnalogClock()
-    {
-        if (currentAnalogClock != null)
-        {
-            DependencyPropertyDescriptor descriptor = DependencyPropertyDescriptor.FromName(
-                "PerformanceInfo",
-                typeof(AnalogClock),
-                typeof(AnalogClock));
-
-            if (descriptor != null)
-                descriptor.RemoveValueChanged(currentAnalogClock, OnAnalogClockPerformanceInfoChanged);
-        }
-    }
-
-    private void OnAnalogClockPerformanceInfoChanged(object sender, EventArgs e)
-    {
-        UpdatePerformanceInfo();
-    }
-
-    private void UpdatePerformanceInfo()
-    {
-        UnsubscribeFromCurrentPerformanceInfo();
-
-        if (performanceInfoProperty != null && currentAnalogClock != null)
-        {
-            currentPerformanceInfo = performanceInfoProperty.GetValue(currentAnalogClock) as PerformanceInfo;
-
-            if (currentPerformanceInfo != null)
-                currentPerformanceInfo.Changed += OnPerformanceInfoChanged;
-        }
-    }
-
-    private void UnsubscribeFromCurrentPerformanceInfo()
-    {
-        if (currentPerformanceInfo != null)
-            currentPerformanceInfo.Changed -= OnPerformanceInfoChanged;
     }
 
     private void OnPerformanceInfoChanged(object sender, EventArgs e)

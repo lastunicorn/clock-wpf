@@ -14,21 +14,23 @@ public class AnalogClock : Control
 
     #region PerformanceInfo DependencyProperty
 
-#if PERFORMANCE_INFO
-
     public static readonly DependencyProperty PerformanceInfoProperty = DependencyProperty.Register(
         nameof(PerformanceInfo),
         typeof(PerformanceInfo),
         typeof(AnalogClock),
-        new PropertyMetadata(null));
+        new PropertyMetadata(null, HandlePerformanceInfoChanged));
+
+    private static void HandlePerformanceInfoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is AnalogClock analogClock && analogClock.shapeCanvas != null)
+            analogClock.shapeCanvas.PerformanceInfo = (PerformanceInfo)e.NewValue;
+    }
 
     public PerformanceInfo PerformanceInfo
     {
         get => (PerformanceInfo)GetValue(PerformanceInfoProperty);
-        private set => SetValue(PerformanceInfoProperty, value);
+        set => SetValue(PerformanceInfoProperty, value);
     }
-
-#endif
 
     #endregion
 
@@ -223,9 +225,7 @@ public class AnalogClock : Control
         if (currentTimeProvider != null)
             UpdateDisplayedTime(currentTimeProvider.LastValue);
 
-#if PERFORMANCE_INFO
         if (shapeCanvas != null)
-            PerformanceInfo = shapeCanvas.PerformanceInfo;
-#endif
+            shapeCanvas.PerformanceInfo = PerformanceInfo;
     }
 }

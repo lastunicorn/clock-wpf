@@ -10,11 +10,7 @@ public class ShapeCanvas : Canvas
 {
     private NotifyCollectionChangedEventHandler collectionChangedHandler;
 
-#if PERFORMANCE_INFO
-
-    public PerformanceInfo PerformanceInfo { get; } = new();
-
-#endif
+    public PerformanceInfo PerformanceInfo { get; set; }
 
     #region Shapes DependencyProperty
 
@@ -100,9 +96,8 @@ public class ShapeCanvas : Canvas
 
     protected override void OnRender(DrawingContext drawingContext)
     {
-#if PERFORMANCE_INFO
-        PerformanceInfo.Start();
-#endif
+        PerformanceInfo?.Start();
+
         try
         {
             base.OnRender(drawingContext);
@@ -130,9 +125,7 @@ public class ShapeCanvas : Canvas
         }
         finally
         {
-#if PERFORMANCE_INFO
-            PerformanceInfo.Stop();
-#endif
+            PerformanceInfo?.Stop();
         }
     }
 

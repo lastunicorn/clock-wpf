@@ -39,10 +39,11 @@
             <clockWpf:AnalogClock
                 x:Name="analogClock1"
                 ClockTemplate="{Binding ClockTemplate}"
-                TimeProvider="{Binding TimeProvider}"/>
+                TimeProvider="{Binding TimeProvider}"
+                PerformanceInfo="{Binding PerformanceInfo, Mode=OneWay}"/>
 
             <clockWpf:PerformaceView
-                DataContext="{Binding ElementName=analogClock1}"/>
+                DataContext="{Binding PerformanceInfo, Mode=OneWay}"/>
 
         </Grid>
 

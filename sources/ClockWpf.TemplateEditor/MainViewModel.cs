@@ -35,6 +35,19 @@ internal class MainViewModel : ViewModelBase
         }
     }
 
+    public PerformanceInfo PerformanceInfo
+    {
+        get => field;
+        set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
     public TemplatesViewModel TemplatesViewModel { get; }
 
     public TimeProvidersViewModel TimeProvidersViewModel { get; }
@@ -45,6 +58,8 @@ internal class MainViewModel : ViewModelBase
 
         TemplatesViewModel = new TemplatesViewModel(applicationState);
         TimeProvidersViewModel = new TimeProvidersViewModel(applicationState);
+
+        PerformanceInfo = new PerformanceInfo();
 
         applicationState.CurrentTemplateChanged += HandleCurrentTemplateChanged;
         applicationState.CurrentTimeProviderChanged += HandleCurrentTimeProviderChanged;

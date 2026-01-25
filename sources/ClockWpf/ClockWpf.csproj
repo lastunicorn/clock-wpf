@@ -9,8 +9,4 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-		<DefineConstants>$(DefineConstants);PERFORMANCE_INFO</DefineConstants>
-	</PropertyGroup>
-
 </Project>
