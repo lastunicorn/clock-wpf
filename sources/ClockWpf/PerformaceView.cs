@@ -1,9 +1,8 @@
-﻿using System.Globalization;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DustInTheWind.ClockWpf;
 
@@ -17,6 +16,27 @@ public class PerformaceView : Control
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(PerformaceView), new FrameworkPropertyMetadata(typeof(PerformaceView)));
     }
+
+    public PerformaceView()
+    {
+        ResetCommand = new RelayCommand(ExecuteReset, CanExecuteReset);
+    }
+
+    #region ResetCommand
+
+    public ICommand ResetCommand { get; }
+
+    private void ExecuteReset()
+    {
+        currentPerformanceInfo?.Reset();
+    }
+
+    private bool CanExecuteReset()
+    {
+        return currentPerformanceInfo != null;
+    }
+
+    #endregion
 
     #region AverageTime DependencyProperty
 
@@ -137,8 +157,6 @@ public class PerformaceView : Control
             if (currentPerformanceInfo != null)
                 currentPerformanceInfo.Changed += OnPerformanceInfoChanged;
         }
-
-        //InvalidateVisual();
     }
 
     private void UnsubscribeFromCurrentPerformanceInfo()
@@ -149,30 +167,8 @@ public class PerformaceView : Control
 
     private void OnPerformanceInfoChanged(object sender, EventArgs e)
     {
-        //InvalidateVisual();
-
         AverageTime = currentPerformanceInfo.AverageTime;
         LastTime = currentPerformanceInfo.LastTime;
         MeasurementCount = currentPerformanceInfo.MeasurementCount;
     }
-
-    //protected override void OnRender(DrawingContext drawingContext)
-    //{
-    //    base.OnRender(drawingContext);
-
-    //    if (currentPerformanceInfo != null)
-    //    {
-    //        string performanceText = currentPerformanceInfo.ToString();
-    //        FormattedText formattedText = new(
-    //            performanceText,
-    //            CultureInfo.CurrentCulture,
-    //            FlowDirection.LeftToRight,
-    //            new Typeface("Arial"),
-    //            12,
-    //            Brushes.Black,
-    //            1.0);
-
-    //        drawingContext.DrawText(formattedText, new Point(5, 5));
-    //    }
-    //}
 }
