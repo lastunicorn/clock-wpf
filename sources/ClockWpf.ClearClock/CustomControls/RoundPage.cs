@@ -7,8 +7,24 @@ namespace DustInTheWind.ClockWpf.ClearClock.CustomControls;
 /// <summary>
 /// Interaction logic for RoundPage.xaml
 /// </summary>
-public partial class RoundPage : ContentControl
+public class RoundPage : UserControl
 {
+    #region Title Dependency Property
+
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+        nameof(Title),
+        typeof(string),
+        typeof(RoundPage),
+        new PropertyMetadata(string.Empty));
+
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    #endregion
+
     #region CloseCommand Dependency Property
 
     public static readonly DependencyProperty CloseCommandProperty = DependencyProperty.Register(

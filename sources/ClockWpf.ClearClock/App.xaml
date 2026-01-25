@@ -14,7 +14,6 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/CornerButtonStyles.xaml"/>
-                <ResourceDictionary Source="Styles/RoundPageStyles.xaml"/>
                 <ResourceDictionary Source="Styles/ThumbStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
