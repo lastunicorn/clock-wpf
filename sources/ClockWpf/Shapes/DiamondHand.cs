@@ -59,7 +59,7 @@ public class DiamondHand : HandBase
 
     #endregion
 
-    private PathGeometry diamondGeometry;
+    private StreamGeometry diamondGeometry;
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
@@ -76,30 +76,26 @@ public class DiamondHand : HandBase
         diamondGeometry = CreateDiamondGeometry(context);
     }
 
-    private PathGeometry CreateDiamondGeometry(ClockDrawingContext context)
+    private StreamGeometry CreateDiamondGeometry(ClockDrawingContext context)
     {
         double radius = context.ClockRadius;
         double handLength = radius * (Length / 100.0);
         double tailLength = radius * (TailLength / 100.0);
         double halfWidth = radius * (Width / 100.0) / 2.0;
 
-        PathFigure diamondFigure = new()
+        StreamGeometry geometry = new();
+        using (StreamGeometryContext ctx = geometry.Open())
         {
-            StartPoint = new Point(0, tailLength),
-            IsClosed = true
-        };
+            ctx.BeginFigure(new Point(0, tailLength), true, true);
+            ctx.LineTo(new Point(-halfWidth, 0), true, false);
+            ctx.LineTo(new Point(0, -handLength), true, false);
+            ctx.LineTo(new Point(halfWidth, 0), true, false);
+        }
 
-        diamondFigure.Segments.Add(new LineSegment(new Point(-halfWidth, 0), true));
-        diamondFigure.Segments.Add(new LineSegment(new Point(0, -handLength), true));
-        diamondFigure.Segments.Add(new LineSegment(new Point(halfWidth, 0), true));
+        if (geometry.CanFreeze)
+            geometry.Freeze();
 
-        PathGeometry diamondGeometry = new();
-        diamondGeometry.Figures.Add(diamondFigure);
-
-        if (diamondGeometry.CanFreeze)
-            diamondGeometry.Freeze();
-
-        return diamondGeometry;
+        return geometry;
     }
 
     public override void DoRender(ClockDrawingContext context)

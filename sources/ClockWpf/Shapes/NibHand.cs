@@ -47,34 +47,20 @@ public class NibHand : HandBase
 
     #endregion
 
-    public override void DoRender(ClockDrawingContext context)
+    private PathGeometry nibGeometry;
+
+    protected override bool OnRendering(ClockDrawingContext context)
     {
         if (FillBrush == null && StrokePen == null)
-            return;
+            return false;
 
-        DrawingPlan.Create(context.DrawingContext)
-            .WithTransform(() =>
-            {
-                double angleDegrees = CalculateHandAngle(context.Time);
-                return new RotateTransform(angleDegrees, 0, 0);
-            })
-            .WithTransform(() =>
-            {
-                double scaleFactorY = Length > 0
-                    ? Length / 280.0
-                    : 1.0;
+        return base.OnRendering(context);
+    }
 
-                double scaleFactorX = KeepProportions
-                    ? scaleFactorY
-                    : (Width > 0 ? Width / 30.0 : 1.0);
-
-                return new ScaleTransform(scaleFactorX, scaleFactorY);
-            })
-            .Draw(dc =>
-            {
-                PathGeometry nibGeometry = CreateNibGeometry();
-                dc.DrawGeometry(FillBrush, StrokePen, nibGeometry);
-            });
+    protected override void CalculateLayout(ClockDrawingContext context)
+    {
+        base.CalculateLayout(context);
+        nibGeometry = CreateNibGeometry();
     }
 
     private static PathGeometry CreateNibGeometry()
@@ -247,5 +233,31 @@ public class NibHand : HandBase
             geometry.Freeze();
 
         return geometry;
+    }
+
+    public override void DoRender(ClockDrawingContext context)
+    {
+        DrawingPlan.Create(context.DrawingContext)
+            .WithTransform(() =>
+            {
+                double angleDegrees = CalculateHandAngle(context.Time);
+                return new RotateTransform(angleDegrees, 0, 0);
+            })
+            .WithTransform(() =>
+            {
+                double scaleFactorY = Length > 0
+                    ? Length / 280.0
+                    : 1.0;
+
+                double scaleFactorX = KeepProportions
+                    ? scaleFactorY
+                    : (Width > 0 ? Width / 30.0 : 1.0);
+
+                return new ScaleTransform(scaleFactorX, scaleFactorY);
+            })
+            .Draw(dc =>
+            {
+                dc.DrawGeometry(FillBrush, StrokePen, nibGeometry);
+            });
     }
 }
