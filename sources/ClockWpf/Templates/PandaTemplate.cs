@@ -18,7 +18,7 @@ public class PandaTemplate : ClockTemplate
         yield return new DotHand
         {
             Name = "Hour Hand",
-            ComponentToDisplay = TimeComponent.Hour,
+            TimeComponent = TimeComponent.Hour,
             Length = 50,
             Radius = 20,
             FillBrush = Brushes.Black,
@@ -29,7 +29,7 @@ public class PandaTemplate : ClockTemplate
         yield return new DotHand
         {
             Name = "Minute Hand",
-            ComponentToDisplay = TimeComponent.Minute,
+            TimeComponent = TimeComponent.Minute,
             Length = 60,
             Radius = 12,
             FillBrush = Brushes.Black,

@@ -208,6 +208,9 @@ public abstract class Shape : DependencyObject
 
     protected virtual bool OnRendering(ClockDrawingContext context)
     {
+        if (FillBrush == null && StrokePen == null)
+            return false;
+
         return true;
     }
 

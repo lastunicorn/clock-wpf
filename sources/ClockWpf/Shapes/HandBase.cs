@@ -20,8 +20,13 @@ public abstract class HandBase : Shape, IHand
         nameof(Length),
         typeof(double),
         typeof(HandBase),
-        new FrameworkPropertyMetadata(95.0));
+        new FrameworkPropertyMetadata(95.0, HandleLengthChanged));
 
+    private static void HandleLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is HandBase hand)
+            hand.InvalidateLayout();
+    }
 
     [Category("Appearance")]
     [DefaultValue(95.0)]
@@ -34,10 +39,10 @@ public abstract class HandBase : Shape, IHand
 
     #endregion
 
-    #region ComponentToDisplay DependencyProperty
+    #region TimeComponent DependencyProperty
 
-    public static readonly DependencyProperty ComponentToDisplayProperty = DependencyProperty.Register(
-        nameof(ComponentToDisplay),
+    public static readonly DependencyProperty TimeComponentProperty = DependencyProperty.Register(
+        nameof(TimeComponent),
         typeof(TimeComponent),
         typeof(HandBase),
         new FrameworkPropertyMetadata(TimeComponent.Second));
@@ -45,10 +50,10 @@ public abstract class HandBase : Shape, IHand
     [DefaultValue(typeof(TimeComponent), "None")]
     [Category("Behavior")]
     [Description("Specifies the component that is displayed from the time value.")]
-    public TimeComponent ComponentToDisplay
+    public TimeComponent TimeComponent
     {
-        get => (TimeComponent)GetValue(ComponentToDisplayProperty);
-        set => SetValue(ComponentToDisplayProperty, value);
+        get => (TimeComponent)GetValue(TimeComponentProperty);
+        set => SetValue(TimeComponentProperty, value);
     }
 
     #endregion
@@ -72,11 +77,22 @@ public abstract class HandBase : Shape, IHand
 
     #endregion
 
+    protected override bool OnRendering(ClockDrawingContext context)
+    {
+        if (Length <= 0)
+            return false;
+
+        if (TimeComponent == TimeComponent.None)
+            return false;
+
+        return base.OnRendering(context);
+    }
+
     protected double CalculateHandAngle(TimeSpan time)
     {
         if (IntegralValue)
         {
-            return ComponentToDisplay switch
+            return TimeComponent switch
             {
                 TimeComponent.Hour => (time.Hours % 12) * 30.0,
                 TimeComponent.Minute => time.Minutes * 6.0,
@@ -85,7 +101,7 @@ public abstract class HandBase : Shape, IHand
             };
         }
 
-        return ComponentToDisplay switch
+        return TimeComponent switch
         {
             TimeComponent.Hour => (time.TotalHours % 12 / 12) * 360.0,
             TimeComponent.Minute => (time.TotalMinutes % 60 / 60) * 360.0,

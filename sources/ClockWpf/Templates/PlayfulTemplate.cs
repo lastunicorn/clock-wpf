@@ -38,13 +38,13 @@ public class PlayfulTemplate : ClockTemplate
         {
             Name = "Hour Numerals",
             FontFamily = new FontFamily("Arial Rounded MT"),
-            DistanceFromEdge = 28
+            DistanceFromEdge = 30
         };
 
         yield return new CapsuleHand
         {
             Name = "Hour Hand",
-            ComponentToDisplay = TimeComponent.Hour,
+            TimeComponent = TimeComponent.Hour,
             Length = 48,
             Width = 10,
             TailLength = -18,
@@ -55,7 +55,7 @@ public class PlayfulTemplate : ClockTemplate
         yield return new CapsuleHand
         {
             Name = "Minute Hand",
-            ComponentToDisplay = TimeComponent.Minute,
+            TimeComponent = TimeComponent.Minute,
             Length = 80,
             Width = 8,
             TailLength = -18,
@@ -66,8 +66,8 @@ public class PlayfulTemplate : ClockTemplate
         yield return new SimpleHand
         {
             Name = "Second Hand",
-            ComponentToDisplay = TimeComponent.Second,
-            Length = 85,
+            TimeComponent = TimeComponent.Second,
+            Length = 84,
             TailLength = -19,
             StrokeBrush = Brushes.Red,
             StrokeThickness = 1,

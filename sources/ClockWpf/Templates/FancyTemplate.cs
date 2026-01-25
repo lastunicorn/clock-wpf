@@ -65,7 +65,7 @@ public class FancyTemplate : ClockTemplate
             Name = "Hour Hand",
             FillBrush = Brushes.Black,
             Length = 60,
-            ComponentToDisplay = TimeComponent.Hour,
+            TimeComponent = TimeComponent.Hour,
             Width = 10,
             StrokeBrush = new SolidColorBrush(Color.FromRgb(0x60, 0x60, 0x60)),
             StrokeThickness = 1.5
@@ -75,7 +75,7 @@ public class FancyTemplate : ClockTemplate
         {
             Name = "Minute Hand",
             FillBrush = Brushes.Black,
-            ComponentToDisplay = TimeComponent.Minute,
+            TimeComponent = TimeComponent.Minute,
             StrokeBrush = new SolidColorBrush(Color.FromRgb(0x60, 0x60, 0x60)),
             StrokeThickness = 1.5,
             Length = 86
@@ -84,7 +84,7 @@ public class FancyTemplate : ClockTemplate
         yield return new FancySweepHand
         {
             Name = "Second Hand",
-            ComponentToDisplay = TimeComponent.Second,
+            TimeComponent = TimeComponent.Second,
             Length = 86,
             StrokeBrush = Brushes.Red,
             StrokeThickness = 0.5

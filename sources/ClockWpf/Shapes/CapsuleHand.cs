@@ -15,7 +15,13 @@ public class CapsuleHand : HandBase
         nameof(Width),
         typeof(double),
         typeof(CapsuleHand),
-        new FrameworkPropertyMetadata(4.0));
+        new FrameworkPropertyMetadata(4.0, HandleWidthChanged));
+
+    private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is CapsuleHand capsuleHand)
+            capsuleHand.InvalidateLayout();
+    }
 
     [Category("Appearance")]
     [DefaultValue(4.0)]
@@ -34,7 +40,13 @@ public class CapsuleHand : HandBase
         nameof(TailLength),
         typeof(double),
         typeof(CapsuleHand),
-        new FrameworkPropertyMetadata(2.0));
+        new FrameworkPropertyMetadata(2.0, HandleTailLengthChange));
+
+    private static void HandleTailLengthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is CapsuleHand capsuleHand)
+            capsuleHand.InvalidateLayout();
+    }
 
     [Category("Appearance")]
     [DefaultValue(2.0)]
@@ -47,31 +59,21 @@ public class CapsuleHand : HandBase
 
     #endregion
 
+    private PathGeometry capsuleGeometry;
+
     protected override bool OnRendering(ClockDrawingContext context)
     {
-        if (Length <= 0 || Width <= 0)
+        if (Width <= 0)
             return false;
 
         return base.OnRendering(context);
     }
 
-    public override void DoRender(ClockDrawingContext context)
+    protected override void CalculateLayout(ClockDrawingContext context)
     {
-        context.DrawingContext.CreateDrawingPlan()
-            .WithTransform(() =>
-            {
-                double angleDegrees = CalculateHandAngle(context.Time);
-                return new RotateTransform(angleDegrees, 0, 0);
-            })
-            .Draw(dc =>
-            {
-                if (FillBrush == null && StrokePen == null)
-                    return;
+        base.CalculateLayout(context);
 
-                PathGeometry capsuleGeometry = CreateCapsuleGeometry(context);
-
-                context.DrawingContext.DrawGeometry(FillBrush, StrokePen, capsuleGeometry);
-            });
+        capsuleGeometry = CreateCapsuleGeometry(context);
     }
 
     private PathGeometry CreateCapsuleGeometry(ClockDrawingContext context)
@@ -118,5 +120,19 @@ public class CapsuleHand : HandBase
         capsuleGeometry.Figures.Add(capsuleFigure);
 
         return capsuleGeometry;
+    }
+
+    public override void DoRender(ClockDrawingContext context)
+    {
+        DrawingPlan.Create(context.DrawingContext)
+            .WithTransform(() =>
+            {
+                double angleDegrees = CalculateHandAngle(context.Time);
+                return new RotateTransform(angleDegrees, 0, 0);
+            })
+            .Draw(dc =>
+            {
+                context.DrawingContext.DrawGeometry(FillBrush, StrokePen, capsuleGeometry);
+            });
     }
 }

@@ -150,7 +150,7 @@ public abstract class RimBase : Shape
 
     public override void DoRender(ClockDrawingContext context)
     {
-        double radius = context.ClockDiameter / 2;
+        double radius = context.ClockRadius;
         double actualDistanceFromEdge = radius * DistanceFromEdge / 100.0;
         double itemRadius = radius - actualDistanceFromEdge;
 
@@ -169,7 +169,7 @@ public abstract class RimBase : Shape
 
             if (!shouldSkip)
             {
-                context.DrawingContext.CreateDrawingPlan()
+                DrawingPlan.Create(context.DrawingContext)
                     .WithTransform(() => new RotateTransform(angleDegrees, 0, 0))
                     .WithTransform(() => new TranslateTransform(0, -itemRadius))
                     .WithTransform(() => CreateOrientationTransform(index))

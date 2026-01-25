@@ -46,7 +46,7 @@ public class SunTemplate : ClockTemplate
         yield return new DotHand
         {
             Name = "Hour Hand",
-            ComponentToDisplay = TimeComponent.Hour,
+            TimeComponent = TimeComponent.Hour,
             Length = 63,
             FillBrush = null,
             StrokeBrush = Brushes.Black,
@@ -58,7 +58,7 @@ public class SunTemplate : ClockTemplate
         yield return new DotHand
         {
             Name = "Minute Hand",
-            ComponentToDisplay = TimeComponent.Minute,
+            TimeComponent = TimeComponent.Minute,
             Length = 93,
             FillBrush = null,
             StrokeBrush = Brushes.Black,
@@ -70,7 +70,7 @@ public class SunTemplate : ClockTemplate
         yield return new DotHand
         {
             Name = "Second Hand",
-            ComponentToDisplay = TimeComponent.Second,
+            TimeComponent = TimeComponent.Second,
             Length = 93,
             FillBrush = null,
             StrokeBrush = Brushes.Black,

@@ -64,7 +64,7 @@ public class SimpleHand : HandBase
 
     public override void DoRender(ClockDrawingContext context)
     {
-        context.DrawingContext.CreateDrawingPlan()
+        DrawingPlan.Create(context.DrawingContext)
             .WithTransform(() =>
             {
                 double angleDegrees = CalculateHandAngle(context.Time);

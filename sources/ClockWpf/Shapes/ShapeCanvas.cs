@@ -112,7 +112,7 @@ public class ShapeCanvas : Canvas
 
             double diameter = Math.Min(ActualWidth, ActualHeight);
 
-            drawingContext.CreateDrawingPlan()
+            DrawingPlan.Create(drawingContext)
                 .WithTransform(() =>
                 {
                     double offsetX = ActualWidth / 2;

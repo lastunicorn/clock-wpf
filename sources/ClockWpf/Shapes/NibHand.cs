@@ -52,7 +52,7 @@ public class NibHand : HandBase
         if (FillBrush == null && StrokePen == null)
             return;
 
-        context.DrawingContext.CreateDrawingPlan()
+        DrawingPlan.Create(context.DrawingContext)
             .WithTransform(() =>
             {
                 double angleDegrees = CalculateHandAngle(context.Time);

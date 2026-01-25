@@ -7,7 +7,7 @@ internal class DrawingPlan
     private readonly DrawingContext drawingContext;
     private readonly List<Transform> transforms = [];
 
-    public DrawingPlan(DrawingContext drawingContext)
+    private DrawingPlan(DrawingContext drawingContext)
     {
         this.drawingContext = drawingContext ?? throw new ArgumentNullException(nameof(drawingContext));
     }

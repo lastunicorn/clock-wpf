@@ -37,7 +37,7 @@ public class DefaultTemplate : ClockTemplate
         yield return new CapsuleHand
         {
             Name = "Hour Hand",
-            ComponentToDisplay = TimeComponent.Hour,
+            TimeComponent = TimeComponent.Hour,
             Length = 48,
             Width = 8,
             TailLength = 4,
@@ -48,7 +48,7 @@ public class DefaultTemplate : ClockTemplate
         yield return new CapsuleHand
         {
             Name = "Minute Hand",
-            ComponentToDisplay = TimeComponent.Minute,
+            TimeComponent = TimeComponent.Minute,
             Length = 85,
             Width = 8,
             TailLength = 4,
@@ -59,7 +59,7 @@ public class DefaultTemplate : ClockTemplate
         yield return new SimpleHand
         {
             Name = "Second Hand",
-            ComponentToDisplay = TimeComponent.Second,
+            TimeComponent = TimeComponent.Second,
             Length = 96,
             TailLength = 14,
             StrokeBrush = Brushes.Red,

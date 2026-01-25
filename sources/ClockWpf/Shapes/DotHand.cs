@@ -28,9 +28,31 @@ public class DotHand : HandBase
 
     #endregion
 
+    private double actualRadius;
+    private Point center;
+
+    protected override bool OnRendering(ClockDrawingContext context)
+    {
+        if (Radius <= 0)
+            return false;
+
+        return base.OnRendering(context);
+    }
+
+    protected override void CalculateLayout(ClockDrawingContext context)
+    {
+        base.CalculateLayout(context);
+
+        double clockRadius = context.ClockRadius;
+        double actualLength = clockRadius * (Length / 100.0);
+        actualRadius = clockRadius * (Radius / 100.0);
+
+        center = new Point(0, -actualLength);
+    }
+
     public override void DoRender(ClockDrawingContext context)
     {
-        context.DrawingContext.CreateDrawingPlan()
+        DrawingPlan.Create(context.DrawingContext)
             .WithTransform(() =>
             {
                 double angleDegrees = CalculateHandAngle(context.Time);
@@ -38,19 +60,7 @@ public class DotHand : HandBase
             })
             .Draw(dc =>
             {
-                if (FillBrush == null && StrokePen == null)
-                    return;
-
-                if (Radius <= 0 || Length <= 0)
-                    return;
-
-                double clockRadius = context.ClockDiameter / 2;
-                double handLength = clockRadius * (Length / 100.0);
-                double dotRadius = clockRadius * (Radius / 100.0);
-
-                Point center = new(0, -handLength);
-
-                dc.DrawEllipse(FillBrush, StrokePen, center, dotRadius, dotRadius);
+                dc.DrawEllipse(FillBrush, StrokePen, center, actualRadius, actualRadius);
             });
     }
 }

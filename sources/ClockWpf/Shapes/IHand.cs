@@ -4,5 +4,5 @@ public interface IHand
 {
     double Length { get; set; }
 
-    TimeComponent ComponentToDisplay { get; set; }
+    TimeComponent TimeComponent { get; set; }
 }

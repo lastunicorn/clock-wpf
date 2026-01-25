@@ -15,7 +15,13 @@ public class DiamondHand : HandBase
         nameof(Width),
         typeof(double),
         typeof(DiamondHand),
-        new FrameworkPropertyMetadata(5.0));
+        new FrameworkPropertyMetadata(5.0, HandleWidthChanged));
+
+    private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DiamondHand diamondHand)
+            diamondHand.InvalidateLayout();
+    }
 
     [Category("Appearance")]
     [DefaultValue(5.0)]
@@ -34,7 +40,13 @@ public class DiamondHand : HandBase
         nameof(TailLength),
         typeof(double),
         typeof(DiamondHand),
-        new FrameworkPropertyMetadata(6.0));
+        new FrameworkPropertyMetadata(6.0, HandleTailLengthChanged));
+
+    private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DiamondHand diamondHand)
+            diamondHand.InvalidateLayout();
+    }
 
     [Category("Appearance")]
     [DefaultValue(6.0)]
@@ -47,28 +59,26 @@ public class DiamondHand : HandBase
 
     #endregion
 
-    public override void DoRender(ClockDrawingContext context)
+    private PathGeometry diamondGeometry;
+
+    protected override bool OnRendering(ClockDrawingContext context)
     {
-        context.DrawingContext.CreateDrawingPlan()
-            .WithTransform(() =>
-            {
-                double angleDegrees = CalculateHandAngle(context.Time);
-                return new RotateTransform(angleDegrees, 0, 0);
-            })
-            .Draw(dc =>
-            {
-                if (FillBrush == null && StrokePen == null)
-                    return;
+        if (Width <= 0)
+            return false;
 
-                PathGeometry diamondGeometry = CreateDiamondGeometry(context.ClockDiameter);
-
-                context.DrawingContext.DrawGeometry(FillBrush, StrokePen, diamondGeometry);
-            });
+        return base.OnRendering(context);
     }
 
-    private PathGeometry CreateDiamondGeometry(double diameter)
+    protected override void CalculateLayout(ClockDrawingContext context)
     {
-        double radius = diameter / 2;
+        base.CalculateLayout(context);
+
+        diamondGeometry = CreateDiamondGeometry(context);
+    }
+
+    private PathGeometry CreateDiamondGeometry(ClockDrawingContext context)
+    {
+        double radius = context.ClockRadius;
         double handLength = radius * (Length / 100.0);
         double tailLength = radius * (TailLength / 100.0);
         double halfWidth = radius * (Width / 100.0) / 2.0;
@@ -87,5 +97,19 @@ public class DiamondHand : HandBase
         diamondGeometry.Figures.Add(diamondFigure);
 
         return diamondGeometry;
+    }
+
+    public override void DoRender(ClockDrawingContext context)
+    {
+        DrawingPlan.Create(context.DrawingContext)
+            .WithTransform(() =>
+            {
+                double angleDegrees = CalculateHandAngle(context.Time);
+                return new RotateTransform(angleDegrees, 0, 0);
+            })
+            .Draw(dc =>
+            {
+                context.DrawingContext.DrawGeometry(FillBrush, StrokePen, diamondGeometry);
+            });
     }
 }
