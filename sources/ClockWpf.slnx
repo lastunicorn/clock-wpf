@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path="Directory.Build.props" />
+  </Folder>
   <Project Path="ClockWpf.TemplateEditor/ClockWpf.TemplateEditor.csproj" />
   <Project Path="ClockWpf/ClockWpf.csproj" />
 </Solution>
