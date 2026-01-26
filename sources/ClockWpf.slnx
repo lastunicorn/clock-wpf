@@ -1,5 +1,4 @@
 <Solution>
-  <Project Path="ClockWpf.ClearClock/ClockWpf.ClearClock.csproj" />
   <Project Path="ClockWpf.TemplateEditor/ClockWpf.TemplateEditor.csproj" />
   <Project Path="ClockWpf/ClockWpf.csproj" />
 </Solution>
