@@ -2,4 +2,6 @@
 
 A WPF control that displays an analog clock.
 
-Supports templates.
+Supports multiple templates.
+
+![Clock](doc/main/clock.png)
