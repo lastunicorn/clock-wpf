@@ -52,7 +52,7 @@ public class FancyTemplate : ClockTemplate
             OffsetAngle = 30
         };
 
-        yield return new Hours
+        yield return new HourNumerals
         {
             Name = "Hour Numerals",
             DistanceFromEdge = 28,

@@ -5,37 +5,97 @@ namespace DustInTheWind.ClockWpf.Templates;
 
 public class DefaultTemplate : ClockTemplate
 {
+    private FlatBackground background;
+    private Ticks minuteTicks;
+    private Ticks hourTicks;
+    private HourNumerals hourNumerals;
+    private CapsuleHand hourHand;
+    private CapsuleHand minuteHand;
+    private SimpleHand secondHand;
+
+    private TemplateStyle style = TemplateStyle.White;
+
+    public TemplateStyle Style
+    {
+        get => style;
+        set
+        {
+            if (style != value)
+            {
+                style = value;
+                UpdateColors();
+            }
+        }
+    }
+
+    private void UpdateColors()
+    {
+        switch (Style)
+        {
+            case TemplateStyle.White:
+                background.FillBrush = Brushes.WhiteSmoke;
+                minuteTicks.StrokeBrush = new SolidColorBrush(Color.FromRgb(0xa0, 0xa0, 0xa0));
+                hourTicks.StrokeBrush = Brushes.Black;
+                hourNumerals.FillBrush = Brushes.Black;
+                hourHand.FillBrush = Brushes.Black;
+                minuteHand.FillBrush = Brushes.Black;
+                secondHand.StrokeBrush = Brushes.Red;
+                break;
+
+            case TemplateStyle.Black:
+                background.FillBrush = Brushes.Black;
+                minuteTicks.StrokeBrush = new SolidColorBrush(Color.FromRgb(0x60, 0x60, 0x60));
+                hourTicks.StrokeBrush = Brushes.WhiteSmoke;
+                hourNumerals.FillBrush = Brushes.WhiteSmoke;
+                hourHand.FillBrush = Brushes.WhiteSmoke;
+                minuteHand.FillBrush = Brushes.WhiteSmoke;
+                secondHand.StrokeBrush = Brushes.OrangeRed;
+                break;
+        }
+
+        if (minuteTicks.StrokeBrush.CanFreeze == true)
+            minuteTicks.StrokeBrush.Freeze();
+    }
+
     protected override IEnumerable<Shape> CreateShapes()
     {
-        yield return new FlatBackground
+        background = new()
         {
             Name = "Background",
             FillBrush = Brushes.WhiteSmoke
         };
+        yield return background;
 
-        yield return new Ticks
+        minuteTicks = new()
         {
             Name = "Minute Ticks",
             SkipIndex = 5,
             StrokeBrush = new SolidColorBrush(Color.FromRgb(0xa0, 0xa0, 0xa0))
         };
 
-        yield return new Ticks
+        if (minuteTicks.StrokeBrush.CanFreeze)
+            minuteTicks.StrokeBrush.Freeze();
+
+        yield return minuteTicks;
+
+        hourTicks = new()
         {
             Name = "Hour Ticks",
             Angle = 30,
             OffsetAngle = 30,
             StrokeThickness = 1.5
         };
+        yield return hourTicks;
 
-        yield return new Hours
+        hourNumerals = new()
         {
             Name = "Hour Numerals",
             FillBrush = Brushes.Black,
             DistanceFromEdge = 26
         };
+        yield return hourNumerals;
 
-        yield return new CapsuleHand
+        hourHand = new()
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -45,8 +105,9 @@ public class DefaultTemplate : ClockTemplate
             StrokeThickness = 0,
             FillBrush = Brushes.Black
         };
+        yield return hourHand;
 
-        yield return new CapsuleHand
+        minuteHand = new()
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
@@ -56,8 +117,9 @@ public class DefaultTemplate : ClockTemplate
             StrokeThickness = 0,
             FillBrush = Brushes.Black
         };
+        yield return minuteHand;
 
-        yield return new SimpleHand
+        secondHand = new()
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
@@ -68,5 +130,12 @@ public class DefaultTemplate : ClockTemplate
             IntegralValue = true,
             PinDiameter = 8
         };
+        yield return secondHand;
+    }
+
+    public enum TemplateStyle
+    {
+        White,
+        Black
     }
 }

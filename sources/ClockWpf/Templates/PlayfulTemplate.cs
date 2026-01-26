@@ -34,7 +34,7 @@ public class PlayfulTemplate : ClockTemplate
             StrokeBrush = new SolidColorBrush(Color.FromRgb(0x40, 0x40, 0x40))
         };
 
-        yield return new Hours
+        yield return new HourNumerals
         {
             Name = "Hour Numerals",
             FontFamily = new FontFamily("Arial Rounded MT"),

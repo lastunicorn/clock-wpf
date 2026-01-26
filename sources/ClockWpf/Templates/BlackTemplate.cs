@@ -42,7 +42,7 @@ public class BlackTemplate : ClockTemplate
             StrokeThickness = 1
         };
 
-        yield return new Hours
+        yield return new HourNumerals
         {
             Name = "Hour Numerals",
             DistanceFromEdge = 32,
