@@ -1,9 +1,9 @@
 namespace DustInTheWind.ClockWpf.TimeProviders;
 
 /// <summary>
-/// Contains the event data for the <see cref="ITimeProvider.TimeChanged"/> event.
+/// Contains the event data for the <see cref="ITimeProvider.Tick"/> event.
 /// </summary>
-public class TimeChangedEventArgs : EventArgs
+public class TickEventArgs : EventArgs
 {
     /// <summary>
     /// Gets the time value.
@@ -11,10 +11,10 @@ public class TimeChangedEventArgs : EventArgs
     public TimeSpan Time { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TimeChangedEventArgs"/> class.
+    /// Initializes a new instance of the <see cref="TickEventArgs"/> class.
     /// </summary>
     /// <param name="time">The time value.</param>
-    public TimeChangedEventArgs(TimeSpan time)
+    public TickEventArgs(TimeSpan time)
     {
         Time = time;
     }

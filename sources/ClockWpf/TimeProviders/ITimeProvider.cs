@@ -8,12 +8,12 @@ public interface ITimeProvider : IDisposable
     /// <summary>
     /// Event raised when the time provider produces a new time value.
     /// </summary>
-    event EventHandler<TimeChangedEventArgs> TimeChanged;
+    event EventHandler<TickEventArgs> Tick;
 
     /// <summary>
     /// Gets or sets the interval in milliseconds at which the time provider generates time values.
     /// </summary>
-    int Interval { get; set; }
+    int TickInterval { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the time provider is currently running.

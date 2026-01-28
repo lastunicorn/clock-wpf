@@ -22,6 +22,8 @@ public class TimeProvidersViewModel : ViewModelBase
 
             if (!IsInitializing)
             {
+                applicationState.CurrentTimeProvider?.Stop();
+
                 applicationState.CurrentTimeProvider = field == null
                     ? null
                     : (ITimeProvider)Activator.CreateInstance(field.Type);

@@ -124,16 +124,16 @@ public class AnalogClock : Control
             return;
 
         if (e.OldValue is ITimeProvider oldTimeProvider)
-            oldTimeProvider.TimeChanged -= analogClock.HandleTimeChanged;
+            oldTimeProvider.Tick -= analogClock.HandleTimeChanged;
 
         if (e.NewValue is ITimeProvider newTimeProvider)
         {
-            newTimeProvider.TimeChanged += analogClock.HandleTimeChanged;
+            newTimeProvider.Tick += analogClock.HandleTimeChanged;
             analogClock.UpdateDisplayedTime(newTimeProvider.LastValue);
         }
     }
 
-    private void HandleTimeChanged(object sender, TimeChangedEventArgs e)
+    private void HandleTimeChanged(object sender, TickEventArgs e)
     {
         UpdateDisplayedTime(e.Time);
     }

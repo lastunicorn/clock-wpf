@@ -11,7 +11,7 @@ public abstract class TimeProviderBase : ITimeProvider
 
     #region Interval Property
 
-    private int interval = 100;
+    private int tickInterval = 100;
 
     /// <summary>
     /// Gets or sets the interval in milliseconds at which the time provider generates time values.
@@ -25,15 +25,23 @@ public abstract class TimeProviderBase : ITimeProvider
     [Category("Behavior")]
     [DefaultValue(100)]
     [Description("The interval in milliseconds at which the time provider generates time values.")]
-    public int Interval
+    public int TickInterval
     {
-        get => interval;
+        get => tickInterval;
         set
         {
-            interval = value;
+            if (tickInterval == value)
+                return;
+
+            tickInterval = value;
 
             if (IsRunning)
-                timer.Change(interval, interval);
+            {
+                if (tickInterval > 0)
+                    timer.Change(0, tickInterval);
+                else
+                    timer.Change(Timeout.Infinite, Timeout.Infinite);
+            }
         }
     }
 
@@ -54,7 +62,7 @@ public abstract class TimeProviderBase : ITimeProvider
     /// <summary>
     /// Event raised when the time provider produces a new time value.
     /// </summary>
-    public event EventHandler<TimeChangedEventArgs> TimeChanged;
+    public event EventHandler<TickEventArgs> Tick;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TimeProviderBase"/> class.
@@ -67,7 +75,7 @@ public abstract class TimeProviderBase : ITimeProvider
     private void HandleTimerCallback(object state)
     {
         LastValue = GetTime();
-        OnTimeChanged(new TimeChangedEventArgs(LastValue));
+        OnTick(new TickEventArgs(LastValue));
     }
 
     /// <summary>
@@ -81,10 +89,16 @@ public abstract class TimeProviderBase : ITimeProvider
     /// </summary>
     public void Start()
     {
-        LastValue = GetTime();
-        OnTimeChanged(new TimeChangedEventArgs(LastValue));
+        if (tickInterval > 0)
+        {
+            timer.Change(0, tickInterval);
+        }
+        else
+        {
+            timer.Change(Timeout.Infinite, Timeout.Infinite);
+            ForceTick();
+        }
 
-        timer.Change(interval, interval);
         IsRunning = true;
     }
 
@@ -97,13 +111,19 @@ public abstract class TimeProviderBase : ITimeProvider
         IsRunning = false;
     }
 
-    /// <summary>
-    /// Raises the <see cref="TimeChanged"/> event.
-    /// </summary>
-    /// <param name="e">A <see cref="TimeChangedEventArgs"/> object that contains the event data.</param>
-    protected virtual void OnTimeChanged(TimeChangedEventArgs e)
+    protected void ForceTick()
     {
-        TimeChanged?.Invoke(this, e);
+        LastValue = GetTime();
+        OnTick(new TickEventArgs(LastValue));
+    }
+
+    /// <summary>
+    /// Raises the <see cref="Tick"/> event.
+    /// </summary>
+    /// <param name="e">A <see cref="TickEventArgs"/> object that contains the event data.</param>
+    protected virtual void OnTick(TickEventArgs e)
+    {
+        Tick?.Invoke(this, e);
     }
 
     #region IDisposable Members

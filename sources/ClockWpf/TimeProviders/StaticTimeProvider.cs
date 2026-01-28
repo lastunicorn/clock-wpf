@@ -15,13 +15,17 @@ public class StaticTimeProvider : TimeProviderBase
         get => time;
         set
         {
-            Stop();
             time = value;
-            Start();
+            ForceTick();
         }
     }
 
     #endregion
+
+    public StaticTimeProvider()
+    {
+        TickInterval = 0;
+    }
 
     protected override TimeSpan GetTime()
     {
