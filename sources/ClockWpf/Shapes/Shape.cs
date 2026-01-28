@@ -213,6 +213,13 @@ public abstract class Shape : DependencyObject
         OnRendered(context);
     }
 
+    /// <summary>
+    /// This method is called before the rendering process is performed, allowing the inheritors
+    /// to decide if the rendering process may or may not be performed.
+    /// If the rendering process is prevented by this method nether the <see cref="CalculateLayout(ClockDrawingContext)"/> is called.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
     protected virtual bool OnRendering(ClockDrawingContext context)
     {
         if (FillBrush == null && StrokePen == null)
@@ -221,10 +228,21 @@ public abstract class Shape : DependencyObject
         return true;
     }
 
+    /// <summary>
+    /// This method is called once when the rendering is performed the first time to allow
+    /// inheritors to perform calculations needed only once, store the results and reuse
+    /// them for the subsequent renders.
+    /// When the calculation need do be performed again, call <see cref="InvalidateLayout"/>
+    /// and this method is automatically called again during the next rendering.
+    /// </summary>
     protected virtual void CalculateLayout(ClockDrawingContext context)
     {
     }
 
+    /// <summary>
+    /// When overwritten by an inheritor, performs the actual rendering.
+    /// </summary>
+    /// <param name="context"></param>
     public abstract void DoRender(ClockDrawingContext context);
 
     protected virtual void OnRendered(ClockDrawingContext context)

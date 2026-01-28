@@ -28,8 +28,8 @@ public class DotHand : HandBase
 
     #endregion
 
-    private double actualRadius;
-    private Point center;
+    private double calculatedDotRadius;
+    private Point calculatedDotCenter;
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
@@ -39,15 +39,20 @@ public class DotHand : HandBase
         return base.OnRendering(context);
     }
 
+    /// <remarks>
+    /// The <see cref="Length"/> value, for the <see cref="DotHand"/>, is the distance from the
+    /// center of the clock to the center of the hand's center.
+    /// </remarks>
     protected override void CalculateLayout(ClockDrawingContext context)
     {
         base.CalculateLayout(context);
 
         double clockRadius = context.ClockRadius;
+        
         double actualLength = clockRadius * (Length / 100.0);
-        actualRadius = clockRadius * (Radius / 100.0);
-
-        center = new Point(0, -actualLength);
+        calculatedDotCenter = new Point(0, -actualLength);
+        
+        calculatedDotRadius = clockRadius * (Radius / 100.0);
     }
 
     public override void DoRender(ClockDrawingContext context)
@@ -60,7 +65,7 @@ public class DotHand : HandBase
             })
             .Draw(dc =>
             {
-                dc.DrawEllipse(FillBrush, StrokePen, center, actualRadius, actualRadius);
+                dc.DrawEllipse(FillBrush, StrokePen, calculatedDotCenter, calculatedDotRadius, calculatedDotRadius);
             });
     }
 }
