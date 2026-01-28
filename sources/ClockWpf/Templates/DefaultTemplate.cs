@@ -138,4 +138,46 @@ public class DefaultTemplate : ClockTemplate
         White,
         Black
     }
+
+    //public IEnumerable<TemplateStyleClass> CreateStyles()
+    //{
+    //    yield return new WhiteStyle("White", this);
+    //}
+
+    //private class WhiteStyle : TemplateStyleClass
+    //{
+    //    private readonly DefaultTemplate template;
+
+    //    public WhiteStyle(DefaultTemplate template)
+    //    {
+    //        this.template = template ?? throw new ArgumentNullException(nameof(template));
+    //    }
+
+    //    public override void Apply()
+    //    {
+    //        template.background.FillBrush = Brushes.WhiteSmoke;
+    //        template.minuteTicks.StrokeBrush = new SolidColorBrush(Color.FromRgb(0xa0, 0xa0, 0xa0));
+    //        template.hourTicks.StrokeBrush = Brushes.Black;
+    //        template.hourNumerals.FillBrush = Brushes.Black;
+    //        template.hourHand.FillBrush = Brushes.Black;
+    //        template.minuteHand.FillBrush = Brushes.Black;
+    //        template.secondHand.StrokeBrush = Brushes.Red;
+    //    }
+    //}
+}
+
+[TemplateStyle("White")]
+public abstract class TemplateStyleClass
+{
+    public abstract void Apply();
+}
+
+internal class TemplateStyleAttribute : Attribute
+{
+    public string Name { get; }
+
+    public TemplateStyleAttribute(string name)
+    {
+        Name = name ?? throw new ArgumentNullException(nameof(name));
+    }
 }

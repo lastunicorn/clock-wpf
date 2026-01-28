@@ -4,8 +4,9 @@ namespace DustInTheWind.ClockWpf.TimeProviders;
 
 /// <summary>
 /// Provides time values from a time coordinate that is n times faster than the real one.
+/// The n value may be negative, in which case the closk runs backwards.
 /// </summary>
-public class BrokenTimeProvider : TimeProviderBase
+public class SpeedyTimeProvider : TimeProviderBase
 {
     private DateTime initialRealTime = DateTime.UtcNow;
 
