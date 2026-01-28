@@ -131,19 +131,21 @@ public class FancyBackground : Shape
         Point center = new(0, 0);
         double clockRadius = context.ClockRadius;
 
+        double calculatedOuterRimRadius = clockRadius;
+
         double calculatedOuterRimWidth = clockRadius * (OuterRimWidth / 100);
-        double innerRimRadius = clockRadius - calculatedOuterRimWidth;
+        double calculatedInnerRimRadius = clockRadius - calculatedOuterRimWidth;
 
         double calculatedInnerRimWidth = clockRadius * (InnerRimWidth / 100);
-        double faceRadius = innerRimRadius - calculatedInnerRimWidth;
+        double calculatedFaceRadius = calculatedInnerRimRadius - calculatedInnerRimWidth;
 
         if (OuterRimBrush != null)
-            context.DrawingContext.DrawEllipse(OuterRimBrush, null, center, clockRadius, clockRadius);
+            context.DrawingContext.DrawEllipse(OuterRimBrush, null, center, calculatedOuterRimRadius, calculatedOuterRimRadius);
 
         if (InnerRimBrush != null)
-            context.DrawingContext.DrawEllipse(InnerRimBrush, null, center, innerRimRadius, innerRimRadius);
+            context.DrawingContext.DrawEllipse(InnerRimBrush, null, center, calculatedInnerRimRadius, calculatedInnerRimRadius);
 
         if (FillBrush != null)
-            context.DrawingContext.DrawEllipse(FillBrush, StrokePen, center, faceRadius, faceRadius);
+            context.DrawingContext.DrawEllipse(FillBrush, StrokePen, center, calculatedFaceRadius, calculatedFaceRadius);
     }
 }

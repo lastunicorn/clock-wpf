@@ -68,7 +68,7 @@ public class PlayfulTemplate : ClockTemplate
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
             Length = 84,
-            TailLength = -19,
+            TailLength = -18,
             StrokeBrush = Brushes.Red,
             StrokeThickness = 1,
             PinDiameter = 24

@@ -3,14 +3,14 @@ using DustInTheWind.ClockWpf.Shapes;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
-public class DefaultTemplate : ClockTemplate
+public class DefaultBlackTemplate : ClockTemplate
 {
     protected override IEnumerable<Shape> CreateShapes()
     {
         FlatBackground background = new()
         {
             Name = "Background",
-            FillBrush = Brushes.WhiteSmoke
+            FillBrush = Brushes.Black
         };
         yield return background;
 
@@ -18,7 +18,7 @@ public class DefaultTemplate : ClockTemplate
         {
             Name = "Minute Ticks",
             SkipIndex = 5,
-            StrokeBrush = new SolidColorBrush(Color.FromRgb(0xa0, 0xa0, 0xa0))
+            StrokeBrush = new SolidColorBrush(Color.FromRgb(0x60, 0x60, 0x60))
         };
 
         if (minuteTicks.StrokeBrush.CanFreeze)
@@ -31,14 +31,15 @@ public class DefaultTemplate : ClockTemplate
             Name = "Hour Ticks",
             Angle = 30,
             OffsetAngle = 30,
-            StrokeThickness = 1.5
+            StrokeThickness = 1.5,
+            StrokeBrush = Brushes.WhiteSmoke
         };
         yield return hourTicks;
 
         HourNumerals hourNumerals = new()
         {
             Name = "Hour Numerals",
-            FillBrush = Brushes.Black,
+            FillBrush = Brushes.WhiteSmoke,
             DistanceFromEdge = 26
         };
         yield return hourNumerals;
@@ -51,7 +52,7 @@ public class DefaultTemplate : ClockTemplate
             Width = 8,
             TailLength = 4,
             StrokeThickness = 0,
-            FillBrush = Brushes.Black
+            FillBrush = Brushes.WhiteSmoke
         };
         yield return hourHand;
 
@@ -63,7 +64,7 @@ public class DefaultTemplate : ClockTemplate
             Width = 8,
             TailLength = 4,
             StrokeThickness = 0,
-            FillBrush = Brushes.Black
+            FillBrush = Brushes.WhiteSmoke
         };
         yield return minuteHand;
 
@@ -73,7 +74,7 @@ public class DefaultTemplate : ClockTemplate
             TimeComponent = TimeComponent.Second,
             Length = 96.5,
             TailLength = 14,
-            StrokeBrush = Brushes.Red,
+            StrokeBrush = Brushes.OrangeRed,
             StrokeThickness = 1,
             IntegralValue = true,
             PinDiameter = 8

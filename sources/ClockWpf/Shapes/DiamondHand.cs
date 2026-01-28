@@ -79,16 +79,17 @@ public class DiamondHand : HandBase
     private StreamGeometry CreateDiamondGeometry(ClockDrawingContext context)
     {
         double radius = context.ClockRadius;
-        double handLength = radius * (Length / 100.0);
-        double tailLength = radius * (TailLength / 100.0);
-        double halfWidth = radius * (Width / 100.0) / 2.0;
+        double calculatedLength = radius * (Length / 100.0);
+        double calculatedTailLength = radius * (TailLength / 100.0);
+        double calculatedWidth = radius * (Width / 100.0);
+        double halfWidth = calculatedWidth / 2.0;
 
         StreamGeometry geometry = new();
         using (StreamGeometryContext ctx = geometry.Open())
         {
-            ctx.BeginFigure(new Point(0, tailLength), true, true);
+            ctx.BeginFigure(new Point(0, calculatedTailLength), true, true);
             ctx.LineTo(new Point(-halfWidth, 0), true, false);
-            ctx.LineTo(new Point(0, -handLength), true, false);
+            ctx.LineTo(new Point(0, -calculatedLength), true, false);
             ctx.LineTo(new Point(halfWidth, 0), true, false);
         }
 

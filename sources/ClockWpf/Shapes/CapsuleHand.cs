@@ -79,12 +79,13 @@ public class CapsuleHand : HandBase
     private PathGeometry CreateHandGeometry(ClockDrawingContext context)
     {
         double radius = context.ClockRadius;
-        double handLength = radius * (Length / 100.0);
-        double tailLength = radius * (TailLength / 100.0);
-        double halfWidth = radius * (Width / 100.0) / 2.0;
+        double calculatedLength = radius * (Length / 100.0);
+        double calculatedTailLength = radius * (TailLength / 100.0);
+        double calculatedWidth = radius * (Width / 100.0);
+        double halfWidth = calculatedWidth / 2.0;
 
-        double topY = -handLength + halfWidth;
-        double bottomY = tailLength - halfWidth;
+        double topY = -calculatedLength + halfWidth;
+        double bottomY = calculatedTailLength - halfWidth;
 
         PathFigure capsuleFigure = new()
         {

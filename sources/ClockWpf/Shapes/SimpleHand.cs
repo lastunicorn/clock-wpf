@@ -6,7 +6,7 @@ namespace DustInTheWind.ClockWpf.Shapes;
 
 /// <summary>
 /// A simple line clock hand. It is ususally used for displaying seconds.
-/// It has a customizable tail length and pin diameter.
+/// It has a customizable tail length, pin diameter and rounded edges.
 /// </summary>
 public class SimpleHand : HandBase
 {
@@ -16,7 +16,13 @@ public class SimpleHand : HandBase
         nameof(TailLength),
         typeof(double),
         typeof(SimpleHand),
-        new FrameworkPropertyMetadata(0.0));
+        new FrameworkPropertyMetadata(0.0, HandleTailLengthChanged));
+
+    private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is SimpleHand simpleHand)
+            simpleHand.InvalidateLayout();
+    }
 
     [Category("Appearance")]
     [DefaultValue(0.0)]
@@ -48,6 +54,11 @@ public class SimpleHand : HandBase
 
     #endregion
 
+    private Point startHandPoint;
+    private Point endHandPoint;
+    private bool hasPin;
+    private double calculatedPinRadius;
+
     protected override Pen CreateStrokePen(bool freeze = true)
     {
         Pen pen = base.CreateStrokePen(false);
@@ -64,6 +75,39 @@ public class SimpleHand : HandBase
         return pen;
     }
 
+    protected override bool OnRendering(ClockDrawingContext context)
+    {
+        if (StrokeThickness <= 0 || StrokeBrush == null)
+            return false;
+
+        return base.OnRendering(context);
+    }
+
+    protected override void CalculateLayout(ClockDrawingContext context)
+    {
+        base.CalculateLayout(context);
+
+        // Hand
+
+        double radius = context.ClockRadius;
+        double calculatedLength = radius * (Length / 100);
+        double calculatedTailLength = radius * (TailLength / 100);
+        double calculatedStrokeThickness = radius * (StrokeThickness / 100);
+        double calculatedTipLength = StrokeThickness / 2;
+
+        startHandPoint = new(0, calculatedTailLength - calculatedTipLength);
+        endHandPoint = new(0, -calculatedLength + calculatedTipLength);
+
+        // Pin
+
+        hasPin = PinDiameter > 0;
+        if (hasPin)
+        {
+            double calculatedPinDiameter = radius * (PinDiameter / 100.0);
+            calculatedPinRadius = calculatedPinDiameter / 2;
+        }
+    }
+
     public override void DoRender(ClockDrawingContext context)
     {
         DrawingPlan.Create(context.DrawingContext)
@@ -74,41 +118,13 @@ public class SimpleHand : HandBase
             })
             .Draw(dc =>
             {
-                double radius = context.ClockDiameter / 2;
+                dc.DrawLine(StrokePen, startHandPoint, endHandPoint);
 
-                DrawHandLine(dc, radius);
-                DrawPin(dc, radius);
+                if (hasPin)
+                {
+                    Point center = new(0, 0);
+                    dc.DrawEllipse(StrokeBrush, null, center, calculatedPinRadius, calculatedPinRadius);
+                }
             });
-    }
-
-    private void DrawHandLine(DrawingContext drawingContext, double radius)
-    {
-        if (StrokePen == null)
-            return;
-
-        if (Length <= 0 && TailLength <= 0)
-            return;
-
-        double handLength = radius * (Length / 100.0);
-        double tailLength = radius * (TailLength / 100.0);
-
-        Point startPoint = new(0, tailLength);
-        Point endPoint = new(0, -handLength);
-
-        drawingContext.DrawLine(StrokePen, startPoint, endPoint);
-    }
-
-    private void DrawPin(DrawingContext drawingContext, double radius)
-    {
-        if (StrokeBrush == null)
-            return;
-
-        if (PinDiameter <= 0)
-            return;
-
-        double pinRadius = radius * (PinDiameter / 100.0) / 2;
-
-        Point center = new(0, 0);
-        drawingContext.DrawEllipse(StrokeBrush, null, center, pinRadius, pinRadius);
     }
 }

@@ -15,7 +15,13 @@ public class DotHand : HandBase
         nameof(Radius),
         typeof(double),
         typeof(DotHand),
-        new FrameworkPropertyMetadata(5.0));
+        new FrameworkPropertyMetadata(5.0, HandleRadiusChanged));
+
+    private static void HandleRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DotHand dotHand)
+            dotHand.InvalidateLayout();
+    }
 
     [Category("Appearance")]
     [DefaultValue(5.0)]

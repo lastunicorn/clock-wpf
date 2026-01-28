@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
@@ -97,7 +96,7 @@ public class TextRim : RimBase
         return base.OnRendering(context);
     }
 
-    protected override void RenderItem(DrawingContext drawingContext, int index)
+    protected override void RenderItem(ClockDrawingContext context, int index)
     {
         string[] texts = Texts;
 
@@ -112,12 +111,15 @@ public class TextRim : RimBase
         if (string.IsNullOrEmpty(text))
             return;
 
+        double radius = context.ClockRadius;
+        double calculateFontSize = radius * (FontSize / 100);
+
         FormattedText formattedText = new(
             text,
             CultureInfo.CurrentCulture,
             FlowDirection.LeftToRight,
             typeface,
-            FontSize,
+            calculateFontSize,
             FillBrush,
             1.0);
 
@@ -125,6 +127,6 @@ public class TextRim : RimBase
         double textY = -formattedText.Height / 2;
 
         Point textPosition = new(textX, textY);
-        drawingContext.DrawText(formattedText, textPosition);
+        context.DrawingContext.DrawText(formattedText, textPosition);
     }
 }

@@ -74,27 +74,31 @@ public class Ticks : RimBase
 
     protected override Pen CreateStrokePen(bool freeze = true)
     {
-        Pen pen = base.CreateStrokePen(false);
-
         if (RoundEnds)
         {
+            Pen pen = base.CreateStrokePen(false);
+
             pen.StartLineCap = PenLineCap.Round;
             pen.EndLineCap = PenLineCap.Round;
+
+            if (freeze && pen.CanFreeze)
+                pen.Freeze();
+
+            return pen;
         }
-
-        if (freeze && pen.CanFreeze)
-            pen.Freeze();
-
-        return pen;
+        else
+        {
+            return base.CreateStrokePen();
+        }
     }
 
-    protected override void RenderItem(DrawingContext drawingContext, int index)
+    protected override void RenderItem(ClockDrawingContext context, int index)
     {
         double actualLength = radius * Length / 100.0;
 
         Point startPoint = new(0, -actualLength / 2);
         Point endPoint = new(0, actualLength / 2);
 
-        drawingContext.DrawLine(StrokePen, startPoint, endPoint);
+        context.DrawingContext.DrawLine(StrokePen, startPoint, endPoint);
     }
 }

@@ -173,7 +173,7 @@ public abstract class RimBase : Shape
                     .WithTransform(() => new RotateTransform(angleDegrees, 0, 0))
                     .WithTransform(() => new TranslateTransform(0, -itemRadius))
                     .WithTransform(() => CreateOrientationTransform(index))
-                    .Draw(cd => RenderItem(cd, index));
+                    .Draw(cd => RenderItem(context, index));
             }
 
             index++;
@@ -212,7 +212,7 @@ public abstract class RimBase : Shape
     /// The position and orientation of the item is already set when this method is called.
     /// The item should be drawn centered at the point (0,0).
     /// </remarks>
-    /// <param name="drawingContext">The drawing context to use for rendering the item.</param>
+    /// <param name="context">The drawing context to use for rendering the item.</param>
     /// <param name="index">The zero-based index of the item to render.</param>
-    protected abstract void RenderItem(DrawingContext drawingContext, int index);
+    protected abstract void RenderItem(ClockDrawingContext context, int index);
 }
