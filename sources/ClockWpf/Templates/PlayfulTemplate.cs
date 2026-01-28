@@ -45,7 +45,7 @@ public class PlayfulTemplate : ClockTemplate
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
-            Length = 48,
+            Length = 55,
             Width = 10,
             TailLength = -18,
             StrokeThickness = 0,
@@ -56,7 +56,7 @@ public class PlayfulTemplate : ClockTemplate
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
-            Length = 80,
+            Length = 84,
             Width = 8,
             TailLength = -18,
             StrokeThickness = 0,
