@@ -21,7 +21,7 @@ public interface ITimeProvider : IDisposable
     bool IsRunning { get; }
 
     /// <summary>
-    /// Gets the most recently recorded value.
+    /// Gets the most recently provided value.
     /// </summary>
     TimeSpan LastValue { get; }
 

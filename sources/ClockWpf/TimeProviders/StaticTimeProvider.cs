@@ -27,7 +27,7 @@ public class StaticTimeProvider : TimeProviderBase
         TickInterval = 0;
     }
 
-    protected override TimeSpan GetTime()
+    protected override TimeSpan GenerateNewTime()
     {
         return time;
     }

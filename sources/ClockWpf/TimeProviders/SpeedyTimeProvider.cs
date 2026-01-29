@@ -25,10 +25,13 @@ public class SpeedyTimeProvider : TimeProviderBase
         get => initialTime;
         set
         {
-            Stop();
+            if (initialTime == value)
+                return;
+
             initialTime = value;
+
             initialRealTime = DateTime.UtcNow;
-            Start();
+            ForceTick();
         }
     }
 
@@ -55,11 +58,14 @@ public class SpeedyTimeProvider : TimeProviderBase
         get => timeMultiplier;
         set
         {
-            Stop();
-            initialTime = GetTime();
-            initialRealTime = DateTime.UtcNow;
+            if (timeMultiplier == value)
+                return;
+
             timeMultiplier = value;
-            Start();
+
+            initialTime = GenerateNewTime();
+            initialRealTime = DateTime.UtcNow;
+            ForceTick();
         }
     }
 
@@ -69,7 +75,7 @@ public class SpeedyTimeProvider : TimeProviderBase
     /// Returns a new time value calculated based on the time multiplier.
     /// </summary>
     /// <returns>A <see cref="TimeSpan"/> object containing the time value.</returns>
-    protected override TimeSpan GetTime()
+    protected override TimeSpan GenerateNewTime()
     {
         DateTime currentRealTime = DateTime.UtcNow;
         long realDeltaTicks = currentRealTime.Ticks - initialRealTime.Ticks;

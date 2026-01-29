@@ -9,7 +9,7 @@ public abstract class TimeProviderBase : ITimeProvider
 {
     private readonly Timer timer;
 
-    #region Interval Property
+    #region TickInterval Property
 
     private int tickInterval = 100;
 
@@ -19,8 +19,8 @@ public abstract class TimeProviderBase : ITimeProvider
     /// <remarks>
     /// Smaller numbers will generate more values per second, making the second hand move more
     /// smoothly, but will consume more processor time.
-    /// An interval of 10 ms will make the clock move smooth, but check also the performance on
-    /// your computer.
+    /// An interval of 10 ms will make the clock move really smooth, but check also the performance
+    /// on your computer.
     /// </remarks>
     [Category("Behavior")]
     [DefaultValue(100)]
@@ -54,7 +54,7 @@ public abstract class TimeProviderBase : ITimeProvider
     public bool IsRunning { get; private set; }
 
     /// <summary>
-    /// Gets the most recent value recorded by the measurement, represented as a time interval.
+    /// Gets the most recently provided value.
     /// </summary>
     [Browsable(false)]
     public TimeSpan LastValue { get; private set; }
@@ -74,15 +74,15 @@ public abstract class TimeProviderBase : ITimeProvider
 
     private void HandleTimerCallback(object state)
     {
-        LastValue = GetTime();
+        LastValue = GenerateNewTime();
         OnTick(new TickEventArgs(LastValue));
     }
 
     /// <summary>
-    /// Returns the current time value. This method is called internally by the timer.
+    /// Generates a new time value. This method is called internally by the timer.
     /// </summary>
     /// <returns>A <see cref="TimeSpan"/> object containing the time value.</returns>
-    protected abstract TimeSpan GetTime();
+    protected abstract TimeSpan GenerateNewTime();
 
     /// <summary>
     /// Starts the time provider. The time provider will begin generating time values.
@@ -113,7 +113,7 @@ public abstract class TimeProviderBase : ITimeProvider
 
     protected void ForceTick()
     {
-        LastValue = GetTime();
+        LastValue = GenerateNewTime();
         OnTick(new TickEventArgs(LastValue));
     }
 

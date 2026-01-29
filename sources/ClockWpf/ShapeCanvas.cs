@@ -3,8 +3,9 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Shapes;
 
-namespace DustInTheWind.ClockWpf.Shapes;
+namespace DustInTheWind.ClockWpf;
 
 public class ShapeCanvas : Canvas
 {
@@ -136,8 +137,7 @@ public class ShapeCanvas : Canvas
         double centerX = diameter / 2;
         double centerY = diameter / 2;
 
-        ScaleTransform scaleTransform = new(scaleX, scaleY, centerX, centerY);
-        return scaleTransform;
+        return new ScaleTransform(scaleX, scaleY, centerX, centerY);
     }
 
     private void RenderShapes(DrawingContext drawingContext, double diameter)
@@ -150,9 +150,6 @@ public class ShapeCanvas : Canvas
         };
 
         foreach (Shape shape in Shapes)
-        {
-            if (shape != null && shape.IsVisible)
-                shape.Render(clockDrawingContext);
-        }
+            shape?.Render(clockDrawingContext);
     }
 }
