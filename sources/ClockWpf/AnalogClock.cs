@@ -10,7 +10,7 @@ namespace DustInTheWind.ClockWpf;
 
 public class AnalogClock : Control
 {
-    private ShapeCanvas shapeCanvas;
+    private Dial dial;
 
     #region PerformanceInfo DependencyProperty
 
@@ -22,8 +22,8 @@ public class AnalogClock : Control
 
     private static void HandlePerformanceInfoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is AnalogClock analogClock && analogClock.shapeCanvas != null)
-            analogClock.shapeCanvas.PerformanceInfo = (PerformanceInfo)e.NewValue;
+        if (d is AnalogClock analogClock && analogClock.dial != null)
+            analogClock.dial.PerformanceInfo = (PerformanceInfo)e.NewValue;
     }
 
     public PerformanceInfo PerformanceInfo
@@ -99,7 +99,7 @@ public class AnalogClock : Control
         if (d is not AnalogClock analogClock)
             return;
 
-        analogClock.shapeCanvas?.InvalidateVisual();
+        analogClock.dial?.InvalidateVisual();
     }
 
     public bool KeepProportions
@@ -145,11 +145,11 @@ public class AnalogClock : Control
 
         try
         {
-            if (shapeCanvas != null)
+            if (dial != null)
             {
                 Dispatcher.Invoke(() =>
                 {
-                    shapeCanvas.Time = time;
+                    dial.Time = time;
                 });
             }
         }
@@ -219,13 +219,12 @@ public class AnalogClock : Control
     {
         base.OnApplyTemplate();
 
-        shapeCanvas = GetTemplateChild("PART_ShapeCanvas") as ShapeCanvas;
+        dial = GetTemplateChild("PART_Dial") as Dial;
 
         ITimeProvider currentTimeProvider = TimeProvider;
         if (currentTimeProvider != null)
             UpdateDisplayedTime(currentTimeProvider.LastValue);
 
-        if (shapeCanvas != null)
-            shapeCanvas.PerformanceInfo = PerformanceInfo;
+        dial?.PerformanceInfo = PerformanceInfo;
     }
 }

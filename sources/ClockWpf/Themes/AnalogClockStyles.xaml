@@ -17,8 +17,8 @@
                         Background="{TemplateBinding Background}">
 
                             <Grid>
-                                <local:ShapeCanvas
-                                    x:Name="PART_ShapeCanvas"
+                                <local:Dial
+                                    x:Name="PART_Dial"
                                     Width="200"
                                     Height="200"
                                     Shapes="{TemplateBinding Shapes}"

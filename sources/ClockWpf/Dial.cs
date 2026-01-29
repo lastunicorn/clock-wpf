@@ -7,7 +7,7 @@ using DustInTheWind.ClockWpf.Shapes;
 
 namespace DustInTheWind.ClockWpf;
 
-public class ShapeCanvas : Canvas
+public class Dial : Canvas
 {
     private NotifyCollectionChangedEventHandler collectionChangedHandler;
 
@@ -18,12 +18,12 @@ public class ShapeCanvas : Canvas
     public static readonly DependencyProperty ShapesProperty = DependencyProperty.Register(
         nameof(Shapes),
         typeof(ObservableCollection<Shape>),
-        typeof(ShapeCanvas),
+        typeof(Dial),
         new PropertyMetadata(null, OnShapesChanged));
 
     private static void OnShapesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not ShapeCanvas canvas)
+        if (d is not Dial canvas)
             return;
 
         if (e.OldValue is ObservableCollection<Shape> oldShapes)
@@ -56,12 +56,12 @@ public class ShapeCanvas : Canvas
     public static readonly DependencyProperty KeepProportionsProperty = DependencyProperty.Register(
         nameof(KeepProportions),
         typeof(bool),
-        typeof(ShapeCanvas),
+        typeof(Dial),
         new PropertyMetadata(false, OnKeepProportionsChanged));
 
     private static void OnKeepProportionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is ShapeCanvas canvas)
+        if (d is Dial canvas)
             canvas.InvalidateVisual();
     }
 
@@ -78,12 +78,12 @@ public class ShapeCanvas : Canvas
     public static readonly DependencyProperty TimeProperty = DependencyProperty.Register(
         nameof(Time),
         typeof(TimeSpan),
-        typeof(ShapeCanvas),
+        typeof(Dial),
         new FrameworkPropertyMetadata(TimeSpan.Zero, OnTimeChanged));
 
     private static void OnTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is ShapeCanvas canvas)
+        if (d is Dial canvas)
             canvas.InvalidateVisual();
     }
 
