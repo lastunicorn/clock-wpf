@@ -61,10 +61,10 @@ public class SpeedyTimeProvider : TimeProviderBase
             if (timeMultiplier == value)
                 return;
 
-            timeMultiplier = value;
-
             initialTime = GenerateNewTime();
             initialRealTime = DateTime.UtcNow;
+
+            timeMultiplier = value;
             ForceTick();
         }
     }
