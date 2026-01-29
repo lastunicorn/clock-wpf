@@ -8,19 +8,19 @@ namespace DustInTheWind.ClockWpf.Shapes;
 /// A simple line clock hand. It is ususally used for displaying seconds.
 /// It has a customizable tail length, pin diameter and rounded edges.
 /// </summary>
-public class SimpleHand : HandBase
+public class SimpleLineHand : HandBase
 {
     #region TailLength DependencyProperty
 
     public static readonly DependencyProperty TailLengthProperty = DependencyProperty.Register(
         nameof(TailLength),
         typeof(double),
-        typeof(SimpleHand),
+        typeof(SimpleLineHand),
         new FrameworkPropertyMetadata(0.0, HandleTailLengthChanged));
 
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is SimpleHand simpleHand)
+        if (d is SimpleLineHand simpleHand)
             simpleHand.InvalidateLayout();
     }
 
@@ -40,7 +40,7 @@ public class SimpleHand : HandBase
     public static readonly DependencyProperty PinDiameterProperty = DependencyProperty.Register(
         nameof(PinDiameter),
         typeof(double),
-        typeof(SimpleHand),
+        typeof(SimpleLineHand),
         new FrameworkPropertyMetadata(4.0));
 
     [Category("Appearance")]

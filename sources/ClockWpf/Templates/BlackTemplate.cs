@@ -88,7 +88,7 @@ public class BlackTemplate : ClockTemplate
             StrokeThickness = 0
         };
 
-        yield return new SimpleHand
+        yield return new SimpleLineHand
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,

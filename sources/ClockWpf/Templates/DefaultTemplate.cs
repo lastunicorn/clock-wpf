@@ -67,7 +67,7 @@ public class DefaultTemplate : ClockTemplate
         };
         yield return minuteHand;
 
-        SimpleHand secondHand = new()
+        SimpleLineHand secondHand = new()
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
