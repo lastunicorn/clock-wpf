@@ -12,14 +12,17 @@ namespace DustInTheWind.ClockWpf.Templates;
 /// <remarks>Use this class to create a clock template with a standard set of shapes and styles suitable
 /// for a black or dark-themed clock face. The template initializes the BackgroundShapes, AngularShapes, and
 /// HandShapes properties with default values representing a complete analog clock layout.</remarks>
-public class BlackTemplate : ClockTemplate
+public class SharpTemplate : ClockTemplate
 {
     protected override IEnumerable<Shape> CreateShapes()
     {
         yield return new FancyBackground
         {
             Name = "Fancy Background",
-            FillBrush = Brushes.Black
+            //FillBrush = Brushes.Black,
+            //OuterRimBrush = Brushes.Blue,
+            //InnerRimBrush = Brushes.Red,
+            FillColor = Colors.Black
         };
 
         yield return new Ticks
@@ -66,7 +69,7 @@ public class BlackTemplate : ClockTemplate
                 .ToArray()
         };
 
-        yield return new CapsuleHand
+        yield return new DiamondHand
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -77,7 +80,7 @@ public class BlackTemplate : ClockTemplate
             StrokeThickness = 0
         };
 
-        yield return new CapsuleHand
+        yield return new DiamondHand
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
