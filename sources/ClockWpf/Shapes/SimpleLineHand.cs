@@ -41,7 +41,13 @@ public class SimpleLineHand : HandBase
         nameof(PinDiameter),
         typeof(double),
         typeof(SimpleLineHand),
-        new FrameworkPropertyMetadata(4.0));
+        new FrameworkPropertyMetadata(4.0, HandlePinDiameterChanged));
+
+    private static void HandlePinDiameterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is SimpleLineHand simpleHand)
+            simpleHand.InvalidateLayout();
+    }
 
     [Category("Appearance")]
     [DefaultValue(4.0)]

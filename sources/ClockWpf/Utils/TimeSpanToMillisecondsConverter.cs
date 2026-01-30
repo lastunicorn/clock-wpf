@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace DustInTheWind.ClockWpf;
+namespace DustInTheWind.ClockWpf.Utils;
 
 public class TimeSpanToMillisecondsConverter : IValueConverter
 {

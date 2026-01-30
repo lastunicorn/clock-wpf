@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DustInTheWind.ClockWpf;
+namespace DustInTheWind.ClockWpf.Utils;
 
 internal static class MathUtils
 {

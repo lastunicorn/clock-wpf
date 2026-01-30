@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
 
 namespace DustInTheWind.ClockWpf;

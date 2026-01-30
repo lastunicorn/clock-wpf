@@ -138,17 +138,9 @@ public class FancyBackground : Shape
         double calculatedInnerRimWidth = clockRadius * (InnerRimWidth / 100);
         calculatedFaceRadius = calculatedInnerRimRadius - calculatedInnerRimWidth;
 
-        calculatedOuterRimBrush = OuterRimBrush == null
-            ? CreateDefaultOuterRimBrush(FillColor)
-            : OuterRimBrush;
-
-        calculatedInnerRimBrush = InnerRimBrush == null
-            ? CreateDefaultInnerRimBrush(FillColor)
-            : InnerRimBrush;
-
-        calculatedFaceBrush = FillBrush == null
-            ? CreateDefaultFaceBrush(FillColor)
-            : FillBrush;
+        calculatedOuterRimBrush = OuterRimBrush ?? CreateDefaultOuterRimBrush(FillColor);
+        calculatedInnerRimBrush = InnerRimBrush ?? CreateDefaultInnerRimBrush(FillColor);
+        calculatedFaceBrush = FillBrush ?? CreateDefaultFaceBrush(FillColor);
     }
 
     private static Brush CreateDefaultOuterRimBrush(Color color)
@@ -201,13 +193,8 @@ public class FancyBackground : Shape
     {
         Point center = new(0, 0);
 
-        if (calculatedOuterRimBrush != null)
-            context.DrawingContext.DrawEllipse(calculatedOuterRimBrush, null, center, calculatedOuterRimRadius, calculatedOuterRimRadius);
-
-        if (calculatedInnerRimBrush != null)
-            context.DrawingContext.DrawEllipse(calculatedInnerRimBrush, null, center, calculatedInnerRimRadius, calculatedInnerRimRadius);
-
-        if (calculatedFaceBrush != null)
-            context.DrawingContext.DrawEllipse(calculatedFaceBrush, null, center, calculatedFaceRadius, calculatedFaceRadius);
+        context.DrawingContext.DrawEllipse(calculatedOuterRimBrush, null, center, calculatedOuterRimRadius, calculatedOuterRimRadius);
+        context.DrawingContext.DrawEllipse(calculatedInnerRimBrush, null, center, calculatedInnerRimRadius, calculatedInnerRimRadius);
+        context.DrawingContext.DrawEllipse(calculatedFaceBrush, null, center, calculatedFaceRadius, calculatedFaceRadius);
     }
 }

@@ -4,8 +4,8 @@
     xmlns:shapes="clr-namespace:DustInTheWind.ClockWpf.Shapes">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/DustInTheWind.ClockWpf;component/Themes/AnalogClockStyles.xaml" />
-        <ResourceDictionary Source="/DustInTheWind.ClockWpf;component/Themes/PerformaceViewStyles.xaml" />
+        <ResourceDictionary Source="/DustInTheWind.ClockWpf;component/AnalogClockStyles.xaml" />
+        <ResourceDictionary Source="/DustInTheWind.ClockWpf;component/Performance/PerformaceViewStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
+
 </ResourceDictionary>

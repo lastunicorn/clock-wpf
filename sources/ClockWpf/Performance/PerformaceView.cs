@@ -1,22 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DustInTheWind.ClockWpf.Utils;
 
-namespace DustInTheWind.ClockWpf;
+namespace DustInTheWind.ClockWpf.Performance;
 
 public class PerformaceView : Control
 {
     private PerformanceInfo currentPerformanceInfo;
-
-    static PerformaceView()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(PerformaceView), new FrameworkPropertyMetadata(typeof(PerformaceView)));
-    }
-
-    public PerformaceView()
-    {
-        ResetCommand = new RelayCommand(ExecuteReset, CanExecuteReset);
-    }
 
     #region ResetCommand
 
@@ -81,6 +72,16 @@ public class PerformaceView : Control
     }
 
     #endregion
+
+    static PerformaceView()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(PerformaceView), new FrameworkPropertyMetadata(typeof(PerformaceView)));
+    }
+
+    public PerformaceView()
+    {
+        ResetCommand = new RelayCommand(ExecuteReset, CanExecuteReset);
+    }
 
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {

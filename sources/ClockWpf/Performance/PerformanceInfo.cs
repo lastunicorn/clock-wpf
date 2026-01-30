@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace DustInTheWind.ClockWpf;
+namespace DustInTheWind.ClockWpf.Performance;
 
 public class PerformanceInfo
 {

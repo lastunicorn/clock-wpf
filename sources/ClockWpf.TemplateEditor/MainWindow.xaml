@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:clockWpf="clr-namespace:DustInTheWind.ClockWpf;assembly=DustInTheWind.ClockWpf"
     xmlns:shapes="clr-namespace:DustInTheWind.ClockWpf.Shapes;assembly=DustInTheWind.ClockWpf"
+    xmlns:performance="clr-namespace:DustInTheWind.ClockWpf.Performance;assembly=DustInTheWind.ClockWpf"
     xmlns:local="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor"
     xmlns:templates="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Templates"
     xmlns:timeProviders="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.TimeProviders"
@@ -42,7 +43,7 @@
                 TimeProvider="{Binding TimeProvider}"
                 PerformanceInfo="{Binding PerformanceInfo, Mode=OneWay}"/>
 
-            <clockWpf:PerformaceView
+            <performance:PerformaceView
                 DataContext="{Binding PerformanceInfo, Mode=OneWay}"/>
 
         </Grid>

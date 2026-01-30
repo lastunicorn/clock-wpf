@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace DustInTheWind.ClockWpf;
+namespace DustInTheWind.ClockWpf.Utils;
 
 public class RelayCommand : ICommand
 {

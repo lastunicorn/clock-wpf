@@ -1,4 +1,5 @@
-﻿using DustInTheWind.ClockWpf.TemplateEditor.Templates;
+﻿using DustInTheWind.ClockWpf.Performance;
+using DustInTheWind.ClockWpf.TemplateEditor.Templates;
 using DustInTheWind.ClockWpf.TemplateEditor.TimeProviders;
 using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.TimeProviders;

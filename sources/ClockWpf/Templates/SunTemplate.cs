@@ -11,7 +11,8 @@ public class SunTemplate : ClockTemplate
         {
             Name = "Background",
             OuterRimWidth = 14,
-            InnerRimWidth = 46
+            InnerRimWidth = 46,
+            FillColor = Colors.CornflowerBlue
         };
 
         yield return new TextRim
