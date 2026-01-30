@@ -31,7 +31,7 @@ public class TextShape : Shape
     private static void HandleTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is TextShape textShape)
-            textShape.InvalidateLayout();
+            textShape.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -56,7 +56,7 @@ public class TextShape : Shape
     private static void HandleFontFamilyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is TextShape textShape)
-            textShape.InvalidateLayout();
+            textShape.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -80,7 +80,7 @@ public class TextShape : Shape
     private static void HandleFontSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is TextShape textShape)
-            textShape.InvalidateLayout();
+            textShape.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -105,7 +105,7 @@ public class TextShape : Shape
     private static void HandleFontWeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is TextShape textShape)
-            textShape.InvalidateLayout();
+            textShape.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -134,7 +134,7 @@ public class TextShape : Shape
     private static void HandleMaxWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is TextShape textShape)
-            textShape.InvalidateLayout();
+            textShape.InvalidateCache();
     }
 
     /// <summary>
@@ -167,7 +167,7 @@ public class TextShape : Shape
     private static void HandleLocationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is TextShape textShape)
-            textShape.InvalidateLayout();
+            textShape.InvalidateCache();
     }
 
     /// <summary>
@@ -194,9 +194,9 @@ public class TextShape : Shape
     private FormattedText formattedText;
     private Point textPosition;
 
-    protected override void CalculateLayout(ClockDrawingContext context)
+    protected override void CalculateCache(ClockDrawingContext context)
     {
-        base.CalculateLayout(context);
+        base.CalculateCache(context);
 
         Typeface typeface = new(FontFamily, FontStyles.Normal, FontWeight, FontStretches.Normal);
 

@@ -20,7 +20,7 @@ public class DotHand : HandBase
     private static void HandleRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is DotHand dotHand)
-            dotHand.InvalidateLayout();
+            dotHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -49,9 +49,9 @@ public class DotHand : HandBase
     /// The <see cref="Length"/> value, for the <see cref="DotHand"/>, is the distance from the
     /// center of the clock to the center of the hand's center.
     /// </remarks>
-    protected override void CalculateLayout(ClockDrawingContext context)
+    protected override void CalculateCache(ClockDrawingContext context)
     {
-        base.CalculateLayout(context);
+        base.CalculateCache(context);
 
         double clockRadius = context.ClockRadius;
         

@@ -20,7 +20,7 @@ public class FancySweepHand : HandBase
     private static void HandleCircleRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancySweepHand fancySweepHand)
-            fancySweepHand.InvalidateLayout();
+            fancySweepHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -45,7 +45,7 @@ public class FancySweepHand : HandBase
     private static void HandleCircleOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancySweepHand fancySweepHand)
-            fancySweepHand.InvalidateLayout();
+            fancySweepHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -70,7 +70,7 @@ public class FancySweepHand : HandBase
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancySweepHand fancySweepHand)
-            fancySweepHand.InvalidateLayout();
+            fancySweepHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -99,9 +99,9 @@ public class FancySweepHand : HandBase
         return base.OnRendering(context);
     }
 
-    protected override void CalculateLayout(ClockDrawingContext context)
+    protected override void CalculateCache(ClockDrawingContext context)
     {
-        base.CalculateLayout(context);
+        base.CalculateCache(context);
 
         double radius = context.ClockRadius;
         double calculatedLength = radius * (Length / 100.0);

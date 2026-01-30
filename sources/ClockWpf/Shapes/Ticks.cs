@@ -44,7 +44,7 @@ public class Ticks : RimBase
     private static void HandleRoundEndsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is Ticks ticks)
-            ticks.InvalidateDrawingTools();
+            ticks.InvalidateCache();
     }
 
     /// <summary>

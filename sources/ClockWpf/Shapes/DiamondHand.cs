@@ -20,7 +20,7 @@ public class DiamondHand : HandBase
     private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is DiamondHand diamondHand)
-            diamondHand.InvalidateLayout();
+            diamondHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -45,7 +45,7 @@ public class DiamondHand : HandBase
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is DiamondHand diamondHand)
-            diamondHand.InvalidateLayout();
+            diamondHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -69,9 +69,9 @@ public class DiamondHand : HandBase
         return base.OnRendering(context);
     }
 
-    protected override void CalculateLayout(ClockDrawingContext context)
+    protected override void CalculateCache(ClockDrawingContext context)
     {
-        base.CalculateLayout(context);
+        base.CalculateCache(context);
 
         diamondGeometry = CreateDiamondGeometry(context);
     }

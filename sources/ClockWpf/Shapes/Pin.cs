@@ -17,7 +17,7 @@ public class Pin : Shape
     {
         if (d is Pin pin)
         {
-            pin.InvalidateLayout();
+            pin.InvalidateCache();
         }
     }
 
@@ -46,9 +46,9 @@ public class Pin : Shape
     Point pinCenter;
     double pinRadius;
 
-    protected override void CalculateLayout(ClockDrawingContext context)
+    protected override void CalculateCache(ClockDrawingContext context)
     {
-        base.CalculateLayout(context);
+        base.CalculateCache(context);
 
         pinRadius = context.ClockRadius * (Diameter / 100.0) / 2;
         pinCenter = new Point(0, 0);

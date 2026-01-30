@@ -20,7 +20,7 @@ public class CapsuleHand : HandBase
     private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is CapsuleHand capsuleHand)
-            capsuleHand.InvalidateLayout();
+            capsuleHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -45,7 +45,7 @@ public class CapsuleHand : HandBase
     private static void HandleTailLengthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is CapsuleHand capsuleHand)
-            capsuleHand.InvalidateLayout();
+            capsuleHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -69,9 +69,9 @@ public class CapsuleHand : HandBase
         return base.OnRendering(context);
     }
 
-    protected override void CalculateLayout(ClockDrawingContext context)
+    protected override void CalculateCache(ClockDrawingContext context)
     {
-        base.CalculateLayout(context);
+        base.CalculateCache(context);
 
         handGeometry = CreateHandGeometry(context);
     }

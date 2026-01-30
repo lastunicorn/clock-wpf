@@ -8,7 +8,7 @@ namespace DustInTheWind.ClockWpf.Shapes;
 
 public abstract class Shape : DependencyObject
 {
-    private bool isLayoutValid;
+    private bool isCacheValid;
 
     #region Name DependencyProperty
 
@@ -69,7 +69,13 @@ public abstract class Shape : DependencyObject
         nameof(FillBrush),
         typeof(Brush),
         typeof(Shape),
-        new FrameworkPropertyMetadata(Brushes.CornflowerBlue));
+        new FrameworkPropertyMetadata(Brushes.CornflowerBlue, HandleFillBrushChanged));
+
+    private static void HandleFillBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Shape shape)
+            shape.InvalidateCache();
+    }
 
     [Category("Appearance")]
     [DefaultValue(typeof(SolidColorBrush), "CornflowerBlue")]
@@ -125,7 +131,7 @@ public abstract class Shape : DependencyObject
             shape.strokePen = null;
             shape.isStrokePenCreated = false;
 
-            shape.InvalidateLayout();
+            shape.InvalidateCache();
         }
     }
 
@@ -202,10 +208,10 @@ public abstract class Shape : DependencyObject
         if (!allowToRender)
             return;
 
-        if (!isLayoutValid)
+        if (!isCacheValid)
         {
-            CalculateLayout(context);
-            isLayoutValid = true;
+            CalculateCache(context);
+            isCacheValid = true;
         }
 
         DoRender(context);
@@ -216,7 +222,7 @@ public abstract class Shape : DependencyObject
     /// <summary>
     /// This method is called before the rendering process is performed, allowing the inheritors
     /// to decide if the rendering process may or may not be performed.
-    /// If the rendering process is prevented by this method nether the <see cref="CalculateLayout(ClockDrawingContext)"/> is called.
+    /// If the rendering process is prevented by this method nether the <see cref="CalculateCache(ClockDrawingContext)"/> is called.
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
@@ -232,10 +238,10 @@ public abstract class Shape : DependencyObject
     /// This method is called once when the rendering is performed the first time to allow
     /// inheritors to perform calculations needed only once, store the results and reuse
     /// them for the subsequent renders.
-    /// When the calculation need do be performed again, call <see cref="InvalidateLayout"/>
+    /// When the calculation need do be performed again, call <see cref="InvalidateCache"/>
     /// and this method is automatically called again during the next rendering.
     /// </summary>
-    protected virtual void CalculateLayout(ClockDrawingContext context)
+    protected virtual void CalculateCache(ClockDrawingContext context)
     {
     }
 
@@ -249,18 +255,12 @@ public abstract class Shape : DependencyObject
     {
     }
 
-    protected void InvalidateLayout()
+    protected void InvalidateCache()
     {
-        isLayoutValid = false;
-    }
+        strokePen = null;
+        isStrokePenCreated = false;
 
-    protected virtual void InvalidateDrawingTools()
-    {
-        if (isStrokePenCreated)
-        {
-            strokePen = null;
-            isStrokePenCreated = false;
-        }
+        isCacheValid = false;
     }
 
     /// <summary>

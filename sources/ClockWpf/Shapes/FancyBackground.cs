@@ -18,7 +18,7 @@ public class FancyBackground : Shape
     private static void HandleOuterRimWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancyBackground fancyBackground)
-            fancyBackground.InvalidateLayout();
+            fancyBackground.InvalidateCache();
     }
 
     public double OuterRimWidth
@@ -40,7 +40,7 @@ public class FancyBackground : Shape
     private static void HandleInnerRimWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancyBackground fancyBackground)
-            fancyBackground.InvalidateLayout();
+            fancyBackground.InvalidateCache();
     }
 
     public double InnerRimWidth
@@ -56,7 +56,14 @@ public class FancyBackground : Shape
     public static readonly DependencyProperty OuterRimBrushProperty = DependencyProperty.Register(
         nameof(OuterRimBrush),
         typeof(Brush),
-        typeof(FancyBackground));
+        typeof(FancyBackground),
+        new FrameworkPropertyMetadata((Brush)null, HandleOuterRimBrushChanged));
+
+    private static void HandleOuterRimBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is FancyBackground fancyBackground)
+            fancyBackground.InvalidateCache();
+    }
 
     [Category("Appearance")]
     public Brush OuterRimBrush
@@ -72,7 +79,14 @@ public class FancyBackground : Shape
     public static readonly DependencyProperty InnerRimBrushProperty = DependencyProperty.Register(
         nameof(InnerRimBrush),
         typeof(Brush),
-        typeof(FancyBackground));
+        typeof(FancyBackground),
+        new FrameworkPropertyMetadata((Brush)null, HandleInnerRimBrushChanged));
+
+    private static void HandleInnerRimBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is FancyBackground fancyBackground)
+            fancyBackground.InvalidateCache();
+    }
 
     [Category("Appearance")]
     public Brush InnerRimBrush
@@ -94,7 +108,7 @@ public class FancyBackground : Shape
     private static void HandleFillColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancyBackground fancyBackground)
-            fancyBackground.InvalidateLayout();
+            fancyBackground.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -124,9 +138,9 @@ public class FancyBackground : Shape
         return true;
     }
 
-    protected override void CalculateLayout(ClockDrawingContext context)
+    protected override void CalculateCache(ClockDrawingContext context)
     {
-        base.CalculateLayout(context);
+        base.CalculateCache(context);
 
         double clockRadius = context.ClockRadius;
 

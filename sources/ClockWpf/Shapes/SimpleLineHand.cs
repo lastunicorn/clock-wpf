@@ -21,7 +21,7 @@ public class SimpleLineHand : HandBase
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is SimpleLineHand simpleHand)
-            simpleHand.InvalidateLayout();
+            simpleHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -46,7 +46,7 @@ public class SimpleLineHand : HandBase
     private static void HandlePinDiameterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is SimpleLineHand simpleHand)
-            simpleHand.InvalidateLayout();
+            simpleHand.InvalidateCache();
     }
 
     [Category("Appearance")]
@@ -89,9 +89,9 @@ public class SimpleLineHand : HandBase
         return base.OnRendering(context);
     }
 
-    protected override void CalculateLayout(ClockDrawingContext context)
+    protected override void CalculateCache(ClockDrawingContext context)
     {
-        base.CalculateLayout(context);
+        base.CalculateCache(context);
 
         // Hand
 

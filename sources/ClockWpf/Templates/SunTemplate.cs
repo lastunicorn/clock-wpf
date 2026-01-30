@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
 
@@ -12,7 +13,9 @@ public class SunTemplate : ClockTemplate
             Name = "Background",
             OuterRimWidth = 14,
             InnerRimWidth = 46,
-            FillColor = Colors.CornflowerBlue
+            OuterRimBrush = CreateOuterRimBrush(),
+            InnerRimBrush = CreateInnerRimBrush(),
+            FillBrush = CreateFaceBrush()
         };
 
         yield return new TextRim
@@ -78,5 +81,47 @@ public class SunTemplate : ClockTemplate
             StrokeThickness = 0.5,
             Radius = 6
         };
+    }
+    private static Brush CreateOuterRimBrush()
+    {
+        LinearGradientBrush brush = new()
+        {
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(1, 1)
+        };
+
+        brush.GradientStops.Add(new GradientStop(Color.FromRgb(155, 219, 255), 0));
+        brush.GradientStops.Add(new GradientStop(Color.FromRgb(0, 64, 128), 1));
+
+        brush.Freeze();
+        return brush;
+    }
+
+    private static Brush CreateInnerRimBrush()
+    {
+        LinearGradientBrush brush = new()
+        {
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(1, 1)
+        };
+
+        brush.GradientStops.Add(new GradientStop(Color.FromRgb(0, 64, 128), 0));
+        brush.GradientStops.Add(new GradientStop(Color.FromRgb(155, 219, 255), 1));
+
+        return brush;
+    }
+
+    private static Brush CreateFaceBrush()
+    {
+        LinearGradientBrush brush = new()
+        {
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(1, 1)
+        };
+
+        brush.GradientStops.Add(new GradientStop(Color.FromRgb(200, 230, 255), 0));
+        brush.GradientStops.Add(new GradientStop(Color.FromRgb(50, 100, 150), 1));
+
+        return brush;
     }
 }

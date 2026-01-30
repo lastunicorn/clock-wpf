@@ -25,7 +25,7 @@ public abstract class HandBase : Shape, IHand
     private static void HandleLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is HandBase hand)
-            hand.InvalidateLayout();
+            hand.InvalidateCache();
     }
 
     [Category("Appearance")]
