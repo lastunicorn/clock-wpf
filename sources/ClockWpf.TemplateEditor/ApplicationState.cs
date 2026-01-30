@@ -1,6 +1,6 @@
 ﻿using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
-using DustInTheWind.ClockWpf.TimeProviders;
+using DustInTheWind.ClockWpf.Movements;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 
@@ -21,9 +21,9 @@ public class ApplicationState
         }
     }
 
-    public List<Type> AvailableTimeProviderTypes { get; set; }
+    public List<Type> AvailableMovementTypes { get; set; }
 
-    public ITimeProvider CurrentTimeProvider
+    public IMovement CurrentMovement
     {
         get => field;
         set
@@ -32,20 +32,20 @@ public class ApplicationState
                 return;
 
             field = value;
-            OnCurrentTimeProviderChanged();
+            OnCurrentMovementChanged();
         }
     }
 
     public event EventHandler CurrentTemplateChanged;
-    public event EventHandler CurrentTimeProviderChanged;
+    public event EventHandler CurrentMovementChanged;
 
     public void OnCurrentTemplateChanged()
     {
         CurrentTemplateChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public void OnCurrentTimeProviderChanged()
+    public void OnCurrentMovementChanged()
     {
-        CurrentTimeProviderChanged?.Invoke(this, EventArgs.Empty);
+        CurrentMovementChanged?.Invoke(this, EventArgs.Empty);
     }
 }

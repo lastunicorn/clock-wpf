@@ -71,12 +71,6 @@
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <!--<TextBlock>
-                        <Run Text="{Binding Name, Mode=OneWay}" />
-                        <Run Text=" (" Foreground="Gray" />
-                        <Run Text="{Binding Mode=OneWay}" Foreground="Gray" />
-                        <Run Text=")" Foreground="Gray" />
-                        </TextBlock>-->
                         <Border Padding="0 1">
                             <StackPanel>
                             

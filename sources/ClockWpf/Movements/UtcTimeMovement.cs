@@ -1,11 +1,11 @@
 using System.ComponentModel;
 
-namespace DustInTheWind.ClockWpf.TimeProviders;
+namespace DustInTheWind.ClockWpf.Movements;
 
 /// <summary>
 /// Provides the UTC time. Optionally, an offset may be provided.
 /// </summary>
-public class UtcTimeProvider : TimeProviderBase
+public class UtcTimeMovement : MovementBase
 {
     /// <summary>
     /// Gets or sets the offset time used to adjust the system's UTC time value.

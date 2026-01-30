@@ -1,12 +1,12 @@
 using System.ComponentModel;
 
-namespace DustInTheWind.ClockWpf.TimeProviders;
+namespace DustInTheWind.ClockWpf.Movements;
 
 /// <summary>
 /// Provides time values from a time coordinate that is n times faster than the real one.
 /// The n value may be negative, in which case the closk runs backwards.
 /// </summary>
-public class SpeedyTimeProvider : TimeProviderBase
+public class SpeedyMovement : MovementBase
 {
     private DateTime initialRealTime = DateTime.UtcNow;
 

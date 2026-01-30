@@ -1,7 +1,7 @@
-namespace DustInTheWind.ClockWpf.TimeProviders;
+namespace DustInTheWind.ClockWpf.Movements;
 
 /// <summary>
-/// Contains the event data for the <see cref="ITimeProvider.Tick"/> event.
+/// Contains the event data for the <see cref="IMovement.Tick"/> event.
 /// </summary>
 public class TickEventArgs : EventArgs
 {

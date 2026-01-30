@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
-using DustInTheWind.ClockWpf.TimeProviders;
+using DustInTheWind.ClockWpf.Movements;
 
 namespace DustInTheWind.ClockWpf;
 
@@ -111,30 +111,30 @@ public class AnalogClock : Control
 
     #endregion
 
-    #region TimeProvider DependencyProperty
+    #region Movement DependencyProperty
 
-    public static readonly DependencyProperty TimeProviderProperty = DependencyProperty.Register(
-        nameof(TimeProvider),
-        typeof(ITimeProvider),
+    public static readonly DependencyProperty MovementProperty = DependencyProperty.Register(
+        nameof(Movement),
+        typeof(IMovement),
         typeof(AnalogClock),
-        new PropertyMetadata(null, OnTimeProviderChanged));
+        new PropertyMetadata(null, HandleMovementChanged));
 
-    private static void OnTimeProviderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void HandleMovementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not AnalogClock analogClock)
             return;
 
-        if (e.OldValue is ITimeProvider oldTimeProvider)
-            oldTimeProvider.Tick -= analogClock.HandleTimeChanged;
+        if (e.OldValue is IMovement oldMovement)
+            oldMovement.Tick -= analogClock.HandleTick;
 
-        if (e.NewValue is ITimeProvider newTimeProvider)
+        if (e.NewValue is IMovement newMovement)
         {
-            newTimeProvider.Tick += analogClock.HandleTimeChanged;
-            analogClock.UpdateDisplayedTime(newTimeProvider.LastValue);
+            newMovement.Tick += analogClock.HandleTick;
+            analogClock.UpdateDisplayedTime(newMovement.LastTick);
         }
     }
 
-    private void HandleTimeChanged(object sender, TickEventArgs e)
+    private void HandleTick(object sender, TickEventArgs e)
     {
         UpdateDisplayedTime(e.Time);
     }
@@ -157,10 +157,10 @@ public class AnalogClock : Control
         }
     }
 
-    public ITimeProvider TimeProvider
+    public IMovement Movement
     {
-        get => (ITimeProvider)GetValue(TimeProviderProperty);
-        set => SetValue(TimeProviderProperty, value);
+        get => (IMovement)GetValue(MovementProperty);
+        set => SetValue(MovementProperty, value);
     }
 
     #endregion
@@ -219,9 +219,9 @@ public class AnalogClock : Control
 
         dial = GetTemplateChild("PART_Dial") as Dial;
 
-        ITimeProvider currentTimeProvider = TimeProvider;
-        if (currentTimeProvider != null)
-            UpdateDisplayedTime(currentTimeProvider.LastValue);
+        IMovement movement = Movement;
+        if (movement != null)
+            UpdateDisplayedTime(movement.LastTick);
 
         dial?.PerformanceInfo = PerformanceInfo;
     }

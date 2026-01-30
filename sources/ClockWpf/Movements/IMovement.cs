@@ -1,9 +1,9 @@
-namespace DustInTheWind.ClockWpf.TimeProviders;
+namespace DustInTheWind.ClockWpf.Movements;
 
 /// <summary>
 /// Provides the time to be displayed by a clock. The time is provided as <see cref="TimeSpan"/> objects.
 /// </summary>
-public interface ITimeProvider : IDisposable
+public interface IMovement : IDisposable
 {
     /// <summary>
     /// Event raised when the time provider produces a new time value.
@@ -23,7 +23,7 @@ public interface ITimeProvider : IDisposable
     /// <summary>
     /// Gets the most recently provided value.
     /// </summary>
-    TimeSpan LastValue { get; }
+    TimeSpan LastTick { get; }
 
     /// <summary>
     /// Starts the time provider. The time provider will begin generating time values.

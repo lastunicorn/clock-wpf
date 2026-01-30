@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
-using DustInTheWind.ClockWpf.TimeProviders;
+using DustInTheWind.ClockWpf.Movements;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Templates;
 
@@ -57,7 +57,7 @@ public class TemplatesViewModel : ViewModelBase
         }
     }
 
-    public ITimeProvider TimeProvider
+    public IMovement Movement
     {
         get => field;
         private set
@@ -81,7 +81,7 @@ public class TemplatesViewModel : ViewModelBase
         Initialize();
 
         applicationState.CurrentTemplateChanged += HandleCurrentTemplateChanged;
-        applicationState.CurrentTimeProviderChanged += HandleCurrentTimeProviderChanged;
+        applicationState.CurrentMovementChanged += HandleCurrentMovementChanged;
     }
 
     private void Initialize()
@@ -112,13 +112,13 @@ public class TemplatesViewModel : ViewModelBase
                 Shapes = new ObservableCollection<Shape>(applicationState.CurrentTemplate);
             }
 
-            TimeProvider = applicationState.CurrentTimeProvider;
+            Movement = applicationState.CurrentMovement;
         });
     }
 
-    private void HandleCurrentTimeProviderChanged(object sender, EventArgs e)
+    private void HandleCurrentMovementChanged(object sender, EventArgs e)
     {
-        TimeProvider = applicationState.CurrentTimeProvider;
+        Movement = applicationState.CurrentMovement;
     }
 
     private void HandleCurrentTemplateChanged(object sender, EventArgs e)

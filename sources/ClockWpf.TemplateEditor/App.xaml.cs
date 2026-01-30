@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using DustInTheWind.ClockWpf.Templates;
-using DustInTheWind.ClockWpf.TimeProviders;
+using DustInTheWind.ClockWpf.Movements;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
@@ -36,7 +36,7 @@ public partial class App : Application
         ApplicationState applicationState = new();
 
         LoadTemplates(applicationState);
-        LoadTimeProviders(applicationState);
+        LoadMovements(applicationState);
 
         return applicationState;
     }
@@ -44,8 +44,8 @@ public partial class App : Application
     private static void LoadTemplates(ApplicationState applicationState)
     {
         List<Type> templateTypes = typeof(ClockTemplate).Assembly.GetTypes()
-                    .Where(x => x.IsClass && !x.IsAbstract && typeof(ClockTemplate).IsAssignableFrom(x))
-                    .ToList();
+            .Where(x => x.IsClass && !x.IsAbstract && typeof(ClockTemplate).IsAssignableFrom(x))
+            .ToList();
 
         applicationState.AvailableTemplateTypes = templateTypes;
 
@@ -58,23 +58,23 @@ public partial class App : Application
         }
     }
 
-    private static void LoadTimeProviders(ApplicationState applicationState)
+    private static void LoadMovements(ApplicationState applicationState)
     {
-        List<Type> timeProviderTypes = typeof(ITimeProvider).Assembly.GetTypes()
-            .Where(x => x.IsClass && !x.IsAbstract && typeof(ITimeProvider).IsAssignableFrom(x))
+        List<Type> movementTypes = typeof(IMovement).Assembly.GetTypes()
+            .Where(x => x.IsClass && !x.IsAbstract && typeof(IMovement).IsAssignableFrom(x))
             .ToList();
 
-        applicationState.AvailableTimeProviderTypes = timeProviderTypes;
+        applicationState.AvailableMovementTypes = movementTypes;
 
-        if (timeProviderTypes.Count > 0)
+        if (movementTypes.Count > 0)
         {
-            Type selectedTimeProviderType = timeProviderTypes
-                .FirstOrDefault(x => x == typeof(LocalTimeProvider));
+            Type selectedMovementType = movementTypes
+                .FirstOrDefault(x => x == typeof(LocalTimeMovement));
 
-            ITimeProvider timeProvider = (ITimeProvider)Activator.CreateInstance(selectedTimeProviderType);
-            timeProvider.Start();
+            IMovement movement = (IMovement)Activator.CreateInstance(selectedMovementType);
+            movement.Start();
 
-            applicationState.CurrentTimeProvider = timeProvider;
+            applicationState.CurrentMovement = movement;
         }
     }
 }

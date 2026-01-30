@@ -1,9 +1,9 @@
-namespace DustInTheWind.ClockWpf.TimeProviders;
+namespace DustInTheWind.ClockWpf.Movements;
 
 /// <summary>
 /// Provides random time values.
 /// </summary>
-public class RandomTimeProvider : TimeProviderBase
+public class RandomTimeMovement : MovementBase
 {
     /// <summary>
     /// Returns a random time value.

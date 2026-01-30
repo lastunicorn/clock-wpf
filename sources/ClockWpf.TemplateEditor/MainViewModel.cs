@@ -1,8 +1,8 @@
 ﻿using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.TemplateEditor.Templates;
-using DustInTheWind.ClockWpf.TemplateEditor.TimeProviders;
+using DustInTheWind.ClockWpf.TemplateEditor.Movements;
 using DustInTheWind.ClockWpf.Templates;
-using DustInTheWind.ClockWpf.TimeProviders;
+using DustInTheWind.ClockWpf.Movements;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 
@@ -10,7 +10,7 @@ internal class MainViewModel : ViewModelBase
 {
     private readonly ApplicationState applicationState;
 
-    public ITimeProvider TimeProvider
+    public IMovement Movement
     {
         get => field;
         private set
@@ -51,19 +51,19 @@ internal class MainViewModel : ViewModelBase
 
     public TemplatesViewModel TemplatesViewModel { get; }
 
-    public TimeProvidersViewModel TimeProvidersViewModel { get; }
+    public MovementsViewModel MovementsViewModel { get; }
 
     public MainViewModel(ApplicationState applicationState)
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
 
         TemplatesViewModel = new TemplatesViewModel(applicationState);
-        TimeProvidersViewModel = new TimeProvidersViewModel(applicationState);
+        MovementsViewModel = new MovementsViewModel(applicationState);
 
         PerformanceInfo = new PerformanceInfo();
 
         applicationState.CurrentTemplateChanged += HandleCurrentTemplateChanged;
-        applicationState.CurrentTimeProviderChanged += HandleCurrentTimeProviderChanged;
+        applicationState.CurrentMovementChanged += HandleCurrentMovementChanged;
 
         Initialize();
     }
@@ -73,13 +73,13 @@ internal class MainViewModel : ViewModelBase
         Initialize(() =>
         {
             ClockTemplate = applicationState.CurrentTemplate;
-            TimeProvider = applicationState.CurrentTimeProvider;
+            Movement = applicationState.CurrentMovement;
         });
     }
 
-    private void HandleCurrentTimeProviderChanged(object sender, EventArgs e)
+    private void HandleCurrentMovementChanged(object sender, EventArgs e)
     {
-        TimeProvider = applicationState.CurrentTimeProvider;
+        Movement = applicationState.CurrentMovement;
     }
 
     private void HandleCurrentTemplateChanged(object sender, EventArgs e)

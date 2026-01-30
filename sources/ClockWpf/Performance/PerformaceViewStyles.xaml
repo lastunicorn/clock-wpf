@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:utils="clr-namespace:DustInTheWind.ClockWpf.Utils"
-    xmlns:performance="clr-namespace:DustInTheWind.ClockWpf.Performance">
+    xmlns:performance="clr-namespace:DustInTheWind.ClockWpf.Performance"
+    xmlns:utils="clr-namespace:DustInTheWind.ClockWpf.Utils">
 
     <utils:TimeSpanToMillisecondsConverter x:Key="TimeSpanToMillisecondsConverter" />
 
@@ -10,6 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type performance:PerformaceView}">
+                    
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -24,51 +25,53 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Text="Average:"
-                        FontWeight="Bold"
-                        Margin="0 0 8 0"/>
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Average:"
+                            FontWeight="Bold"
+                            Margin="0 0 8 0"/>
 
                         <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Text="{Binding AverageTime, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TimeSpanToMillisecondsConverter}, StringFormat={}{0} ms}" />
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{Binding AverageTime, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TimeSpanToMillisecondsConverter}, StringFormat={}{0} ms}" />
 
                         <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Text="Current:"
-                        FontWeight="Bold"
-                        Margin="0 0 8 0"/>
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Current:"
+                            FontWeight="Bold"
+                            Margin="0 0 8 0"/>
 
                         <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Text="{Binding LastTime, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TimeSpanToMillisecondsConverter}, StringFormat={}{0} ms}" />
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{Binding LastTime, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TimeSpanToMillisecondsConverter}, StringFormat={}{0} ms}" />
 
                         <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        Text="Count:"
-                        FontWeight="Bold"
-                        Margin="0 0 8 0"/>
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="Count:"
+                            FontWeight="Bold"
+                            Margin="0 0 8 0"/>
 
                         <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Text="{Binding MeasurementCount, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, StringFormat=n0}" />
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding MeasurementCount, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, StringFormat=n0}" />
 
                         <Button
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Content="Reset"
-                        Command="{Binding ResetCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                        Margin="0 8 0 0"
-                        Padding="8 4"
-                        HorizontalAlignment="Left" />
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Content="Reset"
+                            Command="{Binding ResetCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                            Margin="0 8 0 0"
+                            Padding="10 2"
+                            HorizontalAlignment="Left" />
+                        
                     </Grid>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

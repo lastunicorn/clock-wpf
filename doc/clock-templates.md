@@ -1,29 +1,8 @@
 # Clock Templates
 
-## Template content
-
-### Shapes
-
-The clock templates are composed of a list of shapes which are applied one over the other.
+A clock template is composed of a list of shapes which are displayed one over the other.
 
 The templates are inheriting `ClockTemplate` abstract base class.
-
-### Properties
-
-In addition to the list of shapes, the template may provide a number of properties that makes it easier to update different shape properties. If you are familiar to the Facade Pattern, this one is used here.
-
-## Export/Import
-
-A template may be exported in JSON format:
-
-The exported file contains
-
-- template type (optional)
-  - If the template type is missing, a generic template is assumed. The generic template does not have additional properties. It has only the list of shapes.
-- the list of shapes
-  - for each shape:
-    - shape type
-    - property values
 
 ## Creating Templates
 

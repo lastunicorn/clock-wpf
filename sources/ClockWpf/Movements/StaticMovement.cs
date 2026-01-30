@@ -1,8 +1,8 @@
 using System.ComponentModel;
 
-namespace DustInTheWind.ClockWpf.TimeProviders;
+namespace DustInTheWind.ClockWpf.Movements;
 
-public class StaticTimeProvider : TimeProviderBase
+public class StaticMovement : MovementBase
 {
     #region Time Property
 
@@ -22,7 +22,7 @@ public class StaticTimeProvider : TimeProviderBase
 
     #endregion
 
-    public StaticTimeProvider()
+    public StaticMovement()
     {
         TickInterval = 0;
     }

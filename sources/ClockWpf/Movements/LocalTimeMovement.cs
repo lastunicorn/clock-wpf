@@ -1,9 +1,9 @@
-namespace DustInTheWind.ClockWpf.TimeProviders;
+namespace DustInTheWind.ClockWpf.Movements;
 
 /// <summary>
 /// Provides the system's local time.
 /// </summary>
-public class LocalTimeProvider : TimeProviderBase
+public class LocalTimeMovement : MovementBase
 {
     /// <summary>
     /// Returns the system's local time from the moment of the request.

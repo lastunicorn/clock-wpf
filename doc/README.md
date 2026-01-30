@@ -7,18 +7,11 @@ A customizable WPF analog clock control built using composable shapes.
 ### Basic Usage
 
 ```xaml
-<Window xmlns:clock="clr-namespace:DustInTheWind.ClockWpf;assembly=ClockWpf">
-    <clock:AnalogClock Width="200" Height="200" />
+<Window xmlns:clock="clr-namespace:DustInTheWind.ClockWpf;assembly=DustInTheWind.ClockWpf">
+    <clock:AnalogClock
+        ClockTemplate="{Binding ClockTemplate}"
+        TimeProvider="{Binding TimeProvider}" />
 </Window>
-```
-
-```csharp
-AnalogClock clock = new()
-{
-    TimeProvider = new LocalTimeProvider(),
-    ClockTemplate = new DefaultTemplate()
-};
-clock.TimeProvider.Start();
 ```
 
 ### Key Properties

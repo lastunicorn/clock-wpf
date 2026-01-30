@@ -1,11 +1,11 @@
 using System.ComponentModel;
 
-namespace DustInTheWind.ClockWpf.TimeProviders;
+namespace DustInTheWind.ClockWpf.Movements;
 
 /// <summary>
 /// Implements base functionality for a time provider class.
 /// </summary>
-public abstract class TimeProviderBase : ITimeProvider
+public abstract class MovementBase : IMovement
 {
     private readonly Timer timer;
 
@@ -57,7 +57,7 @@ public abstract class TimeProviderBase : ITimeProvider
     /// Gets the most recently provided value.
     /// </summary>
     [Browsable(false)]
-    public TimeSpan LastValue { get; private set; }
+    public TimeSpan LastTick { get; private set; }
 
     /// <summary>
     /// Event raised when the time provider produces a new time value.
@@ -65,17 +65,17 @@ public abstract class TimeProviderBase : ITimeProvider
     public event EventHandler<TickEventArgs> Tick;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TimeProviderBase"/> class.
+    /// Initializes a new instance of the <see cref="MovementBase"/> class.
     /// </summary>
-    protected TimeProviderBase()
+    protected MovementBase()
     {
         timer = new Timer(HandleTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
     }
 
     private void HandleTimerCallback(object state)
     {
-        LastValue = GenerateNewTime();
-        OnTick(new TickEventArgs(LastValue));
+        LastTick = GenerateNewTime();
+        OnTick(new TickEventArgs(LastTick));
     }
 
     /// <summary>
@@ -113,8 +113,8 @@ public abstract class TimeProviderBase : ITimeProvider
 
     protected void ForceTick()
     {
-        LastValue = GenerateNewTime();
-        OnTick(new TickEventArgs(LastValue));
+        LastTick = GenerateNewTime();
+        OnTick(new TickEventArgs(LastTick));
     }
 
     /// <summary>
@@ -166,7 +166,7 @@ public abstract class TimeProviderBase : ITimeProvider
     /// <summary>
     /// Finalizer.
     /// </summary>
-    ~TimeProviderBase()
+    ~MovementBase()
     {
         Dispose(false);
     }
