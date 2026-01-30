@@ -72,7 +72,7 @@ public class DefaultTemplate : ClockTemplate
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
             Length = 96.5,
-            TailLength = 14,
+            TailLength = 24,
             StrokeBrush = Brushes.Red,
             StrokeThickness = 1,
             IntegralValue = true,

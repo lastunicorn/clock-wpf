@@ -20,27 +20,27 @@ public class Dial : Canvas
         nameof(Shapes),
         typeof(ObservableCollection<Shape>),
         typeof(Dial),
-        new PropertyMetadata(null, OnShapesChanged));
+        new PropertyMetadata(null, HandleShapesChanged));
 
-    private static void OnShapesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void HandleShapesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not Dial canvas)
+        if (d is not Dial dial)
             return;
 
         if (e.OldValue is ObservableCollection<Shape> oldShapes)
         {
-            oldShapes.CollectionChanged -= canvas.collectionChangedHandler;
-            canvas.collectionChangedHandler = null;
+            oldShapes.CollectionChanged -= dial.collectionChangedHandler;
+            dial.collectionChangedHandler = null;
         }
 
         if (e.NewValue is ObservableCollection<Shape> newShapes)
         {
-            NotifyCollectionChangedEventHandler collectionChangedHandler = (s, args) => canvas.InvalidateVisual();
+            NotifyCollectionChangedEventHandler collectionChangedHandler = (s, args) => dial.InvalidateVisual();
 
-            canvas.collectionChangedHandler = collectionChangedHandler;
-            newShapes.CollectionChanged += canvas.collectionChangedHandler;
+            dial.collectionChangedHandler = collectionChangedHandler;
+            newShapes.CollectionChanged += dial.collectionChangedHandler;
 
-            canvas.InvalidateVisual();
+            dial.InvalidateVisual();
         }
     }
 
@@ -98,7 +98,8 @@ public class Dial : Canvas
 
     protected override void OnRender(DrawingContext drawingContext)
     {
-        PerformanceInfo?.Start();
+        PerformanceInfo performanceInfo = PerformanceInfo;
+        performanceInfo?.Start();
 
         try
         {
@@ -127,7 +128,7 @@ public class Dial : Canvas
         }
         finally
         {
-            PerformanceInfo?.Stop();
+            performanceInfo?.Stop();
         }
     }
 
@@ -135,6 +136,7 @@ public class Dial : Canvas
     {
         double scaleX = ActualWidth / diameter;
         double scaleY = ActualHeight / diameter;
+
         double centerX = diameter / 2;
         double centerY = diameter / 2;
 

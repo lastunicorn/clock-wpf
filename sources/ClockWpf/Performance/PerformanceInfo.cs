@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Windows.Media;
+using DustInTheWind.ClockWpf.Shapes;
 
 namespace DustInTheWind.ClockWpf.Performance;
 
@@ -25,6 +27,22 @@ public class PerformanceInfo
     }
 
     public event EventHandler Changed;
+
+    public void Measure(Action action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+
+        Start();
+
+        try
+        {
+            action();
+        }
+        finally
+        {
+            Stop();
+        }
+    }
 
     public void Start()
     {

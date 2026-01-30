@@ -12,9 +12,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:AnalogClock}">
+                    
                     <Viewbox>
-                        <Border
-                        Background="{TemplateBinding Background}">
+                        <Border Background="{TemplateBinding Background}">
 
                             <Grid>
                                 <local:Dial
@@ -53,6 +53,7 @@
 
                         </Border>
                     </Viewbox>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -146,13 +146,10 @@ public class AnalogClock : Control
 
         try
         {
-            if (dial != null)
+            Dispatcher.Invoke(() =>
             {
-                Dispatcher.Invoke(() =>
-                {
-                    dial.Time = time;
-                });
-            }
+                dial?.Time = time;
+            });
         }
         catch (TaskCanceledException)
         {
