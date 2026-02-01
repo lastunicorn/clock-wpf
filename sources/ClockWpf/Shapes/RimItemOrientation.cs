@@ -13,10 +13,17 @@ public enum RimItemOrientation
     /// <summary>
     /// The numbers are displayed oriented to the center of the clock.
     /// </summary>
-    FaceCenter,
+    FaceIn,
 
     /// <summary>
     /// The numbers are displayed oriented to the outside of the clock.
     /// </summary>
-    FaceOut
+    FaceOut,
+
+    /// <summary>
+    /// The items displayed in the upper part of the dial, from -90 degrees (inclusive) until
+    /// 90 degrees (inclusive) are displayed facing center; the items from de lower part of the
+    /// dial are displayed facing out.
+    /// </summary>
+    HalfInHalfOut
 }

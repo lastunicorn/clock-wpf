@@ -161,7 +161,7 @@ public abstract class RimBase : Shape
         nameof(Orientation),
         typeof(RimItemOrientation),
         typeof(RimBase),
-        new FrameworkPropertyMetadata(RimItemOrientation.FaceCenter, HandleOrientationChanged));
+        new FrameworkPropertyMetadata(RimItemOrientation.FaceIn, HandleOrientationChanged));
 
     private static void HandleOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -173,7 +173,7 @@ public abstract class RimBase : Shape
     }
 
     [Category("Layout")]
-    [DefaultValue(RimItemOrientation.FaceCenter)]
+    [DefaultValue(RimItemOrientation.FaceIn)]
     [Description("Specifies the orientation of an item.")]
     public RimItemOrientation Orientation
     {
@@ -261,7 +261,21 @@ public abstract class RimBase : Shape
                     return rotateTransform;
                 }
 
-            case RimItemOrientation.FaceCenter:
+            case RimItemOrientation.HalfInHalfOut:
+                {
+                    double currentAngle = OffsetAngle + Angle * index;
+                    double normalizedAngle = currentAngle % 360;
+
+                    if (normalizedAngle > 90 && normalizedAngle < 270)
+                    {
+                        RotateTransform rotateTransform = new(180, 0, 0);
+                        return rotateTransform;
+                    }
+
+                    return null;
+                }
+
+            case RimItemOrientation.FaceIn:
             default:
                 return null;
         }
