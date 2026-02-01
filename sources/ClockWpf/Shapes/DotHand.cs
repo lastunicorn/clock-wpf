@@ -20,7 +20,10 @@ public class DotHand : HandBase
     private static void HandleRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is DotHand dotHand)
+        {
             dotHand.InvalidateCache();
+            dotHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]

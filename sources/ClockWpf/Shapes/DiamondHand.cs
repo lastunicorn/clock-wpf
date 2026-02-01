@@ -20,7 +20,10 @@ public class DiamondHand : HandBase
     private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is DiamondHand diamondHand)
+        {
             diamondHand.InvalidateCache();
+            diamondHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
@@ -45,7 +48,10 @@ public class DiamondHand : HandBase
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is DiamondHand diamondHand)
+        {
             diamondHand.InvalidateCache();
+            diamondHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]

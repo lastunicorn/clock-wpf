@@ -15,7 +15,16 @@ public class NibHand : HandBase
         nameof(Width),
         typeof(double),
         typeof(NibHand),
-        new FrameworkPropertyMetadata(5.0));
+        new FrameworkPropertyMetadata(5.0, HandleWidthChanged));
+
+    private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is NibHand nibHand)
+        {
+            nibHand.InvalidateCache();
+            nibHand.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Appearance")]
     [DefaultValue(5.0)]
@@ -34,7 +43,16 @@ public class NibHand : HandBase
         nameof(KeepProportions),
         typeof(bool),
         typeof(NibHand),
-        new FrameworkPropertyMetadata(true));
+        new FrameworkPropertyMetadata(true, HandleKeepProportionsChanged));
+
+    private static void HandleKeepProportionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is NibHand nibHand)
+        {
+            nibHand.InvalidateCache();
+            nibHand.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Appearance")]
     [DefaultValue(true)]

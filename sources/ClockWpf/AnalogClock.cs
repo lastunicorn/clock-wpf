@@ -41,9 +41,9 @@ public class AnalogClock : Control
         nameof(Shapes),
         typeof(ObservableCollection<Shape>),
         typeof(AnalogClock),
-        new PropertyMetadata(null, OnShapesChanged));
+        new PropertyMetadata(null, HandleShapesChanged));
 
-    private static void OnShapesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void HandleShapesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not AnalogClock analogClock)
             return;
@@ -93,9 +93,9 @@ public class AnalogClock : Control
         nameof(KeepProportions),
         typeof(bool),
         typeof(AnalogClock),
-        new PropertyMetadata(true, OnKeepProportionsChanged));
+        new PropertyMetadata(true, HandleKeepProportionsChanged));
 
-    private static void OnKeepProportionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void HandleKeepProportionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not AnalogClock analogClock)
             return;
@@ -171,9 +171,9 @@ public class AnalogClock : Control
         nameof(ClockTemplate),
         typeof(ClockTemplate),
         typeof(AnalogClock),
-        new PropertyMetadata(null, OnClockTemplateChanged));
+        new PropertyMetadata(null, HandleClockTemplateChanged));
 
-    private static void OnClockTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void HandleClockTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is AnalogClock analogClock)
         {

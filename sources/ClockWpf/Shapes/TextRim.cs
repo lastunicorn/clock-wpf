@@ -16,7 +16,16 @@ public class TextRim : RimBase
         nameof(Texts),
         typeof(string[]),
         typeof(TextRim),
-        new FrameworkPropertyMetadata(null));
+        new FrameworkPropertyMetadata(null, HandleTextsChanged));
+
+    private static void HandleTextsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is TextRim textRim)
+        {
+            textRim.InvalidateCache();
+            textRim.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Appearance")]
     [Description("The array of texts that are rendered.")]
@@ -34,7 +43,16 @@ public class TextRim : RimBase
         nameof(FontFamily),
         typeof(FontFamily),
         typeof(TextRim),
-        new FrameworkPropertyMetadata(new FontFamily("Arial")));
+        new FrameworkPropertyMetadata(new FontFamily("Arial"), HandleFontFamilyChanged));
+
+    private static void HandleFontFamilyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is TextRim textRim)
+        {
+            textRim.InvalidateCache();
+            textRim.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Appearance")]
     [Description("The font family used to draw the texts.")]
@@ -52,7 +70,16 @@ public class TextRim : RimBase
         nameof(FontSize),
         typeof(double),
         typeof(TextRim),
-        new FrameworkPropertyMetadata(12.0));
+        new FrameworkPropertyMetadata(12.0, HandleFontSizeChanged));
+
+    private static void HandleFontSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is TextRim textRim)
+        {
+            textRim.InvalidateCache();
+            textRim.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Appearance")]
     [Description("The font size used to draw the texts.")]
@@ -70,7 +97,16 @@ public class TextRim : RimBase
         nameof(FontWeight),
         typeof(FontWeight),
         typeof(TextRim),
-        new FrameworkPropertyMetadata(FontWeights.Normal));
+        new FrameworkPropertyMetadata(FontWeights.Normal, HandleFontWeightChanged));
+
+    private static void HandleFontWeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is TextRim textRim)
+        {
+            textRim.InvalidateCache();
+            textRim.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Appearance")]
     [Description("The font weight used to draw the texts.")]

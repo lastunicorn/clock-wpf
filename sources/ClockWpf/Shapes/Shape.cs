@@ -16,9 +16,9 @@ public abstract class Shape : DependencyObject
         nameof(Name),
         typeof(string),
         typeof(Shape),
-        new PropertyMetadata("Shape", OnNameChanged));
+        new PropertyMetadata("Shape", HandleNameChanged));
 
-    private static void OnNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void HandleNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is Shape shape)
             shape.OnNameChanged(EventArgs.Empty);
@@ -35,22 +35,29 @@ public abstract class Shape : DependencyObject
         get => (string)GetValue(NameProperty);
         set
         {
-            if (value == null)
-                throw new ArgumentNullException("value");
-
+            ArgumentNullException.ThrowIfNull(value);
             SetValue(NameProperty, value);
         }
     }
 
     #endregion
 
-    #region IsVisilbe DependencyProperty
+    #region IsVisible DependencyProperty
 
     public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.Register(
         nameof(IsVisible),
         typeof(bool),
         typeof(Shape),
-        new PropertyMetadata(true));
+        new PropertyMetadata(true, HandleIsVisibleChanged));
+
+    private static void HandleIsVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Shape shape)
+        {
+            shape.InvalidateCache();
+            shape.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Behavior")]
     [DefaultValue(true)]
@@ -74,7 +81,10 @@ public abstract class Shape : DependencyObject
     private static void HandleFillBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is Shape shape)
+        {
             shape.InvalidateCache();
+            shape.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
@@ -102,6 +112,9 @@ public abstract class Shape : DependencyObject
         {
             shape.strokePen = null;
             shape.isStrokePenCreated = false;
+
+            shape.InvalidateCache();
+            shape.OnChanged(EventArgs.Empty);
         }
     }
 
@@ -132,6 +145,7 @@ public abstract class Shape : DependencyObject
             shape.isStrokePenCreated = false;
 
             shape.InvalidateCache();
+            shape.OnChanged(EventArgs.Empty);
         }
     }
 
@@ -181,7 +195,7 @@ public abstract class Shape : DependencyObject
 
     #endregion
 
-    #region Event NameChanged
+    #region NameChanged Event
 
     /// <summary>
     /// Event raised when the <see cref="Name"/> property is changed.
@@ -195,6 +209,24 @@ public abstract class Shape : DependencyObject
     protected virtual void OnNameChanged(EventArgs e)
     {
         NameChanged?.Invoke(this, e);
+    }
+
+    #endregion
+
+    #region Changed Event
+
+    /// <summary>
+    /// Event raised when any property that impacts the way the shape looks changed.
+    /// </summary>
+    public event EventHandler Changed;
+
+    /// <summary>
+    /// Raises the <see cref="Changed"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> object that contains the event data.</param>
+    protected virtual void OnChanged(EventArgs e)
+    {
+        Changed?.Invoke(this, e);
     }
 
     #endregion

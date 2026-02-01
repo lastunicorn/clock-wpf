@@ -20,7 +20,16 @@ public class Ticks : RimBase
         nameof(Length),
         typeof(double),
         typeof(Ticks),
-        new FrameworkPropertyMetadata(5.0));
+        new FrameworkPropertyMetadata(5.0, HandleLengthChanged));
+
+    private static void HandleLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Ticks ticks)
+        {
+            ticks.InvalidateCache();
+            ticks.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Appearance")]
     [DefaultValue(5.0)]
@@ -44,7 +53,10 @@ public class Ticks : RimBase
     private static void HandleRoundEndsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is Ticks ticks)
+        {
             ticks.InvalidateCache();
+            ticks.OnChanged(EventArgs.Empty);
+        }
     }
 
     /// <summary>

@@ -18,6 +18,7 @@ public class Pin : Shape
         if (d is Pin pin)
         {
             pin.InvalidateCache();
+            pin.OnChanged(EventArgs.Empty);
         }
     }
 

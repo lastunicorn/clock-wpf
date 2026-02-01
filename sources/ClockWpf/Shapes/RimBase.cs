@@ -21,7 +21,16 @@ public abstract class RimBase : Shape
         nameof(DistanceFromEdge),
         typeof(double),
         typeof(RimBase),
-        new FrameworkPropertyMetadata(0.0));
+        new FrameworkPropertyMetadata(0.0, HandleDistanceFromEdgeChanged));
+
+    private static void HandleDistanceFromEdgeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is RimBase rimBase)
+        {
+            rimBase.InvalidateCache();
+            rimBase.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Layout")]
     [DefaultValue(6.0)]
@@ -40,7 +49,16 @@ public abstract class RimBase : Shape
         nameof(Angle),
         typeof(double),
         typeof(RimBase),
-        new FrameworkPropertyMetadata(30.0));
+        new FrameworkPropertyMetadata(30.0, HandleAngleChanged));
+
+    private static void HandleAngleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is RimBase rimBase)
+        {
+            rimBase.InvalidateCache();
+            rimBase.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Layout")]
     [DefaultValue(30)]
@@ -59,7 +77,16 @@ public abstract class RimBase : Shape
         nameof(OffsetAngle),
         typeof(double),
         typeof(RimBase),
-        new FrameworkPropertyMetadata(0.0));
+        new FrameworkPropertyMetadata(0.0, HandleOffsetAngleChanged));
+
+    private static void HandleOffsetAngleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is RimBase rimBase)
+        {
+            rimBase.InvalidateCache();
+            rimBase.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Layout")]
     [DefaultValue(0.0)]
@@ -78,7 +105,16 @@ public abstract class RimBase : Shape
         nameof(MaxCoverageCount),
         typeof(uint),
         typeof(RimBase),
-        new FrameworkPropertyMetadata((uint)0));
+        new FrameworkPropertyMetadata((uint)0, HandleMaxCoverageCountChanged));
+
+    private static void HandleMaxCoverageCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is RimBase rimBase)
+        {
+            rimBase.InvalidateCache();
+            rimBase.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Layout")]
     [DefaultValue((uint)0)]
@@ -97,7 +133,16 @@ public abstract class RimBase : Shape
         nameof(MaxCoverageAngle),
         typeof(uint),
         typeof(RimBase),
-        new FrameworkPropertyMetadata((uint)360));
+        new FrameworkPropertyMetadata((uint)360, HandleMaxCoverageAngleChanged));
+
+    private static void HandleMaxCoverageAngleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is RimBase rimBase)
+        {
+            rimBase.InvalidateCache();
+            rimBase.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Layout")]
     [DefaultValue((uint)360)]
@@ -116,7 +161,16 @@ public abstract class RimBase : Shape
         nameof(Orientation),
         typeof(RimItemOrientation),
         typeof(RimBase),
-        new FrameworkPropertyMetadata(RimItemOrientation.FaceCenter));
+        new FrameworkPropertyMetadata(RimItemOrientation.FaceCenter, HandleOrientationChanged));
+
+    private static void HandleOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is RimBase rimBase)
+        {
+            rimBase.InvalidateCache();
+            rimBase.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Layout")]
     [DefaultValue(RimItemOrientation.FaceCenter)]
@@ -135,7 +189,16 @@ public abstract class RimBase : Shape
         nameof(SkipIndex),
         typeof(int),
         typeof(RimBase),
-        new FrameworkPropertyMetadata(0));
+        new FrameworkPropertyMetadata(0, HandleSkipIndexChanged));
+
+    private static void HandleSkipIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is RimBase rimBase)
+        {
+            rimBase.InvalidateCache();
+            rimBase.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Behavior")]
     [DefaultValue(0)]

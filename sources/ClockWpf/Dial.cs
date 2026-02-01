@@ -10,8 +10,6 @@ namespace DustInTheWind.ClockWpf;
 
 public class Dial : Canvas
 {
-    private NotifyCollectionChangedEventHandler collectionChangedHandler;
-
     public PerformanceInfo PerformanceInfo { get; set; }
 
     #region Shapes DependencyProperty
@@ -27,21 +25,61 @@ public class Dial : Canvas
         if (d is not Dial dial)
             return;
 
-        if (e.OldValue is ObservableCollection<Shape> oldShapes)
+        if (e.OldValue is ObservableCollection<Shape> oldCollection)
         {
-            oldShapes.CollectionChanged -= dial.collectionChangedHandler;
-            dial.collectionChangedHandler = null;
+            oldCollection.CollectionChanged -= dial.HandleCollectionChanged;
+
+            foreach (Shape shape in oldCollection)
+                shape.Changed -= dial.HandleShapeChanged;
         }
 
-        if (e.NewValue is ObservableCollection<Shape> newShapes)
+        if (e.NewValue is ObservableCollection<Shape> newCollection)
         {
-            NotifyCollectionChangedEventHandler collectionChangedHandler = (s, args) => dial.InvalidateVisual();
+            newCollection.CollectionChanged += dial.HandleCollectionChanged;
 
-            dial.collectionChangedHandler = collectionChangedHandler;
-            newShapes.CollectionChanged += dial.collectionChangedHandler;
-
-            dial.InvalidateVisual();
+            foreach (Shape shape in newCollection)
+                shape.Changed += dial.HandleShapeChanged;
         }
+
+        dial.InvalidateVisual();
+    }
+
+    private void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        switch (e.Action)
+        {
+            case NotifyCollectionChangedAction.Add:
+                foreach (Shape shape in e.NewItems)
+                    shape.Changed += HandleShapeChanged;
+                break;
+
+            case NotifyCollectionChangedAction.Remove:
+                foreach (Shape shape in e.OldItems)
+                    shape.Changed -= HandleShapeChanged;
+                break;
+
+            case NotifyCollectionChangedAction.Replace:
+                foreach (Shape shape in e.OldItems)
+                    shape.Changed -= HandleShapeChanged;
+                foreach (Shape shape in e.NewItems)
+                    shape.Changed += HandleShapeChanged;
+                break;
+
+            case NotifyCollectionChangedAction.Reset:
+                foreach (Shape shape in Shapes)
+                    shape.Changed -= HandleShapeChanged;
+                break;
+
+            default:
+                break;
+        }
+
+        InvalidateVisual();
+    }
+
+    private void HandleShapeChanged(object sender, EventArgs e)
+    {
+        InvalidateVisual();
     }
 
     public ObservableCollection<Shape> Shapes

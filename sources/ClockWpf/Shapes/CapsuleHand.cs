@@ -20,7 +20,10 @@ public class CapsuleHand : HandBase
     private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is CapsuleHand capsuleHand)
+        {
             capsuleHand.InvalidateCache();
+            capsuleHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
@@ -45,7 +48,10 @@ public class CapsuleHand : HandBase
     private static void HandleTailLengthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is CapsuleHand capsuleHand)
+        {
             capsuleHand.InvalidateCache();
+            capsuleHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]

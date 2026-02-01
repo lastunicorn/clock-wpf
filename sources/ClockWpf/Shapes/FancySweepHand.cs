@@ -20,7 +20,10 @@ public class FancySweepHand : HandBase
     private static void HandleCircleRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancySweepHand fancySweepHand)
+        {
             fancySweepHand.InvalidateCache();
+            fancySweepHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
@@ -45,7 +48,10 @@ public class FancySweepHand : HandBase
     private static void HandleCircleOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancySweepHand fancySweepHand)
+        {
             fancySweepHand.InvalidateCache();
+            fancySweepHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
@@ -70,7 +76,10 @@ public class FancySweepHand : HandBase
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancySweepHand fancySweepHand)
+        {
             fancySweepHand.InvalidateCache();
+            fancySweepHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]

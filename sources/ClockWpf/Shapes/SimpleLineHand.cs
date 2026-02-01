@@ -21,7 +21,10 @@ public class SimpleLineHand : HandBase
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is SimpleLineHand simpleHand)
+        {
             simpleHand.InvalidateCache();
+            simpleHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
@@ -46,7 +49,10 @@ public class SimpleLineHand : HandBase
     private static void HandlePinDiameterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is SimpleLineHand simpleHand)
+        {
             simpleHand.InvalidateCache();
+            simpleHand.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
