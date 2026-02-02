@@ -1,7 +1,7 @@
 Clock WPF
 ====================================================================================================
 
-Ver 1.1.0
+Ver 1.2.0
 ----------------------------------------------------------------------------------------------------
 [bugfix] Fixed the Black Template and renamed it to Sharp Template.
 [change] Time Providers were renamed to Movement.
@@ -9,6 +9,7 @@ Ver 1.1.0
 [bugfix] Small tweaks to the templates.
 [new]    Rim Shape - New item orientation: HalfInHalfOut
 [new]    Rim Shape - New item orientation: Custom
+[new]    New template added: Bob
 
 
 Ver 1.0.0

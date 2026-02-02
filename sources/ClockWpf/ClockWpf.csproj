@@ -11,6 +11,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>clock;wpf</PackageTags>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReleaseNotes>More templates added and fixed the existing ones.Added the Static Movement. (Time Providers were renamed to Movements)</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,7 +19,14 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="..\..\README.md">
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="changelog.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Update="README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
