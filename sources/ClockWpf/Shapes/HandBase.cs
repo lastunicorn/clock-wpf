@@ -48,7 +48,16 @@ public abstract class HandBase : Shape, IHand
         nameof(TimeComponent),
         typeof(TimeComponent),
         typeof(HandBase),
-        new FrameworkPropertyMetadata(TimeComponent.Second));
+        new FrameworkPropertyMetadata(TimeComponent.Second, HandleTimeComponentChanged));
+
+    private static void HandleTimeComponentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is HandBase hand)
+        {
+            hand.InvalidateCache();
+            hand.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [DefaultValue(typeof(TimeComponent), "None")]
     [Category("Behavior")]
@@ -67,7 +76,16 @@ public abstract class HandBase : Shape, IHand
         nameof(IntegralValue),
         typeof(bool),
         typeof(HandBase),
-        new FrameworkPropertyMetadata(false));
+        new FrameworkPropertyMetadata(false, HandleIntegralValueChanged));
+
+    private static void HandleIntegralValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is HandBase hand)
+        {
+            hand.InvalidateCache();
+            hand.OnChanged(EventArgs.Empty);
+        }
+    }
 
     [Category("Behavior")]
     [DefaultValue(false)]
