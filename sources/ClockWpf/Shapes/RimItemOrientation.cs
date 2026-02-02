@@ -22,8 +22,13 @@ public enum RimItemOrientation
 
     /// <summary>
     /// The items displayed in the upper part of the dial, from -90 degrees (inclusive) until
-    /// 90 degrees (inclusive) are displayed facing center; the items from de lower part of the
+    /// 90 degrees (inclusive) are displayed facing center; the items from the lower part of the
     /// dial are displayed facing out.
     /// </summary>
-    HalfInHalfOut
+    HalfInHalfOut,
+
+    /// <summary>
+    /// The orientation of the item is decided programatically, by the inheritor class.
+    /// </summary>
+    Custom
 }

@@ -275,10 +275,26 @@ public abstract class RimBase : Shape
                     return null;
                 }
 
+            case RimItemOrientation.Custom:
+                return OnItemOrientation(index);
+
             case RimItemOrientation.FaceIn:
             default:
                 return null;
         }
+    }
+
+    /// <summary>
+    /// Provides a custom orientation transform for the item at the specified index.
+    /// </summary>
+    /// <remarks>Override this method to supply a specific orientation for individual items. The default
+    /// implementation returns <c>null</c>, indicating no rotation is applied.</remarks>
+    /// <param name="index">The zero-based index of the item for which to retrieve the orientation transform.</param>
+    /// <returns>A <see cref="RotateTransform"/> representing the orientation of the item at the specified index, or <c>null</c>
+    /// if no orientation is applied.</returns>
+    protected virtual RotateTransform OnItemOrientation(int index)
+    {
+        return null;
     }
 
     /// <summary>
