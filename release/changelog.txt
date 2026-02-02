@@ -1,0 +1,16 @@
+Clock WPF
+====================================================================================================
+
+Ver 1.1.0
+----------------------------------------------------------------------------------------------------
+[bugfix] Fixed the Black Template and renamed it to Sharp Template.
+[change] Time Providers were renamed to Movement.
+[new]    Create StaticMovement - Displays a fixed time.
+[bugfix] Small tweaks to the templates.
+[new]    Rim Shape - New item orientation: HalfInHalfOut
+[new]    Rim Shape - New item orientation: Custom
+
+
+Ver 1.0.0
+----------------------------------------------------------------------------------------------------
+First version
