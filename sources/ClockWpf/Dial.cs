@@ -1,8 +1,10 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
 
@@ -10,7 +12,22 @@ namespace DustInTheWind.ClockWpf;
 
 public class Dial : Canvas
 {
-    public PerformanceMeter PerformanceInfo { get; set; }
+    private TimeSpan time;
+
+    #region PerformanceMeter DependencyProperty
+
+    public static readonly DependencyProperty PerformanceMeterProperty = DependencyProperty.Register(
+        nameof(PerformanceMeter),
+        typeof(PerformanceMeter),
+        typeof(Dial));
+
+    public PerformanceMeter PerformanceMeter
+    {
+        get => (PerformanceMeter)GetValue(PerformanceMeterProperty);
+        set => SetValue(PerformanceMeterProperty, value);
+    }
+
+    #endregion
 
     #region Shapes DependencyProperty
 
@@ -96,12 +113,12 @@ public class Dial : Canvas
         nameof(KeepProportions),
         typeof(bool),
         typeof(Dial),
-        new PropertyMetadata(false, OnKeepProportionsChanged));
+        new PropertyMetadata(true, OnKeepProportionsChanged));
 
     private static void OnKeepProportionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is Dial canvas)
-            canvas.InvalidateVisual();
+        if (d is Dial dial)
+            dial.InvalidateVisual();
     }
 
     public bool KeepProportions
@@ -112,31 +129,87 @@ public class Dial : Canvas
 
     #endregion
 
-    #region Time DependencyProperty
+    #region Movement DependencyProperty
 
-    public static readonly DependencyProperty TimeProperty = DependencyProperty.Register(
-        nameof(Time),
-        typeof(TimeSpan),
+    public static readonly DependencyProperty MovementProperty = DependencyProperty.Register(
+        nameof(Movement),
+        typeof(IMovement),
         typeof(Dial),
-        new FrameworkPropertyMetadata(TimeSpan.Zero, OnTimeChanged));
+        new PropertyMetadata(null, HandleMovementChanged));
 
-    private static void OnTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void HandleMovementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is Dial canvas)
-            canvas.InvalidateVisual();
+        if (d is not Dial dial)
+            return;
+
+        if (e.OldValue is IMovement oldMovement)
+            oldMovement.Tick -= dial.HandleTick;
+
+        if (e.NewValue is IMovement newMovement)
+        {
+            newMovement.Tick += dial.HandleTick;
+
+            dial.time = newMovement.LastTick;
+            dial.InvalidateVisual();
+        }
     }
 
-    public TimeSpan Time
+    private void HandleTick(object sender, TickEventArgs e)
     {
-        get => (TimeSpan)GetValue(TimeProperty);
-        set => SetValue(TimeProperty, value);
+        time = e.Time;
+
+        if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
+            return;
+
+        try
+        {
+            Dispatcher.Invoke(() =>
+            {
+                InvalidateVisual();
+            });
+        }
+        catch (TaskCanceledException)
+        {
+            // Ignore
+        }
+    }
+
+    public IMovement Movement
+    {
+        get => (IMovement)GetValue(MovementProperty);
+        set => SetValue(MovementProperty, value);
+    }
+
+    #endregion
+
+    #region RotationDirection DependencyProperty
+
+    public static readonly DependencyProperty RotationDirectionProperty = DependencyProperty.Register(
+        nameof(RotationDirection),
+        typeof(RotationDirection),
+        typeof(Dial),
+        new FrameworkPropertyMetadata(RotationDirection.Clockwise, HandleRotationDirectionChanged));
+
+    private static void HandleRotationDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is Dial dial)
+            dial.InvalidateVisual();
+    }
+
+    [Category("Behavior")]
+    [DefaultValue(RotationDirection.Clockwise)]
+    [Description("Specifies the direction of rotation for the hands (clockwise or counterclockwise).")]
+    public RotationDirection RotationDirection
+    {
+        get => (RotationDirection)GetValue(RotationDirectionProperty);
+        set => SetValue(RotationDirectionProperty, value);
     }
 
     #endregion
 
     protected override void OnRender(DrawingContext drawingContext)
     {
-        PerformanceMeter performanceInfo = PerformanceInfo;
+        PerformanceMeter performanceInfo = PerformanceMeter;
         performanceInfo?.Start();
 
         try
@@ -187,7 +260,8 @@ public class Dial : Canvas
         {
             DrawingContext = drawingContext,
             ClockDiameter = diameter,
-            Time = Time
+            Time = time,
+            ClockDirection = RotationDirection
         };
 
         foreach (Shape shape in Shapes)

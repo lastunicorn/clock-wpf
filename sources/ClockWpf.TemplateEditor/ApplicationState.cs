@@ -1,6 +1,5 @@
-﻿using DustInTheWind.ClockWpf.Shapes;
+﻿using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Templates;
-using DustInTheWind.ClockWpf.Movements;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 

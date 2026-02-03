@@ -3,6 +3,7 @@ using DustInTheWind.ClockWpf.TemplateEditor.Templates;
 using DustInTheWind.ClockWpf.TemplateEditor.Movements;
 using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.Movements;
+using DustInTheWind.ClockWpf.Shapes;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 
@@ -49,6 +50,19 @@ internal class MainViewModel : ViewModelBase
         }
     }
 
+    public RotationDirection ClockDirection
+    {
+        get => field;
+        set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
     public TemplatesViewModel TemplatesViewModel { get; }
 
     public MovementsViewModel MovementsViewModel { get; }
@@ -74,6 +88,7 @@ internal class MainViewModel : ViewModelBase
         {
             ClockTemplate = applicationState.CurrentTemplate;
             Movement = applicationState.CurrentMovement;
+            ClockDirection = RotationDirection.Clockwise;
         });
     }
 

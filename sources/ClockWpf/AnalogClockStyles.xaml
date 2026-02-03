@@ -22,7 +22,10 @@
                                     Width="200"
                                     Height="200"
                                     Shapes="{TemplateBinding Shapes}"
-                                    KeepProportions="{TemplateBinding KeepProportions}"/>
+                                    KeepProportions="{TemplateBinding KeepProportions}"
+                                    Movement="{TemplateBinding Movement}"
+                                    PerformanceMeter="{TemplateBinding PerformanceMeter}"
+                                    RotationDirection="{TemplateBinding RotationDirection}"/>
 
                                 <Grid
                                     HorizontalAlignment="Center"

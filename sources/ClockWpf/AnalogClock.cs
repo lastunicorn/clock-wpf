@@ -12,21 +12,12 @@ namespace DustInTheWind.ClockWpf;
 
 public class AnalogClock : Control
 {
-    private Dial dial;
-
     #region PerformanceMeter DependencyProperty
 
     public static readonly DependencyProperty PerformanceMeterProperty = DependencyProperty.Register(
         nameof(PerformanceMeter),
         typeof(PerformanceMeter),
-        typeof(AnalogClock),
-        new PropertyMetadata(null, HandlePerformanceMeterChanged));
-
-    private static void HandlePerformanceMeterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is AnalogClock analogClock && analogClock.dial != null)
-            analogClock.dial.PerformanceInfo = (PerformanceMeter)e.NewValue;
-    }
+        typeof(AnalogClock));
 
     public PerformanceMeter PerformanceMeter
     {
@@ -94,15 +85,7 @@ public class AnalogClock : Control
         nameof(KeepProportions),
         typeof(bool),
         typeof(AnalogClock),
-        new PropertyMetadata(true, HandleKeepProportionsChanged));
-
-    private static void HandleKeepProportionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not AnalogClock analogClock)
-            return;
-
-        analogClock.dial?.InvalidateVisual();
-    }
+        new PropertyMetadata(true));
 
     public bool KeepProportions
     {
@@ -124,38 +107,6 @@ public class AnalogClock : Control
     {
         if (d is not AnalogClock analogClock)
             return;
-
-        if (e.OldValue is IMovement oldMovement)
-            oldMovement.Tick -= analogClock.HandleTick;
-
-        if (e.NewValue is IMovement newMovement)
-        {
-            newMovement.Tick += analogClock.HandleTick;
-            analogClock.UpdateDisplayedTime(newMovement.LastTick);
-        }
-    }
-
-    private void HandleTick(object sender, TickEventArgs e)
-    {
-        UpdateDisplayedTime(e.Time);
-    }
-
-    private void UpdateDisplayedTime(TimeSpan time)
-    {
-        if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
-            return;
-
-        try
-        {
-            Dispatcher.Invoke(() =>
-            {
-                dial?.Time = time;
-            });
-        }
-        catch (TaskCanceledException)
-        {
-            // Ignore
-        }
     }
 
     public IMovement Movement
@@ -205,19 +156,11 @@ public class AnalogClock : Control
         nameof(RotationDirection),
         typeof(RotationDirection),
         typeof(AnalogClock),
-        new FrameworkPropertyMetadata(RotationDirection.Clockwise, HandleRotationDirectionChanged));
-
-    private static void HandleRotationDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not AnalogClock analogClock)
-            return;
-
-        analogClock.dial?.InvalidateVisual();
-    }
+        new FrameworkPropertyMetadata(RotationDirection.Clockwise));
 
     [Category("Behavior")]
     [DefaultValue(RotationDirection.Clockwise)]
-    [Description("Specifies the direction of rotation for the hands (clockwise or counter clockwise).")]
+    [Description("Specifies the direction of rotation for the hands (clockwise or counterclockwise).")]
     public RotationDirection RotationDirection
     {
         get => (RotationDirection)GetValue(RotationDirectionProperty);
@@ -239,18 +182,5 @@ public class AnalogClock : Control
     private void UpdateIsEmpty()
     {
         IsEmpty = Shapes == null || Shapes.Count == 0;
-    }
-
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
-
-        dial = GetTemplateChild("PART_Dial") as Dial;
-
-        IMovement movement = Movement;
-        if (movement != null)
-            UpdateDisplayedTime(movement.LastTick);
-
-        dial?.PerformanceInfo = PerformanceMeter;
     }
 }

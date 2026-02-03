@@ -108,26 +108,4 @@ public abstract class HandBase : Shape, IHand
 
         return base.OnRendering(context);
     }
-
-    protected double CalculateHandAngle(TimeSpan time)
-    {
-        if (IntegralValue)
-        {
-            return TimeComponent switch
-            {
-                TimeComponent.Hour => (time.Hours % 12) * 30.0,
-                TimeComponent.Minute => time.Minutes * 6.0,
-                TimeComponent.Second => time.Seconds * 6.0,
-                _ => 0
-            };
-        }
-
-        return TimeComponent switch
-        {
-            TimeComponent.Hour => (time.TotalHours % 12 / 12) * 360.0,
-            TimeComponent.Minute => (time.TotalMinutes % 60 / 60) * 360.0,
-            TimeComponent.Second => (time.TotalSeconds % 60 / 60) * 360.0,
-            _ => 0
-        };
-    }
 }

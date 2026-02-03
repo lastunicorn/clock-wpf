@@ -73,8 +73,15 @@ public class DotHand : HandBase
         DrawingPlan.Create(context.DrawingContext)
             .WithTransform(() =>
             {
-                double angleDegrees = CalculateHandAngle(context.Time);
-                return new RotateTransform(angleDegrees, 0, 0);
+                HandAngle handAngle = new()
+                {
+                    Time = context.Time,
+                    TimeComponent = TimeComponent,
+                    ClockDirection = context.ClockDirection,
+                    IntegralValue = IntegralValue
+                };
+
+                return new RotateTransform((double)handAngle, 0, 0);
             })
             .Draw(dc =>
             {

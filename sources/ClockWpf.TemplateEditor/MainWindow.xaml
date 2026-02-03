@@ -41,7 +41,8 @@
                 x:Name="analogClock1"
                 ClockTemplate="{Binding ClockTemplate}"
                 Movement="{Binding Movement}"
-                PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"/>
+                PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"
+                RotationDirection="{Binding ClockDirection}"/>
 
             <performance:PerformaceView
                 DataContext="{Binding PerformanceMeter, Mode=OneWay}"/>

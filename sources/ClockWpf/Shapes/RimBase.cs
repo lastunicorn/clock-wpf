@@ -219,14 +219,21 @@ public abstract class RimBase : Shape
         double rimRadius = radius - calculatedDistanceFromEdge;
 
         int index = 0;
-        double currentAngle = OffsetAngle + Angle * index;
 
-        while (currentAngle >= 0)
+        RimItemAngle itemAngle = new()
+        {
+            Index = index,
+            AngleBetweenItems = Angle,
+            OffsetAngle = OffsetAngle,
+            ClockDirection = context.ClockDirection
+        };
+
+        while (true)
         {
             if (MaxCoverageCount > 0 && index >= MaxCoverageCount)
                 break;
 
-            if (MaxCoverageAngle > 0 && currentAngle - OffsetAngle >= MaxCoverageAngle)
+            if (MaxCoverageAngle > 0 && itemAngle >= MaxCoverageAngle)
                 break;
 
             bool shouldSkip = SkipIndex > 0 && (index + 1) % SkipIndex == 0;
@@ -234,25 +241,32 @@ public abstract class RimBase : Shape
             if (!shouldSkip)
             {
                 DrawingPlan.Create(context.DrawingContext)
-                    .WithTransform(() => new RotateTransform(currentAngle, 0, 0))
+                    .WithTransform(() => new RotateTransform((double)itemAngle, 0, 0))
                     .WithTransform(() => new TranslateTransform(0, -rimRadius))
-                    .WithTransform(() => CreateItemOrientationTransform(index))
+                    .WithTransform(() => CreateItemOrientationTransform(itemAngle))
                     .Draw(cd => RenderItem(context, index));
             }
 
             index++;
-            currentAngle = OffsetAngle + Angle * index;
+
+            itemAngle = new()
+            {
+                Index = index,
+                AngleBetweenItems = Angle,
+                OffsetAngle = OffsetAngle,
+                ClockDirection = context.ClockDirection
+            };
         }
     }
 
-    private RotateTransform CreateItemOrientationTransform(int index)
+    private RotateTransform CreateItemOrientationTransform(RimItemAngle itemAngle)
     {
         switch (Orientation)
         {
             case RimItemOrientation.Normal:
                 {
-                    double currentAngle = OffsetAngle + Angle * index;
-                    return new RotateTransform(-currentAngle, 0, 0);
+                    double rotationAngle = -(double)itemAngle;
+                    return new RotateTransform(rotationAngle, 0, 0);
                 }
 
             default:
@@ -264,16 +278,13 @@ public abstract class RimBase : Shape
 
             case RimItemOrientation.HalfInHalfOut:
                 {
-                    double currentAngle = OffsetAngle + Angle * index;
-                    double normalizedAngle = currentAngle % 360;
-
-                    return normalizedAngle > 90 && normalizedAngle < 270
+                    return itemAngle.IsTopHalf
                         ? new RotateTransform(180, 0, 0)
                         : null;
                 }
 
             case RimItemOrientation.Custom:
-                return OnItemOrientation(index);
+                return OnItemOrientation(itemAngle);
         }
     }
 
@@ -282,10 +293,9 @@ public abstract class RimBase : Shape
     /// </summary>
     /// <remarks>Override this method to supply a specific orientation for individual items. The default
     /// implementation returns <c>null</c>, indicating no rotation is applied.</remarks>
-    /// <param name="index">The zero-based index of the item for which to retrieve the orientation transform.</param>
     /// <returns>A <see cref="RotateTransform"/> representing the orientation of the item at the specified index, or <c>null</c>
     /// if no orientation is applied.</returns>
-    protected virtual RotateTransform OnItemOrientation(int index)
+    protected virtual RotateTransform OnItemOrientation(RimItemAngle itemAngle)
     {
         return null;
     }
