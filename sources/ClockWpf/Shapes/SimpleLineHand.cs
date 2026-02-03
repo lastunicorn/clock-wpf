@@ -102,29 +102,7 @@ public class SimpleLineHand : HandBase
     private Point endPoint;
     private bool hasPin;
     private double calculatedPinRadius;
-
-    protected override Pen CreateStrokePen(bool freeze = true)
-    {
-        if (RoundEnds)
-        {
-            Pen pen = base.CreateStrokePen(false);
-
-            if (pen != null)
-            {
-                pen.StartLineCap = PenLineCap.Round;
-                pen.EndLineCap = PenLineCap.Round;
-
-                if (freeze && pen.CanFreeze)
-                    pen.Freeze();
-            }
-
-            return pen;
-        }
-        else
-        {
-            return base.CreateStrokePen();
-        }
-    }
+    private Pen strokePen;
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
@@ -158,6 +136,32 @@ public class SimpleLineHand : HandBase
             double calculatedPinDiameter = PinDiameter.RelativeTo(radius);
             calculatedPinRadius = calculatedPinDiameter / 2;
         }
+
+        // Pen
+        strokePen = CreateStrokePen();
+    }
+
+    private Pen CreateStrokePen()
+    {
+        if (RoundEnds)
+        {
+            Pen pen = CreateStrokePen(false);
+
+            if (pen != null)
+            {
+                pen.StartLineCap = PenLineCap.Round;
+                pen.EndLineCap = PenLineCap.Round;
+
+                if (pen.CanFreeze)
+                    pen.Freeze();
+            }
+
+            return pen;
+        }
+        else
+        {
+            return CreateStrokePen(true);
+        }
     }
 
     public override void DoRender(ClockDrawingContext context)
@@ -170,7 +174,7 @@ public class SimpleLineHand : HandBase
             })
             .Draw(dc =>
             {
-                dc.DrawLine(StrokePen, startPoint, endPoint);
+                dc.DrawLine(strokePen, startPoint, endPoint);
 
                 if (hasPin)
                 {

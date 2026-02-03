@@ -109,9 +109,6 @@ public abstract class Shape : DependencyObject
     {
         if (d is Shape shape)
         {
-            shape.strokePen = null;
-            shape.isStrokePenCreated = false;
-
             shape.InvalidateCache();
             shape.OnChanged(EventArgs.Empty);
         }
@@ -140,9 +137,6 @@ public abstract class Shape : DependencyObject
     {
         if (d is Shape shape)
         {
-            shape.strokePen = null;
-            shape.isStrokePenCreated = false;
-
             shape.InvalidateCache();
             shape.OnChanged(EventArgs.Empty);
         }
@@ -161,24 +155,7 @@ public abstract class Shape : DependencyObject
 
     #region StrokePen Property
 
-    private Pen strokePen;
-    private bool isStrokePenCreated;
-
-    protected Pen StrokePen
-    {
-        get
-        {
-            if (!isStrokePenCreated)
-            {
-                strokePen = CreateStrokePen();
-                isStrokePenCreated = true;
-            }
-
-            return strokePen;
-        }
-    }
-
-    protected virtual Pen CreateStrokePen(bool freeze = true)
+    protected Pen CreateStrokePen(bool freeze)
     {
         if (StrokeThickness <= 0 || StrokeBrush == null)
             return null;
@@ -259,7 +236,7 @@ public abstract class Shape : DependencyObject
     /// <returns></returns>
     protected virtual bool OnRendering(ClockDrawingContext context)
     {
-        if (FillBrush == null && StrokePen == null)
+        if (FillBrush == null && (StrokeBrush == null || StrokeThickness <= 0))
             return false;
 
         return true;
@@ -288,9 +265,6 @@ public abstract class Shape : DependencyObject
 
     protected void InvalidateCache()
     {
-        strokePen = null;
-        isStrokePenCreated = false;
-
         isCacheValid = false;
     }
 

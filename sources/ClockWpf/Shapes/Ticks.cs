@@ -74,31 +74,32 @@ public class Ticks : RimBase
 
     #endregion
 
-    protected override bool OnRendering(ClockDrawingContext context)
-    {
-        if (StrokePen == null)
-            return false;
+    private Pen strokePen;
 
-        return base.OnRendering(context);
+    protected override void CalculateCache(ClockDrawingContext context)
+    {
+        base.CalculateCache(context);
+
+        strokePen = CreateStrokePen();
     }
 
-    protected override Pen CreateStrokePen(bool freeze = true)
+    private Pen CreateStrokePen()
     {
         if (RoundEnds)
         {
-            Pen pen = base.CreateStrokePen(false);
+            Pen pen = CreateStrokePen(false);
 
             pen.StartLineCap = PenLineCap.Round;
             pen.EndLineCap = PenLineCap.Round;
 
-            if (freeze && pen.CanFreeze)
+            if (pen.CanFreeze)
                 pen.Freeze();
 
             return pen;
         }
         else
         {
-            return base.CreateStrokePen();
+            return CreateStrokePen(true);
         }
     }
 
@@ -114,6 +115,6 @@ public class Ticks : RimBase
         Point startPoint = new(0, -actualLength / 2);
         Point endPoint = new(0, actualLength / 2);
 
-        context.DrawingContext.DrawLine(StrokePen, startPoint, endPoint);
+        context.DrawingContext.DrawLine(strokePen, startPoint, endPoint);
     }
 }

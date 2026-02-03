@@ -40,6 +40,7 @@ public class DotHand : HandBase
 
     private double calculatedDotRadius;
     private Point calculatedDotCenter;
+    private Pen strokePen;
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
@@ -63,6 +64,8 @@ public class DotHand : HandBase
         calculatedDotCenter = new Point(0, -actualLength);
         
         calculatedDotRadius = Radius.RelativeTo(clockRadius);
+        
+        strokePen = CreateStrokePen(true);
     }
 
     public override void DoRender(ClockDrawingContext context)
@@ -75,7 +78,7 @@ public class DotHand : HandBase
             })
             .Draw(dc =>
             {
-                dc.DrawEllipse(FillBrush, StrokePen, calculatedDotCenter, calculatedDotRadius, calculatedDotRadius);
+                dc.DrawEllipse(FillBrush, strokePen, calculatedDotCenter, calculatedDotRadius, calculatedDotRadius);
             });
     }
 }

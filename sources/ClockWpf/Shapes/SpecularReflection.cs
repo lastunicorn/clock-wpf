@@ -12,6 +12,8 @@ public class SpecularReflection : Shape
         StrokeThicknessProperty.OverrideMetadata(typeof(SpecularReflection), new FrameworkPropertyMetadata(0.0));
     }
 
+    private Pen strokePen;
+
     public SpecularReflection()
     {
         FillBrush = new RadialGradientBrush(
@@ -22,12 +24,11 @@ public class SpecularReflection : Shape
         ]);
     }
 
-    protected override bool OnRendering(ClockDrawingContext context)
+    protected override void CalculateCache(ClockDrawingContext context)
     {
-        if (FillBrush == null && StrokePen == null)
-            return false;
+        base.CalculateCache(context);
 
-        return base.OnRendering(context);
+        strokePen = CreateStrokePen(true);
     }
 
     public override void DoRender(ClockDrawingContext context)
@@ -40,7 +41,7 @@ public class SpecularReflection : Shape
         double radiusY = 15.RelativeTo(context.ClockRadius);
 
         context.DrawingContext.PushTransform(new RotateTransform(-65, center.X, center.Y));
-        context.DrawingContext.DrawEllipse(FillBrush, StrokePen, center, radiusX, radiusY);
+        context.DrawingContext.DrawEllipse(FillBrush, strokePen, center, radiusX, radiusY);
         context.DrawingContext.Pop();
     }
 }

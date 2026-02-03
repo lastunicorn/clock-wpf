@@ -3,7 +3,7 @@ using DustInTheWind.ClockWpf.Shapes;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
-internal class BobTemplate : ClockTemplate
+public class BobTemplate : ClockTemplate
 {
     protected override IEnumerable<Shape> CreateShapes()
     {

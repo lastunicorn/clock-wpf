@@ -67,6 +67,7 @@ public class RodHand : HandBase
     #endregion
 
     private PathGeometry handGeometry;
+    private Pen strokePen;
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
@@ -81,6 +82,7 @@ public class RodHand : HandBase
         base.CalculateCache(context);
 
         handGeometry = CreateHandGeometry(context);
+        strokePen = CreateStrokePen(true);
     }
 
     private PathGeometry CreateHandGeometry(ClockDrawingContext context)
@@ -143,7 +145,7 @@ public class RodHand : HandBase
             })
             .Draw(dc =>
             {
-                context.DrawingContext.DrawGeometry(FillBrush, StrokePen, handGeometry);
+                context.DrawingContext.DrawGeometry(FillBrush, strokePen, handGeometry);
             });
     }
 }

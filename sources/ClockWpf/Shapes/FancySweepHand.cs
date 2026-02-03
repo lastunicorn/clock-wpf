@@ -100,14 +100,7 @@ public class FancySweepHand : HandBase
     private double circleRadius;
     private Point tipLineStartPoint;
     private Point tipLineEndPoint;
-
-    protected override bool OnRendering(ClockDrawingContext context)
-    {
-        if (StrokePen == null)
-            return false;
-
-        return base.OnRendering(context);
-    }
+    private Pen strokePen;
 
     protected override void CalculateCache(ClockDrawingContext context)
     {
@@ -135,6 +128,10 @@ public class FancySweepHand : HandBase
 
         tipLineStartPoint = new Point(0, calculatedCircleCenterY - calculatedCircleRadius);
         tipLineEndPoint = new Point(0, -calculatedLength);
+
+        // Stroke Pen
+
+        strokePen = CreateStrokePen(true);
     }
 
     public override void DoRender(ClockDrawingContext context)
@@ -147,9 +144,9 @@ public class FancySweepHand : HandBase
             })
             .Draw(dc =>
             {
-                dc.DrawLine(StrokePen, mainLineStartPoint, mainLineEndPoint);
-                dc.DrawEllipse(null, StrokePen, circleCenter, circleRadius, circleRadius);
-                dc.DrawLine(StrokePen, tipLineStartPoint, tipLineEndPoint);
+                dc.DrawLine(strokePen, mainLineStartPoint, mainLineEndPoint);
+                dc.DrawEllipse(null, strokePen, circleCenter, circleRadius, circleRadius);
+                dc.DrawLine(strokePen, tipLineStartPoint, tipLineEndPoint);
             });
     }
 }

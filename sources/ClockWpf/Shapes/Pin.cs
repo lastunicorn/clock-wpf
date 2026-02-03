@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -34,19 +35,17 @@ public class Pin : Shape
 
     #endregion
 
+    private Point pinCenter;
+    private double pinRadius;
+    private Pen strokePen;
+
     protected override bool OnRendering(ClockDrawingContext context)
     {
-        if (FillBrush == null && StrokePen == null)
-            return false;
-
         if (Diameter <= 0)
             return false;
 
         return base.OnRendering(context);
     }
-
-    Point pinCenter;
-    double pinRadius;
 
     protected override void CalculateCache(ClockDrawingContext context)
     {
@@ -54,10 +53,11 @@ public class Pin : Shape
 
         pinRadius = Diameter.RelativeTo(context.ClockRadius);
         pinCenter = new Point(0, 0);
+        strokePen = CreateStrokePen(true);
     }
 
     public override void DoRender(ClockDrawingContext context)
     {
-        context.DrawingContext.DrawEllipse(FillBrush, StrokePen, pinCenter, pinRadius, pinRadius);
+        context.DrawingContext.DrawEllipse(FillBrush, strokePen, pinCenter, pinRadius, pinRadius);
     }
 }

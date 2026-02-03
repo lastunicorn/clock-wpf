@@ -67,6 +67,7 @@ public class DiamondHand : HandBase
     #endregion
 
     private StreamGeometry diamondGeometry;
+    private Pen strokePen;
 
     protected override bool OnRendering(ClockDrawingContext context)
     {
@@ -81,6 +82,7 @@ public class DiamondHand : HandBase
         base.CalculateCache(context);
 
         diamondGeometry = CreateDiamondGeometry(context);
+        strokePen = CreateStrokePen(true);
     }
 
     private StreamGeometry CreateDiamondGeometry(ClockDrawingContext context)
@@ -116,7 +118,7 @@ public class DiamondHand : HandBase
             })
             .Draw(dc =>
             {
-                context.DrawingContext.DrawGeometry(FillBrush, StrokePen, diamondGeometry);
+                context.DrawingContext.DrawGeometry(FillBrush, strokePen, diamondGeometry);
             });
     }
 }
