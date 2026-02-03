@@ -7,7 +7,7 @@ namespace DustInTheWind.ClockWpf.Performance;
 
 public class PerformaceView : Control
 {
-    private PerformanceInfo currentPerformanceInfo;
+    private PerformanceMeter currentPerformanceInfo;
 
     #region ResetCommand
 
@@ -95,7 +95,7 @@ public class PerformaceView : Control
                 currentPerformanceInfo = null;
             }
 
-            if (DataContext is PerformanceInfo performanceInfo)
+            if (DataContext is PerformanceMeter performanceInfo)
             {
                 currentPerformanceInfo = performanceInfo;
 

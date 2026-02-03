@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace DustInTheWind.ClockWpf.Performance;
 
-public class PerformanceInfo
+public class PerformanceMeter
 {
     private readonly Stopwatch stopwatch = new();
 

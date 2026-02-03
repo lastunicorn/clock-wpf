@@ -10,7 +10,7 @@ namespace DustInTheWind.ClockWpf;
 
 public class Dial : Canvas
 {
-    public PerformanceInfo PerformanceInfo { get; set; }
+    public PerformanceMeter PerformanceInfo { get; set; }
 
     #region Shapes DependencyProperty
 
@@ -136,7 +136,7 @@ public class Dial : Canvas
 
     protected override void OnRender(DrawingContext drawingContext)
     {
-        PerformanceInfo performanceInfo = PerformanceInfo;
+        PerformanceMeter performanceInfo = PerformanceInfo;
         performanceInfo?.Start();
 
         try

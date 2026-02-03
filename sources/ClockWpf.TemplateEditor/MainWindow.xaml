@@ -41,10 +41,10 @@
                 x:Name="analogClock1"
                 ClockTemplate="{Binding ClockTemplate}"
                 Movement="{Binding Movement}"
-                PerformanceInfo="{Binding PerformanceInfo, Mode=OneWay}"/>
+                PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"/>
 
             <performance:PerformaceView
-                DataContext="{Binding PerformanceInfo, Mode=OneWay}"/>
+                DataContext="{Binding PerformanceMeter, Mode=OneWay}"/>
 
         </Grid>
 

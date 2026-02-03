@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
-using DustInTheWind.ClockWpf.Movements;
 
 namespace DustInTheWind.ClockWpf;
 
@@ -13,24 +14,24 @@ public class AnalogClock : Control
 {
     private Dial dial;
 
-    #region PerformanceInfo DependencyProperty
+    #region PerformanceMeter DependencyProperty
 
-    public static readonly DependencyProperty PerformanceInfoProperty = DependencyProperty.Register(
-        nameof(PerformanceInfo),
-        typeof(PerformanceInfo),
+    public static readonly DependencyProperty PerformanceMeterProperty = DependencyProperty.Register(
+        nameof(PerformanceMeter),
+        typeof(PerformanceMeter),
         typeof(AnalogClock),
-        new PropertyMetadata(null, HandlePerformanceInfoChanged));
+        new PropertyMetadata(null, HandlePerformanceMeterChanged));
 
-    private static void HandlePerformanceInfoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void HandlePerformanceMeterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is AnalogClock analogClock && analogClock.dial != null)
-            analogClock.dial.PerformanceInfo = (PerformanceInfo)e.NewValue;
+            analogClock.dial.PerformanceInfo = (PerformanceMeter)e.NewValue;
     }
 
-    public PerformanceInfo PerformanceInfo
+    public PerformanceMeter PerformanceMeter
     {
-        get => (PerformanceInfo)GetValue(PerformanceInfoProperty);
-        set => SetValue(PerformanceInfoProperty, value);
+        get => (PerformanceMeter)GetValue(PerformanceMeterProperty);
+        set => SetValue(PerformanceMeterProperty, value);
     }
 
     #endregion
@@ -198,6 +199,33 @@ public class AnalogClock : Control
 
     #endregion
 
+    #region RotationDirection DependencyProperty
+
+    public static readonly DependencyProperty RotationDirectionProperty = DependencyProperty.Register(
+        nameof(RotationDirection),
+        typeof(RotationDirection),
+        typeof(AnalogClock),
+        new FrameworkPropertyMetadata(RotationDirection.Clockwise, HandleRotationDirectionChanged));
+
+    private static void HandleRotationDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not AnalogClock analogClock)
+            return;
+
+        analogClock.dial?.InvalidateVisual();
+    }
+
+    [Category("Behavior")]
+    [DefaultValue(RotationDirection.Clockwise)]
+    [Description("Specifies the direction of rotation for the hands (clockwise or counter clockwise).")]
+    public RotationDirection RotationDirection
+    {
+        get => (RotationDirection)GetValue(RotationDirectionProperty);
+        set => SetValue(RotationDirectionProperty, value);
+    }
+
+    #endregion
+
     static AnalogClock()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(AnalogClock), new FrameworkPropertyMetadata(typeof(AnalogClock)));
@@ -223,6 +251,6 @@ public class AnalogClock : Control
         if (movement != null)
             UpdateDisplayedTime(movement.LastTick);
 
-        dial?.PerformanceInfo = PerformanceInfo;
+        dial?.PerformanceInfo = PerformanceMeter;
     }
 }

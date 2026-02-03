@@ -36,7 +36,7 @@ internal class MainViewModel : ViewModelBase
         }
     }
 
-    public PerformanceInfo PerformanceInfo
+    public PerformanceMeter PerformanceMeter
     {
         get => field;
         set
@@ -60,7 +60,7 @@ internal class MainViewModel : ViewModelBase
         TemplatesViewModel = new TemplatesViewModel(applicationState);
         MovementsViewModel = new MovementsViewModel(applicationState);
 
-        PerformanceInfo = new PerformanceInfo();
+        PerformanceMeter = new PerformanceMeter();
 
         applicationState.CurrentTemplateChanged += HandleCurrentTemplateChanged;
         applicationState.CurrentMovementChanged += HandleCurrentMovementChanged;
