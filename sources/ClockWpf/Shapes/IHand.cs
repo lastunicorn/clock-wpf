@@ -5,4 +5,6 @@ public interface IHand
     double Length { get; set; }
 
     TimeComponent TimeComponent { get; set; }
+
+    bool IntegralValue { get; set; }
 }

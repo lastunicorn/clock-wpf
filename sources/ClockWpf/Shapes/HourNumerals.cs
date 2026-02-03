@@ -11,16 +11,21 @@ public class HourNumerals : TextRim
         FontFamilyProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(new FontFamily("Arial")));
         FontSizeProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(22.0));
         FontWeightProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(FontWeights.Normal));
-        TextsProperty.OverrideMetadata(typeof(HourNumerals), GenerateHourNumbers());
+        TextsProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(GenerateHourNumbers()));
         AngleProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(30.0));
         OffsetAngleProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(30.0));
         OrientationProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(RimItemOrientation.Normal));
     }
 
-    private static FrameworkPropertyMetadata GenerateHourNumbers()
+    private static string[] GenerateHourNumbers()
     {
-        return new FrameworkPropertyMetadata(Enumerable.Range(1, 12)
+        return Enumerable.Range(1, 12)
             .Select(x => x.ToString())
-            .ToArray());
+            .ToArray();
+    }
+
+    public HourNumerals()
+    {
+        Name = "Hour Numerals";
     }
 }

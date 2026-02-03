@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -214,18 +215,18 @@ public abstract class RimBase : Shape
     public override void DoRender(ClockDrawingContext context)
     {
         double radius = context.ClockRadius;
-        double actualDistanceFromEdge = radius * DistanceFromEdge / 100.0;
-        double itemRadius = radius - actualDistanceFromEdge;
+        double calculatedDistanceFromEdge = DistanceFromEdge.RelativeTo(radius);
+        double rimRadius = radius - calculatedDistanceFromEdge;
 
         int index = 0;
-        double angleDegrees = OffsetAngle + (index * Angle);
+        double currentAngle = OffsetAngle + Angle * index;
 
-        while (angleDegrees >= 0)
+        while (currentAngle >= 0)
         {
             if (MaxCoverageCount > 0 && index >= MaxCoverageCount)
                 break;
 
-            if (MaxCoverageAngle > 0 && angleDegrees - OffsetAngle >= MaxCoverageAngle)
+            if (MaxCoverageAngle > 0 && currentAngle - OffsetAngle >= MaxCoverageAngle)
                 break;
 
             bool shouldSkip = SkipIndex > 0 && (index + 1) % SkipIndex == 0;
@@ -233,54 +234,46 @@ public abstract class RimBase : Shape
             if (!shouldSkip)
             {
                 DrawingPlan.Create(context.DrawingContext)
-                    .WithTransform(() => new RotateTransform(angleDegrees, 0, 0))
-                    .WithTransform(() => new TranslateTransform(0, -itemRadius))
-                    .WithTransform(() => CreateOrientationTransform(index))
+                    .WithTransform(() => new RotateTransform(currentAngle, 0, 0))
+                    .WithTransform(() => new TranslateTransform(0, -rimRadius))
+                    .WithTransform(() => CreateItemOrientationTransform(index))
                     .Draw(cd => RenderItem(context, index));
             }
 
             index++;
-            angleDegrees = OffsetAngle + (index * Angle);
+            currentAngle = OffsetAngle + Angle * index;
         }
     }
 
-    private RotateTransform CreateOrientationTransform(int index)
+    private RotateTransform CreateItemOrientationTransform(int index)
     {
         switch (Orientation)
         {
             case RimItemOrientation.Normal:
                 {
-                    double totalAngle = -(OffsetAngle + Angle * index);
-                    RotateTransform rotateTransform = new(totalAngle, 0, 0);
-                    return rotateTransform;
+                    double currentAngle = OffsetAngle + Angle * index;
+                    return new RotateTransform(-currentAngle, 0, 0);
                 }
 
+            default:
+            case RimItemOrientation.FaceIn:
+                return null;
+
             case RimItemOrientation.FaceOut:
-                {
-                    RotateTransform rotateTransform = new(180, 0, 0);
-                    return rotateTransform;
-                }
+                return new RotateTransform(180, 0, 0);
 
             case RimItemOrientation.HalfInHalfOut:
                 {
                     double currentAngle = OffsetAngle + Angle * index;
                     double normalizedAngle = currentAngle % 360;
 
-                    if (normalizedAngle > 90 && normalizedAngle < 270)
-                    {
-                        RotateTransform rotateTransform = new(180, 0, 0);
-                        return rotateTransform;
-                    }
-
-                    return null;
+                    return normalizedAngle > 90 && normalizedAngle < 270
+                        ? new RotateTransform(180, 0, 0)
+                        : null;
                 }
 
             case RimItemOrientation.Custom:
                 return OnItemOrientation(index);
-
-            case RimItemOrientation.FaceIn:
-            default:
-                return null;
         }
     }
 

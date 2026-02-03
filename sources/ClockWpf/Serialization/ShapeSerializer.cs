@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace DustInTheWind.ClockWpf.Shapes.Serialization;
+namespace DustInTheWind.ClockWpf.Serialization;
 
 /// <summary>
 /// Provides serialization and deserialization capabilities for shape objects.

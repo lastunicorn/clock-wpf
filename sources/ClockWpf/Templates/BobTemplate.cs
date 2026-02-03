@@ -15,27 +15,29 @@ internal class BobTemplate : ClockTemplate
         };
         yield return background;
 
-        CapsuleHand hourHand = new()
+        SimpleLineHand hourHand = new()
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
             Length = 44,
-            Width = 18,
             TailLength = 9,
-            StrokeThickness = 0,
-            FillBrush = Brushes.Black
+            StrokeThickness = 18,
+            FillBrush = Brushes.Black,
+            PinDiameter = 0,
+            RoundEnds = true
         };
         yield return hourHand;
 
-        CapsuleHand minuteHand = new()
+        SimpleLineHand minuteHand = new()
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
             Length = 69,
-            Width = 18,
             TailLength = 9,
-            StrokeThickness = 0,
-            FillBrush = Brushes.Black
+            StrokeThickness = 18,
+            FillBrush = Brushes.Black,
+            PinDiameter = 0,
+            RoundEnds = true
         };
         yield return minuteHand;
     }

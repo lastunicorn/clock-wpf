@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -51,7 +52,7 @@ public class Pin : Shape
     {
         base.CalculateCache(context);
 
-        pinRadius = context.ClockRadius * (Diameter / 100.0) / 2;
+        pinRadius = Diameter.RelativeTo(context.ClockRadius);
         pinCenter = new Point(0, 0);
     }
 

@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -31,12 +32,12 @@ public class SpecularReflection : Shape
 
     public override void DoRender(ClockDrawingContext context)
     {
-        double x = -context.ClockRadius + (context.ClockRadius * 50) / 100 - 10;
-        double y = -context.ClockRadius + (context.ClockRadius * 50) / 100 + 20;
+        double x = -context.ClockRadius + 50.RelativeTo(context.ClockRadius) - 10;
+        double y = -context.ClockRadius + 50.RelativeTo(context.ClockRadius) + 20;
 
         Point center = new(x, y);
-        double radiusX = (context.ClockRadius * 35) / 100;
-        double radiusY = (context.ClockRadius * 15) / 100;
+        double radiusX = 35.RelativeTo(context.ClockRadius);
+        double radiusY = 15.RelativeTo(context.ClockRadius);
 
         context.DrawingContext.PushTransform(new RotateTransform(-65, center.X, center.Y));
         context.DrawingContext.DrawEllipse(FillBrush, StrokePen, center, radiusX, radiusY);

@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -73,14 +74,11 @@ public class Ticks : RimBase
 
     #endregion
 
-    private double radius;
-
     protected override bool OnRendering(ClockDrawingContext context)
     {
         if (StrokePen == null)
             return false;
 
-        radius = context.ClockRadius;
         return base.OnRendering(context);
     }
 
@@ -106,7 +104,12 @@ public class Ticks : RimBase
 
     protected override void RenderItem(ClockDrawingContext context, int index)
     {
-        double actualLength = radius * Length / 100.0;
+        double actualLength = Length.RelativeTo(context.ClockRadius);
+        double tipLength = RoundEnds
+            ? StrokeThickness / 2
+            : 0;
+
+        actualLength -= tipLength * 2;
 
         Point startPoint = new(0, -actualLength / 2);
         Point endPoint = new(0, actualLength / 2);

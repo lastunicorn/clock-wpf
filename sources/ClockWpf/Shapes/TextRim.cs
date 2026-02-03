@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -148,7 +149,7 @@ public class TextRim : RimBase
             return;
 
         double radius = context.ClockRadius;
-        double calculateFontSize = radius * (FontSize / 100);
+        double calculateFontSize = FontSize.RelativeTo(radius);
 
         FormattedText formattedText = new(
             text,

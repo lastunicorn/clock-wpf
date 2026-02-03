@@ -1,6 +1,7 @@
 using System.Globalization;
+using DustInTheWind.ClockWpf.Serialization;
 
-namespace DustInTheWind.ClockWpf.Shapes.Serialization.Converters;
+namespace DustInTheWind.ClockWpf.Serialization.Converters;
 
 /// <summary>
 /// Converts <see cref="TimeSpan"/> values to and from their string representation.

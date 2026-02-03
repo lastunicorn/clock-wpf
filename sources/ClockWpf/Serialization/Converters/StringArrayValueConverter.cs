@@ -1,4 +1,6 @@
-namespace DustInTheWind.ClockWpf.Shapes.Serialization.Converters;
+using DustInTheWind.ClockWpf.Serialization;
+
+namespace DustInTheWind.ClockWpf.Serialization.Converters;
 
 /// <summary>
 /// Converts string array values to and from their string representation.

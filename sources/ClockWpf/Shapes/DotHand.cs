@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -58,10 +59,10 @@ public class DotHand : HandBase
 
         double clockRadius = context.ClockRadius;
         
-        double actualLength = clockRadius * (Length / 100.0);
+        double actualLength = Length.RelativeTo(clockRadius);
         calculatedDotCenter = new Point(0, -actualLength);
         
-        calculatedDotRadius = clockRadius * (Radius / 100.0);
+        calculatedDotRadius = Radius.RelativeTo(clockRadius);
     }
 
     public override void DoRender(ClockDrawingContext context)

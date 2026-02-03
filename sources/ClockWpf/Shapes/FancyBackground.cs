@@ -146,10 +146,10 @@ public class FancyBackground : Shape
 
         calculatedOuterRimRadius = clockRadius;
 
-        double calculatedOuterRimWidth = clockRadius * (OuterRimWidth / 100);
+        double calculatedOuterRimWidth = OuterRimWidth.RelativeTo(clockRadius);
         calculatedInnerRimRadius = clockRadius - calculatedOuterRimWidth;
 
-        double calculatedInnerRimWidth = clockRadius * (InnerRimWidth / 100);
+        double calculatedInnerRimWidth = InnerRimWidth.RelativeTo(clockRadius);
         calculatedFaceRadius = calculatedInnerRimRadius - calculatedInnerRimWidth;
 
         calculatedOuterRimBrush = OuterRimBrush ?? CreateDefaultOuterRimBrush(FillColor);

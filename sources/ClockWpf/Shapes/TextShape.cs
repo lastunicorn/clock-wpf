@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -212,8 +213,10 @@ public class TextShape : Shape
         formattedText.MaxTextWidth = MaxWidth;
 
         Point location = Location;
-        double textX = context.ClockRadius * (location.X / 100.0) - formattedText.Width / 2;
-        double textY = context.ClockRadius * (location.Y / 100.0) - formattedText.Height / 2;
+        double clockRadius = context.ClockRadius;
+
+        double textX = location.X.RelativeTo(clockRadius) - formattedText.Width / 2;
+        double textY = location.Y.RelativeTo(clockRadius) - formattedText.Height / 2;
 
         textPosition = new Point(textX, textY);
     }

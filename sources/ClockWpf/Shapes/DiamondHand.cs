@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -85,9 +86,9 @@ public class DiamondHand : HandBase
     private StreamGeometry CreateDiamondGeometry(ClockDrawingContext context)
     {
         double radius = context.ClockRadius;
-        double calculatedLength = radius * (Length / 100.0);
-        double calculatedTailLength = radius * (TailLength / 100.0);
-        double calculatedWidth = radius * (Width / 100.0);
+        double calculatedLength = Length.RelativeTo(radius);
+        double calculatedTailLength = TailLength.RelativeTo(radius);
+        double calculatedWidth = Width.RelativeTo(radius);
         double halfWidth = calculatedWidth / 2.0;
 
         StreamGeometry geometry = new();

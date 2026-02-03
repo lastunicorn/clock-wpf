@@ -1,6 +1,4 @@
 using System.Diagnostics;
-using System.Windows.Media;
-using DustInTheWind.ClockWpf.Shapes;
 
 namespace DustInTheWind.ClockWpf.Performance;
 

@@ -1,4 +1,4 @@
-namespace DustInTheWind.ClockWpf.Shapes.Serialization;
+namespace DustInTheWind.ClockWpf.Serialization;
 
 /// <summary>
 /// Defines methods for converting values to and from their serialized string representation.

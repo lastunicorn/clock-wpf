@@ -1,4 +1,4 @@
-namespace DustInTheWind.ClockWpf.Shapes.Serialization;
+namespace DustInTheWind.ClockWpf.Serialization;
 
 /// <summary>
 /// Base class for value converters that handle a specific type.

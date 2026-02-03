@@ -1,25 +1,26 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
 /// <summary>
-/// A capsule shaped clock hand with rounded ends, customizable width and tail length.
+/// A rod shaped clock hand. It has rounded ends and customizable width and tail length.
 /// </summary>
-public class CapsuleHand : HandBase
+public class RodHand : HandBase
 {
     #region Width DependencyProperty
 
     public static readonly DependencyProperty WidthProperty = DependencyProperty.Register(
         nameof(Width),
         typeof(double),
-        typeof(CapsuleHand),
-        new FrameworkPropertyMetadata(4.0, HandleWidthChanged));
+        typeof(RodHand),
+        new FrameworkPropertyMetadata(10.0, HandleWidthChanged));
 
     private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is CapsuleHand capsuleHand)
+        if (d is RodHand capsuleHand)
         {
             capsuleHand.InvalidateCache();
             capsuleHand.OnChanged(EventArgs.Empty);
@@ -27,7 +28,7 @@ public class CapsuleHand : HandBase
     }
 
     [Category("Appearance")]
-    [DefaultValue(4.0)]
+    [DefaultValue(10.0)]
     [Description("The width of the hand.")]
     public double Width
     {
@@ -42,12 +43,12 @@ public class CapsuleHand : HandBase
     public static readonly DependencyProperty TailLengthProperty = DependencyProperty.Register(
         nameof(TailLength),
         typeof(double),
-        typeof(CapsuleHand),
+        typeof(RodHand),
         new FrameworkPropertyMetadata(2.0, HandleTailLengthChange));
 
     private static void HandleTailLengthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is CapsuleHand capsuleHand)
+        if (d is RodHand capsuleHand)
         {
             capsuleHand.InvalidateCache();
             capsuleHand.OnChanged(EventArgs.Empty);
@@ -85,9 +86,9 @@ public class CapsuleHand : HandBase
     private PathGeometry CreateHandGeometry(ClockDrawingContext context)
     {
         double radius = context.ClockRadius;
-        double calculatedLength = radius * (Length / 100.0);
-        double calculatedTailLength = radius * (TailLength / 100.0);
-        double calculatedWidth = radius * (Width / 100.0);
+        double calculatedLength = Length.RelativeTo(radius);
+        double calculatedTailLength = TailLength.RelativeTo(radius);
+        double calculatedWidth = Width.RelativeTo(radius);
         double halfWidth = calculatedWidth / 2.0;
 
         double topY = -calculatedLength + halfWidth;

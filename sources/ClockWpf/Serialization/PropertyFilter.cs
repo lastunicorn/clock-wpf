@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Windows.Media;
 
-namespace DustInTheWind.ClockWpf.Shapes.Serialization;
+namespace DustInTheWind.ClockWpf.Serialization;
 
 /// <summary>
 /// Determines which properties should be included or excluded during serialization.

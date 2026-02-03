@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -10,6 +11,37 @@ namespace DustInTheWind.ClockWpf.Shapes;
 /// </summary>
 public class SimpleLineHand : HandBase
 {
+    #region RoundEnds DependencyProperty
+
+    public static readonly DependencyProperty RoundEndsProperty = DependencyProperty.Register(
+        nameof(RoundEnds),
+        typeof(bool),
+        typeof(SimpleLineHand),
+        new FrameworkPropertyMetadata(false, HandleRoundEndsChanged));
+
+    private static void HandleRoundEndsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is SimpleLineHand simpleLineHand)
+        {
+            simpleLineHand.InvalidateCache();
+            simpleLineHand.OnChanged(EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the ends of the clock's hands are rendered with rounded caps.
+    /// </summary>
+    [Category("Appearance")]
+    [DefaultValue(false)]
+    [Description("Indicates whether the ends of the clock's hands are rendered with rounded caps.")]
+    public bool RoundEnds
+    {
+        get => (bool)GetValue(RoundEndsProperty);
+        set => SetValue(RoundEndsProperty, value);
+    }
+
+    #endregion
+
     #region TailLength DependencyProperty
 
     public static readonly DependencyProperty TailLengthProperty = DependencyProperty.Register(
@@ -66,25 +98,32 @@ public class SimpleLineHand : HandBase
 
     #endregion
 
-    private Point startHandPoint;
-    private Point endHandPoint;
+    private Point startPoint;
+    private Point endPoint;
     private bool hasPin;
     private double calculatedPinRadius;
 
     protected override Pen CreateStrokePen(bool freeze = true)
     {
-        Pen pen = base.CreateStrokePen(false);
-
-        if (pen != null)
+        if (RoundEnds)
         {
-            pen.StartLineCap = PenLineCap.Round;
-            pen.EndLineCap = PenLineCap.Round;
+            Pen pen = base.CreateStrokePen(false);
 
-            if (freeze && pen.CanFreeze)
-                pen.Freeze();
+            if (pen != null)
+            {
+                pen.StartLineCap = PenLineCap.Round;
+                pen.EndLineCap = PenLineCap.Round;
+
+                if (freeze && pen.CanFreeze)
+                    pen.Freeze();
+            }
+
+            return pen;
         }
-
-        return pen;
+        else
+        {
+            return base.CreateStrokePen();
+        }
     }
 
     protected override bool OnRendering(ClockDrawingContext context)
@@ -102,20 +141,21 @@ public class SimpleLineHand : HandBase
         // Hand
 
         double radius = context.ClockRadius;
-        double calculatedLength = radius * (Length / 100);
-        double calculatedTailLength = radius * (TailLength / 100);
-        double calculatedStrokeThickness = radius * (StrokeThickness / 100);
-        double calculatedTipLength = StrokeThickness / 2;
+        double calculatedLength = Length.RelativeTo(radius);
+        double calculatedTailLength = TailLength.RelativeTo(radius);
+        double calculatedTipLength = RoundEnds
+            ? StrokeThickness / 2
+            : 0;
 
-        startHandPoint = new(0, calculatedTailLength - calculatedTipLength);
-        endHandPoint = new(0, -calculatedLength + calculatedTipLength);
+        startPoint = new(0, calculatedTailLength - calculatedTipLength);
+        endPoint = new(0, -calculatedLength + calculatedTipLength);
 
         // Pin
 
         hasPin = PinDiameter > 0;
         if (hasPin)
         {
-            double calculatedPinDiameter = radius * (PinDiameter / 100.0);
+            double calculatedPinDiameter = PinDiameter.RelativeTo(radius);
             calculatedPinRadius = calculatedPinDiameter / 2;
         }
     }
@@ -130,7 +170,7 @@ public class SimpleLineHand : HandBase
             })
             .Draw(dc =>
             {
-                dc.DrawLine(StrokePen, startHandPoint, endHandPoint);
+                dc.DrawLine(StrokePen, startPoint, endPoint);
 
                 if (hasPin)
                 {

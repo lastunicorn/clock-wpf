@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
-using DustInTheWind.ClockWpf.Shapes.Serialization;
+using DustInTheWind.ClockWpf.Serialization;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 

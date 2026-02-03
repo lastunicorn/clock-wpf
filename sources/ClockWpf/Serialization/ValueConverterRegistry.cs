@@ -1,13 +1,13 @@
-﻿using DustInTheWind.ClockWpf.Shapes.Serialization.Converters;
+﻿using DustInTheWind.ClockWpf.Serialization.Converters;
 
-namespace DustInTheWind.ClockWpf.Shapes.Serialization;
+namespace DustInTheWind.ClockWpf.Serialization;
 
 /// <summary>
 /// Manages a collection of value converters and provides methods to convert values to and from strings.
 /// </summary>
 public class ValueConverterRegistry
 {
-    private readonly List<IValueConverter> converters = new List<IValueConverter>();
+    private readonly List<IValueConverter> converters = [];
 
     /// <summary>
     /// Gets the default instance of the registry with all standard converters registered.
@@ -27,7 +27,7 @@ public class ValueConverterRegistry
     /// <returns>A new registry with standard converters registered.</returns>
     private static ValueConverterRegistry CreateDefault()
     {
-        ValueConverterRegistry registry = new ValueConverterRegistry();
+        ValueConverterRegistry registry = new();
 
         registry.Register(new PrimitiveValueConverter());
         registry.Register(new EnumValueConverter());

@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -113,10 +114,10 @@ public class FancySweepHand : HandBase
         base.CalculateCache(context);
 
         double radius = context.ClockRadius;
-        double calculatedLength = radius * (Length / 100.0);
-        double calculatedCircleOffset = radius * (CircleOffset / 100.0);
-        double calculatedCircleRadius = radius * (CircleRadius / 100.0);
-        double calculatedTailLength = radius * (TailLength / 100.0);
+        double calculatedLength = Length.RelativeTo(radius);
+        double calculatedCircleOffset = CircleOffset.RelativeTo(radius);
+        double calculatedCircleRadius = CircleRadius.RelativeTo(radius);
+        double calculatedTailLength = TailLength.RelativeTo(radius);
 
         double calculatedCircleCenterY = -calculatedLength + calculatedCircleOffset;
 

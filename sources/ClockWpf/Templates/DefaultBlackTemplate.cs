@@ -44,7 +44,7 @@ public class DefaultBlackTemplate : ClockTemplate
         };
         yield return hourNumerals;
 
-        CapsuleHand hourHand = new()
+        RodHand hourHand = new()
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -56,7 +56,7 @@ public class DefaultBlackTemplate : ClockTemplate
         };
         yield return hourHand;
 
-        CapsuleHand minuteHand = new()
+        RodHand minuteHand = new()
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,

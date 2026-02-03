@@ -32,18 +32,11 @@ public class SunTemplate : ClockTemplate
             FillBrush = Brushes.Black
         };
 
-        yield return new TextRim
+        yield return new HourNumerals
         {
             Name = "Hour Numerals",
-            Texts = Enumerable.Range(1, 12)
-                .Select(x => x.ToString())
-                .ToArray(),
-            Angle = 30,
-            OffsetAngle = 30,
             DistanceFromEdge = 37,
-            FontFamily = new FontFamily("Arial"),
             FontSize = 17,
-            Orientation = RimItemOrientation.Normal,
             FillBrush = Brushes.Black
         };
 

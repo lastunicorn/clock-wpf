@@ -1,8 +1,8 @@
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using DustInTheWind.ClockWpf.Serialization;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Shapes.Serialization;
 using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Templates;

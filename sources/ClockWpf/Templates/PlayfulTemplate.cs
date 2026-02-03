@@ -16,7 +16,7 @@ public class PlayfulTemplate : ClockTemplate
         {
             Name = "Minute Ticks",
             SkipIndex = 5,
-            Length = 3,
+            Length = 4,
             DistanceFromEdge = 6,
             RoundEnds = true,
             StrokeBrush = new SolidColorBrush(Color.FromRgb(0x60, 0x60, 0x60))
@@ -28,7 +28,7 @@ public class PlayfulTemplate : ClockTemplate
             Angle = 30,
             OffsetAngle = 30,
             StrokeThickness = 2,
-            Length = 6,
+            Length = 8,
             DistanceFromEdge = 7.5,
             RoundEnds = true,
             StrokeBrush = new SolidColorBrush(Color.FromRgb(0x40, 0x40, 0x40))
@@ -41,7 +41,7 @@ public class PlayfulTemplate : ClockTemplate
             DistanceFromEdge = 30
         };
 
-        yield return new CapsuleHand
+        yield return new RodHand
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -52,7 +52,7 @@ public class PlayfulTemplate : ClockTemplate
             FillBrush = Brushes.RoyalBlue
         };
 
-        yield return new CapsuleHand
+        yield return new RodHand
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
@@ -71,7 +71,8 @@ public class PlayfulTemplate : ClockTemplate
             TailLength = -18,
             StrokeBrush = Brushes.Red,
             StrokeThickness = 1,
-            PinDiameter = 24
+            PinDiameter = 24,
+            RoundEnds = true
         };
     }
 }
