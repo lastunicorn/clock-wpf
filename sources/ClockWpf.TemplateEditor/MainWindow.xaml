@@ -42,7 +42,7 @@
                 ClockTemplate="{Binding ClockTemplate}"
                 Movement="{Binding Movement}"
                 PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"
-                RotationDirection="{Binding ClockDirection}"/>
+                RotationDirection="{Binding ClockDirection}" />
 
             <performance:PerformaceView
                 DataContext="{Binding PerformanceMeter, Mode=OneWay}"/>
