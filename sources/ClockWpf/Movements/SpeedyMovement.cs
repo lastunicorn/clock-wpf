@@ -6,6 +6,7 @@ namespace DustInTheWind.ClockWpf.Movements;
 /// Provides time values from a time coordinate that is n times faster than the real one.
 /// The n value may be negative, in which case the closk runs backwards.
 /// </summary>
+[Movement("Speedy", "Provides time that moves faster or slower than real time using a configurable multiplier.")]
 public class SpeedyMovement : MovementBase
 {
     private DateTime initialRealTime = DateTime.UtcNow;

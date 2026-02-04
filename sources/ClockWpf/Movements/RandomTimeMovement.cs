@@ -3,6 +3,7 @@ namespace DustInTheWind.ClockWpf.Movements;
 /// <summary>
 /// Provides random time values.
 /// </summary>
+[Movement("Random", "Provides random time values, useful for testing and demonstrations.")]
 public class RandomTimeMovement : MovementBase
 {
     /// <summary>

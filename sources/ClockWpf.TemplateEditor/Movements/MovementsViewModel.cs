@@ -63,9 +63,15 @@ public class MovementsViewModel : ViewModelBase
             {
                 foreach (Type type in applicationState.AvailableMovementTypes)
                 {
+                    MovementAttribute movementAttribute = (MovementAttribute)Attribute.GetCustomAttribute(type, typeof(MovementAttribute));
+
+                    string name = movementAttribute?.Name ?? type.Name.Replace("Movement", "");
+                    string description = movementAttribute?.Description ?? string.Empty;
+
                     MovementTypes.Add(new MovementDescriptor
                     {
-                        Name = type.Name.Replace("Movement", ""),
+                        Name = name,
+                        Description = description,
                         Type = type
                     });
                 }

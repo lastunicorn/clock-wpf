@@ -5,6 +5,7 @@ namespace DustInTheWind.ClockWpf.Movements;
 /// <summary>
 /// Provides the UTC time. Optionally, an offset may be provided.
 /// </summary>
+[Movement("UTC", "Provides the current UTC time. An optional offset can be usedto display time from a different timezone.")]
 public class UtcTimeMovement : MovementBase
 {
     /// <summary>

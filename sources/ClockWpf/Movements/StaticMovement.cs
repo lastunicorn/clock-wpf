@@ -2,6 +2,7 @@ using System.ComponentModel;
 
 namespace DustInTheWind.ClockWpf.Movements;
 
+[Movement("Static", "Provides a fixed time value with optional smooth transition when changed.")]
 public class StaticMovement : MovementBase
 {
     private readonly Timer transitionTimer;
