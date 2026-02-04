@@ -67,8 +67,9 @@
                             Content="Reset"
                             Command="{Binding ResetCommand, RelativeSource={RelativeSource TemplatedParent}}"
                             Margin="0 8 0 0"
-                            Padding="10 2"
-                            HorizontalAlignment="Left" />
+                            Padding="10 3"
+                            HorizontalAlignment="Left"
+                            BorderThickness="0" />
                         
                     </Grid>
                     

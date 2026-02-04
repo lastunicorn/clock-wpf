@@ -14,6 +14,7 @@
     xmlns:behaviors="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Behaviors"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:customcontrols="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.CustomControls"
+    xmlns:miscellaneous="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Miscellaneous"
     
     mc:Ignorable="d"
     Title="Template Editor"
@@ -98,7 +99,11 @@
                 </Style>
             </TabControl.Resources>
 
-            <TabItem Header="Templates">
+            <TabItem Header="Misc">
+                <miscellaneous:MiscellaneousControl DataContext="{Binding MiscellaneousViewModel}"/>
+            </TabItem>
+
+            <TabItem Header="Templates" IsSelected="True">
                 <templates:TemplatesControl DataContext="{Binding TemplatesViewModel}"/>
             </TabItem>
 

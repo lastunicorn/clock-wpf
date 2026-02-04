@@ -1,4 +1,5 @@
 ﻿using DustInTheWind.ClockWpf.Movements;
+using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
@@ -35,16 +36,35 @@ public class ApplicationState
         }
     }
 
+    public RotationDirection ClockDirection
+    {
+        get => field;
+        set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnClockDirectionChanged();
+        }
+    }
+
     public event EventHandler CurrentTemplateChanged;
     public event EventHandler CurrentMovementChanged;
+    public event EventHandler ClockDirectionChanged;
 
-    public void OnCurrentTemplateChanged()
+    private void OnCurrentTemplateChanged()
     {
         CurrentTemplateChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public void OnCurrentMovementChanged()
+    private void OnCurrentMovementChanged()
     {
         CurrentMovementChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnClockDirectionChanged()
+    {
+        ClockDirectionChanged?.Invoke(this, EventArgs.Empty);
     }
 }

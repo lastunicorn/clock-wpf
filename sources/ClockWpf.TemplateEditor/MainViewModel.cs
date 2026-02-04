@@ -1,6 +1,7 @@
 ﻿using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.TemplateEditor.Miscellaneous;
 using DustInTheWind.ClockWpf.TemplateEditor.Movements;
 using DustInTheWind.ClockWpf.TemplateEditor.Templates;
 using DustInTheWind.ClockWpf.Templates;
@@ -40,7 +41,7 @@ internal class MainViewModel : ViewModelBase
     public PerformanceMeter PerformanceMeter
     {
         get => field;
-        set
+        private set
         {
             if (field == value)
                 return;
@@ -60,8 +61,13 @@ internal class MainViewModel : ViewModelBase
 
             field = value;
             OnPropertyChanged();
+
+            if (!IsInitializing)
+                applicationState.ClockDirection = value;
         }
     }
+
+    public MiscellaneousViewModel MiscellaneousViewModel { get; }
 
     public TemplatesViewModel TemplatesViewModel { get; }
 
@@ -71,6 +77,7 @@ internal class MainViewModel : ViewModelBase
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
 
+        MiscellaneousViewModel = new MiscellaneousViewModel(applicationState);
         TemplatesViewModel = new TemplatesViewModel(applicationState);
         MovementsViewModel = new MovementsViewModel(applicationState);
 
@@ -78,6 +85,7 @@ internal class MainViewModel : ViewModelBase
 
         applicationState.CurrentTemplateChanged += HandleCurrentTemplateChanged;
         applicationState.CurrentMovementChanged += HandleCurrentMovementChanged;
+        applicationState.ClockDirectionChanged += HandleClockDirectionChanged;
 
         Initialize();
     }
@@ -88,7 +96,7 @@ internal class MainViewModel : ViewModelBase
         {
             ClockTemplate = applicationState.CurrentTemplate;
             Movement = applicationState.CurrentMovement;
-            ClockDirection = RotationDirection.Clockwise;
+            ClockDirection = applicationState.ClockDirection;
         });
     }
 
@@ -100,5 +108,13 @@ internal class MainViewModel : ViewModelBase
     private void HandleCurrentTemplateChanged(object sender, EventArgs e)
     {
         ClockTemplate = applicationState.CurrentTemplate;
+    }
+
+    private void HandleClockDirectionChanged(object sender, EventArgs e)
+    {
+        Initialize(() =>
+        {
+            ClockDirection = applicationState.ClockDirection;
+        });
     }
 }
