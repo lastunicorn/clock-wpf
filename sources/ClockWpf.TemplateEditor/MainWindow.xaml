@@ -11,6 +11,7 @@
     xmlns:local="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor"
     xmlns:templates="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Templates"
     xmlns:movements="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Movements"
+    xmlns:behaviors="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Behaviors"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     
     mc:Ignorable="d"
@@ -34,14 +35,13 @@
         </Grid.ColumnDefinitions>
 
         <Grid
+            x:Name="ClockContainer"
             Grid.Column="0"
             Margin="20"
-            MouseWheel="AnalogClock_MouseWheel"
-            MouseLeftButtonDown="ClockContainer_MouseLeftButtonDown"
-            MouseLeftButtonUp="ClockContainer_MouseLeftButtonUp"
-            MouseMove="ClockContainer_MouseMove"
             Background="Transparent"
-            Cursor="Hand">
+            Cursor="Hand"
+            behaviors:ZoomPanBehavior.IsEnabled="True"
+            behaviors:ZoomPanBehavior.Target="{Binding ElementName=analogClock1}">
 
             <clockWpf:AnalogClock
                 x:Name="analogClock1"
@@ -52,8 +52,8 @@
 
                 <clockWpf:AnalogClock.RenderTransform>
                     <TransformGroup>
-                        <ScaleTransform ScaleX="{Binding ZoomLevel}" ScaleY="{Binding ZoomLevel}"/>
-                        <TranslateTransform X="{Binding TranslateX}" Y="{Binding TranslateY}"/>
+                        <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
+                        <TranslateTransform X="0.0" Y="0.0"/>
                     </TransformGroup>
                 </clockWpf:AnalogClock.RenderTransform>
 

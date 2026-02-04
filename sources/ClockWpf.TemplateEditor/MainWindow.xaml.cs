@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Input;
+using System.Windows.Media;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 
@@ -8,84 +8,51 @@ namespace DustInTheWind.ClockWpf.TemplateEditor;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private const double ZoomIncrement = 0.1;
-    private const double MinZoom = 0.1;
-    private const double MaxZoom = 5.0;
-
-    private bool isDragging = false;
-    private Point lastMousePosition;
-
     public MainWindow()
     {
         InitializeComponent();
     }
 
-    private void AnalogClock_MouseWheel(object sender, MouseWheelEventArgs e)
+    private void ResetClockView_Click(object sender, RoutedEventArgs e)
     {
-        if (DataContext is not MainViewModel viewModel)
+        if (analogClock1.RenderTransform is not TransformGroup transformGroup)
             return;
 
-        double zoomDelta = e.Delta > 0 ? ZoomIncrement : -ZoomIncrement;
-        double newZoom = viewModel.ZoomLevel + zoomDelta;
+        ScaleTransform scaleTransform = FindScaleTransform(transformGroup);
+        TranslateTransform translateTransform = FindTranslateTransform(transformGroup);
 
-        newZoom = Math.Max(MinZoom, Math.Min(MaxZoom, newZoom));
-
-        viewModel.ZoomLevel = newZoom;
-
-        e.Handled = true;
-    }
-
-    private void ClockContainer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (DataContext is not MainViewModel viewModel)
-            return;
-
-        isDragging = true;
-        lastMousePosition = e.GetPosition(this);
-        
-        if (sender is UIElement element)
-            element.CaptureMouse();
-
-        e.Handled = true;
-    }
-
-    private void ClockContainer_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        if (isDragging)
+        if (scaleTransform != null)
         {
-            isDragging = false;
-            
-            if (sender is UIElement element)
-                element.ReleaseMouseCapture();
+            scaleTransform.ScaleX = 1.0;
+            scaleTransform.ScaleY = 1.0;
+        }
 
-            e.Handled = true;
+        if (translateTransform != null)
+        {
+            translateTransform.X = 0.0;
+            translateTransform.Y = 0.0;
         }
     }
 
-    private void ClockContainer_MouseMove(object sender, MouseEventArgs e)
+    private static ScaleTransform FindScaleTransform(TransformGroup transformGroup)
     {
-        if (!isDragging || DataContext is not MainViewModel viewModel)
-            return;
+        foreach (Transform transform in transformGroup.Children)
+        {
+            if (transform is ScaleTransform scaleTransform)
+                return scaleTransform;
+        }
 
-        Point currentPosition = e.GetPosition(this);
-        double deltaX = currentPosition.X - lastMousePosition.X;
-        double deltaY = currentPosition.Y - lastMousePosition.Y;
-
-        viewModel.TranslateX += deltaX;
-        viewModel.TranslateY += deltaY;
-
-        lastMousePosition = currentPosition;
-
-        e.Handled = true;
+        return null;
     }
 
-    private void ResetClockView_Click(object sender, RoutedEventArgs e)
+    private static TranslateTransform FindTranslateTransform(TransformGroup transformGroup)
     {
-        if (DataContext is not MainViewModel viewModel)
-            return;
+        foreach (Transform transform in transformGroup.Children)
+        {
+            if (transform is TranslateTransform translateTransform)
+                return translateTransform;
+        }
 
-        viewModel.ZoomLevel = 1.0;
-        viewModel.TranslateX = 0.0;
-        viewModel.TranslateY = 0.0;
+        return null;
     }
 }
