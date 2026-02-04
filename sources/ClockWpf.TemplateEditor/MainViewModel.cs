@@ -4,6 +4,7 @@ using DustInTheWind.ClockWpf.TemplateEditor.Movements;
 using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Shapes;
+using System.Windows.Input;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 
@@ -51,6 +52,19 @@ internal class MainViewModel : ViewModelBase
     }
 
     public RotationDirection ClockDirection
+    {
+        get => field;
+        set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ICommand ResetClockViewCommand
     {
         get => field;
         set

@@ -97,14 +97,23 @@ public static class ZoomPanBehavior
             return;
 
         ScaleTransform scaleTransform = FindScaleTransform(transformGroup);
+        TranslateTransform translateTransform = FindTranslateTransform(transformGroup);
 
-        if (scaleTransform == null)
+        if (scaleTransform == null || translateTransform == null)
             return;
 
+        double oldZoom = scaleTransform.ScaleX;
         double zoomDelta = e.Delta > 0 ? ZoomIncrement : -ZoomIncrement;
-        double newZoom = scaleTransform.ScaleX + zoomDelta;
+        double newZoom = oldZoom + zoomDelta;
 
         newZoom = Math.Max(MinZoom, Math.Min(MaxZoom, newZoom));
+
+        Point mousePosition = e.GetPosition(element);
+
+        double zoomFactor = newZoom / oldZoom;
+        
+        translateTransform.X = mousePosition.X - (mousePosition.X - translateTransform.X) * zoomFactor;
+        translateTransform.Y = mousePosition.Y - (mousePosition.Y - translateTransform.Y) * zoomFactor;
 
         scaleTransform.ScaleX = newZoom;
         scaleTransform.ScaleY = newZoom;

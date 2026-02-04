@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Media;
+using DustInTheWind.ClockWpf.TemplateEditor.Commands;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 
@@ -11,48 +11,15 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        
+        Loaded += HandleLoaded;
     }
 
-    private void ResetClockView_Click(object sender, RoutedEventArgs e)
+    private void HandleLoaded(object sender, RoutedEventArgs e)
     {
-        if (analogClock1.RenderTransform is not TransformGroup transformGroup)
-            return;
-
-        ScaleTransform scaleTransform = FindScaleTransform(transformGroup);
-        TranslateTransform translateTransform = FindTranslateTransform(transformGroup);
-
-        if (scaleTransform != null)
+        if (DataContext is MainViewModel viewModel)
         {
-            scaleTransform.ScaleX = 1.0;
-            scaleTransform.ScaleY = 1.0;
+            viewModel.ResetClockViewCommand = new ResetClockViewCommand(analogClock1);
         }
-
-        if (translateTransform != null)
-        {
-            translateTransform.X = 0.0;
-            translateTransform.Y = 0.0;
-        }
-    }
-
-    private static ScaleTransform FindScaleTransform(TransformGroup transformGroup)
-    {
-        foreach (Transform transform in transformGroup.Children)
-        {
-            if (transform is ScaleTransform scaleTransform)
-                return scaleTransform;
-        }
-
-        return null;
-    }
-
-    private static TranslateTransform FindTranslateTransform(TransformGroup transformGroup)
-    {
-        foreach (Transform transform in transformGroup.Children)
-        {
-            if (transform is TranslateTransform translateTransform)
-                return translateTransform;
-        }
-
-        return null;
     }
 }
