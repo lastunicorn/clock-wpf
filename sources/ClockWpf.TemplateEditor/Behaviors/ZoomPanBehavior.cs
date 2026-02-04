@@ -109,11 +109,17 @@ public static class ZoomPanBehavior
         newZoom = Math.Max(MinZoom, Math.Min(MaxZoom, newZoom));
 
         Point mousePosition = e.GetPosition(element);
+        
+        double offsetX = (element.ActualWidth - target.ActualWidth) / 2;
+        double offsetY = (element.ActualHeight - target.ActualHeight) / 2;
+        
+        double mouseRelativeToTargetX = mousePosition.X - offsetX;
+        double mouseRelativeToTargetY = mousePosition.Y - offsetY;
 
         double zoomFactor = newZoom / oldZoom;
         
-        translateTransform.X = mousePosition.X - (mousePosition.X - translateTransform.X) * zoomFactor;
-        translateTransform.Y = mousePosition.Y - (mousePosition.Y - translateTransform.Y) * zoomFactor;
+        translateTransform.X = mouseRelativeToTargetX - (mouseRelativeToTargetX - translateTransform.X) * zoomFactor;
+        translateTransform.Y = mouseRelativeToTargetY - (mouseRelativeToTargetY - translateTransform.Y) * zoomFactor;
 
         scaleTransform.ScaleX = newZoom;
         scaleTransform.ScaleY = newZoom;

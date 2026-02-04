@@ -34,7 +34,7 @@
             Grid.Row="1"
             MaxHeight="100"
             VerticalScrollBarVisibility="Auto"
-            Margin="10 8 0 0">
+            Margin="10 8 10 0">
             
             <TextBlock
                 Text="{Binding SelectedMovementType.Description}"

@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using DustInTheWind.ClockWpf.TemplateEditor.Commands;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 

@@ -1,8 +1,6 @@
-﻿using System.Windows.Input;
-using DustInTheWind.ClockWpf.Movements;
+﻿using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.TemplateEditor.Commands;
 using DustInTheWind.ClockWpf.TemplateEditor.Movements;
 using DustInTheWind.ClockWpf.TemplateEditor.Templates;
 using DustInTheWind.ClockWpf.Templates;
@@ -65,19 +63,6 @@ internal class MainViewModel : ViewModelBase
         }
     }
 
-    public ICommand ResetClockViewCommand
-    {
-        get => field;
-        set
-        {
-            if (field == value)
-                return;
-
-            field = value;
-            OnPropertyChanged();
-        }
-    }
-
     public TemplatesViewModel TemplatesViewModel { get; }
 
     public MovementsViewModel MovementsViewModel { get; }
@@ -88,8 +73,6 @@ internal class MainViewModel : ViewModelBase
 
         TemplatesViewModel = new TemplatesViewModel(applicationState);
         MovementsViewModel = new MovementsViewModel(applicationState);
-
-        ResetClockViewCommand = new ResetClockViewCommand();
 
         PerformanceMeter = new PerformanceMeter();
 

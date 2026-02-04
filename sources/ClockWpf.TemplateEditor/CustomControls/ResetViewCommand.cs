@@ -2,11 +2,15 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Commands;
+namespace DustInTheWind.ClockWpf.TemplateEditor.CustomControls;
 
-internal class ResetClockViewCommand : ICommand
+internal class ResetViewCommand : ICommand
 {
-    public event EventHandler CanExecuteChanged;
+    public event EventHandler CanExecuteChanged
+    {
+        add { CommandManager.RequerySuggested += value; }
+        remove { CommandManager.RequerySuggested -= value; }
+    }
 
     public bool CanExecute(object parameter)
     {
