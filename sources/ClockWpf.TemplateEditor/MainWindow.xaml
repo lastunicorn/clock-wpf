@@ -35,17 +35,56 @@
 
         <Grid
             Grid.Column="0"
-            Margin="20">
+            Margin="20"
+            MouseWheel="AnalogClock_MouseWheel"
+            MouseLeftButtonDown="ClockContainer_MouseLeftButtonDown"
+            MouseLeftButtonUp="ClockContainer_MouseLeftButtonUp"
+            MouseMove="ClockContainer_MouseMove"
+            Background="Transparent"
+            Cursor="Hand">
 
             <clockWpf:AnalogClock
                 x:Name="analogClock1"
                 ClockTemplate="{Binding ClockTemplate}"
                 Movement="{Binding Movement}"
                 PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"
-                RotationDirection="{Binding ClockDirection}" />
+                RotationDirection="{Binding ClockDirection}">
+
+                <clockWpf:AnalogClock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="{Binding ZoomLevel}" ScaleY="{Binding ZoomLevel}"/>
+                        <TranslateTransform X="{Binding TranslateX}" Y="{Binding TranslateY}"/>
+                    </TransformGroup>
+                </clockWpf:AnalogClock.RenderTransform>
+
+            </clockWpf:AnalogClock>
 
             <performance:PerformaceView
                 DataContext="{Binding PerformanceMeter, Mode=OneWay}"/>
+
+            <Button
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Padding="10 2"
+                Click="ResetClockView_Click"
+                Cursor="Arrow"
+                ToolTip="Reset zoom and position">
+                
+                <StackPanel Orientation="Horizontal">
+                    
+                    <TextBlock
+                        Text="⟲"
+                        FontSize="16"
+                        Margin="0 0 4 0"
+                        VerticalAlignment="Center"/>
+                    
+                    <TextBlock
+                        Text="Reset View"
+                        VerticalAlignment="Center"/>
+                    
+                </StackPanel>
+                
+            </Button>
 
         </Grid>
 

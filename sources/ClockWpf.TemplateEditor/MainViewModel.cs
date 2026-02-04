@@ -63,6 +63,45 @@ internal class MainViewModel : ViewModelBase
         }
     }
 
+    public double ZoomLevel
+    {
+        get => field;
+        set
+        {
+            if (Math.Abs(field - value) < 0.001)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public double TranslateX
+    {
+        get => field;
+        set
+        {
+            if (Math.Abs(field - value) < 0.001)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public double TranslateY
+    {
+        get => field;
+        set
+        {
+            if (Math.Abs(field - value) < 0.001)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
     public TemplatesViewModel TemplatesViewModel { get; }
 
     public MovementsViewModel MovementsViewModel { get; }
@@ -89,6 +128,9 @@ internal class MainViewModel : ViewModelBase
             ClockTemplate = applicationState.CurrentTemplate;
             Movement = applicationState.CurrentMovement;
             ClockDirection = RotationDirection.Clockwise;
+            ZoomLevel = 1.0;
+            TranslateX = 0.0;
+            TranslateY = 0.0;
         });
     }
 
