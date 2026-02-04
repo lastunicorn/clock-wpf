@@ -35,56 +35,62 @@
         </Grid.ColumnDefinitions>
 
         <Grid
-            x:Name="ClockContainer"
             Grid.Column="0"
-            Margin="20"
-            Background="Transparent"
-            Cursor="Hand"
-            behaviors:ZoomPanBehavior.IsEnabled="True"
-            behaviors:ZoomPanBehavior.Target="{Binding ElementName=analogClock1}">
+            Margin="20">
+            
+            <Grid
+                Background="Transparent"
+                Cursor="Hand"
+                behaviors:ZoomPanBehavior.IsEnabled="True"
+                behaviors:ZoomPanBehavior.Target="{Binding ElementName=analogClock1}">
 
-            <clockWpf:AnalogClock
-                x:Name="analogClock1"
-                ClockTemplate="{Binding ClockTemplate}"
-                Movement="{Binding Movement}"
-                PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"
-                RotationDirection="{Binding ClockDirection}">
+                <clockWpf:AnalogClock
+                    x:Name="analogClock1"
+                    ClockTemplate="{Binding ClockTemplate}"
+                    Movement="{Binding Movement}"
+                    PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"
+                    RotationDirection="{Binding ClockDirection}">
 
-                <clockWpf:AnalogClock.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
-                        <TranslateTransform X="0.0" Y="0.0"/>
-                    </TransformGroup>
-                </clockWpf:AnalogClock.RenderTransform>
+                    <clockWpf:AnalogClock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
+                            <TranslateTransform X="0.0" Y="0.0"/>
+                        </TransformGroup>
+                    </clockWpf:AnalogClock.RenderTransform>
 
-            </clockWpf:AnalogClock>
+                </clockWpf:AnalogClock>
+
+                <Button
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Padding="10 2"
+                    Command="{Binding ResetClockViewCommand}"
+                    CommandParameter="{Binding ElementName=analogClock1}"
+                    Cursor="Arrow"
+                    ToolTip="Reset zoom and position">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock
+                            Text="⟲"
+                            FontSize="16"
+                            Margin="0 0 4 0"
+                            VerticalAlignment="Center"/>
+
+                        <TextBlock
+                            Text="Reset View"
+                            VerticalAlignment="Center"/>
+
+                    </StackPanel>
+
+                </Button>
+
+            </Grid>
 
             <performance:PerformaceView
-                DataContext="{Binding PerformanceMeter, Mode=OneWay}"/>
-
-            <Button
-                HorizontalAlignment="Right"
+                DataContext="{Binding PerformanceMeter, Mode=OneWay}"
                 VerticalAlignment="Top"
-                Padding="10 2"
-                Command="{Binding ResetClockViewCommand}"
-                Cursor="Arrow"
-                ToolTip="Reset zoom and position">
-                
-                <StackPanel Orientation="Horizontal">
-                    
-                    <TextBlock
-                        Text="⟲"
-                        FontSize="16"
-                        Margin="0 0 4 0"
-                        VerticalAlignment="Center"/>
-                    
-                    <TextBlock
-                        Text="Reset View"
-                        VerticalAlignment="Center"/>
-                    
-                </StackPanel>
-                
-            </Button>
+                HorizontalAlignment="Left" />
 
         </Grid>
 

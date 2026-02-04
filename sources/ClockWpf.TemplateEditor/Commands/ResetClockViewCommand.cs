@@ -6,26 +6,21 @@ namespace DustInTheWind.ClockWpf.TemplateEditor.Commands;
 
 internal class ResetClockViewCommand : ICommand
 {
-    private readonly FrameworkElement targetElement;
-
-    public event EventHandler CanExecuteChanged
-    {
-        add { }
-        remove { }
-    }
-
-    public ResetClockViewCommand(FrameworkElement targetElement)
-    {
-        this.targetElement = targetElement ?? throw new ArgumentNullException(nameof(targetElement));
-    }
+    public event EventHandler CanExecuteChanged;
 
     public bool CanExecute(object parameter)
     {
+        if (parameter is not FrameworkElement targetElement)
+            return false;
+
         return targetElement.RenderTransform is TransformGroup;
     }
 
     public void Execute(object parameter)
     {
+        if (parameter is not FrameworkElement targetElement)
+            return;
+
         if (targetElement.RenderTransform is not TransformGroup transformGroup)
             return;
 

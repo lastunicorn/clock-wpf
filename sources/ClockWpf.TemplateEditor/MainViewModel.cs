@@ -1,10 +1,11 @@
-﻿using DustInTheWind.ClockWpf.Performance;
-using DustInTheWind.ClockWpf.TemplateEditor.Templates;
-using DustInTheWind.ClockWpf.TemplateEditor.Movements;
-using DustInTheWind.ClockWpf.Templates;
+﻿using System.Windows.Input;
 using DustInTheWind.ClockWpf.Movements;
+using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
-using System.Windows.Input;
+using DustInTheWind.ClockWpf.TemplateEditor.Commands;
+using DustInTheWind.ClockWpf.TemplateEditor.Movements;
+using DustInTheWind.ClockWpf.TemplateEditor.Templates;
+using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 
@@ -87,6 +88,8 @@ internal class MainViewModel : ViewModelBase
 
         TemplatesViewModel = new TemplatesViewModel(applicationState);
         MovementsViewModel = new MovementsViewModel(applicationState);
+
+        ResetClockViewCommand = new ResetClockViewCommand();
 
         PerformanceMeter = new PerformanceMeter();
 

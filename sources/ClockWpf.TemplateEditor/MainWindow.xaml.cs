@@ -11,15 +11,5 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        
-        Loaded += HandleLoaded;
-    }
-
-    private void HandleLoaded(object sender, RoutedEventArgs e)
-    {
-        if (DataContext is MainViewModel viewModel)
-        {
-            viewModel.ResetClockViewCommand = new ResetClockViewCommand(analogClock1);
-        }
     }
 }
