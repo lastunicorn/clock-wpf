@@ -99,16 +99,16 @@
                 </Style>
             </TabControl.Resources>
 
-            <TabItem Header="Misc">
-                <miscellaneous:MiscellaneousControl DataContext="{Binding MiscellaneousViewModel}"/>
-            </TabItem>
-
             <TabItem Header="Templates" IsSelected="True">
                 <templates:TemplatesControl DataContext="{Binding TemplatesViewModel}"/>
             </TabItem>
 
             <TabItem Header="Movement">
                 <movements:MovementsControl DataContext="{Binding MovementsViewModel}"/>
+            </TabItem>
+
+            <TabItem Header="Misc">
+                <miscellaneous:MiscellaneousControl DataContext="{Binding MiscellaneousViewModel}"/>
             </TabItem>
 
         </TabControl>
