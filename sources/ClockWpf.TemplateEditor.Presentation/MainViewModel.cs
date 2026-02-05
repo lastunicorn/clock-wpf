@@ -3,6 +3,7 @@ using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Miscellaneous;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Shapes;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 using DustInTheWind.ClockWpf.Templates;
 
@@ -71,6 +72,8 @@ public class MainViewModel : ViewModelBase
 
     public TemplatesViewModel TemplatesViewModel { get; }
 
+    public ShapesViewModel ShapesViewModel { get; }
+
     public MovementsViewModel MovementsViewModel { get; }
 
     public MainViewModel(ApplicationState applicationState)
@@ -79,6 +82,7 @@ public class MainViewModel : ViewModelBase
 
         MiscellaneousViewModel = new MiscellaneousViewModel(applicationState);
         TemplatesViewModel = new TemplatesViewModel(applicationState);
+        ShapesViewModel = new ShapesViewModel();
         MovementsViewModel = new MovementsViewModel(applicationState);
 
         PerformanceMeter = new PerformanceMeter();
