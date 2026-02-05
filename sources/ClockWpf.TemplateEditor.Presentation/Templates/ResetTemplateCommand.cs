@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 
@@ -11,7 +12,6 @@ public class ResetTemplateCommand : ICommand
     public ResetTemplateCommand(ClockTemplatePool clockTemplatePool)
     {
         this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
-
 
         if (clockTemplatePool.CurrentTemplate != null)
             clockTemplatePool.CurrentTemplate.Modified += HandleCurrentTemplateModified;

@@ -1,6 +1,6 @@
 ﻿using DustInTheWind.ClockWpf.Templates;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
 
 public class ClockTemplatePool
 {
@@ -68,7 +68,7 @@ public class ClockTemplatePool
         CurrentTemplate = instance;
     }
 
-    internal void RecreateCurrentTemplate()
+    public void RecreateCurrentTemplate()
     {
         ClockTemplate oldInstance = CurrentTemplate;
 
@@ -112,7 +112,8 @@ public class ClockTemplatePool
         CurrentTemplate = instance;
     }
 
-    private T Create<T>() where T : ClockTemplate
+    private T Create<T>()
+        where T : ClockTemplate
     {
         T instance = clockTemplateFactory.Create<T>();
 

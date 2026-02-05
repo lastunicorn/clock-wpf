@@ -1,14 +1,15 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Utils;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 
 public class TemplatesViewModel : ViewModelBase
 {
-    private readonly ApplicationState applicationState;
     private readonly ClockTemplatePool clockTemplatePool;
+    private readonly ClockMovementPool clockMovementPool;
 
     public ObservableCollection<TemplateInfo> TemplateTypes { get; } = [];
 
@@ -71,10 +72,10 @@ public class TemplatesViewModel : ViewModelBase
 
     public ResetTemplateCommand ResetTemplateCommand { get; }
 
-    public TemplatesViewModel(ApplicationState applicationState, ClockTemplatePool clockTemplatePool)
+    public TemplatesViewModel(ClockTemplatePool clockTemplatePool, ClockMovementPool clockMovementPool)
     {
-        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
+        this.clockMovementPool = clockMovementPool ?? throw new ArgumentNullException(nameof(clockMovementPool));
 
         SaveTemplateCommand = new SaveTemplateCommand(clockTemplatePool);
         ResetTemplateCommand = new ResetTemplateCommand(clockTemplatePool);
@@ -82,7 +83,7 @@ public class TemplatesViewModel : ViewModelBase
         Initialize();
 
         clockTemplatePool.CurrentTemplateChanged += HandleCurrentTemplateChanged;
-        applicationState.CurrentMovementChanged += HandleCurrentMovementChanged;
+        clockMovementPool.CurrentMovementChanged += HandleCurrentMovementChanged;
     }
 
     private void Initialize()
@@ -111,13 +112,13 @@ public class TemplatesViewModel : ViewModelBase
                     .ToObservableCollection();
             }
 
-            Movement = applicationState.CurrentMovement;
+            Movement = clockMovementPool.CurrentMovement?.Instance;
         });
     }
 
     private void HandleCurrentMovementChanged(object sender, EventArgs e)
     {
-        Movement = applicationState.CurrentMovement;
+        Movement = clockMovementPool.CurrentMovement?.Instance;
     }
 
     private void HandleCurrentTemplateChanged(object sender, EventArgs e)

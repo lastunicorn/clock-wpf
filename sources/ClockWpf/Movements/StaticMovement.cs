@@ -25,6 +25,8 @@ public class StaticMovement : MovementBase
                 return;
 
             targetTime = value;
+            OnModified();
+
             StartTransition();
         }
     }
@@ -46,6 +48,7 @@ public class StaticMovement : MovementBase
                 value = TimeSpan.Zero;
 
             transitionInterval = value;
+            OnModified();
         }
     }
 
@@ -66,6 +69,7 @@ public class StaticMovement : MovementBase
                 return;
 
             transitionTickInterval = value;
+            OnModified();
         }
     }
 

@@ -6,6 +6,15 @@ namespace DustInTheWind.ClockWpf.Movements;
 public interface IMovement : IDisposable
 {
     /// <summary>
+    /// Occurs when the object is modified.
+    /// </summary>
+    /// <remarks>
+    /// Subscribers can use this event to respond to changes in the object's state. The event is
+    /// raised after a modification has been made.
+    /// </remarks>
+    event EventHandler Modified;
+
+    /// <summary>
     /// Event raised when the time provider produces a new time value.
     /// </summary>
     event EventHandler<TickEventArgs> Tick;

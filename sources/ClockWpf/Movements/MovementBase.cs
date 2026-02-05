@@ -42,6 +42,8 @@ public abstract class MovementBase : IMovement
                 else
                     timer.Change(Timeout.Infinite, Timeout.Infinite);
             }
+
+            OnModified();
         }
     }
 
@@ -58,6 +60,15 @@ public abstract class MovementBase : IMovement
     /// </summary>
     [Browsable(false)]
     public TimeSpan LastTick { get; private set; }
+
+    /// <summary>
+    /// Occurs when the object is modified.
+    /// </summary>
+    /// <remarks>
+    /// Subscribers can use this event to respond to changes in the object's state or content. The
+    /// event is typically raised after a modification operation completes.
+    /// </remarks>
+    public event EventHandler Modified;
 
     /// <summary>
     /// Event raised when the time provider produces a new time value.
@@ -115,6 +126,17 @@ public abstract class MovementBase : IMovement
     {
         LastTick = GenerateNewTime();
         OnTick(new TickEventArgs(LastTick));
+    }
+
+    /// <summary>
+    /// Raises the Modified event to notify subscribers that the object has been changed.
+    /// </summary>
+    /// <remarks>Derived classes can override this method to provide additional behavior when the object is
+    /// modified. This method is typically called after a change to the object's state that should trigger
+    /// notification.</remarks>
+    protected virtual void OnModified()
+    {
+        Modified?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>

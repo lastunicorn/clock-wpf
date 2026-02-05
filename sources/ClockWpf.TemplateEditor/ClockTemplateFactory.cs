@@ -1,19 +1,20 @@
-﻿using DustInTheWind.ClockWpf.TemplateEditor.Presentation;
+﻿using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
 using DustInTheWind.ClockWpf.Templates;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 
-public class TemplateFactory : IClockTemplateFactory
+public class ClockTemplateFactory : IClockTemplateFactory
 {
     private readonly IServiceProvider serviceProvider;
 
-    public TemplateFactory(IServiceProvider serviceProvider)
+    public ClockTemplateFactory(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
     }
 
-    public T Create<T>() where T : ClockTemplate
+    public T Create<T>()
+        where T : ClockTemplate
     {
         return serviceProvider.GetService<T>();
     }

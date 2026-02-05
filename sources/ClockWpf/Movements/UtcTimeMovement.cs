@@ -23,6 +23,7 @@ public class UtcTimeMovement : MovementBase
                 return;
 
             field = value;
+            OnModified();
             ForceTick();
         }
     }

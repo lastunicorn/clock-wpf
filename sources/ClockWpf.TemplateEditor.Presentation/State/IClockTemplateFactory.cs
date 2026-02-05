@@ -1,6 +1,6 @@
 ﻿using DustInTheWind.ClockWpf.Templates;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
 
 public interface IClockTemplateFactory
 {

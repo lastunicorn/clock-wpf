@@ -1,15 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Movements;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
 
 public class MovementsViewModel : ViewModelBase
 {
     private readonly ApplicationState applicationState;
+    private readonly ClockMovementPool clockMovementPool;
 
-    public ObservableCollection<MovementDescriptor> MovementTypes { get; } = [];
+    public ObservableCollection<MovementDescriptor> MovementDescriptors { get; } = [];
 
-    public MovementDescriptor SelectedMovementType
+    public MovementDescriptor SelectedMovementDescriptor
     {
         get => field;
         set
@@ -21,15 +23,7 @@ public class MovementsViewModel : ViewModelBase
             OnPropertyChanged();
 
             if (!IsInitializing)
-            {
-                applicationState.CurrentMovement?.Stop();
-
-                applicationState.CurrentMovement = field == null
-                    ? null
-                    : (IMovement)Activator.CreateInstance(field.Type);
-
-                applicationState.CurrentMovement?.Start();
-            }
+                clockMovementPool.SetDefault(field.Type);
         }
     }
 
@@ -46,51 +40,36 @@ public class MovementsViewModel : ViewModelBase
         }
     }
 
-    public MovementsViewModel(ApplicationState applicationState)
+    public ResetMovementCommand ResetMovementCommand { get; }
+
+    public MovementsViewModel(ApplicationState applicationState, ClockMovementPool clockMovementPool)
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+        this.clockMovementPool = clockMovementPool ?? throw new ArgumentNullException(nameof(clockMovementPool));
+
+        ResetMovementCommand = new ResetMovementCommand(clockMovementPool);
 
         Initialize();
 
-        applicationState.CurrentMovementChanged += HandleCurrentMovementChanged;
+        clockMovementPool.CurrentMovementChanged += HandleCurrentMovementChanged;
     }
 
     private void Initialize()
     {
         Initialize(() =>
         {
-            if (applicationState.AvailableMovementTypes != null)
-            {
-                foreach (Type type in applicationState.AvailableMovementTypes)
-                {
-                    MovementAttribute movementAttribute = (MovementAttribute)Attribute.GetCustomAttribute(type, typeof(MovementAttribute));
+            foreach (MovementDescriptor movementDescriptor in clockMovementPool.EnumerateKnownMovements())
+                MovementDescriptors.Add(movementDescriptor);
 
-                    string name = movementAttribute?.Name ?? type.Name.Replace("Movement", "");
-                    string description = movementAttribute?.Description ?? string.Empty;
+            if (clockMovementPool.CurrentMovement != null)
+                SelectedMovementDescriptor = clockMovementPool.CurrentMovement;
 
-                    MovementTypes.Add(new MovementDescriptor
-                    {
-                        Name = name,
-                        Description = description,
-                        Type = type
-                    });
-                }
-            }
-
-            if (applicationState.CurrentMovement != null)
-            {
-                Type currentMovementType = applicationState.CurrentMovement.GetType();
-
-                SelectedMovementType = MovementTypes
-                    .FirstOrDefault(x => x.Type == currentMovementType);
-            }
-
-            SelectedMovement = applicationState.CurrentMovement;
+            SelectedMovement = clockMovementPool.CurrentMovement?.Instance;
         });
     }
 
     private void HandleCurrentMovementChanged(object sender, EventArgs e)
     {
-        SelectedMovement = applicationState.CurrentMovement;
+        SelectedMovement = clockMovementPool.CurrentMovement?.Instance;
     }
 }

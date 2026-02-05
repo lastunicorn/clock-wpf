@@ -32,6 +32,8 @@ public class SpeedyMovement : MovementBase
             initialTime = value;
 
             initialRealTime = DateTime.UtcNow;
+            OnModified();
+
             ForceTick();
         }
     }
@@ -66,6 +68,8 @@ public class SpeedyMovement : MovementBase
             initialRealTime = DateTime.UtcNow;
 
             timeMultiplier = value;
+            OnModified();
+
             ForceTick();
         }
     }

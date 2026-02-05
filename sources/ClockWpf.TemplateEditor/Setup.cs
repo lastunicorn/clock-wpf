@@ -1,5 +1,10 @@
 ﻿using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Miscellaneous;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Shapes;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 using DustInTheWind.ClockWpf.Templates;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,11 +14,27 @@ internal static class Setup
 {
     public static void ConfigureServices(ServiceCollection serviceCollection)
     {
-        serviceCollection.AddSingleton<IClockTemplateFactory, TemplateFactory>();
+        serviceCollection.AddSingleton<IClockTemplateFactory, ClockTemplateFactory>();
+        serviceCollection.AddSingleton<IClockMovementFactory, ClockMovementFactory>();
 
-        IEnumerable<Type> templateTypes = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(x => x.GetTypes())
-            .Where(x => x.IsClass && !x.IsAbstract && typeof(ClockTemplate).IsAssignableFrom(x));
+        AddTemplates(serviceCollection);
+        AddMovements(serviceCollection);
+
+        ApplicationState applicationState = CreateApplicationState();
+        serviceCollection.AddSingleton(applicationState);
+
+        serviceCollection.AddTransient<MainWindow>();
+        serviceCollection.AddTransient<MainViewModel>();
+
+        serviceCollection.AddTransient<MiscellaneousViewModel>();
+        serviceCollection.AddTransient<TemplatesViewModel>();
+        serviceCollection.AddTransient<ShapesViewModel>();
+        serviceCollection.AddTransient<MovementsViewModel>();
+    }
+
+    private static void AddTemplates(ServiceCollection serviceCollection)
+    {
+        IEnumerable<Type> templateTypes = EnumerateTemplateTypes();
 
         foreach (Type templateType in templateTypes)
             serviceCollection.AddTransient(templateType);
@@ -23,49 +44,76 @@ internal static class Setup
             IClockTemplateFactory clockTemplateFactory = serviceProvider.GetService<IClockTemplateFactory>();
             ClockTemplatePool clockTemplatePool = new(clockTemplateFactory);
 
-            IEnumerable<Type> templateTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => x.IsClass && !x.IsAbstract && typeof(ClockTemplate).IsAssignableFrom(x));
+            IEnumerable<Type> templateTypes = EnumerateTemplateTypes();
 
             clockTemplatePool.AddRange(templateTypes);
             clockTemplatePool.SetDefault<DefaultTemplate>();
-            
+
             return clockTemplatePool;
         });
+    }
 
-        ApplicationState applicationState = CreateApplicationState();
-        serviceCollection.AddSingleton(applicationState);
+    private static IEnumerable<Type> EnumerateTemplateTypes()
+    {
+        return AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(x => x.GetTypes())
+            .Where(x => x.IsClass && !x.IsAbstract && typeof(ClockTemplate).IsAssignableFrom(x));
+    }
 
-        serviceCollection.AddTransient<MainWindow>();
-        serviceCollection.AddTransient<MainViewModel>();
+    private static void AddMovements(ServiceCollection serviceCollection)
+    {
+        IEnumerable<Type> movementTypes = EnumerateMovementTypes();
+
+        foreach (Type movementType in movementTypes)
+            serviceCollection.AddTransient(movementType);
+
+        serviceCollection.AddSingleton(serviceProvider =>
+        {
+            IClockMovementFactory clockMovementFactory = serviceProvider.GetService<IClockMovementFactory>();
+            ClockMovementPool clockMovementPool = new(clockMovementFactory);
+
+            IEnumerable<Type> movementTypes = EnumerateMovementTypes();
+
+            clockMovementPool.AddRange(movementTypes);
+            clockMovementPool.SetDefault<LocalTimeMovement>();
+
+            return clockMovementPool;
+        });
+    }
+
+    private static IEnumerable<Type> EnumerateMovementTypes()
+    {
+        return AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(x => x.GetTypes())
+            .Where(x => x.IsClass && !x.IsAbstract && typeof(IMovement).IsAssignableFrom(x));
     }
 
     private static ApplicationState CreateApplicationState()
     {
         ApplicationState applicationState = new();
 
-        LoadMovements(applicationState);
+        //LoadMovements(applicationState);
 
         return applicationState;
     }
 
-    private static void LoadMovements(ApplicationState applicationState)
-    {
-        List<Type> movementTypes = typeof(IMovement).Assembly.GetTypes()
-            .Where(x => x.IsClass && !x.IsAbstract && typeof(IMovement).IsAssignableFrom(x))
-            .ToList();
+    //private static void LoadMovements(ApplicationState applicationState)
+    //{
+    //    List<Type> movementTypes = typeof(IMovement).Assembly.GetTypes()
+    //        .Where(x => x.IsClass && !x.IsAbstract && typeof(IMovement).IsAssignableFrom(x))
+    //        .ToList();
 
-        applicationState.AvailableMovementTypes = movementTypes;
+    //    applicationState.AvailableMovementTypes = movementTypes;
 
-        if (movementTypes.Count > 0)
-        {
-            Type selectedMovementType = movementTypes
-                .FirstOrDefault(x => x == typeof(LocalTimeMovement));
+    //    if (movementTypes.Count > 0)
+    //    {
+    //        Type selectedMovementType = movementTypes
+    //            .FirstOrDefault(x => x == typeof(LocalTimeMovement));
 
-            IMovement movement = (IMovement)Activator.CreateInstance(selectedMovementType);
-            movement.Start();
+    //        IMovement movement = (IMovement)Activator.CreateInstance(selectedMovementType);
+    //        movement.Start();
 
-            applicationState.CurrentMovement = movement;
-        }
-    }
+    //        applicationState.CurrentMovement = movement;
+    //    }
+    //}
 }
