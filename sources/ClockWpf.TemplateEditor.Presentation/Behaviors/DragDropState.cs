@@ -1,7 +1,7 @@
 using System.Windows;
 using DustInTheWind.ClockWpf.Shapes;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Behaviors;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors;
 
 internal class DragDropState
 {

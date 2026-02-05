@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Movements;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Movements;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
 
 public class MovementsViewModel : ViewModelBase
 {

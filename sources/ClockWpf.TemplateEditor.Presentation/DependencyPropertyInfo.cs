@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 
 public class DependencyPropertyInfo : INotifyPropertyChanged
 {

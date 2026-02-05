@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Miscellaneous;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Miscellaneous;
 
 /// <summary>
 /// Interaction logic for MiscellaneousControl.xaml

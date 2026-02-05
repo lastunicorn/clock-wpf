@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 
 public class EnumToBooleanConverter : IValueConverter
 {

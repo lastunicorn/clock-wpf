@@ -1,14 +1,14 @@
 ﻿using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.TemplateEditor.Miscellaneous;
-using DustInTheWind.ClockWpf.TemplateEditor.Movements;
-using DustInTheWind.ClockWpf.TemplateEditor.Templates;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Miscellaneous;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 using DustInTheWind.ClockWpf.Templates;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 
-internal class MainViewModel : ViewModelBase
+public class MainViewModel : ViewModelBase
 {
     private readonly ApplicationState applicationState;
 

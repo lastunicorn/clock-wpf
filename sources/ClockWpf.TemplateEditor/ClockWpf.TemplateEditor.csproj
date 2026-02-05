@@ -15,13 +15,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\ClockWpf.TemplateEditor.Presentation\ClockWpf.TemplateEditor.Presentation.csproj" />
 		<ProjectReference Include="..\ClockWpf\ClockWpf.csproj" />
-		<ProjectReference Include="..\WpfWorld\WpfWorld.csproj" />
 	</ItemGroup>
 
 </Project>

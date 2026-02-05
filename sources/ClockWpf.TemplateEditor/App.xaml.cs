@@ -2,6 +2,7 @@
 using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.Movements;
 using Microsoft.Extensions.DependencyInjection;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;
 

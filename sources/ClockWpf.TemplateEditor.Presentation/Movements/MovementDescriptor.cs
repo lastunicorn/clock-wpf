@@ -1,4 +1,4 @@
-﻿namespace DustInTheWind.ClockWpf.TemplateEditor.Movements;
+﻿namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
 
 public class MovementDescriptor
 {

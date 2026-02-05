@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DustInTheWind.ClockWpf.Shapes;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Behaviors;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors;
 
 public static class ListBoxDragDropBehavior
 {

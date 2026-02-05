@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Templates;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 
 /// <summary>
 /// Interaction logic for TemplateEditor.xaml

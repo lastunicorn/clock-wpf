@@ -1,4 +1,4 @@
-namespace DustInTheWind.ClockWpf.TemplateEditor.Templates;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 
 public class TemplateData
 {

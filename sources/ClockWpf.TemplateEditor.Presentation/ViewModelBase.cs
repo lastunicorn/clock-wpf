@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 
 public class ViewModelBase : INotifyPropertyChanged
 {

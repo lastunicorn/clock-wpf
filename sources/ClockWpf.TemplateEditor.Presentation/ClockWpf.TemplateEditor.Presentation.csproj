@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AssemblyName>DustInTheWind.$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>DustInTheWind.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WpfWorld\WpfWorld.csproj" />
+		<ProjectReference Include="..\ClockWpf\ClockWpf.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Miscellaneous\MiscellaneousControl.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="Movements\MovementsControl.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="Templates\TemplatesControl.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+	</ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Windows;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 
 public static class DependencyPropertyHelper
 {

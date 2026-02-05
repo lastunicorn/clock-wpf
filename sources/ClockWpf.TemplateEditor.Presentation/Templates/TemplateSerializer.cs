@@ -5,7 +5,7 @@ using DustInTheWind.ClockWpf.Serialization;
 using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Templates;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 
 public class TemplateSerializer
 {
