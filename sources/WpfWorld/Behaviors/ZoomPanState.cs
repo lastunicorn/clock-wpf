@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Behaviors;
+namespace DustInTheWind.WpfWorld.Behaviors;
 
 internal class ZoomPanState
 {

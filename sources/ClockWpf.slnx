@@ -4,4 +4,5 @@
   </Folder>
   <Project Path="ClockWpf.TemplateEditor/ClockWpf.TemplateEditor.csproj" />
   <Project Path="ClockWpf/ClockWpf.csproj" />
+  <Project Path="WpfWorld/WpfWorld.csproj" Id="9f1f030d-0a40-4225-b8b2-a0330636d09b" />
 </Solution>

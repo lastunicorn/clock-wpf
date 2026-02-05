@@ -13,7 +13,7 @@
     xmlns:movements="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Movements"
     xmlns:behaviors="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Behaviors"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-    xmlns:customcontrols="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.CustomControls"
+    xmlns:wpfworld="clr-namespace:DustInTheWind.WpfWorld;assembly=DustInTheWind.WpfWorld"
     xmlns:miscellaneous="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Miscellaneous"
     
     mc:Ignorable="d"
@@ -40,7 +40,7 @@
             Grid.Column="0"
             Margin="20">
 
-            <customcontrols:ZoomPanControl>
+            <wpfworld:ZoomPanControl>
 
                 <clockWpf:AnalogClock
                     x:Name="analogClock1"
@@ -51,7 +51,7 @@
 
                 </clockWpf:AnalogClock>
 
-            </customcontrols:ZoomPanControl>
+            </wpfworld:ZoomPanControl>
 
             <performance:PerformaceView
                 DataContext="{Binding PerformanceMeter, Mode=OneWay}"

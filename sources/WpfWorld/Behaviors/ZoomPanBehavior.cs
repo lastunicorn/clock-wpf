@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Behaviors;
+namespace DustInTheWind.WpfWorld.Behaviors;
 
 public static class ZoomPanBehavior
 {

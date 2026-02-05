@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.CustomControls;
+namespace DustInTheWind.WpfWorld;
 
 public class ZoomPanControl : ContentControl
 {

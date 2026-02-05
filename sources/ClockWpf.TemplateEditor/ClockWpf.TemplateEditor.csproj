@@ -21,6 +21,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\ClockWpf\ClockWpf.csproj" />
+		<ProjectReference Include="..\WpfWorld\WpfWorld.csproj" />
 	</ItemGroup>
 
 </Project>
