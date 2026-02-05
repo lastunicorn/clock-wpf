@@ -18,16 +18,20 @@ public class ClockTemplatePool
             if (field == value)
                 return;
 
+            ClockTemplate oldTemplate = value;
             field = value;
-            OnCurrentTemplateChanged();
+            ClockTemplate newTemplate = value;
+
+            CurrentTemplateChangedEventArgs args = new(oldTemplate, newTemplate);
+            OnCurrentTemplateChanged(args);
         }
     }
 
-    public event EventHandler CurrentTemplateChanged;
+    public event EventHandler<CurrentTemplateChangedEventArgs> CurrentTemplateChanged;
 
-    private void OnCurrentTemplateChanged()
+    private void OnCurrentTemplateChanged(CurrentTemplateChangedEventArgs e)
     {
-        CurrentTemplateChanged?.Invoke(this, EventArgs.Empty);
+        CurrentTemplateChanged?.Invoke(this, e);
     }
 
     #endregion

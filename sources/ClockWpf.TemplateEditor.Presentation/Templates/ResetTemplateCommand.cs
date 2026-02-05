@@ -12,17 +12,32 @@ public class ResetTemplateCommand : ICommand
     {
         this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
 
+
+        if (clockTemplatePool.CurrentTemplate != null)
+            clockTemplatePool.CurrentTemplate.Modified += HandleCurrentTemplateModified;
+
         clockTemplatePool.CurrentTemplateChanged += HandleCurrentTemplateChanged;
     }
 
-    private void HandleCurrentTemplateChanged(object sender, EventArgs e)
+    private void HandleCurrentTemplateChanged(object sender, CurrentTemplateChangedEventArgs e)
     {
-        RaiseCanExecuteChanged();
+        if (e.OldTemplate != null)
+            e.OldTemplate.Modified -= HandleCurrentTemplateModified;
+
+        if (e.NewTemplate != null)
+            e.NewTemplate.Modified += HandleCurrentTemplateModified;
+
+        OnCanExecuteChanged();
+    }
+
+    private void HandleCurrentTemplateModified(object sender, EventArgs e)
+    {
+        OnCanExecuteChanged();
     }
 
     public bool CanExecute(object parameter)
     {
-        return clockTemplatePool.CurrentTemplate != null;
+        return clockTemplatePool.CurrentTemplate?.IsNew == false;
     }
 
     public void Execute(object parameter)
@@ -30,7 +45,7 @@ public class ResetTemplateCommand : ICommand
         clockTemplatePool.RecreateCurrentTemplate();
     }
 
-    private void RaiseCanExecuteChanged()
+    private void OnCanExecuteChanged()
     {
         CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }

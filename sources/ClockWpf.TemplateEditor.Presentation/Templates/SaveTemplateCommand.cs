@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Utils;
 using DustInTheWind.ClockWpf.Templates;
 using Microsoft.Win32;
 
@@ -13,6 +14,13 @@ public class SaveTemplateCommand : ICommand
     public SaveTemplateCommand(ClockTemplatePool clockTemplatePool)
     {
         this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
+
+        clockTemplatePool.CurrentTemplateChanged += HandleCurrentTemplateChanged;
+    }
+
+    private void HandleCurrentTemplateChanged(object sender, EventArgs e)
+    {
+        OnCanExecuteChanged();
     }
 
     public bool CanExecute(object parameter)
@@ -39,7 +47,7 @@ public class SaveTemplateCommand : ICommand
         }
     }
 
-    public void RaiseCanExecuteChanged()
+    private void OnCanExecuteChanged()
     {
         CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }

@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.Movements;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Utils;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 
@@ -109,7 +107,8 @@ public class TemplatesViewModel : ViewModelBase
                 SelectedTemplateType = TemplateTypes
                     .FirstOrDefault(x => x.Type == currentTymplateType);
 
-                Shapes = new ObservableCollection<Shape>(clockTemplatePool.CurrentTemplate);
+                Shapes = clockTemplatePool.CurrentTemplate
+                    .ToObservableCollection();
             }
 
             Movement = applicationState.CurrentMovement;
@@ -123,7 +122,7 @@ public class TemplatesViewModel : ViewModelBase
 
     private void HandleCurrentTemplateChanged(object sender, EventArgs e)
     {
-        Shapes = new ObservableCollection<Shape>(clockTemplatePool.CurrentTemplate);
-        SaveTemplateCommand.RaiseCanExecuteChanged();
+        Shapes = clockTemplatePool.CurrentTemplate
+            .ToObservableCollection();
     }
 }

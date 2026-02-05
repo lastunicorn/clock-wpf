@@ -23,4 +23,8 @@
 		<ProjectReference Include="..\ClockWpf\ClockWpf.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Page Include="App.xaml" />
+	</ItemGroup>
+
 </Project>
