@@ -44,28 +44,37 @@
                     Margin="5 0 0 0"
                     Command="{Binding SaveTemplateCommand}" />
 
+                <Button
+                    DockPanel.Dock="Right"
+                    Content="Reset"
+                    Padding="10 0"
+                    Margin="8 0 0 0"
+                    Command="{Binding ResetTemplateCommand}" />
+
                 <ComboBox
                     ItemsSource="{Binding TemplateTypes}"
                     SelectedItem="{Binding SelectedTemplateType}"
-                    DisplayMemberPath="Name"/>    
+                    DisplayMemberPath="Name"/> 
+                
             </DockPanel>
 
             <StackPanel
                 DockPanel.Dock="Top"
                 Margin="0 10 0 0"
-                Orientation="Horizontal">
+                Orientation="Horizontal"
+                FlowDirection="RightToLeft">
 
                 <Button
                     DockPanel.Dock="Right"
-                    Content="Add Shape"
-                    Padding="10 0"
+                    Content="+"
+                    Padding="5 0"
                     IsEnabled="False" />
 
             </StackPanel>
             
             <ListBox
                 Grid.Row="0"
-                Margin="0 10 0 0"
+                Margin="0 2 0 0"
                 ItemsSource="{Binding Shapes, Mode=OneWay}"
                 SelectedItem="{Binding SelectedShape}"
                 DisplayMemberPath=""

@@ -9,6 +9,30 @@ internal static class Setup
 {
     public static void ConfigureServices(ServiceCollection serviceCollection)
     {
+        serviceCollection.AddSingleton<IClockTemplateFactory, TemplateFactory>();
+
+        IEnumerable<Type> templateTypes = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(x => x.GetTypes())
+            .Where(x => x.IsClass && !x.IsAbstract && typeof(ClockTemplate).IsAssignableFrom(x));
+
+        foreach (Type templateType in templateTypes)
+            serviceCollection.AddTransient(templateType);
+
+        serviceCollection.AddSingleton(serviceProvider =>
+        {
+            IClockTemplateFactory clockTemplateFactory = serviceProvider.GetService<IClockTemplateFactory>();
+            ClockTemplatePool clockTemplatePool = new(clockTemplateFactory);
+
+            IEnumerable<Type> templateTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => x.IsClass && !x.IsAbstract && typeof(ClockTemplate).IsAssignableFrom(x));
+
+            clockTemplatePool.AddRange(templateTypes);
+            clockTemplatePool.SetDefault<DefaultTemplate>();
+            
+            return clockTemplatePool;
+        });
+
         ApplicationState applicationState = CreateApplicationState();
         serviceCollection.AddSingleton(applicationState);
 
@@ -20,27 +44,9 @@ internal static class Setup
     {
         ApplicationState applicationState = new();
 
-        LoadTemplates(applicationState);
         LoadMovements(applicationState);
 
         return applicationState;
-    }
-
-    private static void LoadTemplates(ApplicationState applicationState)
-    {
-        List<Type> templateTypes = typeof(ClockTemplate).Assembly.GetTypes()
-            .Where(x => x.IsClass && !x.IsAbstract && typeof(ClockTemplate).IsAssignableFrom(x))
-            .ToList();
-
-        applicationState.AvailableTemplateTypes = templateTypes;
-
-        if (templateTypes.Count > 0)
-        {
-            Type selectedTemplateType = templateTypes
-                .FirstOrDefault(x => x == typeof(DefaultTemplate));
-
-            applicationState.CurrentTemplate = (ClockTemplate)Activator.CreateInstance(selectedTemplateType);
-        }
     }
 
     private static void LoadMovements(ApplicationState applicationState)

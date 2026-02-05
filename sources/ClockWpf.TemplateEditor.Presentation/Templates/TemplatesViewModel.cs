@@ -2,12 +2,15 @@
 using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
 using DustInTheWind.ClockWpf.Movements;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 
 public class TemplatesViewModel : ViewModelBase
 {
     private readonly ApplicationState applicationState;
+    private readonly ClockTemplatePool clockTemplatePool;
 
     public ObservableCollection<TemplateInfo> TemplateTypes { get; } = [];
 
@@ -23,11 +26,7 @@ public class TemplatesViewModel : ViewModelBase
             OnPropertyChanged();
 
             if (!IsInitializing)
-            {
-                applicationState.CurrentTemplate = field == null
-                    ? null
-                    : (ClockTemplate)Activator.CreateInstance(field.Type);
-            }
+                clockTemplatePool.SetDefault(field.Type);
         }
     }
 
@@ -72,15 +71,19 @@ public class TemplatesViewModel : ViewModelBase
 
     public SaveTemplateCommand SaveTemplateCommand { get; }
 
-    public TemplatesViewModel(ApplicationState applicationState)
+    public ResetTemplateCommand ResetTemplateCommand { get; }
+
+    public TemplatesViewModel(ApplicationState applicationState, ClockTemplatePool clockTemplatePool)
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+        this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
 
-        SaveTemplateCommand = new SaveTemplateCommand(applicationState);
+        SaveTemplateCommand = new SaveTemplateCommand(clockTemplatePool);
+        ResetTemplateCommand = new ResetTemplateCommand(clockTemplatePool);
 
         Initialize();
 
-        applicationState.CurrentTemplateChanged += HandleCurrentTemplateChanged;
+        clockTemplatePool.CurrentTemplateChanged += HandleCurrentTemplateChanged;
         applicationState.CurrentMovementChanged += HandleCurrentMovementChanged;
     }
 
@@ -88,28 +91,25 @@ public class TemplatesViewModel : ViewModelBase
     {
         Initialize(() =>
         {
-            if (applicationState.AvailableTemplateTypes != null)
+            foreach (Type type in clockTemplatePool.EnumerateKnownTypes())
             {
-                foreach (Type type in applicationState.AvailableTemplateTypes)
+                TemplateTypes.Add(new TemplateInfo
                 {
-                    TemplateTypes.Add(new TemplateInfo
-                    {
-                        Name = type.Name
-                            .Replace("ClockTemplate", "")
-                            .Replace("Template", ""),
-                        Type = type
-                    });
-                }
+                    Name = type.Name
+                        .Replace("ClockTemplate", "")
+                        .Replace("Template", ""),
+                    Type = type
+                });
             }
 
-            if (applicationState.CurrentTemplate != null)
+            if (clockTemplatePool.CurrentTemplate != null)
             {
-                Type currentTymplateType = applicationState.CurrentTemplate.GetType();
+                Type currentTymplateType = clockTemplatePool.CurrentTemplate.GetType();
 
                 SelectedTemplateType = TemplateTypes
                     .FirstOrDefault(x => x.Type == currentTymplateType);
 
-                Shapes = new ObservableCollection<Shape>(applicationState.CurrentTemplate);
+                Shapes = new ObservableCollection<Shape>(clockTemplatePool.CurrentTemplate);
             }
 
             Movement = applicationState.CurrentMovement;
@@ -123,7 +123,7 @@ public class TemplatesViewModel : ViewModelBase
 
     private void HandleCurrentTemplateChanged(object sender, EventArgs e)
     {
-        Shapes = new ObservableCollection<Shape>(applicationState.CurrentTemplate);
+        Shapes = new ObservableCollection<Shape>(clockTemplatePool.CurrentTemplate);
         SaveTemplateCommand.RaiseCanExecuteChanged();
     }
 }
