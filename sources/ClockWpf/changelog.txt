@@ -3,21 +3,22 @@ Clock WPF
 
 Ver 1.3.0
 ----------------------------------------------------------------------------------------------------
-[new]    Added support for a backwards clock (counterclockwise)
+[new   ] Added support for a backwards clock (counterclockwise)
 [change] Multiple breaking changes to the shape base classes.
-[new]    Added name and description for movements.
-[new]    Added the Blade template.
+[new   ] Added name and description for movements.
+[new   ] Added the Blade template.
+[bugfix] Multiple small bugfixes and changes to the clock and the templates.
 
 
 Ver 1.2.0
 ----------------------------------------------------------------------------------------------------
 [bugfix] Fixed the Black Template and renamed it to Sharp Template.
 [change] Time Providers were renamed to Movement.
-[new]    Create StaticMovement - Displays a fixed time.
+[new   ] Create StaticMovement - Displays a fixed time.
 [bugfix] Small tweaks to the templates.
-[new]    Rim Shape - New item orientation: HalfInHalfOut
-[new]    Rim Shape - New item orientation: Custom
-[new]    New template added: Bob
+[new   ] Rim Shape - New item orientation: HalfInHalfOut
+[new   ] Rim Shape - New item orientation: Custom
+[new   ] New template added: Bob
 
 
 Ver 1.0.0
