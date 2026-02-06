@@ -164,30 +164,14 @@ public class SimpleLineHand : HandBase
         }
     }
 
-    public override void DoRender(ClockDrawingContext context)
+    protected override void DoRenderHand(ClockDrawingContext context)
     {
-        DrawingPlan.Create(context.DrawingContext)
-            .WithTransform(() =>
-            {
-                HandAngle handAngle = new()
-                {
-                    Time = context.Time,
-                    TimeComponent = TimeComponent,
-                    ClockDirection = context.ClockDirection,
-                    IntegralValue = IntegralValue
-                };
+        context.DrawingContext.DrawLine(strokePen, startPoint, endPoint);
 
-                return new RotateTransform((double)handAngle, 0, 0);
-            })
-            .Draw(dc =>
-            {
-                dc.DrawLine(strokePen, startPoint, endPoint);
-
-                if (hasPin)
-                {
-                    Point center = new(0, 0);
-                    dc.DrawEllipse(StrokeBrush, null, center, calculatedPinRadius, calculatedPinRadius);
-                }
-            });
+        if (hasPin)
+        {
+            Point center = new(0, 0);
+            context.DrawingContext.DrawEllipse(StrokeBrush, null, center, calculatedPinRadius, calculatedPinRadius);
+        }
     }
 }

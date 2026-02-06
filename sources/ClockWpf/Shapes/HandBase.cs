@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -108,4 +109,27 @@ public abstract class HandBase : Shape, IHand
 
         return base.OnRendering(context);
     }
+
+    public override void DoRender(ClockDrawingContext context)
+    {
+        DrawingPlan.Create(context.DrawingContext)
+            .WithTransform(() =>
+            {
+                HandAngle handAngle = new()
+                {
+                    Time = context.Time,
+                    TimeComponent = TimeComponent,
+                    ClockDirection = context.ClockDirection,
+                    IntegralValue = IntegralValue
+                };
+
+                return new RotateTransform((double)handAngle, 0, 0);
+            })
+            .Draw(dc =>
+            {
+                DoRenderHand(context);
+            });
+    }
+
+    protected abstract void DoRenderHand(ClockDrawingContext context);
 }

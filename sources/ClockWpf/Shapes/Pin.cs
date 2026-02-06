@@ -36,7 +36,7 @@ public class Pin : Shape
     #endregion
 
     private Point pinCenter;
-    private double pinRadius;
+    private double calculatedPinRadius;
     private Pen strokePen;
 
     protected override bool OnRendering(ClockDrawingContext context)
@@ -51,13 +51,14 @@ public class Pin : Shape
     {
         base.CalculateCache(context);
 
-        pinRadius = Diameter.RelativeTo(context.ClockRadius);
+        double calculatedPinDiameter = Diameter.RelativeTo(context.ClockRadius);
+        calculatedPinRadius = calculatedPinDiameter / 2;
         pinCenter = new Point(0, 0);
         strokePen = CreateStrokePen(true);
     }
 
     public override void DoRender(ClockDrawingContext context)
     {
-        context.DrawingContext.DrawEllipse(FillBrush, strokePen, pinCenter, pinRadius, pinRadius);
+        context.DrawingContext.DrawEllipse(FillBrush, strokePen, pinCenter, calculatedPinRadius, calculatedPinRadius);
     }
 }

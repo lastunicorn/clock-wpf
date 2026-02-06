@@ -135,24 +135,8 @@ public class RodHand : HandBase
         return handGeometry;
     }
 
-    public override void DoRender(ClockDrawingContext context)
+    protected override void DoRenderHand(ClockDrawingContext context)
     {
-        DrawingPlan.Create(context.DrawingContext)
-            .WithTransform(() =>
-            {
-                HandAngle handAngle = new()
-                {
-                    Time = context.Time,
-                    TimeComponent = TimeComponent,
-                    ClockDirection = context.ClockDirection,
-                    IntegralValue = IntegralValue
-                };
-
-                return new RotateTransform((double)handAngle, 0, 0);
-            })
-            .Draw(dc =>
-            {
-                context.DrawingContext.DrawGeometry(FillBrush, strokePen, handGeometry);
-            });
+        context.DrawingContext.DrawGeometry(FillBrush, strokePen, handGeometry);
     }
 }
