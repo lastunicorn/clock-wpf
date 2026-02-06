@@ -5,8 +5,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/DustInTheWind.ClockWpf;component/AnalogClockStyles.xaml" />
-        <ResourceDictionary Source="/DustInTheWind.ClockWpf;component/Performance/PerformaceViewStyles.xaml" />
         <ResourceDictionary Source="/DustInTheWind.ClockWpf;component/BezelStyles.xaml" />
+        <ResourceDictionary Source="/DustInTheWind.ClockWpf;component/Performance/PerformaceViewStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

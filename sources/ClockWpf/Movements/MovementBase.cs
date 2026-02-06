@@ -122,6 +122,15 @@ public abstract class MovementBase : IMovement
         IsRunning = false;
     }
 
+    /// <summary>
+    /// Forces the timer to perform a tick operation immediately, updating the last tick time and raising the tick
+    /// event.
+    /// </summary>
+    /// <remarks>
+    /// This method bypasses any scheduled timing and triggers the tick logic as if the timer
+    /// interval had elapsed. It can be used to manually advance the timer state or to simulate a tick for testing or
+    /// synchronization purposes.
+    /// </remarks>
     protected void ForceTick()
     {
         LastTick = GenerateNewTime();

@@ -210,7 +210,7 @@ public class Dial : Canvas
     protected override void OnRender(DrawingContext drawingContext)
     {
         PerformanceMeter performanceInfo = PerformanceMeter;
-        performanceInfo?.Start();
+        performanceInfo?.StartMeasurement();
 
         try
         {
@@ -239,7 +239,7 @@ public class Dial : Canvas
         }
         finally
         {
-            performanceInfo?.Stop();
+            performanceInfo?.EndMeasurement();
         }
     }
 
