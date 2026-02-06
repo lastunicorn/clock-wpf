@@ -123,6 +123,8 @@ public class SlotHand : HandBase
     /// </summary>
     protected override void CalculateCache(ClockDrawingContext context)
     {
+        base.CalculateCache(context);
+
         double radius = context.ClockRadius;
 
         StreamGeometry geometry = new();

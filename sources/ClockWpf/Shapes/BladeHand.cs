@@ -113,10 +113,11 @@ public class BladeHand : HandBase
     {
         base.CalculateCache(context);
 
-        double calculatedLength = Length.RelativeTo(context.ClockRadius);
-        double calculatedWidth = Width.RelativeTo(context.ClockRadius);
+        double clockRadius = context.ClockRadius;
+        double calculatedLength = Length.RelativeTo(clockRadius);
+        double calculatedWidth = Width.RelativeTo(clockRadius);
         double calculatedHalfWidth = calculatedWidth / 2;
-        double hipDistance = HipDistance.RelativeTo(context.ClockRadius);
+        double hipDistance = HipDistance.RelativeTo(clockRadius);
 
         // Background
 
@@ -144,23 +145,11 @@ public class BladeHand : HandBase
 
         // Background - Stroke
 
-        if (StrokeBrush != null && StrokeThickness > 0)
-        {
-            Pen newStrokePen = new(StrokeBrush, StrokeThickness);
-
-            if (newStrokePen.CanFreeze)
-                newStrokePen.Freeze();
-
-            strokePen = newStrokePen;
-        }
-        else
-        {
-            strokePen = null;
-        }
+        strokePen = CreateStrokePen();
 
         // Shadow
 
-        double calculatedShadowMargin = ShadowMargin.RelativeTo(context.ClockRadius);
+        double calculatedShadowMargin = ShadowMargin.RelativeTo(clockRadius);
 
         if (calculatedShadowMargin < 0)
             calculatedShadowMargin = 0;
