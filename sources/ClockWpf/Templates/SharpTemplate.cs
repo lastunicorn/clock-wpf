@@ -19,9 +19,6 @@ public class SharpTemplate : ClockTemplate
         yield return new FancyBackground
         {
             Name = "Fancy Background",
-            //FillBrush = Brushes.Black,
-            //OuterRimBrush = Brushes.Blue,
-            //InnerRimBrush = Brushes.Red,
             FillColor = Colors.Black
         };
 

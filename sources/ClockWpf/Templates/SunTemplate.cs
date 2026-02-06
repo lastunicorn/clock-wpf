@@ -18,6 +18,14 @@ public class SunTemplate : ClockTemplate
             FillBrush = CreateFaceBrush()
         };
 
+        yield return new HourNumerals
+        {
+            Name = "Hour Numerals",
+            DistanceFromEdge = 37,
+            FontSize = 17,
+            FillBrush = Brushes.Black
+        };
+
         yield return new TextRim
         {
             Name = "Minute Numerals",
@@ -29,14 +37,6 @@ public class SunTemplate : ClockTemplate
             DistanceFromEdge = 7,
             FontFamily = new FontFamily("Arial"),
             FontSize = 4.4,
-            FillBrush = Brushes.Black
-        };
-
-        yield return new HourNumerals
-        {
-            Name = "Hour Numerals",
-            DistanceFromEdge = 37,
-            FontSize = 17,
             FillBrush = Brushes.Black
         };
 

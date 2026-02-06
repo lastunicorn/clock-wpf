@@ -201,7 +201,7 @@ public class FancyBackground : Shape
             EndPoint = new Point(1, 1)
         };
 
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(150f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 0));
         brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 1));
 
         brush.Freeze();
@@ -217,7 +217,7 @@ public class FancyBackground : Shape
         };
 
         brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 0));
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(150f), 1));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 1));
 
         return brush;
     }
@@ -230,7 +230,7 @@ public class FancyBackground : Shape
             EndPoint = new Point(1, 1)
         };
 
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(150f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 0));
         brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 1));
 
         if (brush.CanFreeze)

@@ -14,7 +14,7 @@ public abstract class MovementBase : IMovement
     private int tickInterval = 100;
 
     /// <summary>
-    /// Gets or sets the interval in milliseconds at which the time provider generates time values.
+    /// Gets or sets the interval in milliseconds at which the time current instance generates time values.
     /// </summary>
     /// <remarks>
     /// Smaller numbers will generate more values per second, making the second hand move more
@@ -24,7 +24,7 @@ public abstract class MovementBase : IMovement
     /// </remarks>
     [Category("Behavior")]
     [DefaultValue(100)]
-    [Description("The interval in milliseconds at which the time provider generates time values.")]
+    [Description("The interval in milliseconds at which the time current instance generates time values.")]
     public int TickInterval
     {
         get => tickInterval;
