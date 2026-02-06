@@ -17,10 +17,10 @@ public class FlatBackground : Shape
     {
         base.CalculateCache(context);
 
-        strokePen = CreateStrokePen(true);
+        strokePen = CreateStrokePen();
     }
 
-    public override void DoRender(ClockDrawingContext context)
+    protected override void DoRender(ClockDrawingContext context)
     {
         Point center = new(0, 0);
         double backgroundRadius = (context.ClockDiameter - StrokeThickness) / 2;

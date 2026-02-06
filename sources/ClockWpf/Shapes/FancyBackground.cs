@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -18,9 +19,16 @@ public class FancyBackground : Shape
     private static void HandleOuterRimWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancyBackground fancyBackground)
+        {
             fancyBackground.InvalidateCache();
+            fancyBackground.OnChanged(EventArgs.Empty);
+        }
     }
 
+    /// <summary>
+    /// Gets or sets the width of the outer rim in device-independent units (pixels).
+    /// </summary>
+    [Category("Appearance")]
     public double OuterRimWidth
     {
         get => (double)GetValue(OuterRimWidthProperty);
@@ -40,9 +48,16 @@ public class FancyBackground : Shape
     private static void HandleInnerRimWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancyBackground fancyBackground)
+        {
             fancyBackground.InvalidateCache();
+            fancyBackground.OnChanged(EventArgs.Empty);
+        }
     }
 
+    /// <summary>
+    /// Gets or sets the width of the inner rim in device-independent units (pixels).
+    /// </summary>
+    [Category("Appearance")]
     public double InnerRimWidth
     {
         get => (double)GetValue(InnerRimWidthProperty);
@@ -62,7 +77,10 @@ public class FancyBackground : Shape
     private static void HandleOuterRimBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancyBackground fancyBackground)
+        {
             fancyBackground.InvalidateCache();
+            fancyBackground.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
@@ -85,7 +103,10 @@ public class FancyBackground : Shape
     private static void HandleInnerRimBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancyBackground fancyBackground)
+        {
             fancyBackground.InvalidateCache();
+            fancyBackground.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
@@ -108,7 +129,10 @@ public class FancyBackground : Shape
     private static void HandleFillColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is FancyBackground fancyBackground)
+        {
             fancyBackground.InvalidateCache();
+            fancyBackground.OnChanged(EventArgs.Empty);
+        }
     }
 
     [Category("Appearance")]
@@ -203,7 +227,7 @@ public class FancyBackground : Shape
         return brush;
     }
 
-    public override void DoRender(ClockDrawingContext context)
+    protected override void DoRender(ClockDrawingContext context)
     {
         Point center = new(0, 0);
 

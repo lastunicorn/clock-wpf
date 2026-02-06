@@ -65,7 +65,7 @@ public class DotHand : HandBase
         
         calculatedDotRadius = Radius.RelativeTo(clockRadius);
         
-        strokePen = CreateStrokePen(true);
+        strokePen = CreateStrokePen();
     }
 
     protected override void DoRenderHand(ClockDrawingContext context)

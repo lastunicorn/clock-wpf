@@ -82,7 +82,7 @@ public class RodHand : HandBase
         base.CalculateCache(context);
 
         handGeometry = CreateHandGeometry(context);
-        strokePen = CreateStrokePen(true);
+        strokePen = CreateStrokePen();
     }
 
     private PathGeometry CreateHandGeometry(ClockDrawingContext context)

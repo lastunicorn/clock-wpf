@@ -131,7 +131,7 @@ public class FancySweepHand : HandBase
 
         // Stroke Pen
 
-        strokePen = CreateStrokePen(true);
+        strokePen = CreateStrokePen();
     }
 
     protected override void DoRenderHand(ClockDrawingContext context)

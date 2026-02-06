@@ -82,7 +82,7 @@ public class DiamondHand : HandBase
         base.CalculateCache(context);
 
         diamondGeometry = CreateDiamondGeometry(context);
-        strokePen = CreateStrokePen(true);
+        strokePen = CreateStrokePen();
     }
 
     private StreamGeometry CreateDiamondGeometry(ClockDrawingContext context)

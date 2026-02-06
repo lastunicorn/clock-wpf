@@ -110,7 +110,7 @@ public abstract class HandBase : Shape, IHand
         return base.OnRendering(context);
     }
 
-    public override void DoRender(ClockDrawingContext context)
+    protected override void DoRender(ClockDrawingContext context)
     {
         DrawingPlan.Create(context.DrawingContext)
             .WithTransform(() =>

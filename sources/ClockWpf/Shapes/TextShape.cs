@@ -212,11 +212,11 @@ public class TextShape : Shape
 
         formattedText.MaxTextWidth = MaxWidth;
 
-        Point location = Location;
         double clockRadius = context.ClockRadius;
+        Point calculatedLocation = Location.RelativeTo(clockRadius);
 
-        double textX = location.X.RelativeTo(clockRadius) - formattedText.Width / 2;
-        double textY = location.Y.RelativeTo(clockRadius) - formattedText.Height / 2;
+        double textX = calculatedLocation.X - formattedText.Width / 2;
+        double textY = calculatedLocation.Y - formattedText.Height / 2;
 
         textPosition = new Point(textX, textY);
     }
@@ -229,7 +229,7 @@ public class TextShape : Shape
         return base.OnRendering(context);
     }
 
-    public override void DoRender(ClockDrawingContext context)
+    protected override void DoRender(ClockDrawingContext context)
     {
         context.DrawingContext.DrawText(formattedText, textPosition);
     }

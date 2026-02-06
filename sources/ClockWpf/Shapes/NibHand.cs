@@ -73,7 +73,7 @@ public class NibHand : HandBase
         base.CalculateCache(context);
 
         nibGeometry = CreateNibGeometry();
-        strokePen = CreateStrokePen(true);
+        strokePen = CreateStrokePen();
     }
 
     private static PathGeometry CreateNibGeometry()
