@@ -24,6 +24,9 @@ public class BladeHand : HandBase
         }
     }
 
+    /// <summary>
+    /// Gets or sets the width of the hand, in device-independent units (pixels).
+    /// </summary>
     [Category("Appearance")]
     [DefaultValue(20.0)]
     [Description("The width of the hand.")]
@@ -52,13 +55,47 @@ public class BladeHand : HandBase
         }
     }
 
+    /// <summary>
+    /// Gets or sets the distance from the origin to the widest part of the hand, referred to as the hip.
+    /// </summary>
     [Category("Appearance")]
     [DefaultValue(20.0)]
-    [Description("The distance from the origin where the hip (most wide part of the hand) should be located.")]
+    [Description("The distance from the origin to the most wide part of the hand (the hip).")]
     public double HipDistance
     {
         get => (double)GetValue(HipDistanceProperty);
         set => SetValue(HipDistanceProperty, value);
+    }
+
+    #endregion
+
+    #region ShadowMargin Dependency Property
+
+    public static readonly DependencyProperty ShadowMarginProperty = DependencyProperty.Register(
+        nameof(ShadowMargin),
+        typeof(double),
+        typeof(BladeHand),
+        new FrameworkPropertyMetadata(2.0, HandleShadowMarginChanged));
+
+    private static void HandleShadowMarginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is BladeHand bladeHand)
+        {
+            bladeHand.InvalidateCache();
+            bladeHand.OnChanged(EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the distance, in pixels, between the margin of the hand and its inner shadow.
+    /// </summary>
+    [Category("Appearance")]
+    [DefaultValue(2.0)]
+    [Description("The space betwwen the margin of the hand and the inner shadow.")]
+    public double ShadowMargin
+    {
+        get => (double)GetValue(ShadowMarginProperty);
+        set => SetValue(ShadowMarginProperty, value);
     }
 
     #endregion
@@ -68,23 +105,29 @@ public class BladeHand : HandBase
         StrokeThicknessProperty.OverrideMetadata(typeof(BladeHand), new FrameworkPropertyMetadata(0.0));
     }
 
-    protected override void DoRenderHand(ClockDrawingContext context)
+    private StreamGeometry geometryBackground;
+    private StreamGeometry geometryShade;
+    private Pen strokePen;
+
+    protected override void CalculateCache(ClockDrawingContext context)
     {
+        base.CalculateCache(context);
+
         double calculatedLength = Length.RelativeTo(context.ClockRadius);
         double calculatedWidth = Width.RelativeTo(context.ClockRadius);
         double calculatedHalfWidth = calculatedWidth / 2;
         double hipDistance = HipDistance.RelativeTo(context.ClockRadius);
+
+        // Background
 
         Point pointA1 = new(0, 0);
         Point pointA2 = new(-calculatedHalfWidth, -hipDistance);
         Point pointA3 = new(0, -calculatedLength);
         Point pointA4 = new(calculatedHalfWidth, -hipDistance);
 
-        // Background
+        StreamGeometry geometryBackground = new();
 
-        StreamGeometry geometry1 = new();
-
-        StreamGeometryContext streamGeometryContext1 = geometry1.Open();
+        StreamGeometryContext streamGeometryContext1 = geometryBackground.Open();
 
         streamGeometryContext1.BeginFigure(pointA1, true, true);
 
@@ -94,25 +137,43 @@ public class BladeHand : HandBase
 
         streamGeometryContext1.Close();
 
-        if (geometry1.CanFreeze)
-            geometry1.Freeze();
+        if (geometryBackground.CanFreeze)
+            geometryBackground.Freeze();
 
-        Pen strokePen1 = new(StrokeBrush, StrokeThickness);
-        strokePen1.Freeze();
+        this.geometryBackground = geometryBackground;
 
-        context.DrawingContext.DrawGeometry(FillBrush, strokePen1, geometry1);
+        // Background - Stroke
+
+        if (StrokeBrush != null && StrokeThickness > 0)
+        {
+            Pen newStrokePen = new(StrokeBrush, StrokeThickness);
+
+            if (newStrokePen.CanFreeze)
+                newStrokePen.Freeze();
+
+            strokePen = newStrokePen;
+        }
+        else
+        {
+            strokePen = null;
+        }
 
         // Shadow
 
-        double shadowMargin = 2.RelativeTo(context.ClockRadius);
+        double calculatedShadowMargin = ShadowMargin.RelativeTo(context.ClockRadius);
 
-        Point pointB1 = new(0, -shadowMargin * 2);
-        Point pointB2 = new(-calculatedHalfWidth + shadowMargin, -hipDistance);
-        Point pointB3 = new(0, -calculatedLength + shadowMargin * 4);
+        if (calculatedShadowMargin < 0)
+            calculatedShadowMargin = 0;
+        else if (calculatedShadowMargin > calculatedHalfWidth)
+            calculatedShadowMargin = calculatedHalfWidth;
 
-        StreamGeometry geometry2 = new();
+        Point pointB1 = new(0, -calculatedShadowMargin * 1.5);
+        Point pointB2 = new(-calculatedHalfWidth + calculatedShadowMargin, -hipDistance);
+        Point pointB3 = new(0, -calculatedLength + calculatedShadowMargin * 4);
 
-        StreamGeometryContext streamGeometryContext2 = geometry2.Open();
+        StreamGeometry geometryShade = new();
+
+        StreamGeometryContext streamGeometryContext2 = geometryShade.Open();
 
         streamGeometryContext2.BeginFigure(pointB1, true, true);
 
@@ -121,9 +182,15 @@ public class BladeHand : HandBase
 
         streamGeometryContext2.Close();
 
-        if (geometry2.CanFreeze)
-            geometry2.Freeze();
+        if (geometryShade.CanFreeze)
+            geometryShade.Freeze();
 
-        context.DrawingContext.DrawGeometry(Brushes.Gray, null, geometry2);
+        this.geometryShade = geometryShade;
+    }
+
+    protected override void DoRenderHand(ClockDrawingContext context)
+    {
+        context.DrawingContext.DrawGeometry(FillBrush, strokePen, geometryBackground);
+        context.DrawingContext.DrawGeometry(Brushes.Gray, null, geometryShade);
     }
 }
