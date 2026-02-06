@@ -23,7 +23,6 @@ public class BobTemplate : ClockTemplate
             TailLength = 9,
             StrokeThickness = 18,
             FillBrush = Brushes.Black,
-            PinDiameter = 0,
             RoundEnds = true
         };
         yield return hourHand;
@@ -36,7 +35,6 @@ public class BobTemplate : ClockTemplate
             TailLength = 9,
             StrokeThickness = 18,
             FillBrush = Brushes.Black,
-            PinDiameter = 0,
             RoundEnds = true
         };
         yield return minuteHand;

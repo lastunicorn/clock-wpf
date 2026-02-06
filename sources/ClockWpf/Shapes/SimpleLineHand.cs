@@ -70,38 +70,8 @@ public class SimpleLineHand : HandBase
 
     #endregion
 
-    #region PinDiameter DependencyProperty
-
-    public static readonly DependencyProperty PinDiameterProperty = DependencyProperty.Register(
-        nameof(PinDiameter),
-        typeof(double),
-        typeof(SimpleLineHand),
-        new FrameworkPropertyMetadata(4.0, HandlePinDiameterChanged));
-
-    private static void HandlePinDiameterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is SimpleLineHand simpleHand)
-        {
-            simpleHand.InvalidateCache();
-            simpleHand.OnChanged(EventArgs.Empty);
-        }
-    }
-
-    [Category("Appearance")]
-    [DefaultValue(4.0)]
-    [Description("The diameter of the pin as percentage from the clock's radius.")]
-    public double PinDiameter
-    {
-        get => (double)GetValue(PinDiameterProperty);
-        set => SetValue(PinDiameterProperty, value);
-    }
-
-    #endregion
-
     private Point startPoint;
     private Point endPoint;
-    private bool hasPin;
-    private double calculatedPinRadius;
     private Pen strokePen;
 
     protected override bool OnRendering(ClockDrawingContext context)
@@ -128,15 +98,6 @@ public class SimpleLineHand : HandBase
         startPoint = new(0, calculatedTailLength - calculatedTipLength);
         endPoint = new(0, -calculatedLength + calculatedTipLength);
 
-        // Pin
-
-        hasPin = PinDiameter > 0;
-        if (hasPin)
-        {
-            double calculatedPinDiameter = PinDiameter.RelativeTo(radius);
-            calculatedPinRadius = calculatedPinDiameter / 2;
-        }
-
         // Pen
         strokePen = CreateStrokePen();
     }
@@ -157,11 +118,5 @@ public class SimpleLineHand : HandBase
     protected override void DoRenderHand(ClockDrawingContext context)
     {
         context.DrawingContext.DrawLine(strokePen, startPoint, endPoint);
-
-        if (hasPin)
-        {
-            Point center = new(0, 0);
-            context.DrawingContext.DrawEllipse(StrokeBrush, null, center, calculatedPinRadius, calculatedPinRadius);
-        }
     }
 }

@@ -76,9 +76,16 @@ public class DefaultBlackTemplate : ClockTemplate
             TailLength = 24,
             StrokeBrush = Brushes.OrangeRed,
             StrokeThickness = 1,
-            IntegralValue = true,
-            PinDiameter = 8
+            IntegralValue = true
         };
         yield return secondHand;
+
+        Pin pin = new()
+        {
+            Name = "Pin",
+            Diameter = 8,
+            FillBrush = Brushes.OrangeRed
+        };
+        yield return pin;
     }
 }

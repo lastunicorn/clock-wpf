@@ -98,8 +98,14 @@ public class SharpTemplate : ClockTemplate
             Length = 86,
             TailLength = 14,
             StrokeBrush = Brushes.Red,
-            StrokeThickness = 0.3,
-            PinDiameter = 2
+            StrokeThickness = 0.3
+        };
+
+        yield return new Pin()
+        {
+            Name = "Pin",
+            Diameter = 2,
+            FillBrush = Brushes.Red
         };
     }
 }

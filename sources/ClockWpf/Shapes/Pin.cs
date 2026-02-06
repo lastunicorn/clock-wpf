@@ -35,6 +35,11 @@ public class Pin : Shape
 
     #endregion
 
+    static Pin()
+    {
+        StrokeThicknessProperty.OverrideMetadata(typeof(Pin), new FrameworkPropertyMetadata(0.0));
+    }
+
     private Point pinCenter;
     private double calculatedPinRadius;
     private Pen strokePen;

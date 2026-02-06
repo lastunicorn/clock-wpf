@@ -71,8 +71,14 @@ public class PlayfulTemplate : ClockTemplate
             TailLength = -18,
             StrokeBrush = Brushes.Red,
             StrokeThickness = 1,
-            PinDiameter = 24,
             RoundEnds = true
+        };
+
+        yield return new Pin()
+        {
+            Name = "Pin",
+            Diameter = 24,
+            FillBrush = Brushes.Red
         };
     }
 }
