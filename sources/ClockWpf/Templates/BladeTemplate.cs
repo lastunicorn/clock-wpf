@@ -77,7 +77,7 @@ public class BladeTemplate : ClockTemplate
             Length = 70,
             StrokeThickness = 1.5,
             FillBrush = Brushes.Black,
-            
+            IntegralValue = true
         };
 
         yield return new Pin

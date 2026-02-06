@@ -39,6 +39,7 @@
 
         <Grid
             Grid.Column="0"
+            Grid.Row="0"
             Margin="20">
 
             <wpfworld:ZoomPanControl>
@@ -58,6 +59,13 @@
                 DataContext="{Binding PerformanceMeter, Mode=OneWay}"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Left" />
+
+            <Button
+                Content="Cabinet"
+                Padding="10 5"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                Click="Button_Click"/>
 
         </Grid>
 

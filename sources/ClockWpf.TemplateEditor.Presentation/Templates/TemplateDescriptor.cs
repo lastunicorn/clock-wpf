@@ -1,6 +1,6 @@
 ﻿namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 
-public class TemplateInfo
+public class TemplateDescriptor
 {
     public string Name { get; set; }
 

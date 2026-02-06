@@ -11,9 +11,9 @@ public class TemplatesViewModel : ViewModelBase
     private readonly ClockTemplatePool clockTemplatePool;
     private readonly ClockMovementPool clockMovementPool;
 
-    public ObservableCollection<TemplateInfo> TemplateTypes { get; } = [];
+    public ObservableCollection<TemplateDescriptor> TemplateTypes { get; } = [];
 
-    public TemplateInfo SelectedTemplateType
+    public TemplateDescriptor SelectedTemplateType
     {
         get => field;
         set
@@ -92,7 +92,7 @@ public class TemplatesViewModel : ViewModelBase
         {
             foreach (Type type in clockTemplatePool.EnumerateKnownTypes())
             {
-                TemplateTypes.Add(new TemplateInfo
+                TemplateTypes.Add(new TemplateDescriptor
                 {
                     Name = type.Name
                         .Replace("ClockTemplate", "")

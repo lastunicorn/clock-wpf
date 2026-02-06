@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -78,6 +77,7 @@ public class FancyBackground : Shape
     {
         if (d is FancyBackground fancyBackground)
         {
+            fancyBackground.generateBrushesFromColor = false;
             fancyBackground.InvalidateCache();
             fancyBackground.OnChanged(EventArgs.Empty);
         }
@@ -104,6 +104,7 @@ public class FancyBackground : Shape
     {
         if (d is FancyBackground fancyBackground)
         {
+            fancyBackground.generateBrushesFromColor = false;
             fancyBackground.InvalidateCache();
             fancyBackground.OnChanged(EventArgs.Empty);
         }
@@ -130,6 +131,7 @@ public class FancyBackground : Shape
     {
         if (d is FancyBackground fancyBackground)
         {
+            fancyBackground.generateBrushesFromColor = true;
             fancyBackground.InvalidateCache();
             fancyBackground.OnChanged(EventArgs.Empty);
         }
@@ -150,6 +152,7 @@ public class FancyBackground : Shape
         StrokeThicknessProperty.OverrideMetadata(typeof(FancyBackground), new FrameworkPropertyMetadata(0.0));
     }
 
+    private bool generateBrushesFromColor = true;
     private double calculatedOuterRimRadius;
     private double calculatedInnerRimRadius;
     private double calculatedFaceRadius;
@@ -176,9 +179,18 @@ public class FancyBackground : Shape
         double calculatedInnerRimWidth = InnerRimWidth.RelativeTo(clockRadius);
         calculatedFaceRadius = calculatedInnerRimRadius - calculatedInnerRimWidth;
 
-        calculatedOuterRimBrush = OuterRimBrush ?? CreateDefaultOuterRimBrush(FillColor);
-        calculatedInnerRimBrush = InnerRimBrush ?? CreateDefaultInnerRimBrush(FillColor);
-        calculatedFaceBrush = FillBrush ?? CreateDefaultFaceBrush(FillColor);
+        if (generateBrushesFromColor)
+        {
+            calculatedOuterRimBrush = CreateDefaultOuterRimBrush(FillColor);
+            calculatedInnerRimBrush = CreateDefaultInnerRimBrush(FillColor);
+            calculatedFaceBrush = CreateDefaultFaceBrush(FillColor);
+        }
+        else
+        {
+            calculatedOuterRimBrush = OuterRimBrush;
+            calculatedInnerRimBrush = InnerRimBrush;
+            calculatedFaceBrush = FillBrush;
+        }
     }
 
     private static Brush CreateDefaultOuterRimBrush(Color color)
@@ -189,7 +201,7 @@ public class FancyBackground : Shape
             EndPoint = new Point(1, 1)
         };
 
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(150f), 0));
         brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 1));
 
         brush.Freeze();
@@ -205,7 +217,7 @@ public class FancyBackground : Shape
         };
 
         brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 0));
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 1));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(150f), 1));
 
         return brush;
     }
@@ -218,7 +230,7 @@ public class FancyBackground : Shape
             EndPoint = new Point(1, 1)
         };
 
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(150f), 0));
         brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 1));
 
         if (brush.CanFreeze)
