@@ -1,6 +1,4 @@
-﻿using System.Windows.Media;
-
-namespace DustInTheWind.ClockWpf.Shapes;
+﻿namespace DustInTheWind.ClockWpf.Shapes;
 
 public record class RimItemAngle
 {

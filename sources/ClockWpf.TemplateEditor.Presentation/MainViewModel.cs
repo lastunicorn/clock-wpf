@@ -97,8 +97,6 @@ public class MainViewModel : ViewModelBase
         ShapesViewModel = shapesViewModel ?? throw new ArgumentNullException(nameof(shapesViewModel));
         MovementsViewModel = movementsViewModel ?? throw new ArgumentNullException(nameof(movementsViewModel));
 
-        PerformanceMeter = new PerformanceMeter();
-
         clockTemplatePool.CurrentTemplateChanged += HandleCurrentTemplateChanged;
         clockMovementPool.CurrentMovementChanged += HandleCurrentMovementChanged;
         applicationState.ClockDirectionChanged += HandleClockDirectionChanged;
@@ -110,6 +108,8 @@ public class MainViewModel : ViewModelBase
     {
         Initialize(() =>
         {
+            PerformanceMeter = new PerformanceMeter();
+
             ClockTemplate = clockTemplatePool.CurrentTemplate;
             Movement = clockMovementPool.CurrentMovement?.Instance;
             ClockDirection = applicationState.ClockDirection;

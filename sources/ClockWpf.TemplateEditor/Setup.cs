@@ -20,8 +20,7 @@ internal static class Setup
         AddTemplates(serviceCollection);
         AddMovements(serviceCollection);
 
-        ApplicationState applicationState = CreateApplicationState();
-        serviceCollection.AddSingleton(applicationState);
+        serviceCollection.AddSingleton<ApplicationState>();
 
         serviceCollection.AddTransient<MainWindow>();
         serviceCollection.AddTransient<MainViewModel>();
@@ -87,33 +86,4 @@ internal static class Setup
             .SelectMany(x => x.GetTypes())
             .Where(x => x.IsClass && !x.IsAbstract && typeof(IMovement).IsAssignableFrom(x));
     }
-
-    private static ApplicationState CreateApplicationState()
-    {
-        ApplicationState applicationState = new();
-
-        //LoadMovements(applicationState);
-
-        return applicationState;
-    }
-
-    //private static void LoadMovements(ApplicationState applicationState)
-    //{
-    //    List<Type> movementTypes = typeof(IMovement).Assembly.GetTypes()
-    //        .Where(x => x.IsClass && !x.IsAbstract && typeof(IMovement).IsAssignableFrom(x))
-    //        .ToList();
-
-    //    applicationState.AvailableMovementTypes = movementTypes;
-
-    //    if (movementTypes.Count > 0)
-    //    {
-    //        Type selectedMovementType = movementTypes
-    //            .FirstOrDefault(x => x == typeof(LocalTimeMovement));
-
-    //        IMovement movement = (IMovement)Activator.CreateInstance(selectedMovementType);
-    //        movement.Start();
-
-    //        applicationState.CurrentMovement = movement;
-    //    }
-    //}
 }
