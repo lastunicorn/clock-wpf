@@ -7,14 +7,6 @@ namespace DustInTheWind.ClockWpf.Shapes;
 
 public class Ticks : RimBase
 {
-    static Ticks()
-    {
-        AngleProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
-        OffsetAngleProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
-        DistanceFromEdgeProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
-        OrientationProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(RimItemOrientation.FaceIn));
-    }
-
     #region Length DependencyProperty
 
     public static readonly DependencyProperty LengthProperty = DependencyProperty.Register(
@@ -73,6 +65,14 @@ public class Ticks : RimBase
     }
 
     #endregion
+
+    static Ticks()
+    {
+        AngleProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
+        OffsetAngleProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
+        DistanceFromEdgeProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
+        OrientationProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(RimItemOrientation.FaceIn));
+    }
 
     private Pen strokePen;
 

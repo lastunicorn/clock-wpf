@@ -153,31 +153,6 @@ public abstract class Shape : DependencyObject
 
     #endregion
 
-    #region StrokePen Property
-
-    protected Pen CreateStrokePen()
-    {
-        if (StrokeThickness <= 0 || StrokeBrush == null)
-            return null;
-
-        Brush brush = StrokeBrush.Clone();
-        Pen pen = new(brush, StrokeThickness);
-
-        CreateStrokePenEventArgs args = new(pen);
-        OnCreateStrokePen(args);
-
-        if (args.Freeze && pen.CanFreeze)
-            pen.Freeze();
-
-        return pen;
-    }
-
-    protected virtual void OnCreateStrokePen(CreateStrokePenEventArgs e)
-    {
-    }
-
-    #endregion
-
     #region NameChanged Event
 
     /// <summary>
@@ -213,6 +188,27 @@ public abstract class Shape : DependencyObject
     }
 
     #endregion
+
+    protected Pen CreateStrokePen()
+    {
+        if (StrokeThickness <= 0 || StrokeBrush == null)
+            return null;
+
+        Brush brush = StrokeBrush.Clone();
+        Pen pen = new(brush, StrokeThickness);
+
+        CreateStrokePenEventArgs args = new(pen);
+        OnCreateStrokePen(args);
+
+        if (args.Freeze && pen.CanFreeze)
+            pen.Freeze();
+
+        return pen;
+    }
+
+    protected virtual void OnCreateStrokePen(CreateStrokePenEventArgs e)
+    {
+    }
 
     public void Render(ClockDrawingContext context)
     {

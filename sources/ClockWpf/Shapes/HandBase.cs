@@ -49,7 +49,7 @@ public abstract class HandBase : Shape, IHand
         nameof(TimeComponent),
         typeof(TimeComponent),
         typeof(HandBase),
-        new FrameworkPropertyMetadata(TimeComponent.Second, HandleTimeComponentChanged));
+        new FrameworkPropertyMetadata(TimeComponent.None, HandleTimeComponentChanged));
 
     private static void HandleTimeComponentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
