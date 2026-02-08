@@ -16,14 +16,22 @@
         Grid.Column="2">
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="300"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <TextBlock
+            Grid.Row="0"
+            Text="!!! Work in progress"
+            TextWrapping="Wrap"
+            FontStyle="Italic"
+            Foreground="#666666"
+            Margin="10 8 10 0" />
 
         <ListBox
-            Grid.Row="0"
+            Grid.Row="1"
             Margin="0 10 0 0"
             ItemsSource="{Binding Shapes, Mode=OneWay}"
             SelectedItem="{Binding SelectedShape}"
@@ -52,7 +60,7 @@
         </ListBox>
 
         <GridSplitter
-            Grid.Row="1"
+            Grid.Row="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Height="10">
