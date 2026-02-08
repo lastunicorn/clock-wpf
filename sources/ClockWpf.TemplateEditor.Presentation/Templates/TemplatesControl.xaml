@@ -79,7 +79,6 @@
                 Margin="0 2 0 0"
                 ItemsSource="{Binding Shapes, Mode=OneWay}"
                 SelectedItem="{Binding SelectedShape}"
-                DisplayMemberPath=""
                 behaviors:ListBoxDragDropBehavior.EnableDragDrop="True">
 
                 <ListBox.ItemTemplate>

@@ -8,7 +8,6 @@ public class HourNumerals : TextRim
     static HourNumerals()
     {
         DistanceFromEdgeProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(25.0));
-        FontFamilyProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(new FontFamily("Arial")));
         FontSizeProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(22.0));
         FontWeightProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(FontWeights.Normal));
         TextsProperty.OverrideMetadata(typeof(HourNumerals), new FrameworkPropertyMetadata(GenerateHourNumbers(), HandleTextsChanged));

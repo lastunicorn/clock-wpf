@@ -14,7 +14,7 @@ public class SlotHand : HandBase
     /// <summary>
     /// The default name for the hand.
     /// </summary>
-    public new const string DefaultName = "Slot Hand";
+    public const string DefaultName = "Slot Hand";
 
     #region Width Dependency Property
 
@@ -84,7 +84,7 @@ public class SlotHand : HandBase
         nameof(TailLength),
         typeof(double),
         typeof(SlotHand),
-        new FrameworkPropertyMetadata(12.0, HandleTailLengthChanged));
+        new FrameworkPropertyMetadata(0.0, HandleTailLengthChanged));
 
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

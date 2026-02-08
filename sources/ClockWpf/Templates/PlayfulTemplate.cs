@@ -78,7 +78,8 @@ public class PlayfulTemplate : ClockTemplate
         {
             Name = "Pin",
             Diameter = 24,
-            FillBrush = Brushes.Red
+            FillBrush = Brushes.Red,
+            StrokeThickness = 0
         };
     }
 }

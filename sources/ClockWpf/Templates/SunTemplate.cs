@@ -75,6 +75,7 @@ public class SunTemplate : ClockTemplate
             Radius = 6
         };
     }
+
     private static Brush CreateOuterRimBrush()
     {
         LinearGradientBrush brush = new()
@@ -87,6 +88,7 @@ public class SunTemplate : ClockTemplate
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(0, 64, 128), 1));
 
         brush.Freeze();
+
         return brush;
     }
 
@@ -101,6 +103,8 @@ public class SunTemplate : ClockTemplate
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(0, 64, 128), 0));
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(155, 219, 255), 1));
 
+        brush.Freeze();
+
         return brush;
     }
 
@@ -114,6 +118,8 @@ public class SunTemplate : ClockTemplate
 
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(200, 230, 255), 0));
         brush.GradientStops.Add(new GradientStop(Color.FromRgb(50, 100, 150), 1));
+
+        brush.Freeze();
 
         return brush;
     }
