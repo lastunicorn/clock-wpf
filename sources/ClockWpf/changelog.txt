@@ -3,7 +3,7 @@ Clock WPF
 
 Ver 1.4.0
 ----------------------------------------------------------------------------------------------------
-
+[bugfix] Missing second hand in Blade and Blade2 templates.
 
 
 Ver 1.3.0

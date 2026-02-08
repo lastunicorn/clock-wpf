@@ -75,6 +75,7 @@ public class Blade2Template : ClockTemplate
         yield return new SimpleLineHand
         {
             Name = "Second Hand",
+            TimeComponent = TimeComponent.Second,
             Length = 70,
             StrokeThickness = 1.5,
             FillBrush = Brushes.Black,
