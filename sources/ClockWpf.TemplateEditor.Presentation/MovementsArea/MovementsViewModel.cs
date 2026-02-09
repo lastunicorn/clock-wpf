@@ -2,7 +2,7 @@
 using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.MovementsArea;
 
 public class MovementsViewModel : ViewModelBase
 {

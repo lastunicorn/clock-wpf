@@ -19,13 +19,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Miscellaneous\MiscellaneousControl.xaml.cs">
+		<Compile Update="MiscellaneousArea\MiscellaneousControl.xaml.cs">
 			<SubType>Code</SubType>
 		</Compile>
-		<Compile Update="Movements\MovementsControl.xaml.cs">
+		<Compile Update="MovementsArea\MovementsControl.xaml.cs">
 			<SubType>Code</SubType>
 		</Compile>
-		<Compile Update="Templates\TemplatesControl.xaml.cs">
+		<Compile Update="TemplatesArea\TemplatesControl.xaml.cs">
 			<SubType>Code</SubType>
 		</Compile>
 	</ItemGroup>

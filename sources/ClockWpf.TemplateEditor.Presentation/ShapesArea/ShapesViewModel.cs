@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Shapes;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Shapes;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 
 public class ShapesViewModel : ViewModelBase
 {

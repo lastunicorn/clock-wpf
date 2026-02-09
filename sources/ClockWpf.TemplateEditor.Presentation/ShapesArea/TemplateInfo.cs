@@ -1,4 +1,4 @@
-﻿namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
+﻿namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 
 public class ShapeInfo
 {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Shapes;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 /// <summary>
 /// Interaction logic for SHapesControl.xaml
 /// </summary>

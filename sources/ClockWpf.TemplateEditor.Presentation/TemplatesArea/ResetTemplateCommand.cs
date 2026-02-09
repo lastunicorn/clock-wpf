@@ -1,7 +1,7 @@
 using System.Windows.Input;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
 public class ResetTemplateCommand : ICommand
 {

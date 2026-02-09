@@ -1,4 +1,4 @@
-﻿namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
+﻿namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
 public class TemplateDescriptor
 {

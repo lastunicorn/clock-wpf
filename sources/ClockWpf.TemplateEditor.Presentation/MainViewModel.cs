@@ -1,10 +1,10 @@
 ﻿using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Miscellaneous;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Shapes;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MiscellaneousArea;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MovementsArea;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 using DustInTheWind.ClockWpf.Templates;
 

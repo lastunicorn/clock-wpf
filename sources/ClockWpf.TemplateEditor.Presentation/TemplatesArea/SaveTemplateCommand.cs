@@ -2,7 +2,7 @@ using System.Windows.Input;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 using Microsoft.Win32;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
 public class SaveTemplateCommand : ICommand
 {

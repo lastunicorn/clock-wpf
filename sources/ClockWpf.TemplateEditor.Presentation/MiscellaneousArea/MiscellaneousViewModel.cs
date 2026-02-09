@@ -1,7 +1,7 @@
 ﻿using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Miscellaneous;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.MiscellaneousArea;
 
 public class MiscellaneousViewModel : ViewModelBase
 {

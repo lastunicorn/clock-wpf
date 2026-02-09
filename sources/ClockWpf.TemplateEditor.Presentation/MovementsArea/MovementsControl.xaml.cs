@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.MovementsArea;
 
 /// <summary>
 /// Interaction logic for MovementsControl.xaml
