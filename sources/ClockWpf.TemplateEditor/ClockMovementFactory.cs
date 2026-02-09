@@ -1,5 +1,5 @@
 ﻿using DustInTheWind.ClockWpf.Movements;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
+using DustInTheWind.ClockWpf.TemplateEditor.State;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;

@@ -1,4 +1,4 @@
-﻿using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
+﻿using DustInTheWind.ClockWpf.TemplateEditor.State;
 using DustInTheWind.ClockWpf.Templates;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,7 +1,6 @@
-﻿using DustInTheWind.ClockWpf.Movements;
-using DustInTheWind.ClockWpf.Shapes;
+﻿using DustInTheWind.ClockWpf.Shapes;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
+namespace DustInTheWind.ClockWpf.TemplateEditor.State;
 
 public class ApplicationState
 {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Utils;
+using DustInTheWind.ClockWpf.TemplateEditor.State;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 

@@ -3,8 +3,8 @@ using DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Miscellaneous;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Movements;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Shapes;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
+using DustInTheWind.ClockWpf.TemplateEditor.State;
 using DustInTheWind.ClockWpf.Templates;
 using Microsoft.Extensions.DependencyInjection;
 

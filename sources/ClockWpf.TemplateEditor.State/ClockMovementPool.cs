@@ -1,6 +1,6 @@
 ﻿using DustInTheWind.ClockWpf.Movements;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
+namespace DustInTheWind.ClockWpf.TemplateEditor.State;
 
 public class ClockMovementPool
 {

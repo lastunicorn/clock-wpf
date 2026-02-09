@@ -1,5 +1,5 @@
 using System.Windows.Input;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
+using DustInTheWind.ClockWpf.TemplateEditor.State;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;
 

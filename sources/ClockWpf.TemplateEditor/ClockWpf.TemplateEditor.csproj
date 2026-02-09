@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\ClockWpf.TemplateEditor.Presentation\ClockWpf.TemplateEditor.Presentation.csproj" />
+		<ProjectReference Include="..\ClockWpf.TemplateEditor.State\ClockWpf.TemplateEditor.State.csproj" />
 		<ProjectReference Include="..\ClockWpf\ClockWpf.csproj" />
 	</ItemGroup>
 

@@ -1,7 +1,5 @@
 using System.Windows.Input;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.State;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Utils;
-using DustInTheWind.ClockWpf.Templates;
+using DustInTheWind.ClockWpf.TemplateEditor.State;
 using Microsoft.Win32;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Templates;

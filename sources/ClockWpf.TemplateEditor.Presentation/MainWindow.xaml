@@ -14,7 +14,6 @@
     xmlns:behaviors="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors"
     xmlns:miscellaneous="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Miscellaneous"
     xmlns:shapesctrl="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Shapes"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:wpfworld="clr-namespace:DustInTheWind.WpfWorld;assembly=DustInTheWind.WpfWorld"
     
     mc:Ignorable="d"
