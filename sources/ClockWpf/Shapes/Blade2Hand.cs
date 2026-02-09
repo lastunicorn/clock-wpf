@@ -96,7 +96,7 @@ public class Blade2Hand : HandBase
 
     static Blade2Hand()
     {
-        StrokeThicknessProperty.OverrideMetadata(typeof(BladeHand), new FrameworkPropertyMetadata(0.0));
+        StrokeThicknessProperty.OverrideMetadata(typeof(Blade2Hand), new FrameworkPropertyMetadata(0.0));
     }
 
     private StreamGeometry geometry;
