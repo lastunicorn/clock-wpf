@@ -8,18 +8,4 @@ Supports multiple templates.
 
 ## Other Templates
 
-**Fancy**
-
-![Fancy Template](doc/main/fancy-200.png)
-
-**Panda**
-
-![Panda Template](doc/main/panda-200.png)
-
-**Playful**
-
-![Playful Template](doc/main/playful-200.png)
-
-**Sun**
-
-![Sun Template](doc/main/sun-200.png)
+![Clock Templates](doc/main/all.png)

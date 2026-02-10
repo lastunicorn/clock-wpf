@@ -2,7 +2,7 @@ using System.Windows;
 
 namespace DustInTheWind.ClockWpf.Utils;
 
-internal static class DoubleExtensions
+public static class DoubleExtensions
 {
     public static double RelativeTo(this double value, double referenceValue)
     {

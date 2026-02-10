@@ -1,16 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using System.Xml.Linq;
 using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
-
-public class ClockTemplateDescriptor
-{
-    public ClockTemplate ClockTemplate { get; init; }
-
-    public string Name { get; set; }
-}
 
 public class CabinetViewModel : ViewModelBase
 {
