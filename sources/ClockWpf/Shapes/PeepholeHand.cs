@@ -7,9 +7,10 @@ namespace DustInTheWind.ClockWpf.Shapes;
 
 /// <summary>
 /// A clock's hand that is actually a big disk with a rectangle slot carved in it through
-/// which the user can see whatever is under the disk. Usually, the hours would be visible under the slot.
+/// which the user can see whatever is under the disk. Usually, the hours would be visible
+/// under the slot.
 /// </summary>
-public class SlotHand : HandBase
+public class PeepholeHand : HandBase
 {
     /// <summary>
     /// The default name for the hand.
@@ -21,12 +22,12 @@ public class SlotHand : HandBase
     public static readonly DependencyProperty WidthProperty = DependencyProperty.Register(
         nameof(Width),
         typeof(double),
-        typeof(SlotHand),
+        typeof(PeepholeHand),
         new FrameworkPropertyMetadata(10.0, HandleWidthChanged));
 
     private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is SlotHand slotHand)
+        if (d is PeepholeHand slotHand)
         {
             slotHand.InvalidateCache();
             slotHand.OnChanged(EventArgs.Empty);
@@ -47,17 +48,17 @@ public class SlotHand : HandBase
 
     #endregion
 
-    #region Radius Property
+    #region Radius Dependency Property
 
     public static readonly DependencyProperty RadiusProperty = DependencyProperty.Register(
         nameof(Radius),
         typeof(double),
-        typeof(SlotHand),
+        typeof(PeepholeHand),
         new FrameworkPropertyMetadata(100.0, HandleRadiusChanged));
 
     private static void HandleRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is SlotHand slotHand)
+        if (d is PeepholeHand slotHand)
         {
             slotHand.InvalidateCache();
             slotHand.OnChanged(EventArgs.Empty);
@@ -78,17 +79,17 @@ public class SlotHand : HandBase
 
     #endregion
 
-    #region TailLength Property
+    #region TailLength Dependency Property
 
     public static readonly DependencyProperty TailLengthProperty = DependencyProperty.Register(
         nameof(TailLength),
         typeof(double),
-        typeof(SlotHand),
+        typeof(PeepholeHand),
         new FrameworkPropertyMetadata(0.0, HandleTailLengthChanged));
 
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is SlotHand slotHand)
+        if (d is PeepholeHand slotHand)
         {
             slotHand.InvalidateCache();
             slotHand.OnChanged(EventArgs.Empty);
@@ -109,11 +110,13 @@ public class SlotHand : HandBase
 
     #endregion
 
+    private StreamGeometry geometry;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="SlotHand"/> class with
+    /// Initializes a new instance of the <see cref="PeepholeHand"/> class with
     /// default values.
     /// </summary>
-    public SlotHand()
+    public PeepholeHand()
     {
         Name = DefaultName;
     }
@@ -128,7 +131,7 @@ public class SlotHand : HandBase
         double radius = context.ClockRadius;
 
         StreamGeometry geometry = new();
-        StreamGeometryContext geometryContext = geometry.Open();
+        using StreamGeometryContext geometryContext = geometry.Open();
 
         // Circular Disk
 
@@ -175,12 +178,11 @@ public class SlotHand : HandBase
 
         geometryContext.Close();
 
-        geometry.Freeze();
+        if (geometry.CanFreeze)
+            geometry.Freeze();
 
         this.geometry = geometry;
     }
-
-    private StreamGeometry geometry;
 
     protected override void DoRenderHand(ClockDrawingContext context)
     {

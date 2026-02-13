@@ -75,12 +75,24 @@ public class Ticks : RimBase
     }
 
     private Pen strokePen;
+    private Point startPoint;
+    private Point endPoint;
 
     protected override void CalculateCache(ClockDrawingContext context)
     {
         base.CalculateCache(context);
 
         strokePen = CreateStrokePen();
+
+        double actualLength = Length.RelativeTo(context.ClockRadius);
+        double actualTipLength = RoundEnds
+            ? StrokeThickness.RelativeTo(context.ClockRadius) / 2
+            : 0;
+
+        actualLength -= actualTipLength * 2;
+
+        startPoint = new(0, -actualLength / 2);
+        endPoint = new(0, actualLength / 2);
     }
 
     protected override void OnCreateStrokePen(CreateStrokePenEventArgs e)
@@ -98,16 +110,6 @@ public class Ticks : RimBase
 
     protected override void RenderItem(ClockDrawingContext context, int index)
     {
-        double actualLength = Length.RelativeTo(context.ClockRadius);
-        double tipLength = RoundEnds
-            ? StrokeThickness / 2
-            : 0;
-
-        actualLength -= tipLength * 2;
-
-        Point startPoint = new(0, -actualLength / 2);
-        Point endPoint = new(0, actualLength / 2);
-
         context.DrawingContext.DrawLine(strokePen, startPoint, endPoint);
     }
 }

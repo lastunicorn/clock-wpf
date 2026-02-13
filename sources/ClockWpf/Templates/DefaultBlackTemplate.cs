@@ -44,27 +44,27 @@ public class DefaultBlackTemplate : ClockTemplate
         };
         yield return hourNumerals;
 
-        RodHand hourHand = new()
+        BarHand hourHand = new()
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
             Length = 48,
             Width = 8,
             TailLength = 4,
-            StrokeThickness = 0,
-            FillBrush = Brushes.WhiteSmoke
+            FillBrush = Brushes.WhiteSmoke,
+            StrokeThickness = 0
         };
         yield return hourHand;
 
-        RodHand minuteHand = new()
+        BarHand minuteHand = new()
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
             Length = 85,
             Width = 8,
             TailLength = 4,
-            StrokeThickness = 0,
-            FillBrush = Brushes.WhiteSmoke
+            FillBrush = Brushes.WhiteSmoke,
+            StrokeThickness = 0
         };
         yield return minuteHand;
 

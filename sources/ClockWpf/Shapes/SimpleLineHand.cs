@@ -89,14 +89,14 @@ public class SimpleLineHand : HandBase
         // Hand
 
         double radius = context.ClockRadius;
-        double calculatedLength = Length.RelativeTo(radius);
-        double calculatedTailLength = TailLength.RelativeTo(radius);
-        double calculatedTipLength = RoundEnds
+        double actualLength = Length.RelativeTo(radius);
+        double actualTailLength = TailLength.RelativeTo(radius);
+        double actualTipLength = RoundEnds
             ? StrokeThickness / 2
             : 0;
 
-        startPoint = new(0, calculatedTailLength - calculatedTipLength);
-        endPoint = new(0, -calculatedLength + calculatedTipLength);
+        startPoint = new(0, actualTailLength - actualTipLength);
+        endPoint = new(0, -actualLength + actualTipLength);
 
         // Pen
         strokePen = CreateStrokePen();

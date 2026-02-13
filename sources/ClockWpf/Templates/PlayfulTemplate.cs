@@ -41,7 +41,7 @@ public class PlayfulTemplate : ClockTemplate
             DistanceFromEdge = 30
         };
 
-        yield return new RodHand
+        yield return new BarHand
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -52,7 +52,7 @@ public class PlayfulTemplate : ClockTemplate
             FillBrush = Brushes.RoyalBlue
         };
 
-        yield return new RodHand
+        yield return new BarHand
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,

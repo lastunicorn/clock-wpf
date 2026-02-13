@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
@@ -25,7 +24,7 @@ public class PeepholeTemplate : ClockTemplate
             DistanceFromEdge = 46
         };
 
-        yield return new SlotHand
+        yield return new PeepholeHand
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -36,14 +35,21 @@ public class PeepholeTemplate : ClockTemplate
             TailLength = 11.5
         };
 
-        yield return new SimpleLineHand
+        SolidColorBrush strokeBrush = new(Color.FromRgb(0x64, 0x64, 0x64));
+
+        if (strokeBrush.CanFreeze)
+            strokeBrush.Freeze();
+
+        yield return new BarHand
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
-            StrokeBrush = Brushes.Black,
+            FillBrush = Brushes.Black,
             Length = 90,
-            StrokeThickness = 8,
-            TailLength = 0
+            Width = 8,
+            TailLength = 0,
+            StrokeThickness = 0.1,
+            StrokeBrush = strokeBrush,
         };
 
         yield return new SimpleLineHand
@@ -56,17 +62,12 @@ public class PeepholeTemplate : ClockTemplate
             TailLength = 30
         };
 
-        SolidColorBrush pinBrush = new(Color.FromRgb(0x64, 0x64, 0x64));
-
-        if (pinBrush.CanFreeze)
-            pinBrush.Freeze();
-
         yield return new Pin
         {
             Name = "Pin",
             FillBrush = Brushes.Black,
             Diameter = 20,
-            StrokeBrush = pinBrush,
+            StrokeBrush = strokeBrush,
             StrokeThickness = 0.5
         };
     }
