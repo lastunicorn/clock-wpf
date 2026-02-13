@@ -34,12 +34,39 @@ public class ZoomPanControl : ContentControl
     {
         if (d is ZoomPanControl zoomPanControl)
         {
+            double oldZoomValue = (double)e.OldValue;
             double newZoomValue = (double)e.NewValue;
 
             if (zoomPanControl.scaleTransform != null)
             {
                 zoomPanControl.scaleTransform.ScaleX = newZoomValue;
                 zoomPanControl.scaleTransform.ScaleY = newZoomValue;
+            }
+
+            // If zoom was not triggered by mouse wheel, adjust location to keep center point fixed
+            if (!zoomPanControl.isZoomingWithMouseWheel && 
+                zoomPanControl.containerElement != null && 
+                zoomPanControl.contentElement != null &&
+                zoomPanControl.translateTransform != null &&
+                oldZoomValue != 0)
+            {
+                Point oldLocation = zoomPanControl.Location;
+
+                double centerX = zoomPanControl.containerElement.ActualWidth / 2;
+                double centerY = zoomPanControl.containerElement.ActualHeight / 2;
+
+                double offsetX = (zoomPanControl.containerElement.ActualWidth - zoomPanControl.contentElement.ActualWidth) / 2;
+                double offsetY = (zoomPanControl.containerElement.ActualHeight - zoomPanControl.contentElement.ActualHeight) / 2;
+
+                double centerRelativeToTargetX = centerX - offsetX;
+                double centerRelativeToTargetY = centerY - offsetY;
+
+                double zoomFactor = newZoomValue / oldZoomValue;
+
+                double x = centerRelativeToTargetX - (centerRelativeToTargetX - oldLocation.X) * zoomFactor;
+                double y = centerRelativeToTargetY - (centerRelativeToTargetY - oldLocation.Y) * zoomFactor;
+
+                zoomPanControl.Location = new Point(x, y);
             }
         }
     }
@@ -92,6 +119,7 @@ public class ZoomPanControl : ContentControl
     private const double MaxZoom = 5.0;
 
     private bool isDragging;
+    internal bool isZoomingWithMouseWheel;
     private Point lastMousePosition;
     private FrameworkElement containerElement;
     private FrameworkElement contentElement;
@@ -108,6 +136,7 @@ public class ZoomPanControl : ContentControl
         base.OnApplyTemplate();
 
         isDragging = false;
+        isZoomingWithMouseWheel = false;
         lastMousePosition = new Point(0, 0);
         containerElement = null;
         contentElement = null;
@@ -157,6 +186,8 @@ public class ZoomPanControl : ContentControl
         if (scaleTransform == null || translateTransform == null)
             return;
 
+        isZoomingWithMouseWheel = true;
+
         Point oldLocation = Location;
 
         double oldZoom = ZoomValue;
@@ -180,6 +211,8 @@ public class ZoomPanControl : ContentControl
 
         Location = new Point(x, y);
         ZoomValue = newZoom;
+
+        isZoomingWithMouseWheel = false;
 
         e.Handled = true;
     }
