@@ -145,7 +145,7 @@ public class BladeHand : HandBase
 
         // Background - Stroke
 
-        strokePen = CreateStrokePen();
+        strokePen = CreateStrokePen(context);
 
         // Shadow
 

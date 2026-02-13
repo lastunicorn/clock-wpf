@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Serialization;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -189,13 +190,14 @@ public abstract class Shape : DependencyObject
 
     #endregion
 
-    protected Pen CreateStrokePen()
+    protected Pen CreateStrokePen(ClockDrawingContext context)
     {
         if (StrokeThickness <= 0 || StrokeBrush == null)
             return null;
 
         Brush brush = StrokeBrush.Clone();
-        Pen pen = new(brush, StrokeThickness);
+        double actualStrokeThickness = StrokeThickness.RelativeTo(context.ClockRadius);
+        Pen pen = new(brush, actualStrokeThickness);
 
         CreateStrokePenEventArgs args = new(pen);
         OnCreateStrokePen(args);

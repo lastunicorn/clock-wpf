@@ -82,7 +82,7 @@ public class Ticks : RimBase
     {
         base.CalculateCache(context);
 
-        strokePen = CreateStrokePen();
+        strokePen = CreateStrokePen(context);
 
         double actualLength = Length.RelativeTo(context.ClockRadius);
         double actualTipLength = RoundEnds

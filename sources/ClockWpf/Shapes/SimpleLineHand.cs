@@ -99,7 +99,7 @@ public class SimpleLineHand : HandBase
         endPoint = new(0, -actualLength + actualTipLength);
 
         // Pen
-        strokePen = CreateStrokePen();
+        strokePen = CreateStrokePen(context);
     }
 
     protected override void OnCreateStrokePen(CreateStrokePenEventArgs e)

@@ -38,8 +38,8 @@ public class DotHand : HandBase
 
     #endregion
 
-    private double calculatedDotRadius;
-    private Point calculatedDotCenter;
+    private double actualDotRadius;
+    private Point actualDotCenter;
     private Pen strokePen;
 
     protected override bool OnRendering(ClockDrawingContext context)
@@ -61,15 +61,15 @@ public class DotHand : HandBase
         double clockRadius = context.ClockRadius;
         
         double actualLength = Length.RelativeTo(clockRadius);
-        calculatedDotCenter = new Point(0, -actualLength);
+        actualDotCenter = new Point(0, -actualLength);
         
-        calculatedDotRadius = Radius.RelativeTo(clockRadius);
+        actualDotRadius = Radius.RelativeTo(clockRadius);
         
-        strokePen = CreateStrokePen();
+        strokePen = CreateStrokePen(context);
     }
 
     protected override void DoRenderHand(ClockDrawingContext context)
     {
-        context.DrawingContext.DrawEllipse(FillBrush, strokePen, calculatedDotCenter, calculatedDotRadius, calculatedDotRadius);
+        context.DrawingContext.DrawEllipse(FillBrush, strokePen, actualDotCenter, actualDotRadius, actualDotRadius);
     }
 }

@@ -113,7 +113,7 @@ public class BarHand : HandBase
         base.CalculateCache(context);
 
         geometry = CreateHandGeometry(context);
-        strokePen = CreateStrokePen();
+        strokePen = CreateStrokePen(context);
     }
 
     private StreamGeometry CreateHandGeometry(ClockDrawingContext context)

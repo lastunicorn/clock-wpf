@@ -50,6 +50,7 @@ public class PeepholeTemplate : ClockTemplate
             TailLength = 0,
             StrokeThickness = 0.1,
             StrokeBrush = strokeBrush,
+            RoundEnds = false
         };
 
         yield return new SimpleLineHand

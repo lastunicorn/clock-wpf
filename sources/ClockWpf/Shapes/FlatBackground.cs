@@ -17,7 +17,7 @@ public class FlatBackground : Shape
     {
         base.CalculateCache(context);
 
-        strokePen = CreateStrokePen();
+        strokePen = CreateStrokePen(context);
     }
 
     protected override void DoRender(ClockDrawingContext context)

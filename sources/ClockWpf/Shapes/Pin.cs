@@ -59,7 +59,7 @@ public class Pin : Shape
         double calculatedPinDiameter = Diameter.RelativeTo(context.ClockRadius);
         calculatedPinRadius = calculatedPinDiameter / 2;
         pinCenter = new Point(0, 0);
-        strokePen = CreateStrokePen();
+        strokePen = CreateStrokePen(context);
     }
 
     protected override void DoRender(ClockDrawingContext context)

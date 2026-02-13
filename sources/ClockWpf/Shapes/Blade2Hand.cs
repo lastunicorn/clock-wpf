@@ -152,7 +152,7 @@ public class Blade2Hand : HandBase
 
         // Stroke Brush
 
-        strokePen = CreateStrokePen();
+        strokePen = CreateStrokePen(context);
     }
 
     protected override void DoRenderHand(ClockDrawingContext context)
