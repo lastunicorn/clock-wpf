@@ -20,10 +20,10 @@ public class RodHand : HandBase
 
     private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is RodHand capsuleHand)
+        if (d is RodHand rodHand)
         {
-            capsuleHand.InvalidateCache();
-            capsuleHand.OnChanged(EventArgs.Empty);
+            rodHand.InvalidateCache();
+            rodHand.OnChanged(EventArgs.Empty);
         }
     }
 
@@ -48,10 +48,10 @@ public class RodHand : HandBase
 
     private static void HandleTailLengthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is RodHand capsuleHand)
+        if (d is RodHand rodHand)
         {
-            capsuleHand.InvalidateCache();
-            capsuleHand.OnChanged(EventArgs.Empty);
+            rodHand.InvalidateCache();
+            rodHand.OnChanged(EventArgs.Empty);
         }
     }
 
@@ -66,7 +66,7 @@ public class RodHand : HandBase
 
     #endregion
 
-    private PathGeometry handGeometry;
+    private PathGeometry geometry;
     private Pen strokePen;
 
     protected override bool OnRendering(ClockDrawingContext context)
@@ -81,7 +81,7 @@ public class RodHand : HandBase
     {
         base.CalculateCache(context);
 
-        handGeometry = CreateHandGeometry(context);
+        geometry = CreateHandGeometry(context);
         strokePen = CreateStrokePen();
     }
 
@@ -96,14 +96,14 @@ public class RodHand : HandBase
         double topY = -calculatedLength + halfWidth;
         double bottomY = calculatedTailLength - halfWidth;
 
-        PathFigure capsuleFigure = new()
+        PathFigure pathFigure = new()
         {
             StartPoint = new Point(-halfWidth, topY),
             IsClosed = true
         };
 
         // Top semicircle (pointing upward)
-        capsuleFigure.Segments.Add(new ArcSegment(
+        pathFigure.Segments.Add(new ArcSegment(
             new Point(halfWidth, topY),
             new Size(halfWidth, halfWidth),
             0,
@@ -112,10 +112,10 @@ public class RodHand : HandBase
             true));
 
         // Right side of the rectangle
-        capsuleFigure.Segments.Add(new LineSegment(new Point(halfWidth, bottomY), true));
+        pathFigure.Segments.Add(new LineSegment(new Point(halfWidth, bottomY), true));
 
         // Bottom semicircle (pointing downward)
-        capsuleFigure.Segments.Add(new ArcSegment(
+        pathFigure.Segments.Add(new ArcSegment(
             new Point(-halfWidth, bottomY),
             new Size(halfWidth, halfWidth),
             0,
@@ -124,10 +124,10 @@ public class RodHand : HandBase
             true));
 
         // Left side of the rectangle (closes back to start point)
-        capsuleFigure.Segments.Add(new LineSegment(new Point(-halfWidth, topY), true));
+        pathFigure.Segments.Add(new LineSegment(new Point(-halfWidth, topY), true));
 
         PathGeometry handGeometry = new();
-        handGeometry.Figures.Add(capsuleFigure);
+        handGeometry.Figures.Add(pathFigure);
 
         if (handGeometry.CanFreeze)
             handGeometry.Freeze();
@@ -137,6 +137,6 @@ public class RodHand : HandBase
 
     protected override void DoRenderHand(ClockDrawingContext context)
     {
-        context.DrawingContext.DrawGeometry(FillBrush, strokePen, handGeometry);
+        context.DrawingContext.DrawGeometry(FillBrush, strokePen, geometry);
     }
 }
