@@ -9,6 +9,7 @@
     xmlns:templates="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea"
     xmlns:behaviors="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors"
     xmlns:converters="clr-namespace:DustInTheWind.ClockWpf.Converters;assembly=DustInTheWind.ClockWpf"
+    xmlns:local="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation"
     
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -110,26 +111,9 @@
 
                 </ListBox>
 
-                <Border
-                    x:Name="AvailableShapesPanel"
-                    Background="White"
-                    BorderBrush="Gray"
-                    BorderThickness="1"
-                    HorizontalAlignment="Right"
+                <local:SlidingPanel
                     Width="{Binding ElementName=ShapesListBox, Path=ActualWidth, Converter={StaticResource MultiplyConverter}, ConverterParameter=0.8}"
-                    Visibility="Collapsed"
-                    behaviors:SlidingPanelBehavior.ToggleButton="{Binding ElementName=AddShapeToggleButton}">
-                    
-                    <Border.RenderTransform>
-                        <TranslateTransform X="0"/>
-                    </Border.RenderTransform>
-                    
-                    <Border.Effect>
-                        <DropShadowEffect
-                            BlurRadius="10"
-                            ShadowDepth="3"
-                            Opacity="0.3"/>
-                    </Border.Effect>
+                    ToggleButton="{Binding ElementName=AddShapeToggleButton}">
                     
                     <ListBox
                         ItemsSource="{Binding AvailableShapes, Mode=OneWay}"
@@ -147,7 +131,7 @@
                         
                     </ListBox>
                     
-                </Border>
+                </local:SlidingPanel>
                 
             </Grid>
 

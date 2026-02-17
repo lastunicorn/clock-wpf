@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/DustInTheWind.ClockWpf.TemplateEditor.Presentation;component/Themes/TabControlStyles.xaml"/>
+                <ResourceDictionary Source="/DustInTheWind.ClockWpf.TemplateEditor.Presentation;component/SlidingPanelStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         
