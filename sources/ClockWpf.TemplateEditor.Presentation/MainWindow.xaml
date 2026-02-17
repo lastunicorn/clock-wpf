@@ -57,7 +57,8 @@
                     <performance:PerformaceView
                         DataContext="{Binding PerformanceMeter, Mode=OneWay}"
                         VerticalAlignment="Top"
-                        HorizontalAlignment="Left" />
+                        HorizontalAlignment="Left"
+                        Margin="8 4"/>
 
                 </Grid>
 
