@@ -3,7 +3,6 @@
     <Project Path="ClockWpf.TemplateEditor.Presentation/ClockWpf.TemplateEditor.Presentation.csproj" Id="5ad9d0f8-67c0-4b58-a50a-8cf85603f099" />
     <Project Path="ClockWpf.TemplateEditor.State/ClockWpf.TemplateEditor.State.csproj" Id="45012666-a8be-4264-adf5-78f79a917278" />
     <Project Path="ClockWpf.TemplateEditor/ClockWpf.TemplateEditor.csproj" />
-    <Project Path="WpfWorld/WpfWorld.csproj" Id="9f1f030d-0a40-4225-b8b2-a0330636d09b" />
   </Folder>
   <Folder Name="/SolutionItems/">
     <File Path="Directory.Build.props" />
