@@ -11,13 +11,4 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
     }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        CabinetWindow cabinetWindow = new()
-        {
-            Owner = this
-        };
-        cabinetWindow.Show();
-    }
 }

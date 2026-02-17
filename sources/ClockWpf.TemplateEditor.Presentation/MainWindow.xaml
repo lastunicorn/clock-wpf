@@ -14,7 +14,7 @@
     xmlns:behaviors="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors"
     xmlns:miscellaneous="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.MiscellaneousArea"
     xmlns:shapesctrl="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea"
-    xmlns:wpfworld="clr-namespace:DustInTheWind.WpfWorld;assembly=DustInTheWind.WpfWorld"
+    xmlns:wpfToolkit="clr-namespace:DustInTheWind.WpfToolkit;assembly=DustInTheWind.WpfToolkit"
     
     mc:Ignorable="d"
     Title="Template Editor"
@@ -23,76 +23,82 @@
     ResizeMode="CanResizeWithGrip"
     d:DataContext="{d:DesignInstance local:MainViewModel}">
 
-    <Grid>
+    <wpfToolkit:SideBar>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="400"/>
-        </Grid.ColumnDefinitions>
+        <wpfToolkit:SideBarItem Header="1" IsSelected="True">
 
-        <Grid
-            Grid.Column="0"
-            Grid.Row="0"
-            Margin="20">
+            <Grid>
 
-            <wpfworld:ZoomPanControl>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="400"/>
+                </Grid.ColumnDefinitions>
 
-                <clockWpf:AnalogClock
-                    x:Name="analogClock1"
-                    ClockTemplate="{Binding ClockTemplate}"
-                    Movement="{Binding Movement}"
-                    PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"
-                    RotationDirection="{Binding ClockDirection}">
+                <Grid
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Margin="20">
 
-                </clockWpf:AnalogClock>
+                    <wpfToolkit:ZoomPanel
+                        CornerRadius="5">
 
-            </wpfworld:ZoomPanControl>
+                        <clockWpf:AnalogClock
+                            x:Name="analogClock1"
+                            ClockTemplate="{Binding ClockTemplate}"
+                            Movement="{Binding Movement}"
+                            PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"
+                            RotationDirection="{Binding ClockDirection}">
 
-            <performance:PerformaceView
-                DataContext="{Binding PerformanceMeter, Mode=OneWay}"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left" />
+                        </clockWpf:AnalogClock>
 
-            <Button
-                Content="Cabinet"
-                Padding="10 5"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Left"
-                Click="Button_Click"/>
+                    </wpfToolkit:ZoomPanel>
 
-        </Grid>
+                    <performance:PerformaceView
+                        DataContext="{Binding PerformanceMeter, Mode=OneWay}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left" />
 
-        <GridSplitter
-            Grid.Column="1"
-            Width="10"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="#f0f0f0" />
+                </Grid>
 
-        <TabControl
-            Grid.Column="2"
-            BorderThickness="0"
-            Margin="10">
+                <GridSplitter
+                    Grid.Column="1"
+                    Width="10"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Background="#f0f0f0" />
 
-            <TabItem Header="Templates" IsSelected="True">
-                <templates:TemplatesControl DataContext="{Binding TemplatesViewModel}"/>
-            </TabItem>
+                <TabControl
+                    Grid.Column="2"
+                    BorderThickness="0"
+                    Margin="10">
 
-            <TabItem Header="Shapes">
-                <shapesctrl:ShapesControl DataContext="{Binding ShapesViewModel}"/>
-            </TabItem>
+                    <TabItem Header="Templates" IsSelected="True">
+                        <templates:TemplatesControl DataContext="{Binding TemplatesViewModel}"/>
+                    </TabItem>
 
-            <TabItem Header="Movement">
-                <movements:MovementsControl DataContext="{Binding MovementsViewModel}"/>
-            </TabItem>
+                    <TabItem Header="Shapes">
+                        <shapesctrl:ShapesControl DataContext="{Binding ShapesViewModel}"/>
+                    </TabItem>
 
-            <TabItem Header="Misc">
-                <miscellaneous:MiscellaneousControl DataContext="{Binding MiscellaneousViewModel}"/>
-            </TabItem>
+                    <TabItem Header="Movement">
+                        <movements:MovementsControl DataContext="{Binding MovementsViewModel}"/>
+                    </TabItem>
 
-        </TabControl>
+                    <TabItem Header="Misc">
+                        <miscellaneous:MiscellaneousControl DataContext="{Binding MiscellaneousViewModel}"/>
+                    </TabItem>
 
-    </Grid>
+                </TabControl>
+
+            </Grid>
+
+        </wpfToolkit:SideBarItem>
+
+        <wpfToolkit:SideBarItem Header="2">
+            <local:CabinetControl DataContext="{Binding CabinetViewModel}"/>
+        </wpfToolkit:SideBarItem>
+
+    </wpfToolkit:SideBar>
 
 </Window>

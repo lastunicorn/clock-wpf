@@ -79,6 +79,8 @@ public class MainViewModel : ViewModelBase
 
     public MovementsViewModel MovementsViewModel { get; }
 
+    public CabinetViewModel CabinetViewModel { get; }
+
     public MainViewModel(
         ApplicationState applicationState,
         ClockTemplatePool clockTemplatePool,
@@ -86,7 +88,8 @@ public class MainViewModel : ViewModelBase
         MiscellaneousViewModel miscellaneousViewModel,
         TemplatesViewModel templatesViewModel,
         ShapesViewModel shapesViewModel,
-        MovementsViewModel movementsViewModel)
+        MovementsViewModel movementsViewModel,
+        CabinetViewModel cabinetViewModel)
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
@@ -96,6 +99,7 @@ public class MainViewModel : ViewModelBase
         TemplatesViewModel = templatesViewModel ?? throw new ArgumentNullException(nameof(templatesViewModel));
         ShapesViewModel = shapesViewModel ?? throw new ArgumentNullException(nameof(shapesViewModel));
         MovementsViewModel = movementsViewModel ?? throw new ArgumentNullException(nameof(movementsViewModel));
+        CabinetViewModel = cabinetViewModel ?? throw new ArgumentNullException(nameof(cabinetViewModel));
 
         clockTemplatePool.CurrentTemplateChanged += HandleCurrentTemplateChanged;
         clockMovementPool.CurrentMovementChanged += HandleCurrentMovementChanged;

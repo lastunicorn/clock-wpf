@@ -10,11 +10,11 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\ClockWpf.TemplateEditor.State\ClockWpf.TemplateEditor.State.csproj" />
-		<ProjectReference Include="..\WpfWorld\WpfWorld.csproj" />
 		<ProjectReference Include="..\ClockWpf\ClockWpf.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="DustInTheWind.WpfToolkit" Version="1.0.0" />
 		<PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
 	</ItemGroup>
 

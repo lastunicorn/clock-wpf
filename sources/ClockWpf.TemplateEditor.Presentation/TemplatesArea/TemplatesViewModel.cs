@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Utils;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 
@@ -68,6 +69,19 @@ public class TemplatesViewModel : ViewModelBase
         }
     }
 
+    public ObservableCollection<ShapeDescriptor> AvailableShapes
+    {
+        get => field;
+        private set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
     public SaveTemplateCommand SaveTemplateCommand { get; }
 
     public ResetTemplateCommand ResetTemplateCommand { get; }
@@ -79,6 +93,8 @@ public class TemplatesViewModel : ViewModelBase
 
         SaveTemplateCommand = new SaveTemplateCommand(clockTemplatePool);
         ResetTemplateCommand = new ResetTemplateCommand(clockTemplatePool);
+
+        AvailableShapes = [];
 
         Initialize();
 
@@ -113,7 +129,23 @@ public class TemplatesViewModel : ViewModelBase
             }
 
             Movement = clockMovementPool.CurrentMovement?.Instance;
+
+            foreach (Type type in LoadStyles())
+            {
+                AvailableShapes.Add(new ShapeDescriptor
+                {
+                    Name = type.Name.Replace("Shape", ""),
+                    Type = type
+                });
+            }
         });
+    }
+
+    private static IEnumerable<Type> LoadStyles()
+    {
+        return AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(x => x.GetTypes())
+            .Where(x => x.IsClass && !x.IsAbstract && typeof(Shape).IsAssignableFrom(x));
     }
 
     private void HandleCurrentMovementChanged(object sender, EventArgs e)
