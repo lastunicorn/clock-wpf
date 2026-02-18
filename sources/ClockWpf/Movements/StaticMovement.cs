@@ -17,9 +17,10 @@ public class StaticMovement : MovementBase
     private readonly Timer transitionTimer;
     private TimeSpan targetTime = DateTime.Now.TimeOfDay;
     private TimeSpan currentTime = DateTime.Now.TimeOfDay;
-    private TimeSpan startTime;
-    private DateTime transitionStartTime;
+    private TimeSpan transitionStartTime;
+    private DateTime realStartTime;
     private bool isTransitioning;
+    private TransitionType transitionType;
 
     #region Time Property
 
@@ -73,6 +74,34 @@ public class StaticMovement : MovementBase
 
     #endregion
 
+    #region TransitionSpeed Property
+
+    private double transitionSpeed;
+
+    /// <summary>
+    /// Gets or sets the speed at which the time transitions relative to real time.
+    /// </summary>
+    /// <remarks>
+    /// A value of 1 means time passes at normal speed. A value of 2 means time passes twice as fast
+    /// (2 seconds pass on the clock for every 1 real second). This property is only used when
+    /// TransitionDuration is zero.
+    /// </remarks>
+    [Category("Behavior")]
+    [Description("The speed at which the time transitions relative to real time. Used only when TransitionDuration is zero.")]
+    public double TransitionSpeed
+    {
+        get => transitionSpeed;
+        set
+        {
+            if (value == transitionSpeed)
+                return;
+            transitionSpeed = value;
+            OnModified();
+        }
+    }
+
+    #endregion
+
     #region TransitionTickInterval Property
 
     private int transitionTickInterval = 30;
@@ -110,30 +139,52 @@ public class StaticMovement : MovementBase
         transitionTimer = new Timer(HandleTransitionTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
     }
 
-    private void StartTransition()
-    {
-        if (transitionDuration <= TimeSpan.Zero || transitionTickInterval <= 0)
-        {
-            currentTime = targetTime;
-            ForceTick();
-            return;
-        }
-
-        startTime = currentTime;
-        transitionStartTime = DateTime.Now;
-        isTransitioning = true;
-
-        if (TickInterval == 0)
-            _ = transitionTimer.Change(0, transitionTickInterval);
-
-        ForceTick();
-    }
-
     private void HandleTransitionTimerCallback(object state)
     {
         if (!isTransitioning)
             return;
 
+        ForceTick();
+    }
+
+    private void StartTransition()
+    {
+        transitionType = CalculateTransitionType();
+
+        switch(transitionType)
+        {
+            case TransitionType.Instant:
+                JumpToTargetTime();
+                break;
+
+            case TransitionType.AnimatedByDuration:
+            case TransitionType.AnimatedBySpeed:
+                transitionStartTime = currentTime;
+                realStartTime = DateTime.Now;
+                isTransitioning = true;
+
+                if (TickInterval == 0)
+                    _ = transitionTimer.Change(0, transitionTickInterval);
+
+                ForceTick();
+                break;
+        }
+    }
+
+    private TransitionType CalculateTransitionType()
+    {
+        if (transitionDuration > TimeSpan.Zero && transitionTickInterval > 0)
+            return TransitionType.AnimatedByDuration;
+
+        if (TransitionSpeed > 0 && transitionTickInterval > 0)
+            return TransitionType.AnimatedBySpeed;
+
+        return TransitionType.Instant;
+    }
+
+    private void JumpToTargetTime()
+    {
+        currentTime = targetTime;
         ForceTick();
     }
 
@@ -153,25 +204,66 @@ public class StaticMovement : MovementBase
         if (!isTransitioning)
             return currentTime;
 
-        TimeSpan elapsed = DateTime.Now - transitionStartTime;
+        TimeSpan elapsed = DateTime.Now - realStartTime;
 
-        if (elapsed >= transitionDuration)
+        if (transitionType == TransitionType.AnimatedByDuration)
         {
-            currentTime = targetTime;
-            isTransitioning = false;
+            if (elapsed >= transitionDuration)
+            {
+                currentTime = targetTime;
+                isTransitioning = false;
 
-            if (TickInterval == 0)
-                _ = transitionTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                if (TickInterval == 0)
+                    _ = transitionTimer.Change(Timeout.Infinite, Timeout.Infinite);
+
+                return currentTime;
+            }
+
+            double progress = elapsed.TotalMilliseconds / transitionDuration.TotalMilliseconds;
+            double startTicks = transitionStartTime.Ticks;
+            double targetTicks = targetTime.Ticks;
+            double currentTicks = startTicks + (targetTicks - startTicks) * progress;
+
+            currentTime = TimeSpan.FromTicks((long)currentTicks);
+            return currentTime;
+        }
+
+        if (transitionType == TransitionType.AnimatedBySpeed)
+        {
+            TimeSpan timeDifference = targetTime - transitionStartTime;
+            bool isForward = timeDifference >= TimeSpan.Zero;
+            double clockTimeAdvanced = elapsed.TotalSeconds * transitionSpeed;
+
+            if (isForward)
+            {
+                currentTime = transitionStartTime + TimeSpan.FromSeconds(clockTimeAdvanced);
+
+                if (currentTime >= targetTime)
+                {
+                    currentTime = targetTime;
+                    isTransitioning = false;
+
+                    if (TickInterval == 0)
+                        _ = transitionTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                }
+            }
+            else
+            {
+                currentTime = transitionStartTime - TimeSpan.FromSeconds(clockTimeAdvanced);
+
+                if (currentTime <= targetTime)
+                {
+                    currentTime = targetTime;
+                    isTransitioning = false;
+
+                    if (TickInterval == 0)
+                        _ = transitionTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                }
+            }
 
             return currentTime;
         }
 
-        double progress = elapsed.TotalMilliseconds / transitionDuration.TotalMilliseconds;
-        double startTicks = startTime.Ticks;
-        double targetTicks = targetTime.Ticks;
-        double currentTicks = startTicks + (targetTicks - startTicks) * progress;
-
-        currentTime = TimeSpan.FromTicks((long)currentTicks);
         return currentTime;
     }
 
@@ -185,4 +277,11 @@ public class StaticMovement : MovementBase
 
         base.Dispose(disposing);
     }
+}
+
+internal enum TransitionType
+{
+    Instant,
+    AnimatedByDuration,
+    AnimatedBySpeed
 }
