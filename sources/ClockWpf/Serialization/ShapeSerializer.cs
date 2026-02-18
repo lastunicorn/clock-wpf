@@ -59,6 +59,31 @@ public class ShapeSerializer
         return properties;
     }
 
+    public IEnumerable<(string, string)> SerializeProperties2(object shape)
+    {
+        if (shape == null)
+            throw new ArgumentNullException(nameof(shape));
+
+        Type shapeType = shape.GetType();
+        PropertyInfo[] propertyInfos = shapeType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+        foreach (PropertyInfo propertyInfo in propertyInfos)
+        {
+            if (!propertyFilter.ShouldSerialize(propertyInfo))
+                continue;
+
+            object value = propertyInfo.GetValue(shape);
+
+            if (value != null)
+            {
+                string serializedValue = converterRegistry.ConvertToString(value);
+
+                if (serializedValue != null)
+                    yield return (propertyInfo.Name, serializedValue);
+            }
+        }
+    }
+
     /// <summary>
     /// Deserializes properties from a dictionary and applies them to a shape.
     /// </summary>

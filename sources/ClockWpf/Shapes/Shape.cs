@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Serialization;
@@ -190,6 +191,28 @@ public abstract class Shape : DependencyObject
 
     #endregion
 
+    #region Exported Event
+
+    public event EventHandler<ExportedEventArgs> Exported;
+
+    protected virtual void OnExported(ExportedEventArgs e)
+    {
+        Exported?.Invoke(this, e);
+    }
+
+    #endregion
+
+    #region Imported Event
+
+    public event EventHandler<ImportedEventArgs> Imported;
+
+    protected virtual void OnImported(ImportedEventArgs e)
+    {
+        Imported?.Invoke(this, e);
+    }
+
+    #endregion
+
     protected Pen CreateStrokePen(ClockDrawingContext context)
     {
         if (StrokeThickness <= 0 || StrokeBrush == null)
@@ -277,19 +300,37 @@ public abstract class Shape : DependencyObject
     /// Serializes the properties of the shape into a dictionary of string key-value pairs.
     /// </summary>
     /// <returns>A dictionary containing the serialized property names and their values.</returns>
-    public virtual Dictionary<string, string> Export()
+    public ClockShape Export()
     {
-        return ShapeSerializer.Default.SerializeProperties(this);
+        string id = GetType().AssemblyQualifiedName;
+        ClockShape clockShape = new(id);
+
+        IEnumerable<(string, string)> properties = ShapeSerializer.Default.SerializeProperties2(this);
+
+        foreach ((string key, string value) in properties)
+            clockShape.Properties.Add(key, value);
+
+        OnExported(new ExportedEventArgs(clockShape));
+
+        return clockShape;
     }
 
     /// <summary>
     /// Deserializes the shape properties from a dictionary of string key-value pairs.
     /// </summary>
     /// <param name="properties">A dictionary containing the property names and their serialized values.</param>
-    public virtual void Import(Dictionary<string, string> properties)
+    public virtual void Import(ClockShape clockShape)
     {
-        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentNullException.ThrowIfNull(clockShape);
 
-        ShapeSerializer.Default.DeserializeProperties(this, properties);
+        if (clockShape.Id != GetType().AssemblyQualifiedName)
+            throw new ArgumentException($"The provided shape id '{clockShape.Id}' does not match the shape type '{GetType().AssemblyQualifiedName}'.");
+
+        if (clockShape.Properties == null)
+            return;
+
+        ShapeSerializer.Default.DeserializeProperties(this, clockShape.Properties);
+
+        OnImported(new ImportedEventArgs(clockShape));
     }
 }

@@ -1,6 +1,6 @@
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
-public class ShapeData
+public class JShape
 {
     public string ShapeType { get; set; }
 

@@ -1,8 +1,8 @@
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
-public class TemplateData
+public class JTemplate
 {
     public string TemplateType { get; set; }
 
-    public List<ShapeData> Shapes { get; set; }
+    public List<JShape> Shapes { get; set; }
 }

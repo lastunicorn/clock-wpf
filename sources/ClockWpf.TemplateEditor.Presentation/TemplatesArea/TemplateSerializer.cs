@@ -10,10 +10,17 @@ namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 public class TemplateSerializer
 {
     private readonly ShapeSerializer shapeSerializer;
+    private readonly JsonSerializerOptions options;
 
     public TemplateSerializer()
     {
         shapeSerializer = ShapeSerializer.Default;
+
+        options = new JsonSerializerOptions()
+        {
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
     }
 
     public void SaveTemplate(ClockTemplate template, string filePath)
@@ -24,7 +31,7 @@ public class TemplateSerializer
         if (string.IsNullOrWhiteSpace(filePath))
             throw new ArgumentException("File path cannot be null or empty.", nameof(filePath));
 
-        TemplateData templateData = new()
+        JTemplate jTemplate = new()
         {
             TemplateType = template.GetType().AssemblyQualifiedName,
             Shapes = []
@@ -32,22 +39,18 @@ public class TemplateSerializer
 
         foreach (Shape shape in template)
         {
-            ShapeData shapeData = new()
+            ClockShape clockShape = shape.Export();
+
+            JShape shapeData = new()
             {
-                ShapeType = shape.GetType().AssemblyQualifiedName,
-                Properties = shapeSerializer.SerializeProperties(shape)
+                ShapeType = clockShape.Id,
+                Properties = clockShape.Properties
             };
 
-            templateData.Shapes.Add(shapeData);
+            jTemplate.Shapes.Add(shapeData);
         }
 
-        JsonSerializerOptions options = new()
-        {
-            WriteIndented = true,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
-
-        string json = JsonSerializer.Serialize(templateData, options);
+        string json = JsonSerializer.Serialize(jTemplate, options);
         File.WriteAllText(filePath, json);
     }
 
@@ -60,7 +63,7 @@ public class TemplateSerializer
             throw new FileNotFoundException("Template file not found.", filePath);
 
         string json = File.ReadAllText(filePath);
-        TemplateData templateData = JsonSerializer.Deserialize<TemplateData>(json);
+        JTemplate templateData = JsonSerializer.Deserialize<JTemplate>(json);
 
         if (templateData == null)
             throw new InvalidOperationException("Failed to deserialize template data.");
@@ -73,7 +76,7 @@ public class TemplateSerializer
         ClockTemplate template = (ClockTemplate)Activator.CreateInstance(templateType);
         template.Clear();
 
-        foreach (ShapeData shapeData in templateData.Shapes)
+        foreach (JShape shapeData in templateData.Shapes)
         {
             Type shapeType = Type.GetType(shapeData.ShapeType);
 

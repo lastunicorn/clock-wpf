@@ -45,9 +45,9 @@ public class StaticMovement : MovementBase
 
     #endregion
 
-    #region TransitionInterval Property
+    #region TransitionDuration Property
 
-    private TimeSpan transitionInterval = TimeSpan.Zero;
+    private TimeSpan transitionDuration = TimeSpan.Zero;
 
     /// <summary>
     /// Gets or sets the duration over which the time value transitions to a new value in real time.
@@ -58,15 +58,15 @@ public class StaticMovement : MovementBase
     /// </remarks>
     [Category("Behavior")]
     [Description("The real-time duration over which the Time value transitions to the new value.")]
-    public TimeSpan TransitionInterval
+    public TimeSpan TransitionDuration
     {
-        get => transitionInterval;
+        get => transitionDuration;
         set
         {
             if (value < TimeSpan.Zero)
                 value = TimeSpan.Zero;
 
-            transitionInterval = value;
+            transitionDuration = value;
             OnModified();
         }
     }
@@ -112,7 +112,7 @@ public class StaticMovement : MovementBase
 
     private void StartTransition()
     {
-        if (transitionInterval <= TimeSpan.Zero || transitionTickInterval <= 0)
+        if (transitionDuration <= TimeSpan.Zero || transitionTickInterval <= 0)
         {
             currentTime = targetTime;
             ForceTick();
@@ -155,7 +155,7 @@ public class StaticMovement : MovementBase
 
         TimeSpan elapsed = DateTime.Now - transitionStartTime;
 
-        if (elapsed >= transitionInterval)
+        if (elapsed >= transitionDuration)
         {
             currentTime = targetTime;
             isTransitioning = false;
@@ -166,7 +166,7 @@ public class StaticMovement : MovementBase
             return currentTime;
         }
 
-        double progress = elapsed.TotalMilliseconds / transitionInterval.TotalMilliseconds;
+        double progress = elapsed.TotalMilliseconds / transitionDuration.TotalMilliseconds;
         double startTicks = startTime.Ticks;
         double targetTicks = targetTime.Ticks;
         double currentTicks = startTicks + (targetTicks - startTicks) * progress;

@@ -60,8 +60,8 @@
                 <ComboBox
                     ItemsSource="{Binding TemplateTypes}"
                     SelectedItem="{Binding SelectedTemplateType}"
-                    DisplayMemberPath="Name"/> 
-                
+                    DisplayMemberPath="Name"/>
+
             </DockPanel>
 
             <DockPanel
@@ -79,9 +79,9 @@
                     FontWeight="Bold"/>
 
             </DockPanel>
-            
+
             <Grid>
-                
+
                 <ListBox
                     x:Name="ShapesListBox"
                     Margin="0 2 0 0"
@@ -93,7 +93,7 @@
                         <DataTemplate>
                             <Border Padding="0 1">
                                 <StackPanel>
-                                
+
                                     <TextBlock
                                         Text="{Binding Name, Mode=OneWay}"
                                         FontWeight="DemiBold"/>
@@ -103,7 +103,7 @@
                                         FontSize="11"
                                         Foreground="Gray"
                                         Margin="10 0 0 0"/>
-                                
+
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -114,25 +114,33 @@
                 <local:SlidingPanel
                     Width="{Binding ElementName=ShapesListBox, Path=ActualWidth, Converter={StaticResource MultiplyConverter}, ConverterParameter=0.8}"
                     ToggleButton="{Binding ElementName=AddShapeToggleButton}">
-                    
+
                     <ListBox
                         ItemsSource="{Binding AvailableShapes, Mode=OneWay}"
                         BorderThickness="0">
-                        
+
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Border Padding="5 3">
+                                <StackPanel>
+
                                     <TextBlock
                                         Text="{Binding Name, Mode=OneWay}"
                                         FontWeight="DemiBold"/>
-                                </Border>
+
+                                    <TextBlock
+                                        Text="{Binding Type, Mode=OneWay}"
+                                        FontSize="11"
+                                        Foreground="Gray"
+                                        Margin="10 0 0 0"/>
+
+                                </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                        
+
                     </ListBox>
-                    
+
                 </local:SlidingPanel>
-                
+
             </Grid>
 
         </DockPanel>
@@ -153,7 +161,7 @@
                             Fill="Gray"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
-                        
+
                     </Grid>
                 </ControlTemplate>
             </GridSplitter.Template>
