@@ -26,7 +26,7 @@ public class Ticks : RimBase
 
     [Category("Appearance")]
     [DefaultValue(5.0)]
-    [Description("The length of the ticks as a percentage from the clock's radius.")]
+    [Description("The length of the ticks, calculated as percentage from the clock's radius.")]
     public double Length
     {
         get => (double)GetValue(LengthProperty);

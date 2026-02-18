@@ -61,7 +61,7 @@ public class SimpleLineHand : HandBase
 
     [Category("Appearance")]
     [DefaultValue(0.0)]
-    [Description("The hand's length of the tail as percentage from the clock's radius.")]
+    [Description("The hand's length of the tail, calculated as percentage from the clock's radius.")]
     public double TailLength
     {
         get => (double)GetValue(TailLengthProperty);

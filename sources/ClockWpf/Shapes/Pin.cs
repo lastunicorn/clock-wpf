@@ -26,7 +26,7 @@ public class Pin : Shape
 
     [Category("Appearance")]
     [DefaultValue(4.0)]
-    [Description("The diameter of the pin as percentage from the clock's radius.")]
+    [Description("The diameter of the pin, calculated as percentage from the clock's radius.")]
     public double Diameter
     {
         get => (double)GetValue(DiameterProperty);

@@ -12,19 +12,19 @@ public class FlatBackground : Shape
     }
 
     private Pen strokePen;
+    private Point center = new(0, 0);
+    private double backgroundRadius;
 
     protected override void CalculateCache(ClockDrawingContext context)
     {
         base.CalculateCache(context);
 
         strokePen = CreateStrokePen(context);
+        backgroundRadius = (context.ClockDiameter - StrokeThickness) / 2;
     }
 
     protected override void DoRender(ClockDrawingContext context)
     {
-        Point center = new(0, 0);
-        double backgroundRadius = (context.ClockDiameter - StrokeThickness) / 2;
-
         context.DrawingContext.DrawEllipse(FillBrush, strokePen, center, backgroundRadius, backgroundRadius);
     }
 }

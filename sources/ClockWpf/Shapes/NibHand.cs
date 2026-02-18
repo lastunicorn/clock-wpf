@@ -28,7 +28,7 @@ public class NibHand : HandBase
 
     [Category("Appearance")]
     [DefaultValue(5.0)]
-    [Description("The width of the hand.")]
+    [Description("The width of the hand, calculated as percentage from the clock's radius.")]
     public double Width
     {
         get => (double)GetValue(WidthProperty);

@@ -34,7 +34,7 @@ public abstract class HandBase : Shape, IHand
 
     [Category("Appearance")]
     [DefaultValue(95.0)]
-    [Description("The length of the hand from the pin to the its top as percentage from the radius of the clock.")]
+    [Description("The length of the hand from the pin to its top, calculated as percentage from the clock's radius.")]
     public double Length
     {
         get => (double)GetValue(LengthProperty);

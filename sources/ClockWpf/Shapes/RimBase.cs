@@ -35,7 +35,7 @@ public abstract class RimBase : Shape
 
     [Category("Layout")]
     [DefaultValue(6.0)]
-    [Description("The hand's length of the tail as percentage from the clock's radius.")]
+    [Description("The distance from the edge of the clock to the items being displayed, calculated as percentage from the clock's radius.")]
     public double DistanceFromEdge
     {
         get => (double)GetValue(DistanceFromEdgeProperty);

@@ -39,7 +39,7 @@ public class PeepholeHand : HandBase
     /// </summary>
     [Category("Appearance")]
     [DefaultValue(10.0)]
-    [Description("The width of the slot carved inside the disk.")]
+    [Description("The width of the slot carved inside the disk, calculated as percentage from the clock's radius.")]
     public double Width
     {
         get => (double)GetValue(WidthProperty);
@@ -70,7 +70,7 @@ public class PeepholeHand : HandBase
     /// </summary>
     [Category("Appearance")]
     [DefaultValue(100.0)]
-    [Description("The radius of the opaque disk.")]
+    [Description("The radius of the opaque disk, calculated as percentage from the clock's radius.")]
     public double Radius
     {
         get => (double)GetValue(RadiusProperty);
@@ -101,7 +101,7 @@ public class PeepholeHand : HandBase
     /// </summary>
     [Category("Appearance")]
     [DefaultValue(12.0)]
-    [Description("The length of the tail of the hand.")]
+    [Description("The length of the hand's tail, calculated as percentage from the clock's radius.")]
     public double TailLength
     {
         get => (double)GetValue(TailLengthProperty);
