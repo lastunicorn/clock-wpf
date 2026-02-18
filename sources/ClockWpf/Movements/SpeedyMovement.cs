@@ -40,34 +40,34 @@ public class SpeedyMovement : MovementBase
 
     #endregion
 
-    #region TimeMultiplier Property
+    #region TimeSpeed Property
 
     /// <summary>
     /// The default value of the time multiplier.
     /// </summary>
-    public const float DefaultTimeMultiplier = 10;
+    public const float DefaultTimeSpeed = 10;
 
-    private float timeMultiplier = DefaultTimeMultiplier;
+    private float timeSpeed = DefaultTimeSpeed;
 
     /// <summary>
-    /// Gets or sets the time multiplier that specifies how much faster the is the time compared
+    /// Gets or sets the time multiplier that specifies how much faster is the time compared
     /// to the real one.
     /// </summary>
     [Category("Behavior")]
-    [DefaultValue(DefaultTimeMultiplier)]
-    [Description("The time multiplier that specifies how much faster the is the time compared to the real one.")]
-    public float TimeMultiplier
+    [DefaultValue(DefaultTimeSpeed)]
+    [Description("The time multiplier that specifies how much faster is the time compared to the real one.")]
+    public float TimeSpeed
     {
-        get => timeMultiplier;
+        get => timeSpeed;
         set
         {
-            if (timeMultiplier == value)
+            if (timeSpeed == value)
                 return;
 
             initialTime = GenerateNewTime();
             initialRealTime = DateTime.UtcNow;
 
-            timeMultiplier = value;
+            timeSpeed = value;
             OnModified();
 
             ForceTick();
@@ -84,7 +84,7 @@ public class SpeedyMovement : MovementBase
     {
         DateTime currentRealTime = DateTime.UtcNow;
         long realDeltaTicks = currentRealTime.Ticks - initialRealTime.Ticks;
-        double fakeDeltaTicks = realDeltaTicks * TimeMultiplier;
+        double fakeDeltaTicks = realDeltaTicks * TimeSpeed;
         TimeSpan fakeDelta = TimeSpan.FromTicks((long)fakeDeltaTicks);
         TimeSpan fakeTime = initialTime + fakeDelta;
 

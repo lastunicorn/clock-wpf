@@ -5,6 +5,8 @@ Clock WPF
 Ver 1.4.0
 ----------------------------------------------------------------------------------------------------
 [change] Renamed TransitionInterval to TransitionDuration in StaticMovement class.
+[new   ] Added TransitionSpeed property in StaticMovement.
+[change] Renamed TimeMultiplier to TimeSpeed in SpeedyMovement class.
 
 
 Ver 1.3.2
