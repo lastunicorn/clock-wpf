@@ -12,6 +12,7 @@
 		<PackageTags>clock;wpf</PackageTags>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageReleaseNotes>More templates added and fixed the existing ones.Added the Static Movement. (Time Providers were renamed to Movements)</PackageReleaseNotes>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
