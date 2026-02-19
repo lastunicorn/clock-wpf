@@ -14,13 +14,9 @@ namespace DustInTheWind.ClockWpf.Movements;
 [Movement("Static", "Provides a fixed time value with optional smooth transition when changed.")]
 public class StaticMovement : MovementBase
 {
-    private readonly Timer transitionTimer;
-    private TimeSpan targetTime = DateTime.Now.TimeOfDay;
+    private TimeSpan desiredTime = DateTime.Now.TimeOfDay;
     private TimeSpan currentTime = DateTime.Now.TimeOfDay;
-    private TimeSpan transitionStartTime;
-    private DateTime realStartTime;
-    private bool isTransitioning;
-    private TransitionType transitionType;
+    private ITimeTransition timeTransition;
 
     #region Time Property
 
@@ -31,13 +27,13 @@ public class StaticMovement : MovementBase
     [Description("The desired time value to be used.")]
     public TimeSpan Time
     {
-        get => targetTime;
+        get => desiredTime;
         set
         {
-            if (targetTime == value)
+            if (desiredTime == value)
                 return;
 
-            targetTime = value;
+            desiredTime = value;
             OnModified();
 
             StartTransition();
@@ -136,37 +132,31 @@ public class StaticMovement : MovementBase
     public StaticMovement()
     {
         TickInterval = 0;
-        transitionTimer = new Timer(HandleTransitionTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
     }
 
-    private void HandleTransitionTimerCallback(object state)
+    private void HandleTransitionCallback(TimeSpan time)
     {
-        if (!isTransitioning)
-            return;
-
+        currentTime = time;
         ForceTick();
     }
 
     private void StartTransition()
     {
-        transitionType = CalculateTransitionType();
+        TransitionType transitionType = CalculateTransitionType();
 
-        switch(transitionType)
+        switch (transitionType)
         {
             case TransitionType.Instant:
-                JumpToTargetTime();
+                currentTime = desiredTime;
+                ForceTick();
                 break;
 
             case TransitionType.AnimatedByDuration:
+                StartAnimationByDuration();
+                break;
+
             case TransitionType.AnimatedBySpeed:
-                transitionStartTime = currentTime;
-                realStartTime = DateTime.Now;
-                isTransitioning = true;
-
-                if (TickInterval == 0)
-                    _ = transitionTimer.Change(0, transitionTickInterval);
-
-                ForceTick();
+                StartAnimationBySpeed();
                 break;
         }
     }
@@ -182,10 +172,36 @@ public class StaticMovement : MovementBase
         return TransitionType.Instant;
     }
 
-    private void JumpToTargetTime()
+    private void StartAnimationByDuration()
     {
-        currentTime = targetTime;
-        ForceTick();
+        if (timeTransition != null)
+        {
+            timeTransition.Stop();
+            timeTransition.Dispose();
+        }
+
+        timeTransition = new TransitionByDuration(HandleTransitionCallback)
+        {
+            TransitionDuration = TransitionDuration
+        };
+
+        timeTransition.Start(currentTime, desiredTime, transitionTickInterval);
+    }
+
+    private void StartAnimationBySpeed()
+    {
+        if (timeTransition != null)
+        {
+            timeTransition.Stop();
+            timeTransition.Dispose();
+        }
+
+        timeTransition = new TransitionBySpeed(HandleTransitionCallback)
+        {
+            TransitionSpeed = TransitionSpeed
+        };
+
+        timeTransition.Start(currentTime, desiredTime, transitionTickInterval);
     }
 
     /// <summary>
@@ -201,87 +217,25 @@ public class StaticMovement : MovementBase
     /// time between the start and target times; otherwise, it returns the current time without modification.</returns>
     protected override TimeSpan GenerateNewTime()
     {
-        if (!isTransitioning)
-            return currentTime;
-
-        TimeSpan elapsed = DateTime.Now - realStartTime;
-
-        if (transitionType == TransitionType.AnimatedByDuration)
-        {
-            if (elapsed >= transitionDuration)
-            {
-                currentTime = targetTime;
-                isTransitioning = false;
-
-                if (TickInterval == 0)
-                    _ = transitionTimer.Change(Timeout.Infinite, Timeout.Infinite);
-
-                return currentTime;
-            }
-
-            double progress = elapsed.TotalMilliseconds / transitionDuration.TotalMilliseconds;
-            double startTicks = transitionStartTime.Ticks;
-            double targetTicks = targetTime.Ticks;
-            double currentTicks = startTicks + (targetTicks - startTicks) * progress;
-
-            currentTime = TimeSpan.FromTicks((long)currentTicks);
-            return currentTime;
-        }
-
-        if (transitionType == TransitionType.AnimatedBySpeed)
-        {
-            TimeSpan timeDifference = targetTime - transitionStartTime;
-            bool isForward = timeDifference >= TimeSpan.Zero;
-            double clockTimeAdvanced = elapsed.TotalSeconds * transitionSpeed;
-
-            if (isForward)
-            {
-                currentTime = transitionStartTime + TimeSpan.FromSeconds(clockTimeAdvanced);
-
-                if (currentTime >= targetTime)
-                {
-                    currentTime = targetTime;
-                    isTransitioning = false;
-
-                    if (TickInterval == 0)
-                        _ = transitionTimer.Change(Timeout.Infinite, Timeout.Infinite);
-                }
-            }
-            else
-            {
-                currentTime = transitionStartTime - TimeSpan.FromSeconds(clockTimeAdvanced);
-
-                if (currentTime <= targetTime)
-                {
-                    currentTime = targetTime;
-                    isTransitioning = false;
-
-                    if (TickInterval == 0)
-                        _ = transitionTimer.Change(Timeout.Infinite, Timeout.Infinite);
-                }
-            }
-
-            return currentTime;
-        }
-
         return currentTime;
+    }
+
+    protected override void OnModified()
+    {
+        base.OnModified();
+
+        if (TickInterval != 0)
+            TickInterval = 0;
     }
 
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
-            _ = transitionTimer.Change(Timeout.Infinite, Timeout.Infinite);
-            transitionTimer.Dispose();
+            timeTransition?.Stop();
+            timeTransition?.Dispose();
         }
 
         base.Dispose(disposing);
     }
-}
-
-internal enum TransitionType
-{
-    Instant,
-    AnimatedByDuration,
-    AnimatedBySpeed
 }
