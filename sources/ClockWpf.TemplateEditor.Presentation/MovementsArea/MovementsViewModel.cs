@@ -58,11 +58,15 @@ public class MovementsViewModel : ViewModelBase
     {
         Initialize(() =>
         {
+            MovementDescriptors.Add(MovementDescriptor.None);
+
             foreach (MovementDescriptor movementDescriptor in clockMovementPool.EnumerateKnownMovements())
                 MovementDescriptors.Add(movementDescriptor);
 
             if (clockMovementPool.CurrentMovement != null)
                 SelectedMovementDescriptor = clockMovementPool.CurrentMovement;
+            else
+                SelectedMovementDescriptor = MovementDescriptor.None;
 
             SelectedMovement = clockMovementPool.CurrentMovement?.Instance;
         });

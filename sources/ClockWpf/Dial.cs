@@ -12,8 +12,6 @@ namespace DustInTheWind.ClockWpf;
 
 public class Dial : Canvas
 {
-    private TimeSpan time;
-
     #region PerformanceMeter DependencyProperty
 
     public static readonly DependencyProperty PerformanceMeterProperty = DependencyProperty.Register(
@@ -107,28 +105,6 @@ public class Dial : Canvas
 
     #endregion
 
-    #region KeepProportions DependencyProperty
-
-    public static readonly DependencyProperty KeepProportionsProperty = DependencyProperty.Register(
-        nameof(KeepProportions),
-        typeof(bool),
-        typeof(Dial),
-        new PropertyMetadata(true, OnKeepProportionsChanged));
-
-    private static void OnKeepProportionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is Dial dial)
-            dial.InvalidateVisual();
-    }
-
-    public bool KeepProportions
-    {
-        get => (bool)GetValue(KeepProportionsProperty);
-        set => SetValue(KeepProportionsProperty, value);
-    }
-
-    #endregion
-
     #region Movement DependencyProperty
 
     public static readonly DependencyProperty MovementProperty = DependencyProperty.Register(
@@ -148,16 +124,12 @@ public class Dial : Canvas
         if (e.NewValue is IMovement newMovement)
         {
             newMovement.Tick += dial.HandleTick;
-
-            dial.time = newMovement.LastTick;
             dial.InvalidateVisual();
         }
     }
 
     private void HandleTick(object sender, TickEventArgs e)
     {
-        time = e.Time;
-
         if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
             return;
 
@@ -219,8 +191,6 @@ public class Dial : Canvas
             if (Shapes == null || Shapes.Count == 0)
                 return;
 
-            double diameter = Math.Min(ActualWidth, ActualHeight);
-
             DrawingPlan.Create(drawingContext)
                 .WithTransform(() =>
                 {
@@ -229,13 +199,7 @@ public class Dial : Canvas
 
                     return new TranslateTransform(offsetX, offsetY);
                 })
-                .WithTransform(() =>
-                {
-                    return KeepProportions
-                        ? null
-                        : CreateScaleTransform(diameter);
-                })
-                .Draw(dc => RenderShapes(dc, diameter));
+                .Draw(dc => RenderShapes(dc));
         }
         finally
         {
@@ -243,24 +207,13 @@ public class Dial : Canvas
         }
     }
 
-    private ScaleTransform CreateScaleTransform(double diameter)
-    {
-        double scaleX = ActualWidth / diameter;
-        double scaleY = ActualHeight / diameter;
-
-        double centerX = diameter / 2;
-        double centerY = diameter / 2;
-
-        return new ScaleTransform(scaleX, scaleY, centerX, centerY);
-    }
-
-    private void RenderShapes(DrawingContext drawingContext, double diameter)
+    private void RenderShapes(DrawingContext drawingContext)
     {
         ClockDrawingContext clockDrawingContext = new()
         {
             DrawingContext = drawingContext,
-            ClockDiameter = diameter,
-            Time = time,
+            ClockDiameter = Math.Min(ActualWidth, ActualHeight),
+            Time = Movement?.LastTick ?? TimeSpan.Zero,
             ClockDirection = RotationDirection
         };
 

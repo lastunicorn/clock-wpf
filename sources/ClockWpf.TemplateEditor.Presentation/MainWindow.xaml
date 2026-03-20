@@ -41,7 +41,8 @@
                     Margin="20">
 
                     <wpfToolkit:ZoomPanel
-                        CornerRadius="5">
+                        CornerRadius="5"
+                        MaxZoom="10">
 
                         <clockWpf:AnalogClock
                             x:Name="analogClock1"

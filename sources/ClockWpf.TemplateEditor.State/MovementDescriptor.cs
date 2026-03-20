@@ -49,6 +49,15 @@ public class MovementDescriptor
         Type = type;
     }
 
+    public static MovementDescriptor None { get; } = new("<none>", "No movement applied");
+
+    private MovementDescriptor(string name, string description)
+    {
+        Name = name;
+        Description = description;
+        Type = null;
+    }
+
     public void CreateInstance(IClockMovementFactory clockMovementFactory)
     {
         ArgumentNullException.ThrowIfNull(clockMovementFactory);

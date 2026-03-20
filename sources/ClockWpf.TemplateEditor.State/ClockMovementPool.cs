@@ -60,8 +60,13 @@ public class ClockMovementPool
 
     public void SetDefault(Type type)
     {
-        ArgumentNullException.ThrowIfNull(type);
+        CurrentMovement = type == null
+            ? null
+            : GetOrCreateDescriptorFor(type);
+    }
 
+    private MovementDescriptor GetOrCreateDescriptorFor(Type type)
+    {
         bool isClockMovement = typeof(IMovement).IsAssignableFrom(type);
         if (!isClockMovement)
             throw new ArgumentException($"The type {type.FullName} is not a clock movement.");
@@ -78,25 +83,8 @@ public class ClockMovementPool
         if (descriptor.Instance == null)
             descriptor.CreateInstance(clockMovementFactory);
 
-        CurrentMovement = descriptor;
+        return descriptor;
     }
-
-    //private IMovement Create(Type type)
-    //{
-    //    IMovement instance = clockMovementFactory.Create(type);
-
-    //    if (instance == null)
-    //        throw new Exception("Clock movement could not be created by the factory. Verify that the type was registerd into the dependency container.");
-
-    //    instances.Add(instance);
-
-    //    bool typeExists = descriptors.Any(x => x.Type == type);
-
-    //    if (!typeExists)
-    //        AddDescriptorFor(type);
-
-    //    return instance;
-    //}
 
     public void SetDefault<T>()
         where T : IMovement
@@ -117,24 +105,6 @@ public class ClockMovementPool
         CurrentMovement = descriptor;
     }
 
-    //private T Create<T>()
-    //    where T : IMovement
-    //{
-    //    T instance = clockMovementFactory.Create<T>();
-
-    //    if (instance == null)
-    //        throw new Exception("Clock movement could not be created by the factory. Verify that the type was registerd into the dependency container.");
-
-    //    instances.Add(instance);
-
-    //    bool typeExists = descriptors.Any(x => x.Type == typeof(T));
-
-    //    if (!typeExists)
-    //        AddDescriptorFor(typeof(T));
-
-    //    return instance;
-    //}
-
     public void RecreateCurrentTemplate()
     {
         MovementDescriptor descriptor = CurrentMovement;
@@ -145,13 +115,6 @@ public class ClockMovementPool
         CurrentMovement = null;
         descriptor.CreateInstance(clockMovementFactory);
         CurrentMovement = descriptor;
-
-        //instances.Remove(oldInstance);
-
-        //Type type = oldInstance.GetType();
-
-        //ClockTemplate newInstance = Create(type);
-        //CurrentTemplate = newInstance;
     }
 
     public IEnumerable<MovementDescriptor> EnumerateKnownMovements()

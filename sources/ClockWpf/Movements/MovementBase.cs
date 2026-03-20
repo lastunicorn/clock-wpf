@@ -14,7 +14,7 @@ public abstract class MovementBase : IMovement
     private int tickInterval = 100;
 
     /// <summary>
-    /// Gets or sets the interval in milliseconds at which the time current instance generates time values.
+    /// Gets or sets the interval in milliseconds at which the current instance generates time values.
     /// </summary>
     /// <remarks>
     /// Smaller numbers will generate more values per second, making the second hand move more
@@ -24,7 +24,7 @@ public abstract class MovementBase : IMovement
     /// </remarks>
     [Category("Behavior")]
     [DefaultValue(100)]
-    [Description("The interval in milliseconds at which the time current instance generates time values.")]
+    [Description("The interval in milliseconds at which the current instance generates time values.")]
     public int TickInterval
     {
         get => tickInterval;
@@ -38,9 +38,9 @@ public abstract class MovementBase : IMovement
             if (IsRunning)
             {
                 if (tickInterval > 0)
-                    timer.Change(0, tickInterval);
+                    _ = timer.Change(0, tickInterval);
                 else
-                    timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    _ = timer.Change(Timeout.Infinite, Timeout.Infinite);
             }
 
             OnModified();
@@ -102,11 +102,11 @@ public abstract class MovementBase : IMovement
     {
         if (tickInterval > 0)
         {
-            timer.Change(0, tickInterval);
+            _ = timer.Change(0, tickInterval);
         }
         else
         {
-            timer.Change(Timeout.Infinite, Timeout.Infinite);
+            _ = timer.Change(Timeout.Infinite, Timeout.Infinite);
             ForceTick();
         }
 
@@ -118,7 +118,7 @@ public abstract class MovementBase : IMovement
     /// </summary>
     public void Stop()
     {
-        timer.Change(Timeout.Infinite, Timeout.Infinite);
+        _ = timer.Change(Timeout.Infinite, Timeout.Infinite);
         IsRunning = false;
     }
 
@@ -185,7 +185,7 @@ public abstract class MovementBase : IMovement
         {
             if (disposing)
             {
-                timer.Change(Timeout.Infinite, Timeout.Infinite);
+                _ = timer.Change(Timeout.Infinite, Timeout.Infinite);
                 timer.Dispose();
                 IsRunning = false;
             }
