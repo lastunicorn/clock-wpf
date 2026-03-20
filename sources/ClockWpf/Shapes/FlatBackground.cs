@@ -3,6 +3,12 @@ using System.Windows.Media;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
+/// <summary>
+/// Represents a flat, circular background shape for use in <see cref="AnalogClock"/>.
+/// </summary>
+/// <remarks>
+/// This class provides a simple, filled circular background with no visible stroke by default.
+/// <remarks>
 public class FlatBackground : Shape
 {
     static FlatBackground()

@@ -51,7 +51,7 @@ public class DotHand : HandBase
     }
 
     /// <remarks>
-    /// The <see cref="Length"/> value, for the <see cref="DotHand"/>, is the distance from the
+    /// The <see cref="HandBase.Length"/> value, for the <see cref="DotHand"/>, is the distance from the
     /// center of the clock to the center of the hand's center.
     /// </remarks>
     protected override void CalculateCache(ClockDrawingContext context)

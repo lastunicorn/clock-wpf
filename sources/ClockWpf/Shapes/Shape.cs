@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Serialization;
@@ -7,6 +6,16 @@ using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
+/// <summary>
+/// Provides an abstract base class for graphical shapes that can be rendered, supporting customizable appearance,
+/// visibility, and serialization.
+/// </summary>
+/// <remarks>
+/// The <see cref="Shape"/> class defines common properties and events for visual elements, such as fill and stroke
+/// brushes, stroke thickness, and visibility. It supports property change notifications and serialization to and from a
+/// key-value representation. Derived classes must implement the rendering logic by overriding the DoRender method. The
+/// class is designed for extensibility and integration with dependency property systems.
+/// </remarks>
 public abstract class Shape : DependencyObject
 {
     private bool isCacheValid;
