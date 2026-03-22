@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Movements;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.Utils;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
@@ -61,16 +62,10 @@ public class TemplatesViewModel : ViewModelBase
     {
         Initialize(() =>
         {
-            foreach (Type type in clockTemplatePool.EnumerateKnownTypes())
-            {
-                Templates.Add(new TemplateDescriptor
-                {
-                    Name = type.Name
-                        .Replace("ClockTemplate", "")
-                        .Replace("Template", ""),
-                    Type = type
-                });
-            }
+            IEnumerable<TemplateDescriptor> templateDescriptors = clockTemplatePool.EnumerateKnownTypes()
+                .Select(x => new TemplateDescriptor(x));
+
+            Templates.Add(templateDescriptors);
 
             if (clockTemplatePool.CurrentTemplate != null)
             {

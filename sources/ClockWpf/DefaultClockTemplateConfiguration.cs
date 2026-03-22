@@ -1,6 +1,6 @@
 ﻿using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates2;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 
 namespace DustInTheWind.ClockWpf;
 

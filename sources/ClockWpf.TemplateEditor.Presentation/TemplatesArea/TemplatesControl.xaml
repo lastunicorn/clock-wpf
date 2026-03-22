@@ -67,7 +67,7 @@
                                     FontWeight="DemiBold"/>
 
 								<TextBlock
-                                    Text="{Binding Mode=OneWay}"
+                                    Text="{Binding Description, Mode=OneWay}"
                                     FontSize="11"
                                     Foreground="Gray"
                                     Margin="10 0 0 0"/>

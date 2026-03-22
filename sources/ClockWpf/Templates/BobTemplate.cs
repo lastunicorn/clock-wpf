@@ -1,9 +1,10 @@
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates2;
+namespace DustInTheWind.ClockWpf.Templates;
 
+[Template("Bob", "A clock template with thick border and decorative elements.")]
 public class BobTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()

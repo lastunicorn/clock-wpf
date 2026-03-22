@@ -13,17 +13,17 @@
     d:DesignWidth="800"
     d:DataContext="{d:DesignInstance movements:MovementsViewModel}">
 
-    <Grid
+	<Grid
         Grid.Column="2">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="200"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="200"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 
-        <Button
+		<Button
             Grid.Row="0"
             HorizontalAlignment="Right"
             Content="Reset"
@@ -31,28 +31,50 @@
             Margin="0 10 0 0"
             Command="{Binding ResetMovementCommand}" />
 
-        <ListBox
+		<ListBox
             Grid.Row="1"
             ItemsSource="{Binding MovementDescriptors}"
             SelectedItem="{Binding SelectedMovementDescriptor}"
-            DisplayMemberPath="Name"
-            Margin="0 8 0 0"/>
+            Margin="0 8 0 0">
 
-        <ScrollViewer
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Border Padding="0 1">
+						<StackPanel>
+
+							<TextBlock
+                                Text="{Binding Name, Mode=OneWay}"
+                                FontWeight="DemiBold"/>
+
+							<TextBlock
+                                Text="{Binding Description, Mode=OneWay}"
+                                FontSize="11"
+                                Foreground="Gray"
+                                Margin="10 0 0 0"
+								TextWrapping="Wrap"/>
+
+						</StackPanel>
+					</Border>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+
+		</ListBox>
+
+		<ScrollViewer
             Grid.Row="2"
             MaxHeight="100"
             VerticalScrollBarVisibility="Auto"
             Margin="10 8 10 0">
 
-            <TextBlock
+			<TextBlock
                 Text="{Binding SelectedMovementDescriptor.Description}"
                 TextWrapping="Wrap"
                 FontStyle="Italic"
                 Foreground="#666666" />
 
-        </ScrollViewer>
+		</ScrollViewer>
 
-        <xctk:PropertyGrid
+		<xctk:PropertyGrid
             Grid.Row="3"
             SelectedObject="{Binding SelectedMovement, Mode=OneWay}"
             ShowSortOptions="True"
@@ -61,6 +83,6 @@
             ShowAdvancedOptions="True"
             BorderThickness="0"
             Margin="0 8 0 0"/>
-    </Grid>
+	</Grid>
 
 </UserControl>

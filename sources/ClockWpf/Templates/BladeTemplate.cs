@@ -1,10 +1,11 @@
 using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates2;
+namespace DustInTheWind.ClockWpf.Templates;
 
+[Template("Blade", "A clock template featuring blade-style hands.")]
 public class BladeTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()

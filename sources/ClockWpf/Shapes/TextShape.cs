@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;

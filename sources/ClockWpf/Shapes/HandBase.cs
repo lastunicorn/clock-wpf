@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 

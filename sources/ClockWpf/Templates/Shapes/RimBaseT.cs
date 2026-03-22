@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using DustInTheWind.ClockWpf.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates2.Shapes;
+namespace DustInTheWind.ClockWpf.Templates.Shapes;
 
 public abstract class RimBaseT : ShapeT
 {

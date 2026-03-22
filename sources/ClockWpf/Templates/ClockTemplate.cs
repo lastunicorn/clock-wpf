@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates2;
+namespace DustInTheWind.ClockWpf.Templates;
 
 public abstract class ClockTemplate : Collection<ShapeT>
 {

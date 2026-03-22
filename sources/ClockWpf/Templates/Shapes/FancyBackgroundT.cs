@@ -1,6 +1,6 @@
 using System.Windows.Media;
 
-namespace DustInTheWind.ClockWpf.Templates2.Shapes;
+namespace DustInTheWind.ClockWpf.Templates.Shapes;
 
 public class FancyBackgroundT : ShapeT
 {

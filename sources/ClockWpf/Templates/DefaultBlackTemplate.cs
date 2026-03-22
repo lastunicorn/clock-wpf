@@ -1,9 +1,10 @@
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates2;
+namespace DustInTheWind.ClockWpf.Templates;
 
+[Template("Default Black", "A classic analog clock template with black background.")]
 public class DefaultBlackTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()

@@ -1,10 +1,11 @@
 using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates2;
+namespace DustInTheWind.ClockWpf.Templates;
 
+[Template("Sun", "A bright clock template with sun-inspired design.")]
 public class SunTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()

@@ -1,9 +1,10 @@
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates2;
+namespace DustInTheWind.ClockWpf.Templates;
 
+[Template("Default", "A classic analog clock template with standard hands and numerals.")]
 public class DefaultTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()

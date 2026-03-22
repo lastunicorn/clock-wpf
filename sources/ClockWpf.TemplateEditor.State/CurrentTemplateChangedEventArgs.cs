@@ -1,4 +1,4 @@
-﻿using DustInTheWind.ClockWpf.Templates2;
+﻿using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.State;
 

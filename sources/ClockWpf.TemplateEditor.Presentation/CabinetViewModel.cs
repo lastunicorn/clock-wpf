@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Movements;
-using DustInTheWind.ClockWpf.Templates2;
+using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 

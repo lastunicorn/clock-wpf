@@ -7,7 +7,7 @@ using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MovementsArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
-using DustInTheWind.ClockWpf.Templates2;
+using DustInTheWind.ClockWpf.Templates;
 using Microsoft.Xaml.Behaviors.Core;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;

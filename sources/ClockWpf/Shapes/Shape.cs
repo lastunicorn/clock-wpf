@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using DustInTheWind.ClockWpf.Serialization;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;

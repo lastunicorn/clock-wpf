@@ -6,8 +6,7 @@ using System.Windows.Controls;
 using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates2;
-using DustInTheWind.ClockWpf.Templates2.Shapes;
+using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf;
 

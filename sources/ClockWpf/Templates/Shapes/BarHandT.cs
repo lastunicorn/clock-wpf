@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace DustInTheWind.ClockWpf.Templates2.Shapes;
+namespace DustInTheWind.ClockWpf.Templates.Shapes;
 
 public class BarHandT : HandT
 {

@@ -1,4 +1,4 @@
-namespace DustInTheWind.ClockWpf.Templates2.Shapes;
+namespace DustInTheWind.ClockWpf.Templates.Shapes;
 
 public class FancySweepHandT : HandT
 {

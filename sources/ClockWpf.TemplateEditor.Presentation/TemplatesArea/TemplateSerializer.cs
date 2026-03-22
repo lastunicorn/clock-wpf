@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using DustInTheWind.ClockWpf.Serialization;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates2;
+using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
