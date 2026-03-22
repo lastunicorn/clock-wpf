@@ -3,9 +3,9 @@ using System.ComponentModel;
 namespace DustInTheWind.ClockWpf.Movements;
 
 /// <summary>
-/// Provides the UTC time. Optionally, an offset may be provided.
+/// Provides the current UTC time. Optionally, an offset may be provided to display time from a different timezone.
 /// </summary>
-[Movement("UTC", "Provides the current UTC time. An optional offset can be usedto display time from a different timezone.")]
+[Movement("UTC", "Provides the current UTC time. Optionally, an offset may be provided to display time from a different timezone.")]
 public class UtcTimeMovement : MovementBase
 {
     /// <summary>

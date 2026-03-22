@@ -1,0 +1,148 @@
+<UserControl
+    x:Class="DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea.InUseShapesControl"
+    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:shapes="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea"
+    xmlns:behaviors="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors"
+    xmlns:converters="clr-namespace:DustInTheWind.ClockWpf.Converters;assembly=DustInTheWind.ClockWpf"
+    xmlns:local="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation"
+    
+    mc:Ignorable="d"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance shapes:InUseShapesViewModel}">
+
+    <UserControl.Resources>
+        <converters:MultiplyConverter x:Key="MultiplyConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel
+            Grid.Row="0">
+
+            <DockPanel
+                DockPanel.Dock="Top">
+
+                <ToggleButton
+                    x:Name="AddShapeToggleButton"
+                    DockPanel.Dock="Right"
+                    Content="+"
+                    Padding="5 0" />
+
+                <TextBlock
+                    Text="Shapes"
+                    FontWeight="Bold"/>
+
+            </DockPanel>
+
+            <Grid>
+
+                <ListBox
+                    x:Name="ShapesListBox"
+                    Margin="0 2 0 0"
+                    ItemsSource="{Binding Shapes, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedShape}"
+                    behaviors:ListBoxDragDropBehavior.EnableDragDrop="True">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="0 1">
+                                <StackPanel>
+
+                                    <TextBlock
+                                        Text="{Binding Name, Mode=OneWay}"
+                                        FontWeight="DemiBold"/>
+
+                                    <TextBlock
+                                        Text="{Binding Mode=OneWay}"
+                                        FontSize="11"
+                                        Foreground="Gray"
+                                        Margin="10 0 0 0"/>
+
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+
+                <local:SlidingPanel
+                    Width="{Binding ElementName=ShapesListBox, Path=ActualWidth, Converter={StaticResource MultiplyConverter}, ConverterParameter=0.8}"
+                    ToggleButton="{Binding ElementName=AddShapeToggleButton}">
+
+                    <ListBox
+                        ItemsSource="{Binding AvailableShapes, Mode=OneWay}"
+                        BorderThickness="0">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+
+                                    <TextBlock
+                                        Text="{Binding Name, Mode=OneWay}"
+                                        FontWeight="DemiBold"/>
+
+                                    <TextBlock
+                                        Text="{Binding Type, Mode=OneWay}"
+                                        FontSize="11"
+                                        Foreground="Gray"
+                                        Margin="10 0 0 0"/>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                    </ListBox>
+
+                </local:SlidingPanel>
+
+            </Grid>
+
+        </DockPanel>
+
+        <GridSplitter
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Height="10">
+
+            <GridSplitter.Template>
+                <ControlTemplate TargetType="{x:Type GridSplitter}">
+                    <Grid Background="Transparent">
+
+                        <Ellipse
+                            Width="55"
+                            Height="2"
+                            Fill="Gray"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                    </Grid>
+                </ControlTemplate>
+            </GridSplitter.Template>
+
+        </GridSplitter>
+
+        <xctk:PropertyGrid
+            Grid.Row="2"
+            SelectedObject="{Binding SelectedShape, Mode=OneWay}"
+            ShowSortOptions="True"
+            ShowSearchBox="True"
+            ShowSummary="True"
+            ShowAdvancedOptions="True"
+            BorderThickness="0"/>
+
+    </Grid>
+
+</UserControl>

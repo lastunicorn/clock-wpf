@@ -1,4 +1,5 @@
-﻿using DustInTheWind.ClockWpf.Movements;
+﻿using System.Collections.ObjectModel;
+using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MiscellaneousArea;
@@ -7,6 +8,7 @@ using DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 using DustInTheWind.ClockWpf.Templates2;
+using Microsoft.Xaml.Behaviors.Core;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 
@@ -81,6 +83,8 @@ public class MainViewModel : ViewModelBase
 
     public CabinetViewModel CabinetViewModel { get; }
 
+    public ApplicationState ApplicationState => applicationState;
+
     public MainViewModel(
         ApplicationState applicationState,
         ClockTemplatePool clockTemplatePool,
@@ -136,5 +140,10 @@ public class MainViewModel : ViewModelBase
         {
             ClockDirection = applicationState.ClockDirection;
         });
+    }
+
+    public void SetClockShapes(ObservableCollection<Shape> shapes)
+    {
+        applicationState.ClockShapes = shapes;
     }
 }

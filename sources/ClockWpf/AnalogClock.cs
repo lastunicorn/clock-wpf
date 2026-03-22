@@ -246,4 +246,22 @@ public class AnalogClock : Control
     {
         IsEmpty = Shapes.Count == 0;
     }
+
+    public void ApplyTemplate(ClockTemplate clockTemplate)
+    {
+        if (clockTemplate == null)
+            throw new ArgumentNullException(nameof(clockTemplate));
+
+        Shapes.Clear();
+
+        if (clockTemplate == null)
+            return;
+
+        ShapeFactory shapeFactory = new();
+        Resurrector resurrector = new(shapeFactory);
+        Resurrection resurrection = resurrector.Resurrect(clockTemplate);
+
+        foreach (Shape shape in resurrection.Shapes)
+            Shapes.Add(shape);
+    }
 }

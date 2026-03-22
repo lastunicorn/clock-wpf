@@ -30,6 +30,8 @@ internal static class Setup
         serviceCollection.AddTransient<ShapesViewModel>();
         serviceCollection.AddTransient<MovementsViewModel>();
         serviceCollection.AddTransient<CabinetViewModel>();
+        serviceCollection.AddTransient<AvailableShapesViewModel>();
+        serviceCollection.AddTransient<InUseShapesViewModel>();
     }
 
     private static void AddTemplates(ServiceCollection serviceCollection)
