@@ -29,7 +29,7 @@ public class FancyTemplate : ClockTemplate
         {
             Name = "Minute Ticks",
             StrokeBrush = Brushes.Black,
-            Length = 6,
+            Length = 4,
             StrokeThickness = 0.3,
             DistanceFromEdge = 8,
             Angle = 6,

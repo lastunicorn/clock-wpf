@@ -14,13 +14,13 @@
     d:DataContext="{d:DesignInstance movements:MovementsViewModel}">
 
 	<Grid
-        Grid.Column="2">
+		Grid.Column="2">
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="200"/>
+			<RowDefinition Height="300"/>
 			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
+			<RowDefinition Height="*" MinHeight="0"/>
 		</Grid.RowDefinitions>
 
 		<Button
@@ -32,10 +32,12 @@
             Command="{Binding ResetMovementCommand}" />
 
 		<ListBox
-            Grid.Row="1"
-            ItemsSource="{Binding MovementDescriptors}"
-            SelectedItem="{Binding SelectedMovementDescriptor}"
-            Margin="0 8 0 0">
+			Grid.Row="1"
+			ItemsSource="{Binding MovementDescriptors}"
+			SelectedItem="{Binding SelectedMovementDescriptor}"
+			HorizontalContentAlignment="Stretch"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			Margin="0 8 0 0">
 
 			<ListBox.ItemTemplate>
 				<DataTemplate>
@@ -60,22 +62,31 @@
 
 		</ListBox>
 
-		<ScrollViewer
-            Grid.Row="2"
-            MaxHeight="100"
-            VerticalScrollBarVisibility="Auto"
-            Margin="10 8 10 0">
+		<GridSplitter
+			Grid.Row="2"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Height="10">
 
-			<TextBlock
-                Text="{Binding SelectedMovementDescriptor.Description}"
-                TextWrapping="Wrap"
-                FontStyle="Italic"
-                Foreground="#666666" />
+			<GridSplitter.Template>
+				<ControlTemplate TargetType="{x:Type GridSplitter}">
+					<Grid Background="Transparent">
 
-		</ScrollViewer>
+						<Ellipse
+							Width="55"
+							Height="2"
+							Fill="Gray"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center" />
+
+					</Grid>
+				</ControlTemplate>
+			</GridSplitter.Template>
+
+		</GridSplitter>
 
 		<xctk:PropertyGrid
-            Grid.Row="3"
+			Grid.Row="3"
             SelectedObject="{Binding SelectedMovement, Mode=OneWay}"
             ShowSortOptions="True"
             ShowSearchBox="True"

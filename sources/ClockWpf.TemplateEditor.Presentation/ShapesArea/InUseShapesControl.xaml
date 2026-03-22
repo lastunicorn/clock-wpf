@@ -40,11 +40,9 @@
                     Content="+"
                     Padding="5 0" />
 
-                <TextBlock
-                    Text="Shapes"
-                    FontWeight="Bold"/>
+				<Control/>
 
-            </DockPanel>
+			</DockPanel>
 
             <Grid>
 
