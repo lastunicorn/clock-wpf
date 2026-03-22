@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
-public abstract class ClockTemplate : Collection<Shape>
+public abstract class ClockTemplate : Collection<ShapeT>
 {
     private bool isNew = true;
 
@@ -29,60 +29,60 @@ public abstract class ClockTemplate : Collection<Shape>
 
     public ClockTemplate()
     {
-        IEnumerable<Shape> shapes = CreateShapes();
+        IEnumerable<ShapeT> shapes = CreateShapes();
 
-        foreach (Shape shape in shapes)
+        foreach (ShapeT shape in shapes)
         {
             Items.Add(shape);
-            shape.Changed += HandleShapeChanged;
+            //shape.Changed += HandleShapeChanged;
         }
     }
 
-    protected abstract IEnumerable<Shape> CreateShapes();
+    protected abstract IEnumerable<ShapeT> CreateShapes();
 
-    protected override void InsertItem(int index, Shape item)
+    protected override void InsertItem(int index, ShapeT item)
     {
         ArgumentNullException.ThrowIfNull(item);
 
         base.InsertItem(index, item);
 
-        item.Changed += HandleShapeChanged;
+        //item.Changed += HandleShapeChanged;
     }
 
     protected override void RemoveItem(int index)
     {
         if (index >= 0 && index < Items.Count - 1)
         {
-            Shape item = Items[index];
-            item.Changed -= HandleShapeChanged;
+            ShapeT item = Items[index];
+            //item.Changed -= HandleShapeChanged;
         }
 
         base.RemoveItem(index);
     }
 
-    protected override void SetItem(int index, Shape item)
+    protected override void SetItem(int index, ShapeT item)
     {
         if (index >= 0 && index < Items.Count - 1)
         {
-            Shape oldItem = Items[index];
-            oldItem.Changed -= HandleShapeChanged;
+            ShapeT oldItem = Items[index];
+            //oldItem.Changed -= HandleShapeChanged;
         }
 
         base.SetItem(index, item);
 
-        item.Changed += HandleShapeChanged;
+        //item.Changed += HandleShapeChanged;
     }
 
     protected override void ClearItems()
     {
-        foreach (Shape item in Items)
-            item.Changed -= HandleShapeChanged;
+        //foreach (ShapeT item in Items)
+        //    item.Changed -= HandleShapeChanged;
 
         base.ClearItems();
     }
 
-    private void HandleShapeChanged(object sender, EventArgs e)
-    {
-        IsNew = false;
-    }
+    //private void HandleShapeChanged(object sender, EventArgs e)
+    //{
+    //    IsNew = false;
+    //}
 }

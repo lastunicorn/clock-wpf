@@ -124,8 +124,8 @@ public class TemplatesViewModel : ViewModelBase
                 SelectedTemplateType = TemplateTypes
                     .FirstOrDefault(x => x.Type == currentTymplateType);
 
-                Shapes = clockTemplatePool.CurrentTemplate
-                    .ToObservableCollection();
+                //Shapes = clockTemplatePool.CurrentTemplate
+                //    .ToObservableCollection();
             }
 
             Movement = clockMovementPool.CurrentMovement?.Instance;
@@ -155,7 +155,7 @@ public class TemplatesViewModel : ViewModelBase
 
     private void HandleCurrentTemplateChanged(object sender, EventArgs e)
     {
-        Shapes = clockTemplatePool.CurrentTemplate
-            .ToObservableCollection();
+        //Shapes = clockTemplatePool.CurrentTemplate
+        //    .ToObservableCollection();
     }
 }

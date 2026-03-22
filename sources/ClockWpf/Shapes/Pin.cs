@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -65,5 +66,15 @@ public class Pin : Shape
     protected override void DoRender(ClockDrawingContext context)
     {
         context.DrawingContext.DrawEllipse(FillBrush, strokePen, pinCenter, calculatedPinRadius, calculatedPinRadius);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not PinT pinT)
+            return;
+
+        Diameter = pinT.Diameter;
     }
 }

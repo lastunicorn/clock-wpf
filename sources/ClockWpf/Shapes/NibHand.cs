@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -279,5 +280,16 @@ public class NibHand : HandBase
             {
                 dc.DrawGeometry(FillBrush, strokePen, nibGeometry);
             });
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not NibHandT nibHandT)
+            return;
+
+        Width = nibHandT.Width;
+        KeepProportions = nibHandT.KeepProportions;
     }
 }

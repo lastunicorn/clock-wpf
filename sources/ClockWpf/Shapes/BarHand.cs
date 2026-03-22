@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -198,5 +199,17 @@ public class BarHand : HandBase
     protected override void DoRenderHand(ClockDrawingContext context)
     {
         context.DrawingContext.DrawGeometry(FillBrush, strokePen, geometry);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not BarHandT barHandT)
+            return;
+
+        Width = barHandT.Width;
+        TailLength = barHandT.TailLength;
+        RoundEnds = barHandT.RoundEnds;
     }
 }

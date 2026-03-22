@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -232,5 +233,20 @@ public class TextShape : Shape
     protected override void DoRender(ClockDrawingContext context)
     {
         context.DrawingContext.DrawText(formattedText, textPosition);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not TextShapeT textShapeT)
+            return;
+
+        Text = textShapeT.Text;
+        FontFamily = textShapeT.FontFamily;
+        FontSize = textShapeT.FontSize;
+        FontWeight = textShapeT.FontWeight;
+        MaxWidth = textShapeT.MaxWidth;
+        Location = new Point(0, textShapeT.Y);
     }
 }

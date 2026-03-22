@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
 namespace DustInTheWind.ClockWpf.Shapes;
 
@@ -132,4 +133,16 @@ public abstract class HandBase : Shape, IHand
     }
 
     protected abstract void DoRenderHand(ClockDrawingContext context);
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not HandT handT)
+            return;
+
+        Length = handT.Length;
+        TimeComponent = handT.TimeComponent;
+        IntegralValue = handT.IntegralValue;
+    }
 }

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -165,5 +166,18 @@ public class TextRim : RimBase
 
         Point textPosition = new(textX, textY);
         context.DrawingContext.DrawText(formattedText, textPosition);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not TextRimT textRimT)
+            return;
+
+        Texts = textRimT.Texts;
+        FontFamily = textRimT.FontFamily;
+        FontSize = textRimT.FontSize;
+        FontWeight = textRimT.FontWeight;
     }
 }

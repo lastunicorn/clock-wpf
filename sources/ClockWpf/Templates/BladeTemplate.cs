@@ -1,29 +1,30 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
 public class BladeTemplate : ClockTemplate
 {
-    protected override IEnumerable<Shape> CreateShapes()
+    protected override IEnumerable<ShapeT> CreateShapes()
     {
-        GradientStopCollection gradientStops =
-        [
+        GradientStopCollection gradientStops = new()
+        {
             new GradientStop(Colors.WhiteSmoke, 0),
             new GradientStop(Colors.WhiteSmoke, 0.5),
             new GradientStop(Colors.LightGray, 1)
-        ];
+        };
 
         LinearGradientBrush linearGradientBrush = new(gradientStops, new Point(0.25, 0), new Point(0.75, 1));
 
-        yield return new FlatBackground
+        yield return new FlatBackgroundT
         {
             Name = "Background",
             FillBrush = linearGradientBrush
         };
 
-        yield return new HourNumerals
+        yield return new HourNumeralsT
         {
             Name = "Hour Numerals",
             Texts = ["3", "6", "9", "12"],
@@ -33,7 +34,7 @@ public class BladeTemplate : ClockTemplate
             DistanceFromEdge = 18
         };
 
-        yield return new Ticks
+        yield return new TicksT
         {
             Name = "Ticks",
             Angle = 30,
@@ -47,7 +48,7 @@ public class BladeTemplate : ClockTemplate
         if (handBorderBrush.CanFreeze)
             handBorderBrush.Freeze();
 
-        yield return new BladeHand
+        yield return new BladeHandT
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -59,7 +60,7 @@ public class BladeTemplate : ClockTemplate
             StrokeThickness = 0.1
         };
 
-        yield return new BladeHand
+        yield return new BladeHandT
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
@@ -71,7 +72,7 @@ public class BladeTemplate : ClockTemplate
             StrokeThickness = 0.1
         };
 
-        yield return new SimpleLineHand
+        yield return new LineHandT
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
@@ -81,7 +82,7 @@ public class BladeTemplate : ClockTemplate
             IntegralValue = true
         };
 
-        yield return new Pin
+        yield return new PinT
         {
             Name = "Pin",
             Diameter = 13,

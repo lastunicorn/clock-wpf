@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -68,9 +69,9 @@ public class Ticks : RimBase
 
     static Ticks()
     {
+        DistanceFromEdgeProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
         AngleProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
         OffsetAngleProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
-        DistanceFromEdgeProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(6.0));
         OrientationProperty.OverrideMetadata(typeof(Ticks), new FrameworkPropertyMetadata(RimItemOrientation.FaceIn));
     }
 
@@ -111,5 +112,16 @@ public class Ticks : RimBase
     protected override void RenderItem(ClockDrawingContext context, int index)
     {
         context.DrawingContext.DrawLine(strokePen, startPoint, endPoint);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not TicksT ticksT)
+            return;
+
+        Length = ticksT.Length;
+        RoundEnds = ticksT.RoundEnds;
     }
 }

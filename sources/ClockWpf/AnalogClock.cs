@@ -6,7 +6,8 @@ using System.Windows.Controls;
 using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Performance;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates;
+using DustInTheWind.ClockWpf.Templates2;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
 namespace DustInTheWind.ClockWpf;
 
@@ -164,7 +165,11 @@ public class AnalogClock : Control
                 if (clockTemplate == null)
                     return;
 
-                foreach (Shape shape in clockTemplate)
+                ShapeFactory shapeFactory = new();
+                Resurrector resurrector = new(shapeFactory);
+                Resurrection resurrection = resurrector.Resurrect(clockTemplate);
+
+                foreach (Shape shape in resurrection.Shapes)
                     analogClock.Shapes.Add(shape);
             }
         }

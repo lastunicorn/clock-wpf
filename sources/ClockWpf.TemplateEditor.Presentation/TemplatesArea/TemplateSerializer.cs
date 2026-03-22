@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using DustInTheWind.ClockWpf.Serialization;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.Templates;
+using DustInTheWind.ClockWpf.Templates2;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
@@ -25,69 +25,71 @@ public class TemplateSerializer
 
     public void SaveTemplate(ClockTemplate template, string filePath)
     {
-        if (template == null)
-            throw new ArgumentNullException(nameof(template));
+        //if (template == null)
+        //    throw new ArgumentNullException(nameof(template));
 
-        if (string.IsNullOrWhiteSpace(filePath))
-            throw new ArgumentException("File path cannot be null or empty.", nameof(filePath));
+        //if (string.IsNullOrWhiteSpace(filePath))
+        //    throw new ArgumentException("File path cannot be null or empty.", nameof(filePath));
 
-        JTemplate jTemplate = new()
-        {
-            TemplateType = template.GetType().AssemblyQualifiedName,
-            Shapes = []
-        };
+        //JTemplate jTemplate = new()
+        //{
+        //    TemplateType = template.GetType().AssemblyQualifiedName,
+        //    Shapes = []
+        //};
 
-        foreach (Shape shape in template)
-        {
-            ClockShape clockShape = shape.Export();
+        //foreach (Shape shape in template)
+        //{
+        //    ClockShape clockShape = shape.Export();
 
-            JShape shapeData = new()
-            {
-                ShapeType = clockShape.Id,
-                Properties = clockShape.Properties
-            };
+        //    JShape shapeData = new()
+        //    {
+        //        ShapeType = clockShape.Id,
+        //        Properties = clockShape.Properties
+        //    };
 
-            jTemplate.Shapes.Add(shapeData);
-        }
+        //    jTemplate.Shapes.Add(shapeData);
+        //}
 
-        string json = JsonSerializer.Serialize(jTemplate, options);
-        File.WriteAllText(filePath, json);
+        //string json = JsonSerializer.Serialize(jTemplate, options);
+        //File.WriteAllText(filePath, json);
     }
 
     public ClockTemplate LoadTemplate(string filePath)
     {
-        if (string.IsNullOrWhiteSpace(filePath))
-            throw new ArgumentException("File path cannot be null or empty.", nameof(filePath));
+        throw new NotImplementedException();
 
-        if (!File.Exists(filePath))
-            throw new FileNotFoundException("Template file not found.", filePath);
+        //if (string.IsNullOrWhiteSpace(filePath))
+        //    throw new ArgumentException("File path cannot be null or empty.", nameof(filePath));
 
-        string json = File.ReadAllText(filePath);
-        JTemplate templateData = JsonSerializer.Deserialize<JTemplate>(json);
+        //if (!File.Exists(filePath))
+        //    throw new FileNotFoundException("Template file not found.", filePath);
 
-        if (templateData == null)
-            throw new InvalidOperationException("Failed to deserialize template data.");
+        //string json = File.ReadAllText(filePath);
+        //JTemplate templateData = JsonSerializer.Deserialize<JTemplate>(json);
 
-        Type templateType = Type.GetType(templateData.TemplateType);
+        //if (templateData == null)
+        //    throw new InvalidOperationException("Failed to deserialize template data.");
 
-        if (templateType == null)
-            throw new InvalidOperationException($"Template type not found: {templateData.TemplateType}");
+        //Type templateType = Type.GetType(templateData.TemplateType);
 
-        ClockTemplate template = (ClockTemplate)Activator.CreateInstance(templateType);
-        template.Clear();
+        //if (templateType == null)
+        //    throw new InvalidOperationException($"Template type not found: {templateData.TemplateType}");
 
-        foreach (JShape shapeData in templateData.Shapes)
-        {
-            Type shapeType = Type.GetType(shapeData.ShapeType);
+        //ClockTemplate template = (ClockTemplate)Activator.CreateInstance(templateType);
+        //template.Clear();
 
-            if (shapeType == null)
-                continue;
+        //foreach (JShape shapeData in templateData.Shapes)
+        //{
+        //    Type shapeType = Type.GetType(shapeData.ShapeType);
 
-            Shape shape = (Shape)Activator.CreateInstance(shapeType);
-            shapeSerializer.DeserializeProperties(shape, shapeData.Properties);
-            template.Add(shape);
-        }
+        //    if (shapeType == null)
+        //        continue;
 
-        return template;
+        //    Shape shape = (Shape)Activator.CreateInstance(shapeType);
+        //    shapeSerializer.DeserializeProperties(shape, shapeData.Properties);
+        //    template.Add(shape);
+        //}
+
+        //return template;
     }
 }

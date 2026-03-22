@@ -1,20 +1,21 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
 public class PeepholeTemplate : ClockTemplate
 {
-    protected override IEnumerable<Shape> CreateShapes()
+    protected override IEnumerable<ShapeT> CreateShapes()
     {
-        yield return new FlatBackground
+        yield return new FlatBackgroundT
         {
             Name = "Background",
             FillBrush = Brushes.Black
         };
 
-        yield return new HourNumerals
+        yield return new HourNumeralsT
         {
             Name = "Hour Numerals",
             FillBrush = Brushes.White,
@@ -24,7 +25,7 @@ public class PeepholeTemplate : ClockTemplate
             DistanceFromEdge = 46
         };
 
-        yield return new PeepholeHand
+        yield return new PeepholeHandT
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -40,7 +41,7 @@ public class PeepholeTemplate : ClockTemplate
         if (strokeBrush.CanFreeze)
             strokeBrush.Freeze();
 
-        yield return new BarHand
+        yield return new BarHandT
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
@@ -53,7 +54,7 @@ public class PeepholeTemplate : ClockTemplate
             RoundEnds = false
         };
 
-        yield return new SimpleLineHand
+        yield return new LineHandT
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
@@ -63,7 +64,7 @@ public class PeepholeTemplate : ClockTemplate
             TailLength = 30
         };
 
-        yield return new Pin
+        yield return new PinT
         {
             Name = "Pin",
             FillBrush = Brushes.Black,

@@ -1,28 +1,28 @@
-﻿using System.Windows.Media;
+using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
 public class PlayfulTemplate : ClockTemplate
 {
-    protected override IEnumerable<Shape> CreateShapes()
+    protected override IEnumerable<ShapeT> CreateShapes()
     {
-        yield return new FlatBackground
+        yield return new FlatBackgroundT
         {
             Name = "Background"
         };
 
-        yield return new Ticks
+        yield return new TicksT
         {
             Name = "Minute Ticks",
-            SkipIndex = 5,
             Length = 4,
             DistanceFromEdge = 6,
             RoundEnds = true,
             StrokeBrush = new SolidColorBrush(Color.FromRgb(0x60, 0x60, 0x60))
         };
 
-        yield return new Ticks
+        yield return new TicksT
         {
             Name = "Hour Ticks",
             Angle = 30,
@@ -34,14 +34,14 @@ public class PlayfulTemplate : ClockTemplate
             StrokeBrush = new SolidColorBrush(Color.FromRgb(0x40, 0x40, 0x40))
         };
 
-        yield return new HourNumerals
+        yield return new HourNumeralsT
         {
             Name = "Hour Numerals",
             FontFamily = new FontFamily("Arial Rounded MT"),
             DistanceFromEdge = 30
         };
 
-        yield return new BarHand
+        yield return new BarHandT
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -52,7 +52,7 @@ public class PlayfulTemplate : ClockTemplate
             FillBrush = Brushes.RoyalBlue
         };
 
-        yield return new BarHand
+        yield return new BarHandT
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
@@ -63,7 +63,7 @@ public class PlayfulTemplate : ClockTemplate
             FillBrush = Brushes.LimeGreen
         };
 
-        yield return new SimpleLineHand
+        yield return new LineHandT
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
@@ -74,7 +74,7 @@ public class PlayfulTemplate : ClockTemplate
             RoundEnds = true
         };
 
-        yield return new Pin()
+        yield return new PinT()
         {
             Name = "Pin",
             Diameter = 24,

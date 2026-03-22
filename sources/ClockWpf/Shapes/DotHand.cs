@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -71,5 +72,15 @@ public class DotHand : HandBase
     protected override void DoRenderHand(ClockDrawingContext context)
     {
         context.DrawingContext.DrawEllipse(FillBrush, strokePen, actualDotCenter, actualDotRadius, actualDotRadius);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not DotHandT dotHandT)
+            return;
+
+        Radius = dotHandT.Radius;
     }
 }

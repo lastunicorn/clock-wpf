@@ -1,38 +1,30 @@
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
-/// <summary>
-/// Provides a predefined clock template with a black-themed design, including default background, angular, and hand
-/// shapes.
-/// </summary>
-/// <remarks>Use this class to create a clock template with a standard set of shapes and styles suitable
-/// for a black or dark-themed clock face. The template initializes the BackgroundShapes, AngularShapes, and
-/// HandShapes properties with default values representing a complete analog clock layout.</remarks>
 public class SharpTemplate : ClockTemplate
 {
-    protected override IEnumerable<Shape> CreateShapes()
+    protected override IEnumerable<ShapeT> CreateShapes()
     {
-        yield return new FancyBackground
+        yield return new FancyBackgroundT
         {
             Name = "Fancy Background",
             FillColor = Colors.Black
         };
 
-        yield return new Ticks
+        yield return new TicksT
         {
             Name = "Minute Ticks",
             DistanceFromEdge = 16.5,
             Angle = 6,
             OffsetAngle = 6,
-            SkipIndex = 5,
             StrokeThickness = 0.3
         };
 
-        yield return new Ticks
+        yield return new TicksT
         {
             Name = "Hour Ticks",
             DistanceFromEdge = 16.5,
@@ -42,7 +34,7 @@ public class SharpTemplate : ClockTemplate
             StrokeThickness = 1
         };
 
-        yield return new HourNumerals
+        yield return new HourNumeralsT
         {
             Name = "Hour Numerals",
             DistanceFromEdge = 32,
@@ -52,7 +44,7 @@ public class SharpTemplate : ClockTemplate
             FontWeight = FontWeights.Normal
         };
 
-        yield return new TextRim
+        yield return new TextRimT
         {
             Name = "Minute Numerals",
             Angle = 30,
@@ -66,7 +58,7 @@ public class SharpTemplate : ClockTemplate
                 .ToArray()
         };
 
-        yield return new DiamondHand
+        yield return new DiamondHandT
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -77,7 +69,7 @@ public class SharpTemplate : ClockTemplate
             StrokeThickness = 0
         };
 
-        yield return new DiamondHand
+        yield return new DiamondHandT
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
@@ -88,7 +80,7 @@ public class SharpTemplate : ClockTemplate
             StrokeThickness = 0
         };
 
-        yield return new SimpleLineHand
+        yield return new LineHandT
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
@@ -98,7 +90,7 @@ public class SharpTemplate : ClockTemplate
             StrokeThickness = 0.3
         };
 
-        yield return new Pin()
+        yield return new PinT()
         {
             Name = "Pin",
             Diameter = 2,

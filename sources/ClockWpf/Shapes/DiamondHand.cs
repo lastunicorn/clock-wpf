@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -111,5 +112,16 @@ public class DiamondHand : HandBase
     protected override void DoRenderHand(ClockDrawingContext context)
     {
         context.DrawingContext.DrawGeometry(FillBrush, strokePen, diamondGeometry);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not DiamondHandT diamondHandT)
+            return;
+
+        Width = diamondHandT.Width;
+        TailLength = diamondHandT.TailLength;
     }
 }

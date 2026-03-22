@@ -21,7 +21,7 @@ public class DefaultClockTemplateConfiguration : ClockTemplateConfiguration
 
         Setup<DotHandT, DotHand>();
         Setup<BarHandT, BarHand>();
-        Setup<SimpleLineHandT, SimpleLineHand>();
+        Setup<LineHandT, LineHand>();
         Setup<BladeHandT, BladeHand>();
         Setup<Blade2HandT, Blade2Hand>();
         Setup<NibHandT, NibHand>();

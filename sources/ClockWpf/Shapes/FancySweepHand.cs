@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -139,5 +140,17 @@ public class FancySweepHand : HandBase
         context.DrawingContext.DrawLine(strokePen, mainLineStartPoint, mainLineEndPoint);
         context.DrawingContext.DrawEllipse(null, strokePen, circleCenter, circleRadius, circleRadius);
         context.DrawingContext.DrawLine(strokePen, tipLineStartPoint, tipLineEndPoint);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not FancySweepHandT fancySweepHandT)
+            return;
+
+        CircleRadius = fancySweepHandT.CircleRadius;
+        CircleOffset = fancySweepHandT.CircleOffset;
+        TailLength = fancySweepHandT.TailLength;
     }
 }

@@ -6,7 +6,7 @@ using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MovementsArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
-using DustInTheWind.ClockWpf.Templates;
+using DustInTheWind.ClockWpf.Templates2;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 

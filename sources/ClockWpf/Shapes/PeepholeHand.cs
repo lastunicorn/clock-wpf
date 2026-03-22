@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -15,7 +16,7 @@ public class PeepholeHand : HandBase
     /// <summary>
     /// The default name for the hand.
     /// </summary>
-    public const string DefaultName = "Slot Hand";
+    public const string DefaultName = "Peephole Hand";
 
     #region Width Dependency Property
 
@@ -187,5 +188,17 @@ public class PeepholeHand : HandBase
     protected override void DoRenderHand(ClockDrawingContext context)
     {
         context.DrawingContext.DrawGeometry(FillBrush, null, geometry);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not PeepholeHandT peepholeHandT)
+            return;
+
+        Width = peepholeHandT.Width;
+        Radius = peepholeHandT.Radius;
+        TailLength = peepholeHandT.TailLength;
     }
 }

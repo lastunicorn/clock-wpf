@@ -1,5 +1,5 @@
 ﻿using DustInTheWind.ClockWpf.TemplateEditor.State;
-using DustInTheWind.ClockWpf.Templates;
+using DustInTheWind.ClockWpf.Templates2;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor;

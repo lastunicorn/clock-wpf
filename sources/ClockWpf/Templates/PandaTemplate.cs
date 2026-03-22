@@ -1,13 +1,14 @@
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
 public class PandaTemplate : ClockTemplate
 {
-    protected override IEnumerable<Shape> CreateShapes()
+    protected override IEnumerable<ShapeT> CreateShapes()
     {
-        yield return new FlatBackground
+        yield return new FlatBackgroundT
         {
             Name = "Background",
             FillBrush = Brushes.White,
@@ -15,7 +16,7 @@ public class PandaTemplate : ClockTemplate
             StrokeThickness = 2
         };
 
-        yield return new DotHand
+        yield return new DotHandT
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -26,7 +27,7 @@ public class PandaTemplate : ClockTemplate
             StrokeThickness = 1
         };
 
-        yield return new DotHand
+        yield return new DotHandT
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,

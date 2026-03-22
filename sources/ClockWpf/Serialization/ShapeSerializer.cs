@@ -26,40 +26,7 @@ public class ShapeSerializer
         this.propertyFilter = propertyFilter ?? throw new ArgumentNullException(nameof(propertyFilter));
     }
 
-    /// <summary>
-    /// Serializes the properties of a shape into a dictionary.
-    /// </summary>
-    /// <param name="shape">The shape to serialize.</param>
-    /// <returns>A dictionary containing the serialized property names and values.</returns>
-    public Dictionary<string, string> SerializeProperties(object shape)
-    {
-        if (shape == null)
-            throw new ArgumentNullException(nameof(shape));
-
-        Dictionary<string, string> properties = [];
-        Type shapeType = shape.GetType();
-        PropertyInfo[] propertyInfos = shapeType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-        foreach (PropertyInfo propertyInfo in propertyInfos)
-        {
-            if (!propertyFilter.ShouldSerialize(propertyInfo))
-                continue;
-
-            object value = propertyInfo.GetValue(shape);
-
-            if (value != null)
-            {
-                string serializedValue = converterRegistry.ConvertToString(value);
-
-                if (serializedValue != null)
-                    properties[propertyInfo.Name] = serializedValue;
-            }
-        }
-
-        return properties;
-    }
-
-    public IEnumerable<(string, string)> SerializeProperties2(object shape)
+    public IEnumerable<(string, string)> SerializeProperties(object shape)
     {
         if (shape == null)
             throw new ArgumentNullException(nameof(shape));

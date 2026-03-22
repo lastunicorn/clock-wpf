@@ -1,32 +1,31 @@
-﻿using System.Windows.Media;
+using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
 public class DefaultBlackTemplate : ClockTemplate
 {
-    protected override IEnumerable<Shape> CreateShapes()
+    protected override IEnumerable<ShapeT> CreateShapes()
     {
-        FlatBackground background = new()
+        yield return new FlatBackgroundT()
         {
             Name = "Background",
             FillBrush = Brushes.Black
         };
-        yield return background;
 
-        Ticks minuteTicks = new()
+        SolidColorBrush minuteTicksBrush = new(Color.FromRgb(0x60, 0x60, 0x60));
+
+        if (minuteTicksBrush.CanFreeze)
+            minuteTicksBrush.Freeze();
+
+        yield return new TicksT()
         {
             Name = "Minute Ticks",
-            SkipIndex = 5,
-            StrokeBrush = new SolidColorBrush(Color.FromRgb(0x60, 0x60, 0x60))
+            StrokeBrush = minuteTicksBrush
         };
 
-        if (minuteTicks.StrokeBrush.CanFreeze)
-            minuteTicks.StrokeBrush.Freeze();
-
-        yield return minuteTicks;
-
-        Ticks hourTicks = new()
+        yield return new TicksT()
         {
             Name = "Hour Ticks",
             Angle = 30,
@@ -34,17 +33,15 @@ public class DefaultBlackTemplate : ClockTemplate
             StrokeThickness = 1.5,
             StrokeBrush = Brushes.WhiteSmoke
         };
-        yield return hourTicks;
 
-        HourNumerals hourNumerals = new()
+        yield return new HourNumeralsT()
         {
             Name = "Hour Numerals",
             FillBrush = Brushes.WhiteSmoke,
             DistanceFromEdge = 26
         };
-        yield return hourNumerals;
 
-        BarHand hourHand = new()
+        yield return new BarHandT()
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -54,9 +51,8 @@ public class DefaultBlackTemplate : ClockTemplate
             FillBrush = Brushes.WhiteSmoke,
             StrokeThickness = 0
         };
-        yield return hourHand;
 
-        BarHand minuteHand = new()
+        yield return new BarHandT()
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
@@ -66,9 +62,8 @@ public class DefaultBlackTemplate : ClockTemplate
             FillBrush = Brushes.WhiteSmoke,
             StrokeThickness = 0
         };
-        yield return minuteHand;
 
-        SimpleLineHand secondHand = new()
+        yield return new LineHandT()
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
@@ -78,14 +73,12 @@ public class DefaultBlackTemplate : ClockTemplate
             StrokeThickness = 1,
             IntegralValue = true
         };
-        yield return secondHand;
 
-        Pin pin = new()
+        yield return new PinT()
         {
             Name = "Pin",
             Diameter = 8,
             FillBrush = Brushes.OrangeRed
         };
-        yield return pin;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -311,4 +312,20 @@ public abstract class RimBase : Shape
     /// <param name="context">The drawing context to use for rendering the item.</param>
     /// <param name="index">The zero-based index of the item to render.</param>
     protected abstract void RenderItem(ClockDrawingContext context, int index);
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not RimBaseT rimBaseT)
+            return;
+
+        DistanceFromEdge = rimBaseT.DistanceFromEdge;
+        Angle = rimBaseT.Angle;
+        OffsetAngle = rimBaseT.OffsetAngle;
+        MaxCoverageCount = rimBaseT.MaxCoverageCount;
+        MaxCoverageAngle = rimBaseT.MaxCoverageAngle;
+        Orientation = rimBaseT.Orientation;
+        SkipIndex = rimBaseT.SkipIndex;
+    }
 }

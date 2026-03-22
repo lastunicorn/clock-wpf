@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using DustInTheWind.ClockWpf.Serialization;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -314,7 +316,7 @@ public abstract class Shape : DependencyObject
         string id = GetType().AssemblyQualifiedName;
         ClockShape clockShape = new(id);
 
-        IEnumerable<(string, string)> properties = ShapeSerializer.Default.SerializeProperties2(this);
+        IEnumerable<(string, string)> properties = ShapeSerializer.Default.SerializeProperties(this);
 
         foreach ((string key, string value) in properties)
             clockShape.Properties.Add(key, value);
@@ -341,5 +343,18 @@ public abstract class Shape : DependencyObject
         ShapeSerializer.Default.DeserializeProperties(this, clockShape.Properties);
 
         OnImported(new ImportedEventArgs(clockShape));
+    }
+
+    public virtual void Import(ShapeT shapeT)
+    {
+        ArgumentNullException.ThrowIfNull(shapeT);
+
+        Name = shapeT.Name;
+        IsVisible = shapeT.IsVisible;
+        FillBrush = shapeT.FillBrush;
+        StrokeBrush = shapeT.StrokeBrush;
+        StrokeThickness = shapeT.StrokeThickness;
+
+        //OnImported(new ImportedEventArgs(shapeT));
     }
 }

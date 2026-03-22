@@ -1,32 +1,30 @@
 using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
-/// <summary>
-/// Provides a fancy visual template for rendering a clock, featuring nib-style hands and a decorative sweep hand.
-/// </summary>
 public class FancyTemplate : ClockTemplate
 {
-    protected override IEnumerable<Shape> CreateShapes()
+    protected override IEnumerable<ShapeT> CreateShapes()
     {
-        GradientStopCollection gradientStops =
-        [
+        GradientStopCollection gradientStops = new()
+        {
             new GradientStop(Colors.WhiteSmoke, 0),
             new GradientStop(Colors.WhiteSmoke, 0.5),
             new GradientStop(Colors.LightGray, 1)
-        ];
+        };
 
         LinearGradientBrush linearGradientBrush = new(gradientStops, new Point(0.25, 0), new Point(0.75, 1));
 
-        yield return new FlatBackground
+        yield return new FlatBackgroundT
         {
             Name = "Background",
             FillBrush = linearGradientBrush
         };
 
-        yield return new Ticks
+        yield return new TicksT
         {
             Name = "Minute Ticks",
             StrokeBrush = Brushes.Black,
@@ -34,11 +32,10 @@ public class FancyTemplate : ClockTemplate
             StrokeThickness = 0.3,
             DistanceFromEdge = 8,
             Angle = 6,
-            OffsetAngle = 6,
-            SkipIndex = 5
+            OffsetAngle = 6
         };
 
-        yield return new Ticks
+        yield return new TicksT
         {
             Name = "Hour Ticks",
             StrokeBrush = Brushes.Black,
@@ -49,7 +46,7 @@ public class FancyTemplate : ClockTemplate
             OffsetAngle = 30
         };
 
-        yield return new HourNumerals
+        yield return new HourNumeralsT
         {
             Name = "Hour Numerals",
             DistanceFromEdge = 28,
@@ -57,7 +54,7 @@ public class FancyTemplate : ClockTemplate
             FontSize = 20
         };
 
-        yield return new NibHand
+        yield return new NibHandT
         {
             Name = "Hour Hand",
             FillBrush = Brushes.Black,
@@ -68,7 +65,7 @@ public class FancyTemplate : ClockTemplate
             StrokeThickness = 1.5
         };
 
-        yield return new NibHand
+        yield return new NibHandT
         {
             Name = "Minute Hand",
             FillBrush = Brushes.Black,
@@ -78,7 +75,7 @@ public class FancyTemplate : ClockTemplate
             Length = 86
         };
 
-        yield return new FancySweepHand
+        yield return new FancySweepHandT
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
@@ -87,7 +84,7 @@ public class FancyTemplate : ClockTemplate
             StrokeThickness = 0.5
         };
 
-        yield return new Pin
+        yield return new PinT
         {
             Name = "Pin",
             FillBrush = new SolidColorBrush(Color.FromRgb(0x64, 0x64, 0x64)),

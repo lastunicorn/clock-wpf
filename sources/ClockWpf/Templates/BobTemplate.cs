@@ -1,13 +1,14 @@
-﻿using System.Windows.Media;
+using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
 public class BobTemplate : ClockTemplate
 {
-    protected override IEnumerable<Shape> CreateShapes()
+    protected override IEnumerable<ShapeT> CreateShapes()
     {
-        FlatBackground background = new()
+        FlatBackgroundT background = new()
         {
             Name = "Background",
             FillBrush = Brushes.WhiteSmoke,
@@ -15,7 +16,7 @@ public class BobTemplate : ClockTemplate
         };
         yield return background;
 
-        SimpleLineHand hourHand = new()
+        LineHandT hourHand = new()
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -27,7 +28,7 @@ public class BobTemplate : ClockTemplate
         };
         yield return hourHand;
 
-        SimpleLineHand minuteHand = new()
+        LineHandT minuteHand = new()
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,

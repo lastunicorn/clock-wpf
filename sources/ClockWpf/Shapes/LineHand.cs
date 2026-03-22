@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -9,19 +10,19 @@ namespace DustInTheWind.ClockWpf.Shapes;
 /// A simple line clock hand. It is ususally used for displaying seconds.
 /// It has a customizable tail length, pin diameter and rounded edges.
 /// </summary>
-public class SimpleLineHand : HandBase
+public class LineHand : HandBase
 {
     #region RoundEnds DependencyProperty
 
     public static readonly DependencyProperty RoundEndsProperty = DependencyProperty.Register(
         nameof(RoundEnds),
         typeof(bool),
-        typeof(SimpleLineHand),
+        typeof(LineHand),
         new FrameworkPropertyMetadata(false, HandleRoundEndsChanged));
 
     private static void HandleRoundEndsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is SimpleLineHand simpleLineHand)
+        if (d is LineHand simpleLineHand)
         {
             simpleLineHand.InvalidateCache();
             simpleLineHand.OnChanged(EventArgs.Empty);
@@ -47,12 +48,12 @@ public class SimpleLineHand : HandBase
     public static readonly DependencyProperty TailLengthProperty = DependencyProperty.Register(
         nameof(TailLength),
         typeof(double),
-        typeof(SimpleLineHand),
+        typeof(LineHand),
         new FrameworkPropertyMetadata(0.0, HandleTailLengthChanged));
 
     private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is SimpleLineHand simpleHand)
+        if (d is LineHand simpleHand)
         {
             simpleHand.InvalidateCache();
             simpleHand.OnChanged(EventArgs.Empty);
@@ -118,5 +119,16 @@ public class SimpleLineHand : HandBase
     protected override void DoRenderHand(ClockDrawingContext context)
     {
         context.DrawingContext.DrawLine(strokePen, startPoint, endPoint);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not LineHandT simpleLineHandT)
+            return;
+
+        RoundEnds = simpleLineHandT.RoundEnds;
+        TailLength = simpleLineHandT.TailLength;
     }
 }

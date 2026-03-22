@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -246,5 +247,19 @@ public class FancyBackground : Shape
         context.DrawingContext.DrawEllipse(calculatedOuterRimBrush, null, center, calculatedOuterRimRadius, calculatedOuterRimRadius);
         context.DrawingContext.DrawEllipse(calculatedInnerRimBrush, null, center, calculatedInnerRimRadius, calculatedInnerRimRadius);
         context.DrawingContext.DrawEllipse(calculatedFaceBrush, null, center, calculatedFaceRadius, calculatedFaceRadius);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not FancyBackgroundT fancyBackgroundT)
+            return;
+
+        OuterRimWidth = fancyBackgroundT.OuterRimWidth;
+        InnerRimWidth = fancyBackgroundT.InnerRimWidth;
+        OuterRimBrush = fancyBackgroundT.OuterRimBrush;
+        InnerRimBrush = fancyBackgroundT.InnerRimBrush;
+        FillColor = fancyBackgroundT.FillColor;
     }
 }

@@ -1,14 +1,15 @@
 using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 
-namespace DustInTheWind.ClockWpf.Templates;
+namespace DustInTheWind.ClockWpf.Templates2;
 
 public class SunTemplate : ClockTemplate
 {
-    protected override IEnumerable<Shape> CreateShapes()
+    protected override IEnumerable<ShapeT> CreateShapes()
     {
-        yield return new FancyBackground
+        yield return new FancyBackgroundT
         {
             Name = "Background",
             OuterRimWidth = 14,
@@ -18,7 +19,7 @@ public class SunTemplate : ClockTemplate
             FillBrush = CreateFaceBrush()
         };
 
-        yield return new HourNumerals
+        yield return new HourNumeralsT
         {
             Name = "Hour Numerals",
             DistanceFromEdge = 37,
@@ -26,7 +27,7 @@ public class SunTemplate : ClockTemplate
             FillBrush = Brushes.Black
         };
 
-        yield return new TextRim
+        yield return new TextRimT
         {
             Name = "Minute Numerals",
             Texts = Enumerable.Range(1, 60)
@@ -40,7 +41,7 @@ public class SunTemplate : ClockTemplate
             FillBrush = Brushes.Black
         };
 
-        yield return new DotHand
+        yield return new DotHandT
         {
             Name = "Hour Hand",
             TimeComponent = TimeComponent.Hour,
@@ -52,7 +53,7 @@ public class SunTemplate : ClockTemplate
             IntegralValue = true
         };
 
-        yield return new DotHand
+        yield return new DotHandT
         {
             Name = "Minute Hand",
             TimeComponent = TimeComponent.Minute,
@@ -64,7 +65,7 @@ public class SunTemplate : ClockTemplate
             IntegralValue = true
         };
 
-        yield return new DotHand
+        yield return new DotHandT
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,

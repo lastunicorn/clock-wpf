@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Templates2.Shapes;
 using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Shapes;
@@ -158,5 +159,17 @@ public class Blade2Hand : HandBase
     protected override void DoRenderHand(ClockDrawingContext context)
     {
         context.DrawingContext.DrawGeometry(FillBrush, strokePen, geometry);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not Blade2HandT blade2HandT)
+            return;
+
+        Width = blade2HandT.Width;
+        HipDistance = blade2HandT.HipDistance;
+        TipLength = blade2HandT.TipLength;
     }
 }
