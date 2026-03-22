@@ -4,8 +4,8 @@ using DustInTheWind.ClockWpf.Templates.Shapes;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
-[Template("Default", "A classic analog clock template with standard hands and numerals.")]
-public class DefaultTemplate : ClockTemplate
+[Template("Default Light", "A classic analog clock template with standard hands and numerals.")]
+public class DefaultLightTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()
     {

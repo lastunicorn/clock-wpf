@@ -49,7 +49,7 @@ internal static class Setup
             IEnumerable<Type> templateTypes = EnumerateTemplateTypes();
 
             clockTemplatePool.AddRange(templateTypes);
-            clockTemplatePool.SetDefault<DefaultTemplate>();
+            clockTemplatePool.SetDefault<DefaultLightTemplate>();
 
             return clockTemplatePool;
         });

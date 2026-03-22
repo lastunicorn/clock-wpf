@@ -3,12 +3,12 @@ using System.Windows.Media;
 namespace DustInTheWind.ClockWpf.Utils;
 
 /// <summary>
-/// Provides Round-trip conversion from RGB to HSB and back
+/// Represents a color in HSB coordinates.
 /// </summary>
 /// <remarks>
 /// Based on an original script developed by Vladimir Yangurskiy
 /// </remarks>
-public struct HsbColor
+public record struct HsbColor
 {
     public byte Alpha { get; }
 
@@ -21,42 +21,95 @@ public struct HsbColor
     public HsbColor(float hue, float saturation, float brightness)
     {
         Alpha = 0xff;
-        Hue = Math.Min(Math.Max(hue, 0), 255);
-        Saturation = Math.Min(Math.Max(saturation, 0), 255);
-        Brightness = Math.Min(Math.Max(brightness, 0), 255);
+        Hue = Math.Clamp(hue, 0, 255);
+        Saturation = Math.Clamp(saturation, 0, 255);
+        Brightness = Math.Clamp(brightness, 0, 255);
     }
 
     public HsbColor(byte alpha, float hue, float saturation, float brightness)
     {
         Alpha = alpha;
-        Hue = Math.Min(Math.Max(hue, 0), 255);
-        Saturation = Math.Min(Math.Max(saturation, 0), 255);
-        Brightness = Math.Min(Math.Max(brightness, 0), 255);
+        Hue = Math.Clamp(hue, 0, 255);
+        Saturation = Math.Clamp(saturation, 0, 255);
+        Brightness = Math.Clamp(brightness, 0, 255);
     }
 
-    public HsbColor ShiftHue(float hueDelta)
+    public HsbColor ShiftHue(float delta)
     {
-        float hue = Hue + hueDelta;
-        hue = Math.Min(Math.Max(hue, 0), 255);
+        float newHue = Hue + delta;
+        newHue = Math.Clamp(newHue, 0, 255);
 
-        return new HsbColor(Alpha, hue, Saturation, Brightness);
+        return new HsbColor(Alpha, newHue, Saturation, Brightness);
     }
 
-    public HsbColor ShiftSaturation(float saturationDelta)
+    public HsbColor IncreaseHue(Percentage percentage)
     {
-        float saturation = Saturation + saturationDelta;
-        saturation = Math.Min(Math.Max(saturation, 0), 255);
+        float delta = (255 - Hue) * percentage;
+        float newHue = Hue + delta;
+        newHue = Math.Clamp(newHue, 0, 255);
 
-        return new HsbColor(Alpha, Hue, saturation, Brightness);
+        return new HsbColor(Alpha, newHue, Saturation, Brightness);
     }
 
-
-    public HsbColor ShiftBrighness(float brightnessDelta)
+    public HsbColor DecreaseHue(Percentage percentage)
     {
-        float brightness = Brightness + brightnessDelta;
-        brightness = Math.Min(Math.Max(brightness, 0), 255);
+        float delta = Hue * percentage;
+        float newHue = Hue - delta;
+        newHue = Math.Clamp(newHue, 0, 255);
 
-        return new HsbColor(Alpha, Hue, Saturation, brightness);
+        return new HsbColor(Alpha, newHue, Saturation, Brightness);
+    }
+
+    public HsbColor ShiftSaturation(float delta)
+    {
+        float newSaturation = Saturation + delta;
+        newSaturation = Math.Clamp(newSaturation, 0, 255);
+
+        return new HsbColor(Alpha, Hue, newSaturation, Brightness);
+    }
+
+    public HsbColor IncreaseSaturation(Percentage percentage)
+    {
+        float delta = (255 - Saturation) * percentage;
+        float newSaturation = Saturation + delta;
+        newSaturation = Math.Clamp(newSaturation, 0, 255);
+
+        return new HsbColor(Alpha, Hue, newSaturation, Brightness);
+    }
+
+    public HsbColor DecreaseSaturation(Percentage percentage)
+    {
+        float delta = Saturation * percentage;
+        float newSaturation = Saturation - delta;
+        newSaturation = Math.Clamp(newSaturation, 0, 255);
+
+        return new HsbColor(Alpha, Hue, newSaturation, Brightness);
+    }
+
+    public HsbColor ShiftBrighness(float delta)
+    {
+        float newBrightness = Brightness + delta;
+        newBrightness = Math.Clamp(newBrightness, 0, 255);
+
+        return new HsbColor(Alpha, Hue, Saturation, newBrightness);
+    }
+
+    public HsbColor IncreaseBrighness(Percentage percentage)
+    {
+        float delta = (255 - Brightness) * percentage;
+        float newBrightness = Brightness + delta;
+        newBrightness = Math.Clamp(newBrightness, 0, 255);
+
+        return new HsbColor(Alpha, Hue, Saturation, newBrightness);
+    }
+
+    public HsbColor DecreaseBrighness(Percentage percentage)
+    {
+        float delta = Brightness * percentage;
+        float newBrightness = Brightness - delta;
+        newBrightness = Math.Clamp(newBrightness, 0, 255);
+
+        return new HsbColor(Alpha, Hue, Saturation, newBrightness);
     }
 
     public Color ToColor()
@@ -118,9 +171,9 @@ public struct HsbColor
         }
 
         byte alpha = Alpha;
-        byte red = (byte)Math.Round(Math.Min(Math.Max(r, 0), 255));
-        byte green = (byte)Math.Round(Math.Min(Math.Max(g, 0), 255));
-        byte blue = (byte)Math.Round(Math.Min(Math.Max(b, 0), 255));
+        byte red = (byte)Math.Round(Math.Clamp(r, 0, 255));
+        byte green = (byte)Math.Round(Math.Clamp(g, 0, 255));
+        byte blue = (byte)Math.Round(Math.Clamp(b, 0, 255));
 
         return Color.FromArgb(alpha, red, green, blue);
     }

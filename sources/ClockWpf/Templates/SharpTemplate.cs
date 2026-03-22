@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Media;
 using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates.Shapes;
+using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
@@ -13,7 +14,9 @@ public class SharpTemplate : ClockTemplate
         yield return new FancyBackgroundT
         {
             Name = "Fancy Background",
-            FillColor = Colors.Black
+            OuterRimBrush = CreateOuterRimBrush(Colors.Black),
+            InnerRimBrush = CreateInnerRimBrush(Colors.Black),
+            FillBrush = CreateFaceBrush(Colors.Black)
         };
 
         yield return new TicksT
@@ -97,5 +100,51 @@ public class SharpTemplate : ClockTemplate
             Diameter = 2,
             FillBrush = Brushes.Red
         };
+    }
+
+    private static Brush CreateOuterRimBrush(Color color)
+    {
+        LinearGradientBrush brush = new()
+        {
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(1, 1)
+        };
+
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 1));
+
+        brush.Freeze();
+        return brush;
+    }
+
+    private static Brush CreateInnerRimBrush(Color color)
+    {
+        LinearGradientBrush brush = new()
+        {
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(1, 1)
+        };
+
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 1));
+
+        return brush;
+    }
+
+    private static Brush CreateFaceBrush(Color color)
+    {
+        LinearGradientBrush brush = new()
+        {
+            StartPoint = new Point(0, 0),
+            EndPoint = new Point(1, 1)
+        };
+
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 1));
+
+        if (brush.CanFreeze)
+            brush.Freeze();
+
+        return brush;
     }
 }
