@@ -17,7 +17,8 @@ public class SunTemplate : ClockTemplate
             InnerRimWidth = 46,
             OuterRimBrush = CreateOuterRimBrush(),
             InnerRimBrush = CreateInnerRimBrush(),
-            FillBrush = CreateFaceBrush()
+            FillBrush = CreateFaceBrush(),
+            ColorSource = ColorSource.Manual
         };
 
         yield return new HourNumeralsT

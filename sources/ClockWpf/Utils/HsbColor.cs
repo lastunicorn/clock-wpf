@@ -5,48 +5,78 @@ namespace DustInTheWind.ClockWpf.Utils;
 /// <summary>
 /// Represents a color in HSB coordinates.
 /// </summary>
-/// <remarks>
-/// Based on an original script developed by Vladimir Yangurskiy
-/// </remarks>
 public record struct HsbColor
 {
+    /// <summary>
+    /// Gets the alpha component value of the color.
+    /// </summary>
     public byte Alpha { get; }
 
+    /// <summary>
+    /// Gets the hue component of the color, measured in degrees.
+    /// </summary>
+    /// <remarks>
+    /// The hue value typically ranges from 0 to 360, representing the position on the color wheel.
+    /// A value of 0 or 360 corresponds to red, 120 to green, and 240 to blue.
+    /// The exact range and interpretation may depend on the color model used.
+    /// </remarks>
     public float Hue { get; }
 
+    /// <summary>
+    /// Gets the saturation component of the color. It is a percentage and representing the
+    /// intensity or purity of the hue.
+    /// </summary>
     public float Saturation { get; }
 
+    /// <summary>
+    /// Gets the brightness component of the color as a floating-point value.
+    /// </summary>
     public float Brightness { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HsbColor"/> structure with the specified hue,
+    /// saturation, and brightness values.
+    /// </summary>
+    /// <param name="hue">The hue component of the color, in degrees. Valid values are from 0 to 360.</param>
+    /// <param name="saturation">The saturation component of the color, as a percentage. Valid values are from 0 to 100.</param>
+    /// <param name="brightness">The brightness component of the color, as a percentage. Valid values are from 0 to 100.</param>
     public HsbColor(float hue, float saturation, float brightness)
     {
         Alpha = 0xff;
-        Hue = Math.Clamp(hue, 0, 255);
-        Saturation = Math.Clamp(saturation, 0, 255);
-        Brightness = Math.Clamp(brightness, 0, 255);
+        Hue = Math.Clamp(hue, 0, 360);
+        Saturation = Math.Clamp(saturation, 0, 100);
+        Brightness = Math.Clamp(brightness, 0, 100);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HsbColor"/> class with the specified alpha, hue,
+    /// saturation, and brightness values.
+    /// </summary>
+    /// <param name="alpha">The alpha component of the color. Represents the opacity as a value from 0 to 255.</param>
+    /// <param name="hue">The hue component of the color, in degrees. Values outside the range 0 to 360 are clamped.</param>
+    /// <param name="saturation">The saturation component of the color, as a percentage from 0 to 100. Values outside this range are clamped.</param>
+    /// <param name="brightness">The brightness component of the color, as a percentage from 0 to 100. Values outside this range are clamped.</param>
     public HsbColor(byte alpha, float hue, float saturation, float brightness)
     {
         Alpha = alpha;
-        Hue = Math.Clamp(hue, 0, 255);
-        Saturation = Math.Clamp(saturation, 0, 255);
-        Brightness = Math.Clamp(brightness, 0, 255);
+        Hue = Math.Clamp(hue, 0, 360);
+        Saturation = Math.Clamp(saturation, 0, 100);
+        Brightness = Math.Clamp(brightness, 0, 100);
     }
 
     public HsbColor ShiftHue(float delta)
     {
         float newHue = Hue + delta;
-        newHue = Math.Clamp(newHue, 0, 255);
+        newHue = Math.Clamp(newHue, 0, 360);
 
         return new HsbColor(Alpha, newHue, Saturation, Brightness);
     }
 
     public HsbColor IncreaseHue(Percentage percentage)
     {
-        float delta = (255 - Hue) * percentage;
+        float delta = (360 - Hue) * percentage;
         float newHue = Hue + delta;
-        newHue = Math.Clamp(newHue, 0, 255);
+        newHue = Math.Clamp(newHue, 0, 360);
 
         return new HsbColor(Alpha, newHue, Saturation, Brightness);
     }
@@ -55,7 +85,7 @@ public record struct HsbColor
     {
         float delta = Hue * percentage;
         float newHue = Hue - delta;
-        newHue = Math.Clamp(newHue, 0, 255);
+        newHue = Math.Clamp(newHue, 0, 360);
 
         return new HsbColor(Alpha, newHue, Saturation, Brightness);
     }
@@ -63,16 +93,16 @@ public record struct HsbColor
     public HsbColor ShiftSaturation(float delta)
     {
         float newSaturation = Saturation + delta;
-        newSaturation = Math.Clamp(newSaturation, 0, 255);
+        newSaturation = Math.Clamp(newSaturation, 0, 100);
 
         return new HsbColor(Alpha, Hue, newSaturation, Brightness);
     }
 
     public HsbColor IncreaseSaturation(Percentage percentage)
     {
-        float delta = (255 - Saturation) * percentage;
+        float delta = (100 - Saturation) * percentage;
         float newSaturation = Saturation + delta;
-        newSaturation = Math.Clamp(newSaturation, 0, 255);
+        newSaturation = Math.Clamp(newSaturation, 0, 100);
 
         return new HsbColor(Alpha, Hue, newSaturation, Brightness);
     }
@@ -81,7 +111,7 @@ public record struct HsbColor
     {
         float delta = Saturation * percentage;
         float newSaturation = Saturation - delta;
-        newSaturation = Math.Clamp(newSaturation, 0, 255);
+        newSaturation = Math.Clamp(newSaturation, 0, 100);
 
         return new HsbColor(Alpha, Hue, newSaturation, Brightness);
     }
@@ -89,16 +119,16 @@ public record struct HsbColor
     public HsbColor ShiftBrighness(float delta)
     {
         float newBrightness = Brightness + delta;
-        newBrightness = Math.Clamp(newBrightness, 0, 255);
+        newBrightness = Math.Clamp(newBrightness, 0, 100);
 
         return new HsbColor(Alpha, Hue, Saturation, newBrightness);
     }
 
     public HsbColor IncreaseBrighness(Percentage percentage)
     {
-        float delta = (255 - Brightness) * percentage;
+        float delta = (100 - Brightness) * percentage;
         float newBrightness = Brightness + delta;
-        newBrightness = Math.Clamp(newBrightness, 0, 255);
+        newBrightness = Math.Clamp(newBrightness, 0, 100);
 
         return new HsbColor(Alpha, Hue, Saturation, newBrightness);
     }
@@ -107,7 +137,7 @@ public record struct HsbColor
     {
         float delta = Brightness * percentage;
         float newBrightness = Brightness - delta;
-        newBrightness = Math.Clamp(newBrightness, 0, 255);
+        newBrightness = Math.Clamp(newBrightness, 0, 100);
 
         return new HsbColor(Alpha, Hue, Saturation, newBrightness);
     }
@@ -121,10 +151,10 @@ public record struct HsbColor
         if (Saturation != 0)
         {
             float max = Brightness;
-            float dif = Brightness * Saturation / 255f;
+            float dif = Brightness * Saturation / 100f;
             float min = Brightness - dif;
 
-            float h = Hue * 360f / 255f;
+            float h = Hue;
 
             if (h < 60f)
             {
@@ -171,9 +201,9 @@ public record struct HsbColor
         }
 
         byte alpha = Alpha;
-        byte red = (byte)Math.Round(Math.Clamp(r, 0, 255));
-        byte green = (byte)Math.Round(Math.Clamp(g, 0, 255));
-        byte blue = (byte)Math.Round(Math.Clamp(b, 0, 255));
+        byte red = (byte)Math.Round(Math.Clamp(r * 255f / 100f, 0, 255));
+        byte green = (byte)Math.Round(Math.Clamp(g * 255f / 100f, 0, 255));
+        byte blue = (byte)Math.Round(Math.Clamp(b * 255f / 100f, 0, 255));
 
         return Color.FromArgb(alpha, red, green, blue);
     }
@@ -185,51 +215,39 @@ public record struct HsbColor
         float saturation = 0f;
         float brightness = 0f;
 
-        float r = color.R;
-        float g = color.G;
-        float b = color.B;
+        float r = color.R / 255f;
+        float g = color.G / 255f;
+        float b = color.B / 255f;
 
         float max = Math.Max(r, Math.Max(g, b));
 
-        if (max > 0)
+        float min = Math.Min(r, Math.Min(g, b));
+        float diff = max - min;
+
+        if (diff > 0)
         {
-            float min = Math.Min(r, Math.Min(g, b));
-            float dif = max - min;
+            if (max == r)
+                hue = 60f * ((g - b) / diff);
+            else if (max == g)
+                hue = 60f * ((b - r) / diff + 2);
+            else if (max == b)
+                hue = 60f * ((r - g) / diff + 4);
 
-            if (max > min)
-            {
-                if (g == max)
-                {
-                    hue = (b - r) / dif * 60f + 120f;
-                }
-                else if (b == max)
-                {
-                    hue = (r - g) / dif * 60f + 240f;
-                }
-                else if (b > g)
-                {
-                    hue = (g - b) / dif * 60f + 360f;
-                }
-                else
-                {
-                    hue = (g - b) / dif * 60f;
-                }
-                if (hue < 0)
-                {
-                    hue = hue + 360f;
-                }
-            }
-            else
-            {
-                hue = 0;
-            }
-
-            hue *= 255f / 360f;
-            saturation = (dif / max) * 255f;
-            brightness = max;
+            if (hue < 0)
+                hue += 360f;
         }
 
+        if (max > 0)
+            saturation = (diff / max) * 100f;
+
+        brightness = max * 100f;
+
         return new HsbColor(alpha, hue, saturation, brightness);
+    }
+
+    public override string ToString()
+    {
+        return $"A = {Alpha:N2}; H = {Hue:N2}; S = {Saturation:N2}; B = {Brightness:N2}";
     }
 
     public static implicit operator Color(HsbColor hsbColor)

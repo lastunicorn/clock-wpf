@@ -78,7 +78,6 @@ public class FancyBackground : Shape
     {
         if (d is FancyBackground fancyBackground)
         {
-            fancyBackground.generateBrushesFromColor = false;
             fancyBackground.InvalidateCache();
             fancyBackground.OnChanged(EventArgs.Empty);
         }
@@ -105,7 +104,6 @@ public class FancyBackground : Shape
     {
         if (d is FancyBackground fancyBackground)
         {
-            fancyBackground.generateBrushesFromColor = false;
             fancyBackground.InvalidateCache();
             fancyBackground.OnChanged(EventArgs.Empty);
         }
@@ -132,7 +130,6 @@ public class FancyBackground : Shape
     {
         if (d is FancyBackground fancyBackground)
         {
-            fancyBackground.generateBrushesFromColor = true;
             fancyBackground.InvalidateCache();
             fancyBackground.OnChanged(EventArgs.Empty);
         }
@@ -147,13 +144,38 @@ public class FancyBackground : Shape
 
     #endregion
 
+    #region ColorSource DependencyProperty
+
+    public static readonly DependencyProperty ColorSourceProperty = DependencyProperty.Register(
+        nameof(ColorSource),
+        typeof(ColorSource),
+        typeof(FancyBackground),
+        new FrameworkPropertyMetadata(ColorSource.Generated, HandleColorSourceChanged));
+
+    private static void HandleColorSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is FancyBackground fancyBackground)
+        {
+            fancyBackground.InvalidateCache();
+            fancyBackground.OnChanged(EventArgs.Empty);
+        }
+    }
+
+    [Category("Appearance")]
+    public ColorSource ColorSource
+    {
+        get => (ColorSource)GetValue(ColorSourceProperty);
+        set => SetValue(ColorSourceProperty, value);
+    }
+
+    #endregion
+
     static FancyBackground()
     {
         FillBrushProperty.OverrideMetadata(typeof(FancyBackground), new FrameworkPropertyMetadata((Brush)null));
         StrokeThicknessProperty.OverrideMetadata(typeof(FancyBackground), new FrameworkPropertyMetadata(0.0));
     }
 
-    private bool generateBrushesFromColor = true;
     private double calculatedOuterRimRadius;
     private double calculatedInnerRimRadius;
     private double calculatedFaceRadius;
@@ -180,7 +202,7 @@ public class FancyBackground : Shape
         double calculatedInnerRimWidth = InnerRimWidth.RelativeTo(clockRadius);
         calculatedFaceRadius = calculatedInnerRimRadius - calculatedInnerRimWidth;
 
-        if (generateBrushesFromColor)
+        if (ColorSource == ColorSource.Generated)
         {
             calculatedOuterRimBrush = CreateDefaultOuterRimBrush(FillColor);
             calculatedInnerRimBrush = CreateDefaultInnerRimBrush(FillColor);
@@ -261,5 +283,6 @@ public class FancyBackground : Shape
         OuterRimBrush = fancyBackgroundT.OuterRimBrush;
         InnerRimBrush = fancyBackgroundT.InnerRimBrush;
         FillColor = fancyBackgroundT.FillColor;
+        ColorSource = fancyBackgroundT.ColorSource;
     }
 }

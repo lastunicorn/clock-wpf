@@ -4,6 +4,7 @@
 - When using Linq, prefer using the name `x` for the parameter representing the item.
 - When instantiating objects, prefer using the `new()` approach.
 - When using the object initializer syntax, if there are more than one property to be initialized, write each property initialization on a different line.
+- Do not use the curly brackets for `if`, `for` and `using` statements when the body is a single line of code.
 
 ## Code Documentation
 
@@ -16,8 +17,13 @@
 
 - For each public method that is tested (including the constructor), create a different test file.
   - Ex: For a method called `Query()` create test file `QueryTests`
-- All the test files for a single class should be placed in a directory with the name of the class.
+- All the test files for a single class should be placed in a directory containing the name of the class.
+  - Ex: For a class named `Color` create directory `ColorTests`.
 - Use the naming pattern `Having<...>_When<...>_Then<...>` for the tests. Where:
   - `Having` describes the most important setup details.
   - `When` describes the action tested.
   - `Then` describes the expected result.
+
+## WPF
+
+- Avoid writing code in the code behind class of a window or user control. Instead, create attached behaviors.

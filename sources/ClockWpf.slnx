@@ -7,5 +7,6 @@
   <Folder Name="/SolutionItems/">
     <File Path="Directory.Build.props" />
   </Folder>
+  <Project Path="ClockWpf.Tests/ClockWpf.Tests.csproj" Id="44f67c90-19e2-490f-b06b-7442898ee7e7" />
   <Project Path="ClockWpf/ClockWpf.csproj" />
 </Solution>

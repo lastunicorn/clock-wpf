@@ -1,4 +1,5 @@
 using System.Windows.Media;
+using DustInTheWind.ClockWpf.Shapes;
 
 namespace DustInTheWind.ClockWpf.Templates.Shapes;
 
@@ -13,6 +14,8 @@ public class FancyBackgroundT : ShapeT
     public Brush InnerRimBrush { get; set; }
 
     public Color FillColor { get; set; } = Colors.Black;
+
+    public ColorSource ColorSource { get; set; }
 
     public FancyBackgroundT()
     {

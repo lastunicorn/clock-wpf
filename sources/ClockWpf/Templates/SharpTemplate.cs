@@ -13,10 +13,11 @@ public class SharpTemplate : ClockTemplate
     {
         yield return new FancyBackgroundT
         {
-            Name = "Fancy Background",
+            Name = "Background",
             OuterRimBrush = CreateOuterRimBrush(Colors.Black),
             InnerRimBrush = CreateInnerRimBrush(Colors.Black),
-            FillBrush = CreateFaceBrush(Colors.Black)
+            FillBrush = CreateFaceBrush(Colors.Black),
+            ColorSource = ColorSource.Manual
         };
 
         yield return new TicksT
@@ -110,8 +111,8 @@ public class SharpTemplate : ClockTemplate
             EndPoint = new Point(1, 1)
         };
 
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 0));
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 1));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(40f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-40f), 1));
 
         brush.Freeze();
         return brush;
@@ -125,8 +126,8 @@ public class SharpTemplate : ClockTemplate
             EndPoint = new Point(1, 1)
         };
 
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 0));
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 1));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-40f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(40f), 1));
 
         return brush;
     }
@@ -139,8 +140,8 @@ public class SharpTemplate : ClockTemplate
             EndPoint = new Point(1, 1)
         };
 
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(100f), 0));
-        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-100f), 1));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(40f), 0));
+        brush.GradientStops.Add(new GradientStop(color.ShiftBrighness(-40f), 1));
 
         if (brush.CanFreeze)
             brush.Freeze();
