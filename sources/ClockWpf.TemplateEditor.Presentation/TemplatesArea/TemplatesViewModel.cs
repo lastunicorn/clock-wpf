@@ -7,12 +7,12 @@ namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
 public class TemplatesViewModel : ViewModelBase
 {
-    private readonly ClockTemplatePool clockTemplatePool;
+    private readonly WorkContextPool clockTemplatePool;
     private readonly ClockMovementPool clockMovementPool;
 
-    public ObservableCollection<TemplateDescriptor> Templates { get; } = [];
+    public ObservableCollection<WorkContextDescriptor> Templates { get; } = [];
 
-    public TemplateDescriptor SelectedTemplate
+    public WorkContextDescriptor SelectedTemplate
     {
         get => field;
         set
@@ -24,7 +24,7 @@ public class TemplatesViewModel : ViewModelBase
             OnPropertyChanged();
 
             if (!IsInitializing)
-                clockTemplatePool.SetDefault(field.Type);
+                clockTemplatePool.OpenWorkContext(field.ClockTemplateType);
         }
     }
 
@@ -45,7 +45,7 @@ public class TemplatesViewModel : ViewModelBase
 
     public ResetTemplateCommand ResetTemplateCommand { get; }
 
-    public TemplatesViewModel(ClockTemplatePool clockTemplatePool, ClockMovementPool clockMovementPool)
+    public TemplatesViewModel(WorkContextPool clockTemplatePool, ClockMovementPool clockMovementPool)
     {
         this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
         this.clockMovementPool = clockMovementPool ?? throw new ArgumentNullException(nameof(clockMovementPool));
@@ -62,17 +62,17 @@ public class TemplatesViewModel : ViewModelBase
     {
         Initialize(() =>
         {
-            IEnumerable<TemplateDescriptor> templateDescriptors = clockTemplatePool.EnumerateKnownTypes()
-                .Select(x => new TemplateDescriptor(x));
+            IEnumerable<WorkContextDescriptor> templateDescriptors = clockTemplatePool
+                .Select(x => new WorkContextDescriptor(x));
 
             Templates.Add(templateDescriptors);
 
-            if (clockTemplatePool.CurrentTemplate != null)
+            if (clockTemplatePool.CurrentWorkContext?.ClockTemplate != null)
             {
-                Type currentTymplateType = clockTemplatePool.CurrentTemplate.GetType();
+                Type currentTymplateType = clockTemplatePool.CurrentWorkContext.ClockTemplateType;
 
                 SelectedTemplate = Templates
-                    .FirstOrDefault(x => x.Type == currentTymplateType);
+                    .FirstOrDefault(x => x.ClockTemplateType == currentTymplateType);
             }
 
             Movement = clockMovementPool.CurrentMovement?.Instance;

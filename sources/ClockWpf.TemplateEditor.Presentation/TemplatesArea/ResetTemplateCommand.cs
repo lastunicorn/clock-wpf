@@ -5,27 +5,27 @@ namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
 public class ResetTemplateCommand : ICommand
 {
-    private readonly ClockTemplatePool clockTemplatePool;
+    private readonly WorkContextPool clockTemplatePool;
 
     public event EventHandler CanExecuteChanged;
 
-    public ResetTemplateCommand(ClockTemplatePool clockTemplatePool)
+    public ResetTemplateCommand(WorkContextPool clockTemplatePool)
     {
         this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
 
-        if (clockTemplatePool.CurrentTemplate != null)
-            clockTemplatePool.CurrentTemplate.Modified += HandleCurrentTemplateModified;
+        if (clockTemplatePool.CurrentWorkContext?.ClockTemplate != null)
+            clockTemplatePool.CurrentWorkContext.ClockTemplate.Modified += HandleCurrentTemplateModified;
 
-        clockTemplatePool.CurrentTemplateChanged += HandleCurrentTemplateChanged;
+        clockTemplatePool.CurrentWorkContextChanged += HandleCurrentTemplateEditContextChanged;
     }
 
-    private void HandleCurrentTemplateChanged(object sender, CurrentTemplateChangedEventArgs e)
+    private void HandleCurrentTemplateEditContextChanged(object sender, CurrentWorkContextChangedEventArgs e)
     {
-        if (e.OldTemplate != null)
-            e.OldTemplate.Modified -= HandleCurrentTemplateModified;
+        if (e.OldContext?.ClockTemplate != null)
+            e.OldContext.ClockTemplate.Modified -= HandleCurrentTemplateModified;
 
-        if (e.NewTemplate != null)
-            e.NewTemplate.Modified += HandleCurrentTemplateModified;
+        if (e.NewContext?.ClockTemplate != null)
+            e.NewContext.ClockTemplate.Modified += HandleCurrentTemplateModified;
 
         OnCanExecuteChanged();
     }
@@ -37,12 +37,12 @@ public class ResetTemplateCommand : ICommand
 
     public bool CanExecute(object parameter)
     {
-        return clockTemplatePool.CurrentTemplate?.IsNew == false;
+        return clockTemplatePool.CurrentWorkContext?.CanReset == true;
     }
 
     public void Execute(object parameter)
     {
-        clockTemplatePool.RecreateCurrentTemplate();
+        clockTemplatePool.CurrentWorkContext?.Reset();
     }
 
     private void OnCanExecuteChanged()

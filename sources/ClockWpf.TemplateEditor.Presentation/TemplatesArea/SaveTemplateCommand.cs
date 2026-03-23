@@ -6,25 +6,25 @@ namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
 public class SaveTemplateCommand : ICommand
 {
-    private readonly ClockTemplatePool clockTemplatePool;
+    private readonly WorkContextPool clockTemplatePool;
 
     public event EventHandler CanExecuteChanged;
 
-    public SaveTemplateCommand(ClockTemplatePool clockTemplatePool)
+    public SaveTemplateCommand(WorkContextPool clockTemplatePool)
     {
         this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
 
-        clockTemplatePool.CurrentTemplateChanged += HandleCurrentTemplateChanged;
+        clockTemplatePool.CurrentWorkContextChanged += HandleCurrentTemplateEditContextChanged;
     }
 
-    private void HandleCurrentTemplateChanged(object sender, EventArgs e)
+    private void HandleCurrentTemplateEditContextChanged(object sender, EventArgs e)
     {
         OnCanExecuteChanged();
     }
 
     public bool CanExecute(object parameter)
     {
-        return clockTemplatePool.CurrentTemplate != null;
+        return clockTemplatePool.CurrentWorkContext?.ClockTemplate != null;
     }
 
     public void Execute(object parameter)
@@ -42,7 +42,7 @@ public class SaveTemplateCommand : ICommand
         if (result == true)
         {
             TemplateSerializer templateSerializer = new();
-            templateSerializer.SaveTemplate(clockTemplatePool.CurrentTemplate, saveFileDialog.FileName);
+            templateSerializer.SaveTemplate(clockTemplatePool.CurrentWorkContext.ClockTemplate, saveFileDialog.FileName);
         }
     }
 

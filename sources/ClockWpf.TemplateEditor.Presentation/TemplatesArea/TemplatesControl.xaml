@@ -9,6 +9,7 @@
     xmlns:templates="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea"
     xmlns:behaviors="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors"
     xmlns:converters="clr-namespace:DustInTheWind.ClockWpf.Converters;assembly=DustInTheWind.ClockWpf"
+    xmlns:presentationConverters="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Converters"
     xmlns:local="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation"
     xmlns:shapes="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea"
 
@@ -16,6 +17,20 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     d:DataContext="{d:DesignInstance templates:TemplatesViewModel}">
+
+    <UserControl.Resources>
+        <presentationConverters:WorkContextStateToBrushConverter
+            x:Key="WorkContextStateToBrushConverter1"
+            ClosedBrush="Transparent"
+            OpenedBrush="LimeGreen"
+            ModifiedBrush="Orange"/>
+
+		<presentationConverters:WorkContextStateToBrushConverter
+            x:Key="WorkContextStateToBrushConverter2"
+            ClosedBrush="Gray"
+            OpenedBrush="LimeGreen"
+            ModifiedBrush="Orange"/>
+	</UserControl.Resources>
 
     <Grid
         Grid.Column="2">
@@ -55,24 +70,49 @@
 			<ListBox
                 ItemsSource="{Binding Templates}"
                 SelectedItem="{Binding SelectedTemplate}"
-				Margin="0 8 0 0">
+				Margin="0 8 0 0"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
 				<ListBox.ItemTemplate>
 					<DataTemplate DataType="templates:TemplateDescriptor">
 						<Border Padding="0 1">
-							<StackPanel>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+
+								<Ellipse
+									Grid.Column="0"
+									Grid.Row="0"
+									Width="10"
+									Height="10"
+									Fill="{Binding WorkContextState, Converter={StaticResource WorkContextStateToBrushConverter1}}"
+									Stroke="{Binding WorkContextState, Converter={StaticResource WorkContextStateToBrushConverter2}}"
+									StrokeThickness="2"
+									VerticalAlignment="Center"
+									Margin="0 0 5 0"/>
 
 								<TextBlock
-                                    Text="{Binding Name, Mode=OneWay}"
-                                    FontWeight="DemiBold"/>
+									Grid.Column="1"
+									Grid.Row="0"
+									Text="{Binding Name, Mode=OneWay}"
+									FontWeight="DemiBold"/>
 
 								<TextBlock
-                                    Text="{Binding Description, Mode=OneWay}"
-                                    FontSize="11"
-                                    Foreground="Gray"
-                                    Margin="10 0 0 0"/>
+									Grid.Column="1"
+									Grid.Row="1"
+									Text="{Binding Description, Mode=OneWay}"
+									FontSize="11"
+									Foreground="Gray"
+									Margin="10 0 0 0"
+									TextWrapping="Wrap"/>
 
-							</StackPanel>
+							</Grid>
 						</Border>
 					</DataTemplate>
 				</ListBox.ItemTemplate>

@@ -48,7 +48,7 @@ public class InUseShapesViewModel : ViewModelBase
         }
     }
 
-    public InUseShapesViewModel(ClockTemplatePool clockTemplatePool, ApplicationState applicationState)
+    public InUseShapesViewModel(WorkContextPool clockTemplatePool, ApplicationState applicationState)
     {
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
 

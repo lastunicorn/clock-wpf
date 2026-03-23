@@ -15,7 +15,7 @@ namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
 public class MainViewModel : ViewModelBase
 {
     private readonly ApplicationState applicationState;
-    private readonly ClockTemplatePool clockTemplatePool;
+    private readonly WorkContextPool clockTemplatePool;
     private readonly ClockMovementPool clockMovementPool;
 
     public IMovement Movement
@@ -87,7 +87,7 @@ public class MainViewModel : ViewModelBase
 
     public MainViewModel(
         ApplicationState applicationState,
-        ClockTemplatePool clockTemplatePool,
+        WorkContextPool clockTemplatePool,
         ClockMovementPool clockMovementPool,
         MiscellaneousViewModel miscellaneousViewModel,
         TemplatesViewModel templatesViewModel,
@@ -105,7 +105,7 @@ public class MainViewModel : ViewModelBase
         MovementsViewModel = movementsViewModel ?? throw new ArgumentNullException(nameof(movementsViewModel));
         CabinetViewModel = cabinetViewModel ?? throw new ArgumentNullException(nameof(cabinetViewModel));
 
-        clockTemplatePool.CurrentTemplateChanged += HandleCurrentTemplateChanged;
+        clockTemplatePool.CurrentWorkContextChanged += HandleCurrentTemplateEditContextChanged;
         clockMovementPool.CurrentMovementChanged += HandleCurrentMovementChanged;
         applicationState.ClockDirectionChanged += HandleClockDirectionChanged;
 
@@ -118,7 +118,7 @@ public class MainViewModel : ViewModelBase
         {
             PerformanceMeter = new PerformanceMeter();
 
-            ClockTemplate = clockTemplatePool.CurrentTemplate;
+            ClockTemplate = clockTemplatePool.CurrentWorkContext?.ClockTemplate;
             Movement = clockMovementPool.CurrentMovement?.Instance;
             ClockDirection = applicationState.ClockDirection;
         });
@@ -129,9 +129,9 @@ public class MainViewModel : ViewModelBase
         Movement = clockMovementPool.CurrentMovement?.Instance;
     }
 
-    private void HandleCurrentTemplateChanged(object sender, EventArgs e)
+    private void HandleCurrentTemplateEditContextChanged(object sender, EventArgs e)
     {
-        ClockTemplate = clockTemplatePool.CurrentTemplate;
+        ClockTemplate = clockTemplatePool.CurrentWorkContext?.ClockTemplate;
     }
 
     private void HandleClockDirectionChanged(object sender, EventArgs e)
