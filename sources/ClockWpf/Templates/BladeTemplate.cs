@@ -73,13 +73,16 @@ public class BladeTemplate : ClockTemplate
             StrokeThickness = 0.1
         };
 
-        yield return new LineHandT
+        yield return new BarHandT
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
             Length = 70,
-            StrokeThickness = 1.5,
+            Width = 1.5,
             FillBrush = Brushes.Black,
+            RoundEnds = false,
+            StrokeBrush = handBorderBrush,
+            StrokeThickness = 0.1,
             IntegralValue = true
         };
 
