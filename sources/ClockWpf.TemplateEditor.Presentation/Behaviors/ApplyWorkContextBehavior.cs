@@ -11,6 +11,8 @@ namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors;
 /// </summary>
 public class ApplyWorkContextBehavior : Behavior<AnalogClock>
 {
+    #region WorkContext DependencyProperty
+
     public static readonly DependencyProperty WorkContextProperty = DependencyProperty.Register(
         nameof(WorkContext),
         typeof(WorkContext),
@@ -26,9 +28,41 @@ public class ApplyWorkContextBehavior : Behavior<AnalogClock>
             return;
 
         if (e.NewValue is WorkContext newWorkContext)
-            behavior.AssociatedObject.ApplyTemplate(newWorkContext.ClockTemplate);
+            behavior.InitializeFromWorkContext(newWorkContext);
         else
             behavior.AssociatedObject.ApplyTemplate(null);
+    }
+
+    private void InitializeFromWorkContext(WorkContext workContext)
+    {
+        if (workContext == null)
+            return;
+
+        isInitializing = true;
+
+        try
+        {
+            if (workContext.State == WorkContextState.New)
+            {
+                AssociatedObject.ApplyTemplate(workContext.ClockTemplate);
+                SyncShapesToWorkContext();
+            }
+            else if (workContext.State == WorkContextState.Unmodified || workContext.State == WorkContextState.Modified)
+            {
+                AssociatedObject.Shapes.Clear();
+
+                foreach (Shapes.Shape shape in workContext.Shapes)
+                    AssociatedObject.Shapes.Add(shape);
+            }
+            else
+            {
+                AssociatedObject.ApplyTemplate(null);
+            }
+        }
+        finally
+        {
+            isInitializing = false;
+        }
     }
 
     public WorkContext WorkContext
@@ -36,6 +70,10 @@ public class ApplyWorkContextBehavior : Behavior<AnalogClock>
         get => (WorkContext)GetValue(WorkContextProperty);
         set => SetValue(WorkContextProperty, value);
     }
+
+    #endregion
+
+    private bool isInitializing;
 
     protected override void OnAttached()
     {
@@ -67,20 +105,19 @@ public class ApplyWorkContextBehavior : Behavior<AnalogClock>
 
     private void HandleShapesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
+        if (isInitializing)
+            return;
+
         SyncShapesToWorkContext();
     }
 
-    private void SyncShapesToWorkContext()
+    private void SyncShapesToWorkContext(WorkContext workContext = null)
     {
-        if (WorkContext == null)
+        workContext ??= WorkContext;
+
+        if (workContext == null)
             return;
 
-        WorkContext.Shapes.Clear();
-
-        if (AssociatedObject.Shapes != null)
-        {
-            foreach (Shapes.Shape shape in AssociatedObject.Shapes)
-                WorkContext.Shapes.Add(shape);
-        }
+        workContext.SetShapes(AssociatedObject.Shapes);
     }
 }

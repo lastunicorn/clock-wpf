@@ -72,7 +72,9 @@ public class WorkContextPool : IEnumerable<WorkContext>
             contexts.Add(context);
         }
 
-        context.Open();
+        if (context.State == WorkContextState.Closed)
+            context.Open();
+
         CurrentWorkContext = context;
     }
 

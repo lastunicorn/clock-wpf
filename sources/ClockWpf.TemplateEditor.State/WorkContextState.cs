@@ -3,6 +3,7 @@
 public enum WorkContextState
 {
     Closed,
-    Opened,
+    New,
+    Unmodified,
     Modified
 }

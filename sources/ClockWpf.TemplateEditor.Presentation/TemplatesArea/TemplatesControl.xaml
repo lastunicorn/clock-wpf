@@ -22,13 +22,15 @@
         <presentationConverters:WorkContextStateToBrushConverter
             x:Key="WorkContextStateToBrushConverter1"
             ClosedBrush="Transparent"
-            OpenedBrush="LimeGreen"
+            NewBrush="LimeGreen"
+			UnmodifiedBrush="LimeGreen"
             ModifiedBrush="Orange"/>
 
 		<presentationConverters:WorkContextStateToBrushConverter
             x:Key="WorkContextStateToBrushConverter2"
             ClosedBrush="Gray"
-            OpenedBrush="LimeGreen"
+            NewBrush="LimeGreen"
+			UnmodifiedBrush="LimeGreen"
             ModifiedBrush="Orange"/>
 	</UserControl.Resources>
 

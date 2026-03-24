@@ -9,7 +9,9 @@ public class WorkContextStateToBrushConverter : IValueConverter
 {
     public Brush ClosedBrush { get; set; } = Brushes.Gray;
 
-    public Brush OpenedBrush { get; set; } = Brushes.Green;
+    public Brush NewBrush { get; set; } = Brushes.Green;
+
+    public Brush UnmodifiedBrush { get; set; } = Brushes.Green;
 
     public Brush ModifiedBrush { get; set; } = Brushes.Orange;
 
@@ -20,7 +22,8 @@ public class WorkContextStateToBrushConverter : IValueConverter
             return state switch
             {
                 WorkContextState.Closed => ClosedBrush,
-                WorkContextState.Opened => OpenedBrush,
+                WorkContextState.New => NewBrush,
+                WorkContextState.Unmodified=> UnmodifiedBrush,
                 WorkContextState.Modified => ModifiedBrush,
                 _ => Brushes.Transparent
             };

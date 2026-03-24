@@ -63,7 +63,7 @@ public class InUseShapesViewModel : ViewModelBase
     {
         Initialize(() =>
         {
-            ExposeShapesFromWorkContext();
+            UpdateShapesFromWorkContext();
 
             foreach (Type type in LoadStyles())
                 AvailableShapes.Add(new ShapeDescriptor(type));
@@ -79,14 +79,14 @@ public class InUseShapesViewModel : ViewModelBase
 
     private void HandleCurrentTemplateEditContextChanged(object sender, CurrentWorkContextChangedEventArgs e)
     {
-        ExposeShapesFromWorkContext();
+        UpdateShapesFromWorkContext();
     }
 
-    private void ExposeShapesFromWorkContext()
+    private void UpdateShapesFromWorkContext()
     {
         Shapes.Clear();
 
-        if (workContextPool.CurrentWorkContext != null)
+        if (workContextPool.CurrentWorkContext?.Shapes != null)
         {
             foreach (Shape shape in workContextPool.CurrentWorkContext.Shapes)
                 Shapes.Add(shape);

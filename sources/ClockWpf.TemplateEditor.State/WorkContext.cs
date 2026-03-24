@@ -15,7 +15,7 @@ public class WorkContext
 
     public ClockTemplate ClockTemplate { get; private set; }
 
-    public List<Shape> Shapes { get; } = [];
+    public List<Shape> Shapes { get; private set; }
 
     public bool CanReset => ClockTemplate?.IsNew == false;
 
@@ -57,6 +57,9 @@ public class WorkContext
 
     public void Open()
     {
+        if (State != WorkContextState.Closed)
+            throw new InvalidOperationException("Only closed work contexts can be opened.");
+
         if (ClockTemplate != null)
             return;
 
@@ -66,19 +69,33 @@ public class WorkContext
             throw new Exception("Clock template could not be created by the factory. Verify that the type was registerd into the dependency container.");
 
         ClockTemplate = instance;
-        State = WorkContextState.Opened;
+        State = WorkContextState.New;
     }
 
     public void Reset()
     {
+        if (State == WorkContextState.Closed)
+            throw new InvalidOperationException("Closed work contexts cannot be reset.");
+
         ClockTemplate instance = clockTemplateFactory.Create(ClockTemplateType);
 
         if (instance == null)
             throw new Exception("Clock template could not be created by the factory. Verify that the type was registerd into the dependency container.");
 
         ClockTemplate = instance;
-        Shapes.Clear();
+        Shapes?.Clear();
 
-        State = WorkContextState.Opened;
+        State = WorkContextState.New;
+    }
+
+    public void SetShapes(IEnumerable<Shape> shapes)
+    {
+        if (State == WorkContextState.Closed)
+            throw new InvalidOperationException("Work context must be opened.");
+
+        Shapes = [];
+        Shapes.AddRange(shapes);
+
+        State = WorkContextState.Unmodified;
     }
 }
