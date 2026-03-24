@@ -42,7 +42,7 @@ public class WorkContext
         }
     }
 
-    public bool CanReset => ClockTemplate?.IsNew == false;
+    public bool CanReset => State == WorkContextState.Modified;
 
     public WorkContextState State
     {
@@ -120,6 +120,7 @@ public class WorkContext
         {
             foreach (Shape shape in Shapes)
                 shape.Changed -= HandleShapeChanged;
+
             Shapes.Clear();
         }
 

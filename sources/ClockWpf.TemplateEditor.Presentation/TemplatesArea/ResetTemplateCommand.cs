@@ -13,24 +13,24 @@ public class ResetTemplateCommand : ICommand
     {
         this.clockTemplatePool = clockTemplatePool ?? throw new ArgumentNullException(nameof(clockTemplatePool));
 
-        if (clockTemplatePool.CurrentWorkContext?.ClockTemplate != null)
-            clockTemplatePool.CurrentWorkContext.ClockTemplate.Modified += HandleCurrentTemplateModified;
+        if (clockTemplatePool.CurrentWorkContext != null)
+            clockTemplatePool.CurrentWorkContext.StateChanged += HandleTemplateStateChanged;
 
         clockTemplatePool.CurrentWorkContextChanged += HandleCurrentTemplateEditContextChanged;
     }
 
     private void HandleCurrentTemplateEditContextChanged(object sender, CurrentWorkContextChangedEventArgs e)
     {
-        if (e.OldContext?.ClockTemplate != null)
-            e.OldContext.ClockTemplate.Modified -= HandleCurrentTemplateModified;
+        if (e.OldContext != null)
+            e.OldContext.StateChanged -= HandleTemplateStateChanged;
 
-        if (e.NewContext?.ClockTemplate != null)
-            e.NewContext.ClockTemplate.Modified += HandleCurrentTemplateModified;
+        if (e.NewContext != null)
+            e.NewContext.StateChanged += HandleTemplateStateChanged;
 
         OnCanExecuteChanged();
     }
 
-    private void HandleCurrentTemplateModified(object sender, EventArgs e)
+    private void HandleTemplateStateChanged(object sender, EventArgs e)
     {
         OnCanExecuteChanged();
     }

@@ -1,4 +1,5 @@
-﻿using DustInTheWind.ClockWpf.TemplateEditor.State;
+﻿using DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
+using DustInTheWind.ClockWpf.TemplateEditor.State;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 
@@ -9,6 +10,8 @@ public class ShapesViewModel : ViewModelBase
     public InUseShapesViewModel InUseShapesViewModel { get; }
 
     public AvailableShapesViewModel AvailableShapesViewModel { get; }
+
+    public ResetTemplateCommand ResetTemplateCommand { get; }
 
     public WorkContextState WorkContextState
     {
@@ -42,7 +45,18 @@ public class ShapesViewModel : ViewModelBase
         AvailableShapesViewModel = availableShapesViewModel ?? throw new ArgumentNullException(nameof(availableShapesViewModel));
         this.workContextPool = workContextPool ?? throw new ArgumentNullException(nameof(workContextPool));
 
+        ResetTemplateCommand = new ResetTemplateCommand(workContextPool);
+
         this.workContextPool.CurrentWorkContextChanged += HandleCurrentWorkContextChanged;
+
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        if (workContextPool.CurrentWorkContext != null)
+            workContextPool.CurrentWorkContext.StateChanged += HandleWorkContextStateChanged;
+
         UpdateFromCurrentWorkContext();
     }
 

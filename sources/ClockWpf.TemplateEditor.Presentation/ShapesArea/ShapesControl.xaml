@@ -18,6 +18,7 @@
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
@@ -29,8 +30,21 @@
 			FontWeight="Bold"
 			Margin="0 8 0 0"/>
 
-		<TabControl
+		<StackPanel
 			Grid.Row="1"
+			Orientation="Horizontal"
+			FlowDirection="RightToLeft"
+			Margin="0 4 0 0">
+
+			<Button
+				Content="Reset"
+				Padding="10 0"
+				Command="{Binding ResetTemplateCommand}"/>
+
+		</StackPanel>
+
+		<TabControl
+			Grid.Row="2"
 			Margin="0 8 0 0"
 			BorderThickness="0">
 

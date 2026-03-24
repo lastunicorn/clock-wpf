@@ -70,8 +70,8 @@
 			</StackPanel>
 
 			<ListBox
-                ItemsSource="{Binding Templates}"
-                SelectedItem="{Binding SelectedTemplate}"
+                ItemsSource="{Binding WorkContexts}"
+                SelectedItem="{Binding SelectedWorkContext}"
 				Margin="0 8 0 0"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 

@@ -88,7 +88,20 @@ public class InUseShapesViewModel : ViewModelBase
         UpdateShapesFromWorkContext();
 
         if (e.NewContext != null)
+        {
             e.NewContext.ShapesCreated += HandleContextShapesCreated;
+            e.NewContext.StateChanged += HandleContextStateChanged;
+        }
+    }
+
+    private void HandleContextStateChanged(object sender, EventArgs e)
+    {
+        WorkContextState state = workContextPool.CurrentWorkContext.State;
+
+        if(state == WorkContextState.New)
+        {
+
+        }
     }
 
     private void HandleContextShapesCreated(object sender, EventArgs e)
