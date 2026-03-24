@@ -64,6 +64,13 @@ public class WorkContext
         StateChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public event EventHandler ShapesCreated;
+
+    private void OnShapesCreated()
+    {
+        ShapesCreated?.Invoke(this, EventArgs.Empty);
+    }
+
     public WorkContext(Type type, IClockTemplateFactory clockTemplateFactory)
     {
         ClockTemplateType = type ?? throw new ArgumentNullException(nameof(type));
@@ -127,6 +134,7 @@ public class WorkContext
         Shapes = new ObservableCollection<Shape>(shapes);
 
         State = WorkContextState.Unmodified;
+        OnShapesCreated();
     }
 
     private void HandleShapesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

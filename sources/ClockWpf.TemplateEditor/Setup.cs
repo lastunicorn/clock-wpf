@@ -46,14 +46,14 @@ internal static class Setup
         serviceCollection.AddSingleton(serviceProvider =>
         {
             IClockTemplateFactory clockTemplateFactory = serviceProvider.GetService<IClockTemplateFactory>();
-            WorkContextPool clockTemplatePool = new(clockTemplateFactory);
+            WorkContextPool workContextPool = new(clockTemplateFactory);
 
             IEnumerable<Type> templateTypes = EnumerateTemplateTypes();
 
-            clockTemplatePool.AddRange(templateTypes);
-            clockTemplatePool.OpenWorkContext<DefaultLightTemplate>();
+            workContextPool.AddRange(templateTypes);
+            workContextPool.OpenWorkContext<DefaultLightTemplate>();
 
-            return clockTemplatePool;
+            return workContextPool;
         });
     }
 

@@ -54,9 +54,9 @@ public class InUseShapesViewModel : ViewModelBase
         Shapes = [];
         AvailableShapes = [];
 
-        Initialize();
-
         workContextPool.CurrentWorkContextChanged += HandleCurrentTemplateEditContextChanged;
+
+        Initialize();
     }
 
     private void Initialize()
@@ -64,6 +64,9 @@ public class InUseShapesViewModel : ViewModelBase
         Initialize(() =>
         {
             UpdateShapesFromWorkContext();
+
+            if (workContextPool.CurrentWorkContext != null)
+                workContextPool.CurrentWorkContext.ShapesCreated += HandleContextShapesCreated;
 
             foreach (Type type in LoadStyles())
                 AvailableShapes.Add(new ShapeDescriptor(type));
@@ -78,6 +81,17 @@ public class InUseShapesViewModel : ViewModelBase
     }
 
     private void HandleCurrentTemplateEditContextChanged(object sender, CurrentWorkContextChangedEventArgs e)
+    {
+        if (e.OldContext != null)
+            e.OldContext.ShapesCreated -= HandleContextShapesCreated;
+
+        UpdateShapesFromWorkContext();
+
+        if (e.NewContext != null)
+            e.NewContext.ShapesCreated += HandleContextShapesCreated;
+    }
+
+    private void HandleContextShapesCreated(object sender, EventArgs e)
     {
         UpdateShapesFromWorkContext();
     }

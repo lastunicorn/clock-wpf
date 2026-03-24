@@ -4,6 +4,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/DustInTheWind.ClockWpf.TemplateEditor.Presentation;component/SlidingPanelStyles.xaml"/>
+        <ResourceDictionary Source="/DustInTheWind.ClockWpf.TemplateEditor.Presentation;component/ShapesArea/TemplateStatusHeaderStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
