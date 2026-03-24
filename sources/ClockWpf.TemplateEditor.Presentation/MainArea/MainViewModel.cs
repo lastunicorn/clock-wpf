@@ -1,10 +1,10 @@
-﻿using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MainArea;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.CabinetArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MiscellaneousArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MovementsArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.MainArea;
 
 public class MainViewModel : ViewModelBase
 {

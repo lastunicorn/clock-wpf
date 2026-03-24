@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.Templates;
 
-namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation;
+namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.CabinetArea;
 
 public class CabinetViewModel : ViewModelBase
 {
@@ -40,7 +40,7 @@ public class CabinetViewModel : ViewModelBase
         Movement.Start();
 
         IEnumerable<Type> clockTemplateTypes = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(a => a.GetTypes())
+            .SelectMany(x => x.GetTypes())
             .Where(t => typeof(ClockTemplate).IsAssignableFrom(t) && !t.IsAbstract);
 
         foreach (Type clockTemplateType in clockTemplateTypes)
@@ -50,8 +50,8 @@ public class CabinetViewModel : ViewModelBase
             {
                 ClockTemplate = clockTemplate,
                 Name = clockTemplateType.Name
-                        .Replace("ClockTemplate", "")
-                        .Replace("Template", "")
+                    .Replace("ClockTemplate", "")
+                    .Replace("Template", "")
             });
         }
     }
