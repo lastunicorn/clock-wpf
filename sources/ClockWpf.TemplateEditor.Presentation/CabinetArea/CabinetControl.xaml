@@ -40,7 +40,7 @@
                         <clockWpf:AnalogClock
                             ClockTemplate="{Binding ClockTemplate}"
                             Width="200"
-                            Movement="{Binding DataContext.Movement, RelativeSource={RelativeSource AncestorType=Window}}"/>
+                            Movement="{Binding DataContext.Movement, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
 
                     </DockPanel>
                 </DataTemplate>

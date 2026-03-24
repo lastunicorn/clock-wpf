@@ -8,6 +8,10 @@ public class WorkContext
 
     public Type ClockTemplateType { get; }
 
+    public string TemplateName { get; }
+
+    public string Description { get; }
+
     public ClockTemplate ClockTemplate { get; private set; }
 
     public bool CanReset => ClockTemplate?.IsNew == false;
@@ -40,6 +44,10 @@ public class WorkContext
         bool isClockTemplate = typeof(ClockTemplate).IsAssignableFrom(type);
         if (!isClockTemplate)
             throw new ArgumentException($"The type {type.FullName} is not a clock template.", nameof(type));
+
+        ClockTemplateMetadata clockTemplateMetadata = type.AsClockTemplateMetadata();
+        TemplateName = clockTemplateMetadata.Name;
+        Description = clockTemplateMetadata.Description;
 
         State = WorkContextState.Closed;
     }

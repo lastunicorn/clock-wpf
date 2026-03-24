@@ -1,12 +1,11 @@
-﻿using System.Reflection;
-using DustInTheWind.ClockWpf.TemplateEditor.State;
+﻿using DustInTheWind.ClockWpf.TemplateEditor.State;
 using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 
 public class WorkContextDescriptor : ViewModelBase
 {
-    public string Name { get; }
+    public string TemplateName { get; }
 
     public string Description { get; }
 
@@ -29,17 +28,9 @@ public class WorkContextDescriptor : ViewModelBase
     {
         ArgumentNullException.ThrowIfNull(workContext);
 
-        Type clockTemplateType = workContext.ClockTemplateType;
-
-        ClockTemplateType = clockTemplateType;
-
-        TemplateAttribute templateAttribute = clockTemplateType.GetCustomAttribute<TemplateAttribute>();
-
-        Name = templateAttribute?.Name ?? clockTemplateType.Name
-            .Replace("ClockTemplate", "")
-            .Replace("Template", "");
-
-        Description = templateAttribute?.Description;
+        ClockTemplateType = workContext.ClockTemplateType;
+        TemplateName = workContext.TemplateName;
+        Description = workContext.Description;
 
         workContext.StateChanged += HandleWorkContextStateChanged;
         WorkContextState = workContext.State;

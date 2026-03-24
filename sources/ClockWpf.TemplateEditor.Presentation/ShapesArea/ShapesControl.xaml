@@ -13,15 +13,24 @@
     d:DataContext="{d:DesignInstance shapes:ShapesViewModel}">
 
 	<Grid
-        Grid.Column="2">
+		Grid.Column="2">
 
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
+		<TextBlock
+			Grid.Row="0"
+			Text="{Binding TemplateName}"
+			FontSize="16"
+			FontWeight="Bold"
+			Margin="0 8 0 0"
+			HorizontalAlignment="Center"/>
+
 		<TabControl
-            Grid.Row="0"
-            Margin="0 8 0 0"
+			Grid.Row="1"
+			Margin="0 8 0 0"
 			BorderThickness="0">
 
 			<TabItem
@@ -29,7 +38,7 @@
 				IsSelected="True">
 
 				<shapes:InUseShapesControl
-				    DataContext="{Binding InUseShapesViewModel}"/>
+					DataContext="{Binding InUseShapesViewModel}"/>
 
 			</TabItem>
 

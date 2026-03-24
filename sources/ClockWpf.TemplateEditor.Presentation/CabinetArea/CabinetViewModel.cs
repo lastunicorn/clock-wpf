@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Movements;
+using DustInTheWind.ClockWpf.TemplateEditor.State;
 using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.CabinetArea;
@@ -46,12 +47,11 @@ public class CabinetViewModel : ViewModelBase
         foreach (Type clockTemplateType in clockTemplateTypes)
         {
             ClockTemplate clockTemplate = (ClockTemplate)Activator.CreateInstance(clockTemplateType);
+
             ClockTemplates.Add(new ClockTemplateDescriptor
             {
                 ClockTemplate = clockTemplate,
-                Name = clockTemplateType.Name
-                    .Replace("ClockTemplate", "")
-                    .Replace("Template", "")
+                Name = clockTemplateType.AsClockTemplateMetadata().Name
             });
         }
     }
