@@ -1,5 +1,6 @@
 ﻿using DustInTheWind.ClockWpf.Movements;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation;
+using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MainArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MiscellaneousArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.MovementsArea;
 using DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
@@ -25,6 +26,7 @@ internal static class Setup
         serviceCollection.AddTransient<MainWindow>();
         serviceCollection.AddTransient<MainViewModel>();
 
+        serviceCollection.AddTransient<ClockViewModel>();
         serviceCollection.AddTransient<MiscellaneousViewModel>();
         serviceCollection.AddTransient<TemplatesViewModel>();
         serviceCollection.AddTransient<ShapesViewModel>();
