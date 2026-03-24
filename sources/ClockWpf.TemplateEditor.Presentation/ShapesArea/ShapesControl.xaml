@@ -6,11 +6,28 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shapes="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea"
+    xmlns:presentationConverters="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Converters"
     
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800"
     d:DataContext="{d:DesignInstance shapes:ShapesViewModel}">
+
+	<UserControl.Resources>
+		<presentationConverters:WorkContextStateToBrushConverter
+            x:Key="WorkContextStateToBrushConverter1"
+            ClosedBrush="Transparent"
+            NewBrush="LimeGreen"
+			UnmodifiedBrush="LimeGreen"
+            ModifiedBrush="Orange"/>
+
+		<presentationConverters:WorkContextStateToBrushConverter
+            x:Key="WorkContextStateToBrushConverter2"
+            ClosedBrush="Gray"
+            NewBrush="LimeGreen"
+			UnmodifiedBrush="LimeGreen"
+            ModifiedBrush="Orange"/>
+	</UserControl.Resources>
 
 	<Grid
 		Grid.Column="2">
@@ -20,13 +37,28 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<TextBlock
+		<StackPanel
 			Grid.Row="0"
-			Text="{Binding TemplateName}"
-			FontSize="16"
-			FontWeight="Bold"
-			Margin="0 8 0 0"
-			HorizontalAlignment="Center"/>
+			Orientation="Horizontal"
+			HorizontalAlignment="Center"
+			Margin="0 8 0 0">
+
+			<Ellipse
+				Width="16"
+				Height="16"
+				Fill="{Binding WorkContextState, Converter={StaticResource WorkContextStateToBrushConverter1}}"
+				Stroke="{Binding WorkContextState, Converter={StaticResource WorkContextStateToBrushConverter2}}"
+				StrokeThickness="2"
+				VerticalAlignment="Center"
+				Margin="0 0 8 0"/>
+
+			<TextBlock
+				Text="{Binding TemplateName}"
+				FontSize="16"
+				FontWeight="Bold"
+				VerticalAlignment="Center"/>
+
+		</StackPanel>
 
 		<TabControl
 			Grid.Row="1"

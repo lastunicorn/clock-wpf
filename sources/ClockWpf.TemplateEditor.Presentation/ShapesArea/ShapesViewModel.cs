@@ -1,5 +1,4 @@
 ﻿using DustInTheWind.ClockWpf.TemplateEditor.State;
-using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 
@@ -10,6 +9,19 @@ public class ShapesViewModel : ViewModelBase
     public InUseShapesViewModel InUseShapesViewModel { get; }
 
     public AvailableShapesViewModel AvailableShapesViewModel { get; }
+
+    public WorkContextState WorkContextState
+    {
+        get => field;
+        private set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
 
     public string TemplateName
     {
@@ -31,16 +43,28 @@ public class ShapesViewModel : ViewModelBase
         this.workContextPool = workContextPool ?? throw new ArgumentNullException(nameof(workContextPool));
 
         this.workContextPool.CurrentWorkContextChanged += HandleCurrentWorkContextChanged;
-        UpdateTemplateName();
+        UpdateFromCurrentWorkContext();
     }
 
     private void HandleCurrentWorkContextChanged(object sender, CurrentWorkContextChangedEventArgs e)
     {
-        UpdateTemplateName();
+        if (e.OldContext != null)
+            e.OldContext.StateChanged -= HandleWorkContextStateChanged;
+
+        if (e.NewContext != null)
+            e.NewContext.StateChanged += HandleWorkContextStateChanged;
+
+        UpdateFromCurrentWorkContext();
     }
 
-    private void UpdateTemplateName()
+    private void HandleWorkContextStateChanged(object sender, EventArgs e)
     {
+        UpdateFromCurrentWorkContext();
+    }
+
+    private void UpdateFromCurrentWorkContext()
+    {
+        WorkContextState = workContextPool.CurrentWorkContext?.State ?? WorkContextState.Closed;
         TemplateName = workContextPool.CurrentWorkContext?.TemplateName ?? string.Empty;
     }
 }

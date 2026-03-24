@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
 
@@ -15,7 +17,30 @@ public class WorkContext
 
     public ClockTemplate ClockTemplate { get; private set; }
 
-    public List<Shape> Shapes { get; private set; }
+    private ObservableCollection<Shape> shapes;
+
+    public ObservableCollection<Shape> Shapes
+    {
+        get => shapes;
+        private set
+        {
+            if (shapes != null)
+            {
+                shapes.CollectionChanged -= HandleShapesCollectionChanged;
+                foreach (Shape shape in shapes)
+                    shape.Changed -= HandleShapeChanged;
+            }
+
+            shapes = value;
+
+            if (shapes != null)
+            {
+                shapes.CollectionChanged += HandleShapesCollectionChanged;
+                foreach (Shape shape in shapes)
+                    shape.Changed += HandleShapeChanged;
+            }
+        }
+    }
 
     public bool CanReset => ClockTemplate?.IsNew == false;
 
@@ -83,7 +108,13 @@ public class WorkContext
             throw new Exception("Clock template could not be created by the factory. Verify that the type was registerd into the dependency container.");
 
         ClockTemplate = instance;
-        Shapes?.Clear();
+
+        if (Shapes != null)
+        {
+            foreach (Shape shape in Shapes)
+                shape.Changed -= HandleShapeChanged;
+            Shapes.Clear();
+        }
 
         State = WorkContextState.New;
     }
@@ -93,9 +124,32 @@ public class WorkContext
         if (State == WorkContextState.Closed)
             throw new InvalidOperationException("Work context must be opened.");
 
-        Shapes = [];
-        Shapes.AddRange(shapes);
+        Shapes = new ObservableCollection<Shape>(shapes);
 
         State = WorkContextState.Unmodified;
+    }
+
+    private void HandleShapesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.OldItems != null)
+        {
+            foreach (Shape shape in e.OldItems)
+                shape.Changed -= HandleShapeChanged;
+        }
+
+        if (e.NewItems != null)
+        {
+            foreach (Shape shape in e.NewItems)
+                shape.Changed += HandleShapeChanged;
+        }
+
+        if (State != WorkContextState.Closed && State != WorkContextState.New)
+            State = WorkContextState.Modified;
+    }
+
+    private void HandleShapeChanged(object sender, EventArgs e)
+    {
+        if (State != WorkContextState.Closed && State != WorkContextState.New)
+            State = WorkContextState.Modified;
     }
 }
