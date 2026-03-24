@@ -1,3 +1,7 @@
+## General
+
+- When you have a better implementation idea (from the technical point of view) than the one that user requested in the prompt, provide your suggestion and wait for the user to choose how to proceeed.
+
 ## Code Conventions
 
 - Do not use `var` keyword. Whenever possible, use the actual type.

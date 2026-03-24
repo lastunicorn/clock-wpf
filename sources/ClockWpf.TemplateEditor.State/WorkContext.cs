@@ -1,3 +1,4 @@
+using DustInTheWind.ClockWpf.Shapes;
 using DustInTheWind.ClockWpf.Templates;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.State;
@@ -13,6 +14,8 @@ public class WorkContext
     public string Description { get; }
 
     public ClockTemplate ClockTemplate { get; private set; }
+
+    public List<Shape> Shapes { get; } = [];
 
     public bool CanReset => ClockTemplate?.IsNew == false;
 
@@ -74,6 +77,8 @@ public class WorkContext
             throw new Exception("Clock template could not be created by the factory. Verify that the type was registerd into the dependency container.");
 
         ClockTemplate = instance;
+        Shapes.Clear();
+
         State = WorkContextState.Opened;
     }
 }

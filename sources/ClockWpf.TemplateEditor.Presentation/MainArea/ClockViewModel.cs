@@ -68,7 +68,18 @@ public class ClockViewModel : ViewModelBase
         }
     }
 
-    public ApplicationState ApplicationState => applicationState;
+    public WorkContext CurrentWorkContext
+    {
+        get => field;
+        private set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
 
     public ClockViewModel(
         ApplicationState applicationState,
@@ -92,6 +103,7 @@ public class ClockViewModel : ViewModelBase
         {
             PerformanceMeter = new PerformanceMeter();
 
+            CurrentWorkContext = clockTemplatePool.CurrentWorkContext;
             ClockTemplate = clockTemplatePool.CurrentWorkContext?.ClockTemplate;
             Movement = clockMovementPool.CurrentMovement?.Instance;
             ClockDirection = applicationState.ClockDirection;
@@ -105,6 +117,7 @@ public class ClockViewModel : ViewModelBase
 
     private void HandleCurrentTemplateEditContextChanged(object sender, EventArgs e)
     {
+        CurrentWorkContext = clockTemplatePool.CurrentWorkContext;
         ClockTemplate = clockTemplatePool.CurrentWorkContext?.ClockTemplate;
     }
 
@@ -114,10 +127,5 @@ public class ClockViewModel : ViewModelBase
         {
             ClockDirection = applicationState.ClockDirection;
         });
-    }
-
-    public void SetClockShapes(ObservableCollection<Shape> shapes)
-    {
-        applicationState.ClockShapes = shapes;
     }
 }

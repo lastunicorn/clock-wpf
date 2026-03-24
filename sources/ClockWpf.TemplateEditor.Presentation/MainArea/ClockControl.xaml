@@ -23,13 +23,12 @@
 
             <clockWpf:AnalogClock
                 x:Name="analogClock1"
-                ClockTemplate="{Binding ClockTemplate}"
                 Movement="{Binding Movement}"
                 PerformanceMeter="{Binding PerformanceMeter, Mode=OneWay}"
                 RotationDirection="{Binding ClockDirection}">
 
                 <i:Interaction.Behaviors>
-                    <behaviors:ClockShapesSyncBehavior ApplicationState="{Binding ApplicationState}"/>
+                    <behaviors:ClockShapesSyncBehavior WorkContext="{Binding CurrentWorkContext}"/>
                 </i:Interaction.Behaviors>
 
             </clockWpf:AnalogClock>

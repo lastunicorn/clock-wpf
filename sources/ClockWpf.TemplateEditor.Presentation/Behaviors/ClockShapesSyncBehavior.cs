@@ -1,3 +1,4 @@
+using System.Collections.Specialized;
 using System.Windows;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 using Microsoft.Xaml.Behaviors;
@@ -5,20 +6,35 @@ using Microsoft.Xaml.Behaviors;
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors;
 
 /// <summary>
-/// Synchronizes the AnalogClock.Shapes collection with the ApplicationState.ClockShapes property.
+/// Synchronizes the AnalogClock.Shapes collection with the ApplicationState.ClockShapes property
+/// and the current WorkContext.Shapes list.
 /// </summary>
 public class ClockShapesSyncBehavior : Behavior<AnalogClock>
 {
-    public static readonly DependencyProperty ApplicationStateProperty = DependencyProperty.Register(
-        nameof(ApplicationState),
-        typeof(ApplicationState),
+    public static readonly DependencyProperty WorkContextProperty = DependencyProperty.Register(
+        nameof(WorkContext),
+        typeof(WorkContext),
         typeof(ClockShapesSyncBehavior),
-        new PropertyMetadata(null));
+        new PropertyMetadata(null, HandleWorkContextChanged));
 
-    public ApplicationState ApplicationState
+    private static void HandleWorkContextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        get => (ApplicationState)GetValue(ApplicationStateProperty);
-        set => SetValue(ApplicationStateProperty, value);
+        if (d is not ClockShapesSyncBehavior behavior)
+            return;
+
+        if (behavior.AssociatedObject == null)
+            return;
+
+        if (e.NewValue is WorkContext newWorkContext)
+            behavior.AssociatedObject.ApplyTemplate(newWorkContext.ClockTemplate);
+        else
+            behavior.AssociatedObject.ApplyTemplate(null);
+    }
+
+    public WorkContext WorkContext
+    {
+        get => (WorkContext)GetValue(WorkContextProperty);
+        set => SetValue(WorkContextProperty, value);
     }
 
     protected override void OnAttached()
@@ -30,12 +46,41 @@ public class ClockShapesSyncBehavior : Behavior<AnalogClock>
     protected override void OnDetaching()
     {
         AssociatedObject.Loaded -= HandleAnalogClockLoaded;
+
+        if (AssociatedObject.Shapes != null)
+        {
+            AssociatedObject.Shapes.CollectionChanged -= HandleShapesCollectionChanged;
+            AssociatedObject.Shapes.Clear();
+        }
+
         base.OnDetaching();
     }
 
     private void HandleAnalogClockLoaded(object sender, RoutedEventArgs e)
     {
-        if (ApplicationState != null && AssociatedObject.Shapes != null)
-            ApplicationState.ClockShapes = AssociatedObject.Shapes;
+        if (AssociatedObject.Shapes != null)
+        {
+            AssociatedObject.Shapes.CollectionChanged += HandleShapesCollectionChanged;
+            SyncShapesToWorkContext();
+        }
+    }
+
+    private void HandleShapesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        SyncShapesToWorkContext();
+    }
+
+    private void SyncShapesToWorkContext()
+    {
+        if (WorkContext == null)
+            return;
+
+        WorkContext.Shapes.Clear();
+
+        if (AssociatedObject.Shapes != null)
+        {
+            foreach (Shapes.Shape shape in AssociatedObject.Shapes)
+                WorkContext.Shapes.Add(shape);
+        }
     }
 }

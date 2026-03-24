@@ -248,9 +248,6 @@ public class AnalogClock : Control
 
     public void ApplyTemplate(ClockTemplate clockTemplate)
     {
-        if (clockTemplate == null)
-            throw new ArgumentNullException(nameof(clockTemplate));
-
         Shapes.Clear();
 
         if (clockTemplate == null)

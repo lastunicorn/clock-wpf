@@ -1,13 +1,12 @@
 using System.Collections.ObjectModel;
 using DustInTheWind.ClockWpf.Shapes;
-using DustInTheWind.ClockWpf.TemplateEditor.Presentation.TemplatesArea;
 using DustInTheWind.ClockWpf.TemplateEditor.State;
 
 namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.ShapesArea;
 
 public class InUseShapesViewModel : ViewModelBase
 {
-    private readonly ApplicationState applicationState;
+    private readonly WorkContextPool workContextPool;
 
     public ObservableCollection<Shape> Shapes
     {
@@ -48,27 +47,26 @@ public class InUseShapesViewModel : ViewModelBase
         }
     }
 
-    public InUseShapesViewModel(WorkContextPool clockTemplatePool, ApplicationState applicationState)
+    public InUseShapesViewModel(WorkContextPool workContextPool)
     {
-        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+        this.workContextPool = workContextPool ?? throw new ArgumentNullException(nameof(workContextPool));
 
+        Shapes = [];
         AvailableShapes = [];
 
         Initialize();
 
-        applicationState.ClockShapesChanged += HandleClockShapesChanged;
+        workContextPool.CurrentWorkContextChanged += HandleCurrentTemplateEditContextChanged;
     }
 
     private void Initialize()
     {
         Initialize(() =>
         {
-            Shapes = applicationState.ClockShapes;
+            ExposeShapesFromWorkContext();
 
             foreach (Type type in LoadStyles())
-            {
                 AvailableShapes.Add(new ShapeDescriptor(type));
-            }
         });
     }
 
@@ -79,8 +77,19 @@ public class InUseShapesViewModel : ViewModelBase
             .Where(x => x.IsClass && !x.IsAbstract && typeof(Shape).IsAssignableFrom(x));
     }
 
-    private void HandleClockShapesChanged(object sender, EventArgs e)
+    private void HandleCurrentTemplateEditContextChanged(object sender, CurrentWorkContextChangedEventArgs e)
     {
-        Shapes = applicationState.ClockShapes;
+        ExposeShapesFromWorkContext();
+    }
+
+    private void ExposeShapesFromWorkContext()
+    {
+        Shapes.Clear();
+
+        if (workContextPool.CurrentWorkContext != null)
+        {
+            foreach (Shape shape in workContextPool.CurrentWorkContext.Shapes)
+                Shapes.Add(shape);
+        }
     }
 }
