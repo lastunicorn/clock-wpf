@@ -55,14 +55,17 @@ public class PeepholeTemplate : ClockTemplate
             RoundEnds = false
         };
 
-        yield return new LineHandT
+        yield return new BarHandT
         {
             Name = "Second Hand",
             TimeComponent = TimeComponent.Second,
-            StrokeBrush = Brushes.Black,
+            FillBrush = Brushes.Black,
             Length = 90,
-            StrokeThickness = 1,
-            TailLength = 30
+            Width = 1,
+            RoundEnds = false,
+            TailLength = 30,
+            StrokeThickness = 0.1,
+            StrokeBrush = strokeBrush
         };
 
         yield return new PinT
