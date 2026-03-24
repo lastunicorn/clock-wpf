@@ -9,17 +9,17 @@ namespace DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors;
 /// Synchronizes the AnalogClock.Shapes collection with the ApplicationState.ClockShapes property
 /// and the current WorkContext.Shapes list.
 /// </summary>
-public class ClockShapesSyncBehavior : Behavior<AnalogClock>
+public class ApplyWorkContextBehavior : Behavior<AnalogClock>
 {
     public static readonly DependencyProperty WorkContextProperty = DependencyProperty.Register(
         nameof(WorkContext),
         typeof(WorkContext),
-        typeof(ClockShapesSyncBehavior),
+        typeof(ApplyWorkContextBehavior),
         new PropertyMetadata(null, HandleWorkContextChanged));
 
     private static void HandleWorkContextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not ClockShapesSyncBehavior behavior)
+        if (d is not ApplyWorkContextBehavior behavior)
             return;
 
         if (behavior.AssociatedObject == null)

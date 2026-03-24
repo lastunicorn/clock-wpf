@@ -137,54 +137,6 @@ public class AnalogClock : Control
 
     #endregion
 
-    #region ClockTemplate DependencyProperty
-
-    /// <summary>
-    /// Identifies the ClockTemplate dependency property.
-    /// </summary>
-    /// <remarks>
-    /// This field is used to register and reference the ClockTemplate property for the AnalogClock
-    /// control. It enables styling, data binding, animation, and other WPF property system services for the
-    /// ClockTemplate property.
-    /// </remarks>
-    public static readonly DependencyProperty ClockTemplateProperty = DependencyProperty.Register(
-        nameof(ClockTemplate),
-        typeof(ClockTemplate),
-        typeof(AnalogClock),
-        new PropertyMetadata(null, HandleClockTemplateChanged));
-
-    private static void HandleClockTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is AnalogClock analogClock)
-        {
-            analogClock.Shapes.Clear();
-
-            if (e.NewValue is ClockTemplate clockTemplate)
-            {
-                if (clockTemplate == null)
-                    return;
-
-                ShapeFactory shapeFactory = new();
-                Resurrector resurrector = new(shapeFactory);
-                Resurrection resurrection = resurrector.Resurrect(clockTemplate);
-
-                foreach (Shape shape in resurrection.Shapes)
-                    analogClock.Shapes.Add(shape);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the template used to display the clock.
-    /// </summary>
-    public ClockTemplate ClockTemplate
-    {
-        get => (ClockTemplate)GetValue(ClockTemplateProperty);
-        set => SetValue(ClockTemplateProperty, value);
-    }
-
-    #endregion
-
     #region RotationDirection DependencyProperty
 
     /// <summary>
@@ -246,6 +198,14 @@ public class AnalogClock : Control
         IsEmpty = Shapes.Count == 0;
     }
 
+    /// <summary>
+    /// Replaces the current set of shapes with those defined by the specified clock template.
+    /// </summary>
+    /// <remarks>
+    /// If the provided template is null, the collection of shapes will be empty after the method completes.
+    /// </remarks>
+    /// <param name="clockTemplate">The clock template that defines the shapes to apply. If null, all existing shapes are cleared and no new shapes
+    /// are added.</param>
     public void ApplyTemplate(ClockTemplate clockTemplate)
     {
         Shapes.Clear();

@@ -7,6 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:clockWpf="clr-namespace:DustInTheWind.ClockWpf;assembly=DustInTheWind.ClockWpf"
     xmlns:local="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.CabinetArea"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:behaviors="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.Behaviors"
     
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -37,10 +39,15 @@
                             Margin="0 10 0 0"
                             FontSize="14"/>
 
-                        <clockWpf:AnalogClock
-                            ClockTemplate="{Binding ClockTemplate}"
+						<clockWpf:AnalogClock
                             Width="200"
-                            Movement="{Binding DataContext.Movement, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                            Movement="{Binding DataContext.Movement, RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+							<i:Interaction.Behaviors>
+								<behaviors:ApplyClockTemplateBehavior ClockTemplate="{Binding ClockTemplate}"/>
+							</i:Interaction.Behaviors>
+							
+						</clockWpf:AnalogClock>
 
                     </DockPanel>
                 </DataTemplate>

@@ -28,7 +28,7 @@
                 RotationDirection="{Binding ClockDirection}">
 
                 <i:Interaction.Behaviors>
-                    <behaviors:ClockShapesSyncBehavior WorkContext="{Binding CurrentWorkContext}"/>
+                    <behaviors:ApplyWorkContextBehavior WorkContext="{Binding CurrentWorkContext}"/>
                 </i:Interaction.Behaviors>
 
             </clockWpf:AnalogClock>
