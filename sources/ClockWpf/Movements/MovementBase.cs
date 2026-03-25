@@ -59,7 +59,7 @@ public abstract class MovementBase : IMovement
     /// Gets the most recently provided value.
     /// </summary>
     [Browsable(false)]
-    public TimeSpan LastTick { get; private set; }
+    public TimeOnly LastTick { get; private set; }
 
     /// <summary>
     /// Occurs when the object is modified.
@@ -92,8 +92,8 @@ public abstract class MovementBase : IMovement
     /// <summary>
     /// Generates a new time value. This method is called internally by the timer.
     /// </summary>
-    /// <returns>A <see cref="TimeSpan"/> object containing the time value.</returns>
-    protected abstract TimeSpan GenerateNewTime();
+    /// <returns>A <see cref="TimeOnly"/> object containing the time value.</returns>
+    protected abstract TimeOnly GenerateNewTime();
 
     /// <summary>
     /// Starts the time provider. The time provider will begin generating time values.

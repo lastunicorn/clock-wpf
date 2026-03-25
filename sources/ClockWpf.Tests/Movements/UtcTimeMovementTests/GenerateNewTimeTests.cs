@@ -12,9 +12,9 @@ public class GenerateNewTimeTests
         using UtcTimeMovement movement = new();
         movement.TickInterval = 0;
 
-        TimeSpan timeBefore = DateTime.UtcNow.TimeOfDay;
+        TimeOnly timeBefore = TimeOnly.FromDateTime(DateTime.UtcNow);
         movement.Start();
-        TimeSpan timeAfter = DateTime.UtcNow.TimeOfDay;
+        TimeOnly timeAfter = TimeOnly.FromDateTime(DateTime.UtcNow);
 
         Assert.InRange(movement.LastTick, timeBefore, timeAfter);
     }
@@ -24,12 +24,12 @@ public class GenerateNewTimeTests
     {
         using UtcTimeMovement movement = new();
         movement.TickInterval = 0;
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         movement.Tick += (s, e) => receivedTime = e.Time;
 
-        TimeSpan timeBefore = DateTime.UtcNow.TimeOfDay;
+        TimeOnly timeBefore = TimeOnly.FromDateTime(DateTime.UtcNow);
         movement.Start();
-        TimeSpan timeAfter = DateTime.UtcNow.TimeOfDay;
+        TimeOnly timeAfter = TimeOnly.FromDateTime(DateTime.UtcNow);
 
         Assert.NotNull(receivedTime);
         Assert.InRange(receivedTime.Value, timeBefore, timeAfter);
@@ -42,12 +42,12 @@ public class GenerateNewTimeTests
         movement.TickInterval = 0;
 
         movement.Start();
-        TimeSpan firstLastTick = movement.LastTick;
+        TimeOnly firstLastTick = movement.LastTick;
 
         Thread.Sleep(10);
 
         movement.Start();
-        TimeSpan secondLastTick = movement.LastTick;
+        TimeOnly secondLastTick = movement.LastTick;
 
         Assert.True(secondLastTick >= firstLastTick);
     }
@@ -61,10 +61,10 @@ public class GenerateNewTimeTests
         using ManualResetEventSlim tickReceived = new(false);
         movement.Tick += (s, e) => tickReceived.Set();
 
-        TimeSpan timeBefore = DateTime.UtcNow.TimeOfDay;
+        TimeOnly timeBefore = TimeOnly.FromDateTime(DateTime.UtcNow);
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan timeAfter = DateTime.UtcNow.TimeOfDay;
+        TimeOnly timeAfter = TimeOnly.FromDateTime(DateTime.UtcNow);
 
         Assert.InRange(movement.LastTick, timeBefore, timeAfter);
     }
@@ -73,7 +73,7 @@ public class GenerateNewTimeTests
     public void HavingDefaultTickInterval_WhenStarting_ThenTickEventTimeIsCloseToUtcTimeOfDay()
     {
         using UtcTimeMovement movement = new();
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         using ManualResetEventSlim tickReceived = new(false);
         movement.Tick += (s, e) =>
         {
@@ -81,10 +81,10 @@ public class GenerateNewTimeTests
             tickReceived.Set();
         };
 
-        TimeSpan timeBefore = DateTime.UtcNow.TimeOfDay;
+        TimeOnly timeBefore = TimeOnly.FromDateTime(DateTime.UtcNow);
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan timeAfter = DateTime.UtcNow.TimeOfDay;
+        TimeOnly timeAfter = TimeOnly.FromDateTime(DateTime.UtcNow);
 
         Assert.NotNull(receivedTime);
         Assert.InRange(receivedTime.Value, timeBefore, timeAfter);
@@ -99,13 +99,13 @@ public class GenerateNewTimeTests
 
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan firstLastTick = movement.LastTick;
+        TimeOnly firstLastTick = movement.LastTick;
 
         tickReceived.Reset();
         Thread.Sleep(10);
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan secondLastTick = movement.LastTick;
+        TimeOnly secondLastTick = movement.LastTick;
 
         Assert.True(secondLastTick >= firstLastTick);
     }
@@ -119,9 +119,9 @@ public class GenerateNewTimeTests
         movement.TickInterval = 0;
         movement.UtcOffset = TimeSpan.FromHours(2);
 
-        TimeSpan expectedBefore = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(2);
+        TimeOnly expectedBefore = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(2));
         movement.Start();
-        TimeSpan expectedAfter = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(2);
+        TimeOnly expectedAfter = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(2));
 
         Assert.InRange(movement.LastTick, expectedBefore, expectedAfter);
     }
@@ -132,12 +132,12 @@ public class GenerateNewTimeTests
         using UtcTimeMovement movement = new();
         movement.TickInterval = 0;
         movement.UtcOffset = TimeSpan.FromHours(2);
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         movement.Tick += (s, e) => receivedTime = e.Time;
 
-        TimeSpan expectedBefore = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(2);
+        TimeOnly expectedBefore = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(2));
         movement.Start();
-        TimeSpan expectedAfter = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(2);
+        TimeOnly expectedAfter = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(2));
 
         Assert.NotNull(receivedTime);
         Assert.InRange(receivedTime.Value, expectedBefore, expectedAfter);
@@ -150,9 +150,9 @@ public class GenerateNewTimeTests
         movement.TickInterval = 0;
         movement.UtcOffset = TimeSpan.FromHours(-2);
 
-        TimeSpan expectedBefore = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(-2);
+        TimeOnly expectedBefore = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(-2));
         movement.Start();
-        TimeSpan expectedAfter = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(-2);
+        TimeOnly expectedAfter = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(-2));
 
         Assert.InRange(movement.LastTick, expectedBefore, expectedAfter);
     }

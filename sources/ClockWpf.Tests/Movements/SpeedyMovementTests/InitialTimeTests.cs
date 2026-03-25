@@ -9,9 +9,9 @@ public class InitialTimeTests
     {
         using SpeedyMovement movement = new();
 
-        movement.InitialTime = new TimeSpan(10, 30, 0);
+        movement.InitialTime = new TimeOnly(10, 30, 0);
 
-        Assert.Equal(new TimeSpan(10, 30, 0), movement.InitialTime);
+        Assert.Equal(new TimeOnly(10, 30, 0), movement.InitialTime);
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class InitialTimeTests
         bool modifiedRaised = false;
         movement.Modified += (s, e) => modifiedRaised = true;
 
-        movement.InitialTime = new TimeSpan(10, 30, 0);
+        movement.InitialTime = new TimeOnly(10, 30, 0);
 
         Assert.True(modifiedRaised);
     }
@@ -32,20 +32,20 @@ public class InitialTimeTests
         using SpeedyMovement movement = new();
         movement.TimeSpeed = 0;
 
-        movement.InitialTime = new TimeSpan(10, 30, 0);
+        movement.InitialTime = new TimeOnly(10, 30, 0);
 
-        Assert.Equal(new TimeSpan(10, 30, 0), movement.LastTick);
+        Assert.Equal(new TimeOnly(10, 30, 0), movement.LastTick);
     }
 
     [Fact]
     public void HavingSameValue_WhenSettingInitialTime_ThenModifiedEventIsNotRaised()
     {
         using SpeedyMovement movement = new();
-        movement.InitialTime = new TimeSpan(10, 30, 0);
+        movement.InitialTime = new TimeOnly(10, 30, 0);
         bool modifiedRaised = false;
         movement.Modified += (s, e) => modifiedRaised = true;
 
-        movement.InitialTime = new TimeSpan(10, 30, 0);
+        movement.InitialTime = new TimeOnly(10, 30, 0);
 
         Assert.False(modifiedRaised);
     }

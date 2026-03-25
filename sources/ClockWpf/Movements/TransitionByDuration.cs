@@ -1,13 +1,13 @@
 namespace DustInTheWind.ClockWpf.Movements;
 
-internal delegate void TimeTransitionCallback(TimeSpan time);
+internal delegate void TimeTransitionCallback(TimeOnly time);
 
 internal class TransitionByDuration : ITimeTransition
 {
     private readonly Timer transitionTimer;
     private readonly TimeTransitionCallback callback;
-    private TimeSpan startTime;
-    private TimeSpan endTime;
+    private TimeOnly startTime;
+    private TimeOnly endTime;
     private DateTime realStartTime;
     private bool isDisposed;
 
@@ -15,7 +15,7 @@ internal class TransitionByDuration : ITimeTransition
 
     public bool IsRunning { get; private set; }
 
-    public TimeSpan CurrentTime { get; private set; }
+    public TimeOnly CurrentTime { get; private set; }
 
     public TransitionByDuration(TimeTransitionCallback callback)
     {
@@ -30,7 +30,7 @@ internal class TransitionByDuration : ITimeTransition
         callback(CurrentTime);
     }
 
-    public void Start(TimeSpan startTime, TimeSpan endTime, int tickInterval)
+    public void Start(TimeOnly startTime, TimeOnly endTime, int tickInterval)
     {
         this.startTime = startTime;
         this.endTime = endTime;
@@ -67,7 +67,7 @@ internal class TransitionByDuration : ITimeTransition
             double totalTicks = endTicks - startTicks;
             double currentTicks = startTicks + (totalTicks) * progress;
 
-            CurrentTime = TimeSpan.FromTicks((long)currentTicks);
+            CurrentTime = new TimeOnly((long)currentTicks);
         }
     }
 

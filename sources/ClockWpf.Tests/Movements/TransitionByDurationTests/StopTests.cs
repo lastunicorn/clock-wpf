@@ -9,7 +9,7 @@ public class StopTests
     {
         using TransitionByDuration transition = new(_ => { });
         transition.TransitionDuration = TimeSpan.FromSeconds(5);
-        transition.Start(TimeSpan.Zero, TimeSpan.FromHours(1), 30);
+        transition.Start(TimeOnly.MinValue, new TimeOnly(1, 0, 0), 30);
 
         transition.Stop();
 
@@ -19,10 +19,10 @@ public class StopTests
     [Fact]
     public void HavingRunningTransition_WhenStopping_ThenCurrentTimeIsEndTime()
     {
-        TimeSpan endTime = TimeSpan.FromHours(12);
+        TimeOnly endTime = new TimeOnly(12, 0, 0);
         using TransitionByDuration transition = new(_ => { });
         transition.TransitionDuration = TimeSpan.FromSeconds(5);
-        transition.Start(TimeSpan.Zero, endTime, 30);
+        transition.Start(TimeOnly.MinValue, endTime, 30);
 
         transition.Stop();
 

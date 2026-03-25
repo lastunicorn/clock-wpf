@@ -55,9 +55,9 @@ public class UtcOffsetTests
     {
         using UtcTimeMovement movement = new();
 
-        TimeSpan expectedBefore = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(2);
+        TimeOnly expectedBefore = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(2));
         movement.UtcOffset = TimeSpan.FromHours(2);
-        TimeSpan expectedAfter = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(2);
+        TimeOnly expectedAfter = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(2));
 
         Assert.InRange(movement.LastTick, expectedBefore, expectedAfter);
     }
@@ -66,12 +66,12 @@ public class UtcOffsetTests
     public void WhenSettingNewOffset_ThenTickEventTimeIsCloseToUtcTimeWithOffset()
     {
         using UtcTimeMovement movement = new();
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         movement.Tick += (s, e) => receivedTime = e.Time;
 
-        TimeSpan expectedBefore = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(2);
+        TimeOnly expectedBefore = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(2));
         movement.UtcOffset = TimeSpan.FromHours(2);
-        TimeSpan expectedAfter = DateTime.UtcNow.TimeOfDay + TimeSpan.FromHours(2);
+        TimeOnly expectedAfter = TimeOnly.FromDateTime(DateTime.UtcNow).Add(TimeSpan.FromHours(2));
 
         Assert.NotNull(receivedTime);
         Assert.InRange(receivedTime.Value, expectedBefore, expectedAfter);

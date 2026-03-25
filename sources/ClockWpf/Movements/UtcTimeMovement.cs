@@ -31,11 +31,11 @@ public class UtcTimeMovement : MovementBase
     /// <summary>
     /// Returns the system's UTC time added with the offset value.
     /// </summary>
-    /// <returns>A <see cref="TimeSpan"/> object containing the time value.</returns>
-    protected override TimeSpan GenerateNewTime()
+    /// <returns>A <see cref="TimeOnly"/> object containing the time value.</returns>
+    protected override TimeOnly GenerateNewTime()
     {
         return UtcOffset == TimeSpan.Zero
-            ? DateTime.UtcNow.TimeOfDay
-            : DateTime.UtcNow.TimeOfDay.Add(UtcOffset);
+            ? TimeOnly.FromDateTime(DateTime.UtcNow)
+            : TimeOnly.FromDateTime(DateTime.UtcNow).Add(UtcOffset);
     }
 }

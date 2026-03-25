@@ -10,12 +10,12 @@ public class GenerateNewTimeTests
         using SpeedyMovement movement = new();
         movement.TickInterval = 0;
         movement.TimeSpeed = 0;
-        movement.InitialTime = new TimeSpan(10, 30, 0);
+        movement.InitialTime = new TimeOnly(10, 30, 0);
 
         Thread.Sleep(10);
         movement.Start();
 
-        Assert.Equal(new TimeSpan(10, 30, 0), movement.LastTick);
+        Assert.Equal(new TimeOnly(10, 30, 0), movement.LastTick);
     }
 
     [Fact]
@@ -24,12 +24,12 @@ public class GenerateNewTimeTests
         using SpeedyMovement movement = new();
         movement.TickInterval = 0;
         movement.TimeSpeed = 1;
-        movement.InitialTime = new TimeSpan(10, 30, 0);
+        movement.InitialTime = new TimeOnly(10, 30, 0);
 
         Thread.Sleep(10);
         movement.Start();
 
-        Assert.True(movement.LastTick > new TimeSpan(10, 30, 0));
+        Assert.True(movement.LastTick > new TimeOnly(10, 30, 0));
     }
 
     [Fact]
@@ -38,22 +38,11 @@ public class GenerateNewTimeTests
         using SpeedyMovement movement = new();
         movement.TickInterval = 0;
         movement.TimeSpeed = -1;
-        movement.InitialTime = new TimeSpan(10, 30, 0);
+        movement.InitialTime = new TimeOnly(10, 30, 0);
 
         Thread.Sleep(10);
         movement.Start();
 
-        Assert.True(movement.LastTick < new TimeSpan(10, 30, 0));
-    }
-
-    [Fact]
-    public void HavingInitialTimeExceedingOneDayAndTimeSpeedZero_WhenSettingInitialTime_ThenLastTickIsWrappedWithinOneDay()
-    {
-        using SpeedyMovement movement = new();
-        movement.TimeSpeed = 0;
-
-        movement.InitialTime = new TimeSpan(25, 0, 0);
-
-        Assert.Equal(new TimeSpan(1, 0, 0), movement.LastTick);
+        Assert.True(movement.LastTick < new TimeOnly(10, 30, 0));
     }
 }

@@ -9,7 +9,7 @@ public class Value_NoneTests
     {
         HandAngle handAngle = new()
         {
-            Time = TimeSpan.FromHours(3),
+            Time = new TimeOnly(3, 0, 0),
             TimeComponent = TimeComponent.None,
             ClockDirection = RotationDirection.Clockwise,
             IntegralValue = true

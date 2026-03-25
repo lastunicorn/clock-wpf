@@ -15,7 +15,7 @@ public class ConstructorTests
     {
         using TestableMovementBase movement = new();
 
-        Assert.Equal(TimeSpan.Zero, movement.LastTick);
+        Assert.Equal(TimeOnly.MinValue, movement.LastTick);
     }
 
     [Fact]

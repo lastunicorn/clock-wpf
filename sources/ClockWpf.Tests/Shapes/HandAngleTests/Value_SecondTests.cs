@@ -9,7 +9,7 @@ public class Value_SecondTests
     {
         HandAngle handAngle = new()
         {
-            Time = TimeSpan.FromSeconds(15),
+            Time = new TimeOnly(0, 0, 15),
             TimeComponent = TimeComponent.Second,
             ClockDirection = RotationDirection.Clockwise,
             IntegralValue = true
@@ -25,7 +25,7 @@ public class Value_SecondTests
     {
         HandAngle handAngle = new()
         {
-            Time = TimeSpan.FromSeconds(15),
+            Time = new TimeOnly(0, 0, 15),
             TimeComponent = TimeComponent.Second,
             ClockDirection = RotationDirection.Clockwise,
             IntegralValue = false

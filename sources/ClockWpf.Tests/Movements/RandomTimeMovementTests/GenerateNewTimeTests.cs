@@ -4,8 +4,7 @@ namespace DustInTheWind.ClockWpf.Tests.Movements.RandomTimeMovementTests;
 
 public class GenerateNewTimeTests
 {
-    private static readonly TimeSpan OneDayMinusOneTick = TimeSpan.FromHours(24) - TimeSpan.FromTicks(1);
-
+    
     [Fact]
     public void HavingTickIntervalZero_WhenStarting_ThenLastTickIsWithinOneDay()
     {
@@ -14,7 +13,7 @@ public class GenerateNewTimeTests
 
         movement.Start();
 
-        Assert.InRange(movement.LastTick, TimeSpan.Zero, OneDayMinusOneTick);
+        Assert.InRange(movement.LastTick, TimeOnly.MinValue, TimeOnly.MaxValue);
     }
 
     [Fact]
@@ -22,13 +21,13 @@ public class GenerateNewTimeTests
     {
         using RandomTimeMovement movement = new();
         movement.TickInterval = 0;
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         movement.Tick += (s, e) => receivedTime = e.Time;
 
         movement.Start();
 
         Assert.NotNull(receivedTime);
-        Assert.InRange(receivedTime.Value, TimeSpan.Zero, OneDayMinusOneTick);
+        Assert.InRange(receivedTime.Value, TimeOnly.MinValue, TimeOnly.MaxValue);
     }
 
     [Fact]
@@ -38,13 +37,13 @@ public class GenerateNewTimeTests
         movement.TickInterval = 0;
 
         movement.Start();
-        TimeSpan firstLastTick = movement.LastTick;
+        TimeOnly firstLastTick = movement.LastTick;
 
         movement.Start();
-        TimeSpan secondLastTick = movement.LastTick;
+        TimeOnly secondLastTick = movement.LastTick;
 
-        Assert.InRange(firstLastTick, TimeSpan.Zero, OneDayMinusOneTick);
-        Assert.InRange(secondLastTick, TimeSpan.Zero, OneDayMinusOneTick);
+        Assert.InRange(firstLastTick, TimeOnly.MinValue, TimeOnly.MaxValue);
+        Assert.InRange(secondLastTick, TimeOnly.MinValue, TimeOnly.MaxValue);
     }
 
     [Fact]
@@ -57,14 +56,14 @@ public class GenerateNewTimeTests
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
 
-        Assert.InRange(movement.LastTick, TimeSpan.Zero, OneDayMinusOneTick);
+        Assert.InRange(movement.LastTick, TimeOnly.MinValue, TimeOnly.MaxValue);
     }
 
     [Fact]
     public void HavingDefaultTickInterval_WhenStarting_ThenTickEventTimeIsWithinOneDay()
     {
         using RandomTimeMovement movement = new();
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         using ManualResetEventSlim tickReceived = new(false);
         movement.Tick += (s, e) =>
         {
@@ -76,7 +75,7 @@ public class GenerateNewTimeTests
         tickReceived.Wait(TimeSpan.FromSeconds(1));
 
         Assert.NotNull(receivedTime);
-        Assert.InRange(receivedTime.Value, TimeSpan.Zero, OneDayMinusOneTick);
+        Assert.InRange(receivedTime.Value, TimeOnly.MinValue, TimeOnly.MaxValue);
     }
 
     [Fact]
@@ -88,14 +87,14 @@ public class GenerateNewTimeTests
 
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan firstLastTick = movement.LastTick;
+        TimeOnly firstLastTick = movement.LastTick;
 
         tickReceived.Reset();
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan secondLastTick = movement.LastTick;
+        TimeOnly secondLastTick = movement.LastTick;
 
-        Assert.InRange(firstLastTick, TimeSpan.Zero, OneDayMinusOneTick);
-        Assert.InRange(secondLastTick, TimeSpan.Zero, OneDayMinusOneTick);
+        Assert.InRange(firstLastTick, TimeOnly.MinValue, TimeOnly.MaxValue);
+        Assert.InRange(secondLastTick, TimeOnly.MinValue, TimeOnly.MaxValue);
     }
 }

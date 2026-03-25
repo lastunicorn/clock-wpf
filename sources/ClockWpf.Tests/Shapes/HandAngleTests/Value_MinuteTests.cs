@@ -9,7 +9,7 @@ public class Value_MinuteTests
     {
         HandAngle handAngle = new()
         {
-            Time = TimeSpan.FromMinutes(15),
+            Time = new TimeOnly(0, 15, 0),
             TimeComponent = TimeComponent.Minute,
             ClockDirection = RotationDirection.Clockwise,
             IntegralValue = true
@@ -25,7 +25,7 @@ public class Value_MinuteTests
     {
         HandAngle handAngle = new()
         {
-            Time = new TimeSpan(0, 15, 45),
+            Time = new TimeOnly(0, 15, 45),
             TimeComponent = TimeComponent.Minute,
             ClockDirection = RotationDirection.Clockwise,
             IntegralValue = true
@@ -41,7 +41,7 @@ public class Value_MinuteTests
     {
         HandAngle handAngle = new()
         {
-            Time = TimeSpan.FromMinutes(15),
+            Time = new TimeOnly(0, 15, 0),
             TimeComponent = TimeComponent.Minute,
             ClockDirection = RotationDirection.Clockwise,
             IntegralValue = false
@@ -57,7 +57,7 @@ public class Value_MinuteTests
     {
         HandAngle handAngle = new()
         {
-            Time = new TimeSpan(0, 15, 30),
+            Time = new TimeOnly(0, 15, 30),
             TimeComponent = TimeComponent.Minute,
             ClockDirection = RotationDirection.Clockwise,
             IntegralValue = false

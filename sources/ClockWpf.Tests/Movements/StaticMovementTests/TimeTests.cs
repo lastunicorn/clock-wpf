@@ -9,16 +9,16 @@ public class TimeTests
     {
         using StaticMovement movement = new();
 
-        movement.Time = new TimeSpan(10, 30, 0);
+        movement.Time = new TimeOnly(10, 30, 0);
 
-        Assert.Equal(new TimeSpan(10, 30, 0), movement.Time);
+        Assert.Equal(new TimeOnly(10, 30, 0), movement.Time);
     }
 
     [Fact]
     public void WhenSettingSameTime_ThenModifiedEventIsNotRaised()
     {
         using StaticMovement movement = new();
-        TimeSpan currentTime = movement.Time;
+        TimeOnly currentTime = movement.Time;
         bool modifiedRaised = false;
         movement.Modified += (s, e) => modifiedRaised = true;
 
@@ -34,7 +34,7 @@ public class TimeTests
         bool modifiedRaised = false;
         movement.Modified += (s, e) => modifiedRaised = true;
 
-        movement.Time = new TimeSpan(10, 30, 0);
+        movement.Time = new TimeOnly(10, 30, 0);
 
         Assert.True(modifiedRaised);
     }
@@ -44,21 +44,21 @@ public class TimeTests
     {
         using StaticMovement movement = new();
 
-        movement.Time = new TimeSpan(10, 30, 0);
+        movement.Time = new TimeOnly(10, 30, 0);
 
-        Assert.Equal(new TimeSpan(10, 30, 0), movement.LastTick);
+        Assert.Equal(new TimeOnly(10, 30, 0), movement.LastTick);
     }
 
     [Fact]
     public void WhenSettingNewTime_ThenTickEventIsRaisedWithNewTime()
     {
         using StaticMovement movement = new();
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         movement.Tick += (s, e) => receivedTime = e.Time;
 
-        movement.Time = new TimeSpan(10, 30, 0);
+        movement.Time = new TimeOnly(10, 30, 0);
 
         Assert.NotNull(receivedTime);
-        Assert.Equal(new TimeSpan(10, 30, 0), receivedTime.Value);
+        Assert.Equal(new TimeOnly(10, 30, 0), receivedTime.Value);
     }
 }

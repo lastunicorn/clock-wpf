@@ -213,7 +213,7 @@ public class Dial : Canvas
         {
             DrawingContext = drawingContext,
             ClockDiameter = Math.Min(ActualWidth, ActualHeight),
-            Time = Movement?.LastTick ?? TimeSpan.Zero,
+            Time = Movement?.LastTick ?? TimeOnly.MinValue,
             ClockDirection = RotationDirection
         };
 

@@ -4,9 +4,9 @@ namespace DustInTheWind.ClockWpf.Tests.Movements.MovementBaseTests;
 
 internal class TestableMovementBase : MovementBase
 {
-    public TimeSpan TimeToReturn { get; set; } = TimeSpan.Zero;
+    public TimeOnly TimeToReturn { get; set; } = TimeOnly.MinValue;
 
-    protected override TimeSpan GenerateNewTime()
+    protected override TimeOnly GenerateNewTime()
     {
         return TimeToReturn;
     }

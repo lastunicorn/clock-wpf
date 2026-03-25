@@ -26,7 +26,7 @@ public class ConstructorTests
     {
         using TransitionByDuration transition = new(_ => { });
 
-        Assert.Equal(TimeSpan.Zero, transition.CurrentTime);
+        Assert.Equal(TimeOnly.MinValue, transition.CurrentTime);
     }
 
     [Fact]

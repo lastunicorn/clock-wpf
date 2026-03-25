@@ -10,7 +10,7 @@ public class ClockDrawingContext
 
     public double ClockRadius => ClockDiameter / 2;
 
-    public TimeSpan Time { get; init; }
+    public TimeOnly Time { get; init; }
     
     public RotationDirection ClockDirection { get; init; }
 }

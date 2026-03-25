@@ -14,9 +14,9 @@ public class ConstructorTests
     [Fact]
     public void WhenCreatingInstance_ThenTimeIsCloseToLocalTimeOfDay()
     {
-        TimeSpan timeBefore = DateTime.Now.TimeOfDay;
+        TimeOnly timeBefore = TimeOnly.FromDateTime(DateTime.Now);
         using StaticMovement movement = new();
-        TimeSpan timeAfter = DateTime.Now.TimeOfDay;
+        TimeOnly timeAfter = TimeOnly.FromDateTime(DateTime.Now);
 
         Assert.InRange(movement.Time, timeBefore, timeAfter);
     }

@@ -40,11 +40,11 @@ public class StartTests
     [Fact]
     public void HavingNonPositiveTickInterval_WhenStarting_ThenTickEventArgsContainsCorrectTime()
     {
-        TimeSpan expectedTime = new(10, 30, 0);
+        TimeOnly expectedTime = new(10, 30, 0);
         using TestableMovementBase movement = new();
         movement.TimeToReturn = expectedTime;
         movement.TickInterval = 0;
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         movement.Tick += (s, e) => receivedTime = e.Time;
 
         movement.Start();
@@ -55,7 +55,7 @@ public class StartTests
     [Fact]
     public void HavingNonPositiveTickInterval_WhenStarting_ThenLastTickIsUpdated()
     {
-        TimeSpan expectedTime = new(10, 30, 0);
+        TimeOnly expectedTime = new(10, 30, 0);
         using TestableMovementBase movement = new();
         movement.TimeToReturn = expectedTime;
         movement.TickInterval = 0;
@@ -82,7 +82,7 @@ public class StartTests
     [Fact]
     public void HavingPositiveTickInterval_WhenStarting_ThenLastTickIsEventuallyUpdated()
     {
-        TimeSpan expectedTime = new(10, 30, 0);
+        TimeOnly expectedTime = new(10, 30, 0);
         using TestableMovementBase movement = new();
         movement.TimeToReturn = expectedTime;
         movement.TickInterval = 50;

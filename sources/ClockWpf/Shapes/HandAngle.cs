@@ -13,7 +13,7 @@ public record class HandAngle
 {
     private bool isValueCalculated;
 
-    public required TimeSpan Time { get; init; }
+    public required TimeOnly Time { get; init; }
 
     public required TimeComponent TimeComponent { get; init; }
 
@@ -45,24 +45,25 @@ public record class HandAngle
         return angle;
     }
 
-    private double CalculateClockwiseHandAngle(TimeSpan time)
+    private double CalculateClockwiseHandAngle(TimeOnly time)
     {
         if (IntegralValue)
         {
             return TimeComponent switch
             {
-                TimeComponent.Hour => (time.Hours % 12) * 30.0,
-                TimeComponent.Minute => time.Minutes * 6.0,
-                TimeComponent.Second => time.Seconds * 6.0,
+                TimeComponent.Hour => (time.Hour % 12) * 30.0,
+                TimeComponent.Minute => time.Minute * 6.0,
+                TimeComponent.Second => time.Second * 6.0,
                 _ => 0
             };
         }
 
+        TimeSpan ts = time.ToTimeSpan();
         return TimeComponent switch
         {
-            TimeComponent.Hour => (time.TotalHours % 12 / 12) * 360.0,
-            TimeComponent.Minute => (time.TotalMinutes % 60 / 60) * 360.0,
-            TimeComponent.Second => (time.TotalSeconds % 60 / 60) * 360.0,
+            TimeComponent.Hour => (ts.TotalHours % 12 / 12) * 360.0,
+            TimeComponent.Minute => (ts.TotalMinutes % 60 / 60) * 360.0,
+            TimeComponent.Second => (ts.TotalSeconds % 60 / 60) * 360.0,
             _ => 0
         };
     }

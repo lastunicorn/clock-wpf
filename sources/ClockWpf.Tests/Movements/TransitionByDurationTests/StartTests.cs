@@ -10,7 +10,7 @@ public class StartTests
         using TransitionByDuration transition = new(_ => { });
         transition.TransitionDuration = TimeSpan.Zero;
 
-        transition.Start(TimeSpan.Zero, TimeSpan.FromHours(1), 30);
+        transition.Start(TimeOnly.MinValue, new TimeOnly(1, 0, 0), 30);
 
         Assert.False(transition.IsRunning);
     }
@@ -20,9 +20,9 @@ public class StartTests
     {
         using TransitionByDuration transition = new(_ => { });
         transition.TransitionDuration = TimeSpan.Zero;
-        TimeSpan endTime = TimeSpan.FromHours(12);
+        TimeOnly endTime = new TimeOnly(12, 0, 0);
 
-        transition.Start(TimeSpan.Zero, endTime, 30);
+        transition.Start(TimeOnly.MinValue, endTime, 30);
 
         Assert.Equal(endTime, transition.CurrentTime);
     }
@@ -33,7 +33,7 @@ public class StartTests
         using TransitionByDuration transition = new(_ => { });
         transition.TransitionDuration = TimeSpan.FromSeconds(-1);
 
-        transition.Start(TimeSpan.Zero, TimeSpan.FromHours(1), 30);
+        transition.Start(TimeOnly.MinValue, new TimeOnly(1, 0, 0), 30);
 
         Assert.False(transition.IsRunning);
     }
@@ -43,9 +43,9 @@ public class StartTests
     {
         using TransitionByDuration transition = new(_ => { });
         transition.TransitionDuration = TimeSpan.FromSeconds(-1);
-        TimeSpan endTime = TimeSpan.FromHours(12);
+        TimeOnly endTime = new TimeOnly(12, 0, 0);
 
-        transition.Start(TimeSpan.Zero, endTime, 30);
+        transition.Start(TimeOnly.MinValue, endTime, 30);
 
         Assert.Equal(endTime, transition.CurrentTime);
     }
@@ -56,7 +56,7 @@ public class StartTests
         using TransitionByDuration transition = new(_ => { });
         transition.TransitionDuration = TimeSpan.FromSeconds(5);
 
-        transition.Start(TimeSpan.Zero, TimeSpan.FromHours(1), 30);
+        transition.Start(TimeOnly.MinValue, new TimeOnly(1, 0, 0), 30);
 
         Assert.True(transition.IsRunning);
     }

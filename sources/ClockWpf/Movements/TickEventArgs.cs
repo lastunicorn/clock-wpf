@@ -8,13 +8,13 @@ public class TickEventArgs : EventArgs
     /// <summary>
     /// Gets the time value.
     /// </summary>
-    public TimeSpan Time { get; }
+    public TimeOnly Time { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TickEventArgs"/> class.
     /// </summary>
     /// <param name="time">The time value.</param>
-    public TickEventArgs(TimeSpan time)
+    public TickEventArgs(TimeOnly time)
     {
         Time = time;
     }

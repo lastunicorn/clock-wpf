@@ -13,7 +13,7 @@ public class SpeedyMovement : MovementBase
 
     #region InitialTime Property
 
-    private TimeSpan initialTime = DateTime.Now.TimeOfDay;
+    private TimeOnly initialTime = TimeOnly.FromDateTime(DateTime.Now);
 
     /// <summary>
     /// Gets or sets the initial time value used as a reference for calculating subsequent time values.
@@ -21,7 +21,7 @@ public class SpeedyMovement : MovementBase
     /// </summary>
     [Category("Behavior")]
     [Description("The initial time value used as a reference for calculating subsequent time values. When this value is set, it resets the time calculation and restarts the provider.")]
-    public TimeSpan InitialTime
+    public TimeOnly InitialTime
     {
         get => initialTime;
         set
@@ -80,16 +80,13 @@ public class SpeedyMovement : MovementBase
     /// Returns a new time value calculated based on the time multiplier.
     /// </summary>
     /// <returns>A <see cref="TimeSpan"/> object containing the time value.</returns>
-    protected override TimeSpan GenerateNewTime()
+    protected override TimeOnly GenerateNewTime()
     {
         DateTime currentRealTime = DateTime.UtcNow;
         long realDeltaTicks = currentRealTime.Ticks - initialRealTime.Ticks;
         double fakeDeltaTicks = realDeltaTicks * TimeSpeed;
         TimeSpan fakeDelta = TimeSpan.FromTicks((long)fakeDeltaTicks);
-        TimeSpan fakeTime = initialTime + fakeDelta;
 
-        return fakeTime.Days > 0
-            ? fakeTime.Subtract(TimeSpan.FromDays(fakeTime.Days))
-            : fakeTime;
+        return initialTime.Add(fakeDelta);
     }
 }

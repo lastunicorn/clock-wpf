@@ -32,7 +32,7 @@ public interface IMovement : IDisposable
     /// <summary>
     /// Gets the most recently provided value.
     /// </summary>
-    TimeSpan LastTick { get; }
+    TimeOnly LastTick { get; }
 
     /// <summary>
     /// Starts the time provider. The time provider will begin generating time values.

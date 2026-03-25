@@ -9,10 +9,10 @@ public class RandomTimeMovement : MovementBase
     /// <summary>
     /// Returns a random time value.
     /// </summary>
-    /// <returns>A <see cref="TimeSpan"/> object containing a random time value.</returns>
-    protected override TimeSpan GenerateNewTime()
+    /// <returns>A <see cref="TimeOnly"/> object containing a random time value.</returns>
+    protected override TimeOnly GenerateNewTime()
     {
         long ticks = Random.Shared.NextInt64(TimeSpan.TicksPerDay);
-        return TimeSpan.FromTicks(ticks);
+        return new TimeOnly(ticks);
     }
 }

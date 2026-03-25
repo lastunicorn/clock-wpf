@@ -4,8 +4,8 @@ internal class TransitionBySpeed : ITimeTransition
 {
     private readonly Timer transitionTimer;
     private readonly TimeTransitionCallback callback;
-    private TimeSpan startTime;
-    private TimeSpan endTime;
+    private TimeOnly startTime;
+    private TimeOnly endTime;
     private DateTime realStartTime;
     private bool isDisposed;
 
@@ -13,7 +13,7 @@ internal class TransitionBySpeed : ITimeTransition
 
     public bool IsRunning { get; private set; }
 
-    public TimeSpan CurrentTime { get; private set; }
+    public TimeOnly CurrentTime { get; private set; }
 
     public TransitionBySpeed(TimeTransitionCallback callback)
     {
@@ -28,7 +28,7 @@ internal class TransitionBySpeed : ITimeTransition
         callback(CurrentTime);
     }
 
-    public void Start(TimeSpan startTime, TimeSpan endTime, int tickInterval)
+    public void Start(TimeOnly startTime, TimeOnly endTime, int tickInterval)
     {
         this.startTime = startTime;
         this.endTime = endTime;
@@ -49,20 +49,19 @@ internal class TransitionBySpeed : ITimeTransition
     {
         TimeSpan realElapsedTime = DateTime.Now - realStartTime;
 
-        TimeSpan totalTime = endTime - startTime;
-        bool isForward = totalTime >= TimeSpan.Zero;
+        bool isForward = endTime >= startTime;
         double clockTimeAdvanced = realElapsedTime.TotalSeconds * TransitionSpeed;
 
         if (isForward)
         {
-            CurrentTime = startTime + TimeSpan.FromSeconds(clockTimeAdvanced);
+            CurrentTime = startTime.Add(TimeSpan.FromSeconds(clockTimeAdvanced));
 
             if (CurrentTime >= endTime)
                 Stop();
         }
         else
         {
-            CurrentTime = startTime - TimeSpan.FromSeconds(clockTimeAdvanced);
+            CurrentTime = startTime.Add(TimeSpan.FromSeconds(-clockTimeAdvanced));
 
             if (CurrentTime <= endTime)
                 Stop();

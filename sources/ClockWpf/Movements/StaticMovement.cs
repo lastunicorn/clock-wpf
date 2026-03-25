@@ -14,8 +14,8 @@ namespace DustInTheWind.ClockWpf.Movements;
 [Movement("Static", "Provides a fixed time value with optional smooth transition when changed.")]
 public class StaticMovement : MovementBase
 {
-    private TimeSpan desiredTime = DateTime.Now.TimeOfDay;
-    private TimeSpan currentTime = DateTime.Now.TimeOfDay;
+    private TimeOnly desiredTime = TimeOnly.FromDateTime(DateTime.Now);
+    private TimeOnly currentTime = TimeOnly.FromDateTime(DateTime.Now);
     private ITimeTransition timeTransition;
 
     #region Time Property
@@ -25,7 +25,7 @@ public class StaticMovement : MovementBase
     /// </summary>
     [Category("Behavior")]
     [Description("The desired time value to be used.")]
-    public TimeSpan Time
+    public TimeOnly Time
     {
         get => desiredTime;
         set
@@ -134,7 +134,7 @@ public class StaticMovement : MovementBase
         TickInterval = 0;
     }
 
-    private void HandleTransitionCallback(TimeSpan time)
+    private void HandleTransitionCallback(TimeOnly time)
     {
         currentTime = time;
         ForceTick();
@@ -215,7 +215,7 @@ public class StaticMovement : MovementBase
     /// </remarks>
     /// <returns>A TimeSpan representing the current time. If a transition is in progress, the value reflects the interpolated
     /// time between the start and target times; otherwise, it returns the current time without modification.</returns>
-    protected override TimeSpan GenerateNewTime()
+    protected override TimeOnly GenerateNewTime()
     {
         return currentTime;
     }

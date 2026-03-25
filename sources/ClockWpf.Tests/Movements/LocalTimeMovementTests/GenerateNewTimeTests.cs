@@ -10,9 +10,9 @@ public class GenerateNewTimeTests
         using LocalTimeMovement movement = new();
         movement.TickInterval = 0;
 
-        TimeSpan timeBefore = DateTime.Now.TimeOfDay;
+        TimeOnly timeBefore = TimeOnly.FromDateTime(DateTime.Now);
         movement.Start();
-        TimeSpan timeAfter = DateTime.Now.TimeOfDay;
+        TimeOnly timeAfter = TimeOnly.FromDateTime(DateTime.Now);
 
         Assert.InRange(movement.LastTick, timeBefore, timeAfter);
     }
@@ -22,12 +22,12 @@ public class GenerateNewTimeTests
     {
         using LocalTimeMovement movement = new();
         movement.TickInterval = 0;
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         movement.Tick += (s, e) => receivedTime = e.Time;
 
-        TimeSpan timeBefore = DateTime.Now.TimeOfDay;
+        TimeOnly timeBefore = TimeOnly.FromDateTime(DateTime.Now);
         movement.Start();
-        TimeSpan timeAfter = DateTime.Now.TimeOfDay;
+        TimeOnly timeAfter = TimeOnly.FromDateTime(DateTime.Now);
 
         Assert.NotNull(receivedTime);
         Assert.InRange(receivedTime.Value, timeBefore, timeAfter);
@@ -40,12 +40,12 @@ public class GenerateNewTimeTests
         movement.TickInterval = 0;
 
         movement.Start();
-        TimeSpan firstLastTick = movement.LastTick;
+        TimeOnly firstLastTick = movement.LastTick;
 
         Thread.Sleep(10);
 
         movement.Start();
-        TimeSpan secondLastTick = movement.LastTick;
+        TimeOnly secondLastTick = movement.LastTick;
 
         Assert.True(secondLastTick >= firstLastTick);
     }
@@ -57,10 +57,10 @@ public class GenerateNewTimeTests
         using ManualResetEventSlim tickReceived = new(false);
         movement.Tick += (s, e) => tickReceived.Set();
 
-        TimeSpan timeBefore = DateTime.Now.TimeOfDay;
+        TimeOnly timeBefore = TimeOnly.FromDateTime(DateTime.Now);
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan timeAfter = DateTime.Now.TimeOfDay;
+        TimeOnly timeAfter = TimeOnly.FromDateTime(DateTime.Now);
 
         Assert.InRange(movement.LastTick, timeBefore, timeAfter);
     }
@@ -69,7 +69,7 @@ public class GenerateNewTimeTests
     public void HavingDefaultTickInterval_WhenStarting_ThenTickEventTimeIsCloseToLocalTimeOfDay()
     {
         using LocalTimeMovement movement = new();
-        TimeSpan? receivedTime = null;
+        TimeOnly? receivedTime = null;
         using ManualResetEventSlim tickReceived = new(false);
         movement.Tick += (s, e) =>
         {
@@ -77,10 +77,10 @@ public class GenerateNewTimeTests
             tickReceived.Set();
         };
 
-        TimeSpan timeBefore = DateTime.Now.TimeOfDay;
+        TimeOnly timeBefore = TimeOnly.FromDateTime(DateTime.Now);
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan timeAfter = DateTime.Now.TimeOfDay;
+        TimeOnly timeAfter = TimeOnly.FromDateTime(DateTime.Now);
 
         Assert.NotNull(receivedTime);
         Assert.InRange(receivedTime.Value, timeBefore, timeAfter);
@@ -95,13 +95,13 @@ public class GenerateNewTimeTests
 
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan firstLastTick = movement.LastTick;
+        TimeOnly firstLastTick = movement.LastTick;
 
         tickReceived.Reset();
         Thread.Sleep(10);
         movement.Start();
         tickReceived.Wait(TimeSpan.FromSeconds(1));
-        TimeSpan secondLastTick = movement.LastTick;
+        TimeOnly secondLastTick = movement.LastTick;
 
         Assert.True(secondLastTick >= firstLastTick);
     }

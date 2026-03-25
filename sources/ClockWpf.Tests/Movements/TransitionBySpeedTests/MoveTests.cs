@@ -9,8 +9,8 @@ public class MoveTests
     {
         using TransitionBySpeed transition = new(_ => { });
         transition.TransitionSpeed = 1;
-        TimeSpan startTime = TimeSpan.FromHours(0);
-        TimeSpan endTime = TimeSpan.FromHours(12);
+        TimeOnly startTime = TimeOnly.MinValue;
+        TimeOnly endTime = new TimeOnly(12, 0, 0);
         transition.Start(startTime, endTime, 30);
 
         transition.Move();
@@ -23,8 +23,8 @@ public class MoveTests
     {
         using TransitionBySpeed transition = new(_ => { });
         transition.TransitionSpeed = 1;
-        TimeSpan startTime = TimeSpan.FromHours(12);
-        TimeSpan endTime = TimeSpan.FromHours(0);
+        TimeOnly startTime = new TimeOnly(12, 0, 0);
+        TimeOnly endTime = TimeOnly.MinValue;
         transition.Start(startTime, endTime, 30);
 
         transition.Move();
@@ -37,7 +37,7 @@ public class MoveTests
     {
         using TransitionBySpeed transition = new(_ => { });
         transition.TransitionSpeed = 1;
-        TimeSpan time = TimeSpan.FromHours(6);
+        TimeOnly time = new TimeOnly(6, 0, 0);
         transition.Start(time, time, 30);
 
         transition.Move();
@@ -50,7 +50,7 @@ public class MoveTests
     {
         using TransitionBySpeed transition = new(_ => { });
         transition.TransitionSpeed = 1;
-        TimeSpan time = TimeSpan.FromHours(6);
+        TimeOnly time = new TimeOnly(6, 0, 0);
         transition.Start(time, time, 30);
 
         transition.Move();

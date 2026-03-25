@@ -8,9 +8,9 @@ public class MoveTests
     public void HavingForwardTransition_WhenCallbackFires_ThenTimeIsGreaterThanOrEqualToStartTime()
     {
         using ManualResetEventSlim callbackFired = new(false);
-        TimeSpan startTime = TimeSpan.FromHours(0);
-        TimeSpan endTime = TimeSpan.FromHours(12);
-        TimeSpan capturedTime = default;
+        TimeOnly startTime = TimeOnly.MinValue;
+        TimeOnly endTime = new TimeOnly(12, 0, 0);
+        TimeOnly capturedTime = default;
         using TransitionByDuration transition = new(time =>
         {
             capturedTime = time;
@@ -30,9 +30,9 @@ public class MoveTests
     public void HavingBackwardTransition_WhenCallbackFires_ThenTimeIsLessThanOrEqualToStartTime()
     {
         using ManualResetEventSlim callbackFired = new(false);
-        TimeSpan startTime = TimeSpan.FromHours(12);
-        TimeSpan endTime = TimeSpan.FromHours(0);
-        TimeSpan capturedTime = default;
+        TimeOnly startTime = new TimeOnly(12, 0, 0);
+        TimeOnly endTime = TimeOnly.MinValue;
+        TimeOnly capturedTime = default;
         using TransitionByDuration transition = new(time =>
         {
             capturedTime = time;
@@ -52,8 +52,8 @@ public class MoveTests
     public void HavingEqualStartAndEndTime_WhenCallbackFires_ThenTimeEqualsEndTime()
     {
         using ManualResetEventSlim callbackFired = new(false);
-        TimeSpan time = TimeSpan.FromHours(6);
-        TimeSpan capturedTime = default;
+        TimeOnly time = new TimeOnly(6, 0, 0);
+        TimeOnly capturedTime = default;
         using TransitionByDuration transition = new(t =>
         {
             capturedTime = t;
@@ -72,7 +72,7 @@ public class MoveTests
     [Fact]
     public void HavingTransitionDurationElapsed_WhenMoving_ThenIsRunningIsFalse()
     {
-        TimeSpan endTime = TimeSpan.FromHours(12);
+        TimeOnly endTime = new TimeOnly(12, 0, 0);
         using ManualResetEventSlim completed = new(false);
         using TransitionByDuration transition = new(time =>
         {
@@ -80,7 +80,7 @@ public class MoveTests
                 completed.Set();
         });
         transition.TransitionDuration = TimeSpan.FromMilliseconds(50);
-        transition.Start(TimeSpan.FromHours(0), endTime, 10);
+        transition.Start(TimeOnly.MinValue, endTime, 10);
 
         completed.Wait(TimeSpan.FromSeconds(2));
 
@@ -90,7 +90,7 @@ public class MoveTests
     [Fact]
     public void HavingTransitionDurationElapsed_WhenMoving_ThenCurrentTimeIsEndTime()
     {
-        TimeSpan endTime = TimeSpan.FromHours(12);
+        TimeOnly endTime = new TimeOnly(12, 0, 0);
         using ManualResetEventSlim completed = new(false);
         using TransitionByDuration transition = new(time =>
         {
@@ -98,7 +98,7 @@ public class MoveTests
                 completed.Set();
         });
         transition.TransitionDuration = TimeSpan.FromMilliseconds(50);
-        transition.Start(TimeSpan.FromHours(0), endTime, 10);
+        transition.Start(TimeOnly.MinValue, endTime, 10);
 
         completed.Wait(TimeSpan.FromSeconds(2));
 

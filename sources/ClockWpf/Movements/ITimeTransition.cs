@@ -4,9 +4,9 @@ internal interface ITimeTransition : IDisposable
 {
     bool IsRunning { get; }
 
-    TimeSpan CurrentTime { get; }
+    TimeOnly CurrentTime { get; }
 
-    void Start(TimeSpan startTime, TimeSpan endTime, int tickInterval);
+    void Start(TimeOnly startTime, TimeOnly endTime, int tickInterval);
 
     void Stop();
 }
