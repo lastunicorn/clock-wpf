@@ -1,0 +1,56 @@
+<UserControl
+    x:Class="DustInTheWind.ClockWpf.TemplateEditor.Presentation.MainArea.StatusBarControl"
+    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:DustInTheWind.ClockWpf.TemplateEditor.Presentation.MainArea"
+    
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance local:StatusBarViewModel}">
+
+    <StatusBar Padding="2">
+
+        <StatusBarItem
+            DockPanel.Dock="Right"
+            Width="20"/>
+
+        <StatusBarItem DockPanel.Dock="Right">
+
+            <TextBlock>
+
+                <Run
+                    Text="Movement:"
+                    FontWeight="DemiBold" />
+
+                <Run Text="{Binding MovementName, TargetNullValue='(none)'}" />
+
+            </TextBlock>
+
+        </StatusBarItem>
+
+        <Separator
+            DockPanel.Dock="Right"
+            Margin="5 3"
+            Background="LightGray"/>
+
+        <StatusBarItem DockPanel.Dock="Right">
+
+            <TextBlock>
+
+                <Run
+                    Text="Template:"
+                    FontWeight="DemiBold" />
+
+                <Run Text="{Binding TemplateName, TargetNullValue='(none)'}" />
+
+            </TextBlock>
+
+        </StatusBarItem>
+
+        <Control HorizontalAlignment="Right" />
+
+    </StatusBar>
+
+</UserControl>

@@ -32,51 +32,9 @@
 
 			<DockPanel>
 
-				<StatusBar
+				<mainArea:StatusBarControl
 					DockPanel.Dock="Bottom"
-					Padding="2">
-
-					<StatusBarItem
-						DockPanel.Dock="Right"
-						Width="20"/>
-
-					<StatusBarItem
-						DockPanel.Dock="Right">
-
-						<TextBlock>
-						
-							<Run
-								Text="Movement:"
-								FontWeight="DemiBold" />
-						
-							<Run Text="{Binding MovementName, TargetNullValue='(none)'}" />
-
-						</TextBlock>
-
-					</StatusBarItem>
-
-					<Separator
-						DockPanel.Dock="Right"
-						Margin="5 3"
-						Background="LightGray"/>
-
-					<StatusBarItem
-						DockPanel.Dock="Right">
-
-						<TextBlock>
-						
-							<Run
-								Text="Template:"
-								FontWeight="DemiBold" />
-						
-							<Run Text="{Binding TemplateName, TargetNullValue='(none)'}" />
-
-						</TextBlock>
-					</StatusBarItem>
-
-					<Control HorizontalAlignment="Right" />
-
-				</StatusBar>
+					DataContext="{Binding StatusBarViewModel}" />
 
 				<Grid>
 

@@ -25,6 +25,7 @@ internal static class Setup
 
         serviceCollection.AddTransient<MainWindow>();
         serviceCollection.AddTransient<MainViewModel>();
+        serviceCollection.AddTransient<StatusBarViewModel>();
 
         serviceCollection.AddTransient<ClockViewModel>();
         serviceCollection.AddTransient<MiscellaneousViewModel>();
