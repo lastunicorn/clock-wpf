@@ -31,22 +31,28 @@
 			NoteType="Info"
 			Content="The movement selected here is not part of the clock template. It will not be saved with the template."/>
 
-		<!--<customControls:NoteBox
-			Grid.Row="0"
-			Margin="0 10 0 0">
+		<DockPanel
+			Grid.Row="1">
+
+			<Button
+				DockPanel.Dock="Right"
+				HorizontalAlignment="Right"
+				Content="Reset"
+				Padding="10 0"
+				Margin="0 10 0 0"
+				Command="{Binding ResetMovementCommand}" />
 
 			<TextBlock
-				Text="The movement selected here is not part of the clock template. It will not be saved with the template."
-				TextWrapping="Wrap"/>
-		</customControls:NoteBox>-->
+				FontSize="14"
+				FontWeight="DemiBold"
+				Margin="0 10 0 0">
+				
+				<TextBlock.Text>
+					<Binding Path="CurrentTime" StringFormat="'Time: 'HH:mm:ss"/>
+				</TextBlock.Text>
+			</TextBlock>
 
-		<Button
-			Grid.Row="1"
-            HorizontalAlignment="Right"
-            Content="Reset"
-            Padding="10 0"
-            Margin="0 10 0 0"
-            Command="{Binding ResetMovementCommand}" />
+		</DockPanel>
 
 		<ListBox
 			Grid.Row="2"

@@ -40,6 +40,19 @@ public class MovementsViewModel : ViewModelBase
         }
     }
 
+    public TimeOnly? CurrentTime
+    {
+        get => field;
+        private set
+        {
+            if (field == value)
+                return;
+
+            field = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ResetMovementCommand ResetMovementCommand { get; }
 
     public MovementsViewModel(ApplicationState applicationState, ClockMovementPool clockMovementPool)
@@ -64,16 +77,33 @@ public class MovementsViewModel : ViewModelBase
                 MovementDescriptors.Add(movementDescriptor);
 
             if (clockMovementPool.CurrentMovement != null)
+            {
                 SelectedMovementDescriptor = clockMovementPool.CurrentMovement;
+                SelectedMovement = clockMovementPool.CurrentMovement.Instance;
+                SelectedMovement.Tick += HandleMovementTick;
+            }
             else
+            {
                 SelectedMovementDescriptor = MovementDescriptor.None;
-
-            SelectedMovement = clockMovementPool.CurrentMovement?.Instance;
+            }
         });
     }
 
     private void HandleCurrentMovementChanged(object sender, EventArgs e)
     {
+        if (SelectedMovement != null)
+            SelectedMovement.Tick -= HandleMovementTick;
+
         SelectedMovement = clockMovementPool.CurrentMovement?.Instance;
+
+        if (SelectedMovement != null)
+            SelectedMovement.Tick += HandleMovementTick;
+
+        CurrentTime = clockMovementPool.CurrentMovement?.Instance.LastTick;
+    }
+
+    private void HandleMovementTick(object sender, TickEventArgs e)
+    {
+        CurrentTime = e.Time;
     }
 }

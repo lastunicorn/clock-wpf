@@ -30,50 +30,100 @@
 
 		<wpfToolkit:SideBarItem Header="1" IsSelected="True">
 
-			<Grid>
+			<DockPanel>
 
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="2*"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="400"/>
-				</Grid.ColumnDefinitions>
+				<StatusBar
+					DockPanel.Dock="Bottom"
+					Padding="2">
 
-				<mainArea:ClockControl
-                    Grid.Column="0"
-                    Grid.Row="0"
-					DataContext="{Binding ClockViewModel}"/>
+					<StatusBarItem
+						DockPanel.Dock="Right"
+						Width="20"/>
 
-				<GridSplitter
-                    Grid.Column="1"
-                    Width="10"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Background="#f0f0f0" />
+					<StatusBarItem
+						DockPanel.Dock="Right">
 
-				<TabControl
-                    Grid.Column="2"
-                    BorderThickness="0"
-                    Margin="10">
+						<TextBlock>
+						
+							<Run
+								Text="Movement:"
+								FontWeight="DemiBold" />
+						
+							<Run Text="{Binding MovementName, TargetNullValue='(none)'}" />
 
-					<TabItem Header="Templates" IsSelected="True">
-						<templates:TemplatesControl DataContext="{Binding TemplatesViewModel}"/>
-					</TabItem>
+						</TextBlock>
 
-					<TabItem Header="Shapes">
-						<shapesctrl:ShapesControl DataContext="{Binding ShapesViewModel}"/>
-					</TabItem>
+					</StatusBarItem>
 
-					<TabItem Header="Movement">
-						<movements:MovementsControl DataContext="{Binding MovementsViewModel}"/>
-					</TabItem>
+					<Separator
+						DockPanel.Dock="Right"
+						Margin="5 3"
+						Background="LightGray"/>
 
-					<TabItem Header="Misc">
-						<miscellaneous:MiscellaneousControl DataContext="{Binding MiscellaneousViewModel}"/>
-					</TabItem>
+					<StatusBarItem
+						DockPanel.Dock="Right">
 
-				</TabControl>
+						<TextBlock>
+						
+							<Run
+								Text="Template:"
+								FontWeight="DemiBold" />
+						
+							<Run Text="{Binding TemplateName, TargetNullValue='(none)'}" />
 
-			</Grid>
+						</TextBlock>
+					</StatusBarItem>
+
+					<Control HorizontalAlignment="Right" />
+
+				</StatusBar>
+
+				<Grid>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="2*"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="400"/>
+					</Grid.ColumnDefinitions>
+
+					<mainArea:ClockControl
+                        Grid.Column="0"
+                        Grid.Row="0"
+					    DataContext="{Binding ClockViewModel}" />
+
+					<GridSplitter
+                        Grid.Column="1"
+                        Width="10"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="#f0f0f0" />
+
+					<TabControl
+                        Grid.Column="2"
+                        BorderThickness="0"
+                        Margin="10">
+
+						<TabItem Header="Templates" IsSelected="True">
+							<templates:TemplatesControl DataContext="{Binding TemplatesViewModel}"/>
+						</TabItem>
+
+						<TabItem Header="Shapes">
+							<shapesctrl:ShapesControl DataContext="{Binding ShapesViewModel}"/>
+						</TabItem>
+
+						<TabItem Header="Movement">
+							<movements:MovementsControl DataContext="{Binding MovementsViewModel}"/>
+						</TabItem>
+
+						<TabItem Header="Misc">
+							<miscellaneous:MiscellaneousControl DataContext="{Binding MiscellaneousViewModel}"/>
+						</TabItem>
+
+					</TabControl>
+
+				</Grid>
+
+			</DockPanel>
 
 		</wpfToolkit:SideBarItem>
 
