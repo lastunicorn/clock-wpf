@@ -4,7 +4,7 @@ using DustInTheWind.ClockWpf.Templates.Shapes;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
-[Template("Playful", "A fun and colorful clock template.")]
+[ClockTemplate("Playful", "A fun and colorful clock template.")]
 public class PlayfulTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()

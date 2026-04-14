@@ -28,5 +28,6 @@ public class DefaultClockTemplateConfiguration : ClockTemplateConfiguration
         Setup<DiamondHandT, DiamondHand>();
         Setup<FancySweepHandT, FancySweepHand>();
         Setup<PeepholeHandT, PeepholeHand>();
+        Setup<PeepholeTriangularHandT, PeepholeTriangularHand>();
     }
 }

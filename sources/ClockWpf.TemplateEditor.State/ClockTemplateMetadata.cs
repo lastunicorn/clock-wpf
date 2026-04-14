@@ -5,7 +5,7 @@ namespace DustInTheWind.ClockWpf.TemplateEditor.State;
 
 public class ClockTemplateMetadata
 {
-    private readonly TemplateAttribute templateAttribute;
+    private readonly ClockTemplateAttribute templateAttribute;
     private readonly Type type;
     private string name;
     private string description;
@@ -46,6 +46,6 @@ public class ClockTemplateMetadata
         if (!isClockTemplate)
             throw new ArgumentException($"The type {type.FullName} is not a clock template.", nameof(type));
 
-        templateAttribute = type.GetCustomAttribute<TemplateAttribute>();
+        templateAttribute = type.GetCustomAttribute<ClockTemplateAttribute>();
     }
 }

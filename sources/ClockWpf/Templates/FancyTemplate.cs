@@ -5,7 +5,7 @@ using DustInTheWind.ClockWpf.Templates.Shapes;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
-[Template("Fancy", "An elegant clock template with gradient effects.")]
+[ClockTemplate("Fancy", "An elegant clock template with gradient effects.")]
 public class FancyTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()

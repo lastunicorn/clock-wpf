@@ -4,7 +4,7 @@ using DustInTheWind.ClockWpf.Templates.Shapes;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
-[Template("Panda", "A clock template with black and white color scheme.")]
+[ClockTemplate("Panda", "A clock template with black and white color scheme.")]
 public class PandaTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()

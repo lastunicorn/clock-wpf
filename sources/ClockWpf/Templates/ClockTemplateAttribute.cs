@@ -3,7 +3,7 @@ namespace DustInTheWind.ClockWpf.Templates;
 /// <summary>
 /// Specifies metadata for a clock template, including its human readable name and an optional description.
 /// </summary>
-public class TemplateAttribute : Attribute
+public class ClockTemplateAttribute : Attribute
 {
     /// <summary>
     /// Gets the name of the clock template.
@@ -16,11 +16,11 @@ public class TemplateAttribute : Attribute
     public string Description { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TemplateAttribute"/> class with the specified name and an optional description.
+    /// Initializes a new instance of the <see cref="ClockTemplateAttribute"/> class with the specified name and an optional description.
     /// </summary>
     /// <param name="name">The unique name that identifies the template. Cannot be null.</param>
     /// <param name="description">An optional description that provides additional information about the template. May be null.</param>
-    public TemplateAttribute(string name, string description = null)
+    public ClockTemplateAttribute(string name, string description = null)
     {
         ArgumentNullException.ThrowIfNull(name);
 

@@ -1,0 +1,212 @@
+﻿using System.ComponentModel;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+using DustInTheWind.ClockWpf.Templates.Shapes;
+using DustInTheWind.ClockWpf.Utils;
+
+namespace DustInTheWind.ClockWpf.Shapes;
+
+/// <summary>
+/// A clock's hand that is actually a big disk with a triangular slot carved in it through
+/// which the user can see whatever is under the disk. Usually, the hours would be visible
+/// under the slot.
+/// </summary>
+public class PeepholeTriangularHand : HandBase
+{
+    /// <summary>
+    /// The default name for the hand.
+    /// </summary>
+    public const string DefaultName = "Triangular Peephole Hand";
+
+    #region SlotAngle Dependency Property
+
+    public static readonly DependencyProperty SlotAngleProperty = DependencyProperty.Register(
+        nameof(SlotAngle),
+        typeof(double),
+        typeof(PeepholeTriangularHand),
+        new FrameworkPropertyMetadata(10.0, HandleWidthChanged));
+
+    private static void HandleWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is PeepholeTriangularHand slotHand)
+        {
+            slotHand.InvalidateCache();
+            slotHand.OnChanged(EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the angle of the slot carved inside the disk, specified in degrees.
+    /// </summary>
+    [Category("Appearance")]
+    [DefaultValue(10.0)]
+    [Description("The arc of the slot carved inside the disk, specified in degrees.")]
+    public double SlotAngle
+    {
+        get => (double)GetValue(SlotAngleProperty);
+        set => SetValue(SlotAngleProperty, value);
+    }
+
+    #endregion
+
+    #region Radius Dependency Property
+
+    public static readonly DependencyProperty RadiusProperty = DependencyProperty.Register(
+        nameof(Radius),
+        typeof(double),
+        typeof(PeepholeTriangularHand),
+        new FrameworkPropertyMetadata(100.0, HandleRadiusChanged));
+
+    private static void HandleRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is PeepholeTriangularHand slotHand)
+        {
+            slotHand.InvalidateCache();
+            slotHand.OnChanged(EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the radius of the opaque disk.
+    /// </summary>
+    [Category("Appearance")]
+    [DefaultValue(100.0)]
+    [Description("The radius of the opaque disk, calculated as percentage from the clock's radius.")]
+    public double Radius
+    {
+        get => (double)GetValue(RadiusProperty);
+        set => SetValue(RadiusProperty, value);
+    }
+
+    #endregion
+
+    #region TailLength Dependency Property
+
+    public static readonly DependencyProperty TailLengthProperty = DependencyProperty.Register(
+        nameof(TailLength),
+        typeof(double),
+        typeof(PeepholeTriangularHand),
+        new FrameworkPropertyMetadata(0.0, HandleTailLengthChanged));
+
+    private static void HandleTailLengthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is PeepholeTriangularHand slotHand)
+        {
+            slotHand.InvalidateCache();
+            slotHand.OnChanged(EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the length of the tail of the hand.
+    /// </summary>
+    [Category("Appearance")]
+    [DefaultValue(12.0)]
+    [Description("The length of the hand's tail, calculated as percentage from the clock's radius.")]
+    public double TailLength
+    {
+        get => (double)GetValue(TailLengthProperty);
+        set => SetValue(TailLengthProperty, value);
+    }
+
+    #endregion
+
+    private StreamGeometry geometry;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PeepholeHand"/> class with
+    /// default values.
+    /// </summary>
+    public PeepholeTriangularHand()
+    {
+        Name = DefaultName;
+    }
+
+    /// <summary>
+    /// Performs all the necessary calculations based on the public parameters, before drawing the shape.
+    /// </summary>
+    protected override void CalculateCache(ClockDrawingContext context)
+    {
+        base.CalculateCache(context);
+
+        double radius = context.ClockRadius;
+
+        StreamGeometry geometry = new();
+        using StreamGeometryContext geometryContext = geometry.Open();
+
+        // Circular Disk
+
+        double calculatedDiskRadius = Radius.RelativeTo(radius);
+
+        geometryContext.BeginFigure(new Point(-calculatedDiskRadius, 0), true, true);
+
+        geometryContext.ArcTo(
+            point: new Point(calculatedDiskRadius, 0),
+            size: new Size(calculatedDiskRadius, calculatedDiskRadius),
+            rotationAngle: 0,
+            isLargeArc: true,
+            sweepDirection: SweepDirection.Clockwise,
+            isStroked: true,
+            isSmoothJoin: false);
+
+        geometryContext.ArcTo(
+            point: new Point(-calculatedDiskRadius, 0),
+            size: new Size(calculatedDiskRadius, calculatedDiskRadius),
+            rotationAngle: 0,
+            isLargeArc: true,
+            sweepDirection: SweepDirection.Clockwise,
+            isStroked: true,
+            isSmoothJoin: false);
+
+        // Triangular Slot
+
+        double calculatedLength = Length.RelativeTo(radius);
+        double calculatedTailLength = TailLength.RelativeTo(radius);
+        double calculatedWidth = SlotAngle.RelativeTo(radius);
+        double calculatedHalfWidth = calculatedWidth / 2;
+
+        Point rectanglePoint0 = new(0, calculatedTailLength);
+        geometryContext.BeginFigure(rectanglePoint0, true, true);
+
+        double angleADegrees = 90 + SlotAngle / 2;
+        double angleARadians = angleADegrees * Math.PI / 180.0;
+        double xA = calculatedLength * Math.Cos(angleARadians);
+        double yA = -calculatedLength * Math.Sin(angleARadians);
+        Point rectanglePointA = new(xA, yA);
+        geometryContext.LineTo(rectanglePointA, true, false);
+
+        double angleBDegrees = 90 - SlotAngle / 2;
+        double angleBRadians = angleBDegrees * Math.PI / 180.0;
+        double xB = calculatedLength * Math.Cos(angleBRadians);
+        double yB = -calculatedLength * Math.Sin(angleBRadians);
+        Point rectanglePointB = new(xB, yB);
+        geometryContext.ArcTo(rectanglePointB, new Size(calculatedLength, calculatedLength), 0, false, SweepDirection.Clockwise, true, false);
+
+        // Finish
+
+        geometryContext.Close();
+
+        if (geometry.CanFreeze)
+            geometry.Freeze();
+
+        this.geometry = geometry;
+    }
+
+    protected override void DoRenderHand(ClockDrawingContext context)
+    {
+        context.DrawingContext.DrawGeometry(FillBrush, null, geometry);
+    }
+
+    public override void Import(ShapeT shapeT)
+    {
+        base.Import(shapeT);
+
+        if (shapeT is not PeepholeTriangularHandT peepholeTriangularHandT)
+            return;
+
+        SlotAngle = peepholeTriangularHandT.SlotAngle;
+        Radius = peepholeTriangularHandT.Radius;
+        TailLength = peepholeTriangularHandT.TailLength;
+    }
+}

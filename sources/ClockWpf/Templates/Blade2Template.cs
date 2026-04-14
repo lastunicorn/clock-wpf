@@ -5,7 +5,7 @@ using DustInTheWind.ClockWpf.Templates.Shapes;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
-[Template("Blade 2", "An alternative clock template with blade-style hands.")]
+[ClockTemplate("Blade 2", "An alternative clock template with blade-style hands.")]
 public class Blade2Template : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()
@@ -18,6 +18,9 @@ public class Blade2Template : ClockTemplate
         };
 
         LinearGradientBrush linearGradientBrush = new(gradientStops, new Point(0.25, 0), new Point(0.75, 1));
+
+        if (linearGradientBrush.CanFreeze)
+            linearGradientBrush.Freeze();
 
         yield return new FlatBackgroundT
         {

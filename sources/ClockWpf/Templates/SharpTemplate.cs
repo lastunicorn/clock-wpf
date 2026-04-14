@@ -6,7 +6,7 @@ using DustInTheWind.ClockWpf.Utils;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
-[Template("Sharp", "A modern clock template with sharp, angular design.")]
+[ClockTemplate("Sharp", "A modern clock template with sharp, angular design.")]
 public class SharpTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()

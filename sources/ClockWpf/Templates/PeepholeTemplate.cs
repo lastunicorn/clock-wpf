@@ -5,7 +5,7 @@ using DustInTheWind.ClockWpf.Templates.Shapes;
 
 namespace DustInTheWind.ClockWpf.Templates;
 
-[Template("Peephole", "A clock template with peephole-style hands.")]
+[ClockTemplate("Peephole", "A clock template with peephole-style hands.")]
 public class PeepholeTemplate : ClockTemplate
 {
     protected override IEnumerable<ShapeT> CreateShapes()
